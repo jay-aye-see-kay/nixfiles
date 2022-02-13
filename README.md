@@ -17,13 +17,13 @@ If you are using non-NixOS home-manager it will look something like:
 
 ```nix
 homeManager.lib.homeManagerConfiguration {
-	configuration = { config, lib, pkgs, ...}: {
-		imports = [ inputs.nvim-flake.home-managerModule."${system}" ];
-	};
+    configuration = { config, lib, pkgs, ...}: {
+        imports = [ inputs.nvim-flake.home-managerModule."${system}" ];
+    };
 
-	pkgs = import nixpkgs {
-		overlays = [ inputs.nvim-flake.overlay."${system}" ];
-	};
+    pkgs = import nixpkgs {
+        overlays = [ inputs.nvim-flake.overlay."${system}" ];
+    };
 }
 ```
 
@@ -31,19 +31,19 @@ In case of a NixOS system it will look like:
 
 ```nix
 {
-	modules = [
-		({ pkgs, ... }: {
+    modules = [
+        ({ pkgs, ... }: {
             nixpkgs.overlays = [
               inputs.nvim-flake.overlay."${system}"
             ];
         })
-		home-manager.nixosModules.home-manager
-		{
-			home-manager.users.foo = {config, lib, pkgs, ...}: {
-				imports = [ inputs.nvim-flake.home-managerModule."${system}" ];
-			};
-		}
-	];
+        home-manager.nixosModules.home-manager
+        {
+            home-manager.users.foo = {config, lib, pkgs, ...}: {
+                imports = [ inputs.nvim-flake.home-managerModule."${system}" ];
+            };
+        }
+    ];
 }
 ```
 
