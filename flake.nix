@@ -12,6 +12,13 @@
       #inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Inputs used by the home-manager module
+    stylua = {
+      url = "github:johnnymorganz/stylua";
+      flake = false;
+    };
+    naersk.url = "github:nix-community/naersk";
+
     # Theme
     "plugin:vim-moonfly-colors" = {
       url = "github:bluz71/vim-moonfly-colors";
@@ -190,6 +197,11 @@
 
           defaultApp = apps.nvim;
           defaultPackage = packages.neovimTraxys;
+
+          home-managerModule = import ./home-manager.nix {
+            stylua = inputs.stylua;
+            naersk-lib = inputs.naersk.lib."${system}";
+          };
 
           overlay = (self: super: {
             inherit neovimBuilder;
