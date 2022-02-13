@@ -198,7 +198,8 @@
           defaultApp = apps.nvim;
           defaultPackage = packages.neovimTraxys;
 
-          home-managerModule = import ./home-manager.nix {
+          home-managerModule = { config, lib, pkgs, ... }: import ./home-manager.nix {
+            inherit config lib pkgs;
             stylua = inputs.stylua;
             naersk-lib = inputs.naersk.lib."${system}";
           };
