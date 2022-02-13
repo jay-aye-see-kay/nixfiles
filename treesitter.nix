@@ -16,6 +16,7 @@
       "javascript"
       "dart"
       "make"
+	  "query"
     ];
 
     refactor = {
