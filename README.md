@@ -43,7 +43,7 @@ In case of a NixOS system it will look like:
 				imports = [ inputs.nvim-flake.home-managerModule."${system}" ];
 			};
 		}
-	]
+	];
 }
 ```
 
