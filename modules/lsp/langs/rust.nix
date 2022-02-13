@@ -16,6 +16,10 @@ in
     startPlugins = mkIf cfg.rust.crates.enable (with pkgs.neovimPlugins; [ crates ]);
 
     completion.sources.crates.enable = mkIf (cfg.rust.crates.enable && cfg.rust.crates.completion) true;
+	
+	luaConfigRC = mkIf cfg.rust.crates.enable ''
+		require('crates').setup()
+	'';
 
     lsp = {
       servers.rust_analyzer = {
