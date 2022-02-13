@@ -41,7 +41,7 @@ In case of a NixOS system it will look like:
 		{
 			home-manager.users.foo = {config, lib, pkgs, ...}: {
 				imports = [ inputs.nvim-flake.home-managerModule."${system}" ];
-			}
+			};
 		}
 	]
 }
