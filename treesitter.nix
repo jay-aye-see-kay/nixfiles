@@ -17,6 +17,7 @@
       "dart"
       "make"
 	  "query"
+	  "lalrpop"
     ];
 
     refactor = {
