@@ -86,6 +86,10 @@
       url = "github:saecki/crates.nvim";
       flake = false;
     };
+    "plugin:cmp-source-treesitter" = {
+      url = "github:ray-x/cmp-treesitter";
+      flake = false;
+    };
 
     # Treesitter
     "plugin:nvim-treesitter" = {

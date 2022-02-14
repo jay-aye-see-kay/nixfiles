@@ -5,6 +5,7 @@ with lib;
     vim.treesitter = {
       enable = mkDefault false;
       indent = mkDefault false;
+	  completion = mkDefault false;
       ensureInstalled = mkDefault [ ];
       highlightDisabled = mkDefault [ ];
 

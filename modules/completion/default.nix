@@ -87,6 +87,8 @@ in
       capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
     '';
 
+	vim.completion.sources.treesitter.enable = mkIf config.vim.treesitter.completion true;
+
     vim.luaConfigRC =
       let
         sourceCfg = source: ''{ name = "${source}"}'';

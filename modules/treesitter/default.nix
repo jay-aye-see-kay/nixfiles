@@ -18,6 +18,11 @@ in
       description = "enable nvim-treesitter";
     };
 
+    completion = mkOption {
+      type = types.bool;
+      description = "enable completions using tree-sitter (requires enabling completions)";
+    };
+
     indent = mkOption {
       type = types.bool;
       description = "Indentation based on treesitter for the = operator. NOTE: This is an experimental feature";

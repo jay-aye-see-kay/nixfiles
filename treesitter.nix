@@ -1,7 +1,10 @@
 {
   vim.treesitter = {
     enable = true;
+
     indent = true;
+	completion = true;
+
     ensureInstalled = [
       "rust"
       "c"
