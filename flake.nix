@@ -216,6 +216,7 @@
 
           packages.neovimTraxys = neovimBuilder {
             config = import ./config.nix;
+			debug = false;
           };
         }
       );

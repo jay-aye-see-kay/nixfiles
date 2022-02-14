@@ -1,6 +1,6 @@
 { pkgs, lib ? pkgs.lib, ... }:
 
-{ config }:
+{ config, debug ? false }:
 let
   neovimPlugins = pkgs.neovimPlugins;
   myNeovimUnwrapped = pkgs.neovim-unwrapped.overrideAttrs (prev: {
@@ -25,7 +25,7 @@ pkgs.wrapNeovim myNeovimUnwrapped {
   vimAlias = vim.vimAlias;
   configure = {
     # customRC = builtins.trace vim.configRC vim.configRC;
-    customRC = vim.configRC;
+    customRC = if debug then builtins.trace vim.configRC vim.configRC else vim.configRC;
 
     packages.myVimPackage = with neovimPlugins; {
       start = builtins.filter (f: f != null) vim.startPlugins;
