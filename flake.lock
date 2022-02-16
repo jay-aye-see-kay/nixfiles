@@ -67,10 +67,7 @@
     "neovim-flake": {
       "inputs": {
         "flake-utils": "flake-utils_2",
-        "nixpkgs": [
-          "neovim-overlay",
-          "nixpkgs"
-        ]
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
         "dir": "contrib",
@@ -92,18 +89,18 @@
       "inputs": {
         "flake-compat": "flake-compat",
         "neovim-flake": "neovim-flake",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1644999204,
-        "narHash": "sha256-wragBGcBo+hZIqJIrC9S38jtjehsbXp67cvA98fTYj8=",
-        "owner": "nix-community",
+        "lastModified": 1645029596,
+        "narHash": "sha256-WDnuoL8HvJLJzT4DiIh75XrM0HOUj4kCxVmIZ5Rumks=",
+        "owner": "traxys",
         "repo": "neovim-nightly-overlay",
-        "rev": "fa8a51eaa1cb744c64ed8be4a21a7db75d462d6e",
+        "rev": "7c5c39bb5716b8f200433fea24587744c4e00c9b",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
+        "owner": "traxys",
         "repo": "neovim-nightly-overlay",
         "type": "github"
       }
@@ -124,6 +121,22 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1630074300,
+        "narHash": "sha256-BFM7OiXRs0RvSUZd6NCGAKWVPn3VodgYQ4TUQXxbMBU=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "21c937f8cb1e6adcfeb36dfd6c90d9d9bfab1d28",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1644525281,
         "narHash": "sha256-D3VuWLdnLmAXIkooWAtbTGSQI9Fc1lkvAr94wTxhnTU=",
         "owner": "nixos",
@@ -138,7 +151,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_3": {
+    "nixpkgs_4": {
       "locked": {
         "lastModified": 1644972330,
         "narHash": "sha256-6V2JFpTUzB9G+KcqtUR1yl7f6rd9495YrFECslEmbGw=",
@@ -541,11 +554,11 @@
     "plugin:nvim-treesitter": {
       "flake": false,
       "locked": {
-        "lastModified": 1645028996,
-        "narHash": "sha256-Tezi8It057hoAmD1QzrzkqRt45jXkU17Ng6+18kMjH8=",
+        "lastModified": 1645029626,
+        "narHash": "sha256-m5PPzixBCFU0Y/pWaEBVWtBpjOvwvv1Xb9VxhLGltVg=",
         "owner": "nvim-treesitter",
         "repo": "nvim-treesitter",
-        "rev": "3c363ebd26a1da150108a3dd7c8ed3027dc20e85",
+        "rev": "2298a7584414af40a6a09cbe72a81175382992c7",
         "type": "github"
       },
       "original": {
@@ -687,7 +700,7 @@
         "flake-utils": "flake-utils",
         "naersk": "naersk",
         "neovim-overlay": "neovim-overlay",
-        "nixpkgs": "nixpkgs_3",
+        "nixpkgs": "nixpkgs_4",
         "plugin:cmp-source-buffer": "plugin:cmp-source-buffer",
         "plugin:cmp-source-calc": "plugin:cmp-source-calc",
         "plugin:cmp-source-crates": "plugin:cmp-source-crates",
