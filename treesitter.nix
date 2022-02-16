@@ -11,7 +11,7 @@
       "cpp"
       "json"
       "lua"
-      "python"
+      #"python"
       "toml"
       "latex"
       "nix"
