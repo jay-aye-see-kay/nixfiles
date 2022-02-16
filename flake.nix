@@ -7,10 +7,8 @@
       #inputs.nixpkgs.follows = "nixpkgs";
       url = "github:numtide/flake-utils";
     };
-    neovim-overlay = {
-      url = "github:nix-community/neovim-nightly-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    neovim-flake.url = "github:neovim/neovim?dir=contrib";
+	neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
 
     # Inputs used by the home-manager module
     stylua = {
@@ -184,7 +182,9 @@
             inherit system;
             overlays = [
               pluginOverlay
-              inputs.neovim-overlay.overlay
+              (final: prev: {
+                neovim-unwrapped = inputs.neovim-flake.packages.${prev.system}.neovim;
+              })
             ];
           };
 
@@ -216,7 +216,7 @@
 
           packages.neovimTraxys = neovimBuilder {
             config = import ./config.nix;
-			debug = false;
+            debug = false;
           };
         }
       );
