@@ -9,7 +9,7 @@
     };
     neovim-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
-      #inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Inputs used by the home-manager module
