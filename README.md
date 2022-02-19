@@ -1,58 +1,52 @@
-# Neovim config using Nix flakes
+# Luca's super simple neovim flake configuration
 
-This configuration is heavily inspired by [jordanisaacs/neovim-flake](https://github.com/jordanisaacs/neovim-flake)
+This configuration is heavily inspired by
+[jordanisaacs/neovim-flake](https://github.com/jordanisaacs/neovim-flake)
+and was forked, but heavily edited from [jordanisaacs/neovim-flake](https://github.com/jordanisaacs/neovim-flake).
+The problem with their flakes (and pretty much all other (neovim-)flakes)
+so far, is that the learning curve for flakes is so steep that only
+experts know how to create them. This leads to eiter overly complex
+examples or excessively trivial ones.
+
+The above flakes are to complicated for most people, which is why
+I simplified them into a small, single file. Now you can create your
+own neovim flake in no time!
+
+Just add your prefered plugins into the `inputs` section of `flake.nix`
+and overwrite `init.vim`! Done!
 
 ## Installation
 
-In order to test the configuration, you can clone this repository and execute the follwing command:
+### Install system-wide
+
+Open `/etc/nixos/flake.nix` and add the following:
+
 ```
-nix run .# -- /some/file
-```
+inputs = {
+    # ...blabla...
+    neovim-flake.url = "github:Quoteme/neovim-flake";
+}
 
-### Home Manager
-
-This flake can easily be installed in home-manager using the `home-managerModule` output.
-
-If you are using non-NixOS home-manager it will look something like:
-
-```nix
-homeManager.lib.homeManagerConfiguration {
-    configuration = { config, lib, pkgs, ...}: {
-        imports = [ inputs.nvim-flake.home-managerModule."${system}" ];
-    };
-
-    pkgs = import nixpkgs {
-        overlays = [ inputs.nvim-flake.overlay."${system}" ];
-    };
+outputs = {self, nixpkgs, ...}@attr: {
+    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = attrs;
+        modules = [
+            ({ config, nixpkgs, ...}@inputs:
+                # ...blabla...
+                environment.systemPackages = with pkgs; [
+                    # ...blabla...
+                    inputs.neovim-flake.defaultPackage.x86_64-linux
+                ];
+            )
+        ];
+    }
 }
 ```
 
-In case of a NixOS system it will look like:
+Note that `...blabla...` is a placeholder for any other configuration
+you might have set inside your `flake.nix`!
 
-```nix
-{
-    modules = [
-        ({ pkgs, ... }: {
-            nixpkgs.overlays = [
-              inputs.nvim-flake.overlay."${system}"
-            ];
-        })
-        home-manager.nixosModules.home-manager
-        {
-            home-manager.users.foo = {config, lib, pkgs, ...}: {
-                imports = [ inputs.nvim-flake.home-managerModule."${system}" ];
-            };
-        }
-    ];
-}
-```
+### Run from a folder (for hacking )
 
-## Adding plugins
-
-If you want to add a plugin you can just add an input in the inputs with the name `plugin:<some name>`. You can then add `pkgs.neovimPlugins.<some name>` to `vim.startPlugins = [ ... ]`.
-
-If you want to add an nvim-cmp-source you will need to add a plugin of the form `plugin:cmp-source-<cmp source name>`. The plugin can be added in the same way, and you can enable the `<cmp source name>` in the `vim.completion.sources` option.
-
-## Configuration
-
-Everything that can be configured is in the `./config.nix` and it's imports
+Clone the repo and run `nix run /some/file` inside the new folder.
