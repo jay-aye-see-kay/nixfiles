@@ -85,19 +85,19 @@
         "type": "github"
       }
     },
-    "plugin:vim-moonfly-colors": {
+    "plugin:onedark-vim": {
       "flake": false,
       "locked": {
-        "lastModified": 1644984960,
-        "narHash": "sha256-TATpoSaX1F76QzlQMdIeesxMuqMz0W+GMo6ko6SZvbY=",
-        "owner": "bluz71",
-        "repo": "vim-moonfly-colors",
-        "rev": "54848f4f914a6c4a8ecd5e51bc33eea033d90405",
+        "lastModified": 1634310286,
+        "narHash": "sha256-neKGGT+DLMyDMvWPWoiSQD31G1wfrMBGCWVuH14vmKc=",
+        "owner": "joshdick",
+        "repo": "onedark.vim",
+        "rev": "e86ce939d85576fb7ce6c1c45fd49c8a570c24cc",
         "type": "github"
       },
       "original": {
-        "owner": "bluz71",
-        "repo": "vim-moonfly-colors",
+        "owner": "joshdick",
+        "repo": "onedark.vim",
         "type": "github"
       }
     },
@@ -107,7 +107,7 @@
         "neovim-flake": "neovim-flake",
         "nixpkgs": "nixpkgs",
         "plugin:gitsigns": "plugin:gitsigns",
-        "plugin:vim-moonfly-colors": "plugin:vim-moonfly-colors"
+        "plugin:onedark-vim": "plugin:onedark-vim"
       }
     }
   },

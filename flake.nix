@@ -1,20 +1,20 @@
 {
-  description = "A very basic flake";
+  description = "Luca's simple Neovim flake for easy configuration";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     flake-utils = {
-      #inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
       url = "github:numtide/flake-utils";
     };
     neovim-flake = {
       url = "github:neovim/neovim?dir=contrib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
+    
     # Theme
-    "plugin:vim-moonfly-colors" = {
-      url = "github:bluz71/vim-moonfly-colors";
+    "plugin:onedark-vim" = {
+      url = "github:joshdick/onedark.vim";
       flake = false;
     };
     # Git
@@ -78,6 +78,17 @@
               plugins);
           };
 
+        # Apply the overlay and load nixpkgs as `pkgs`
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [
+            pluginOverlay
+            (final: prev: {
+              neovim-unwrapped = inputs.neovim-flake.packages.${prev.system}.neovim;
+            })
+          ];
+        };
+
         # neovimBuilder is a function that takes your prefered
         # configuration as input and just returns a version of
         # neovim where the default config was overwritten with your
@@ -112,7 +123,7 @@
         neovimBuilder = { customRC ? ""
                         , viAlias  ? true
                         , vimAlias ? true
-                        , start    ? []
+                        , start    ? builtins.attrValues pkgs.neovimPlugins
                         , opt      ? []
                         , debug    ? false }:
                         let
@@ -126,39 +137,26 @@
                           configure = {
                             customRC = customRC;
                             packages.myVimPackage = with pkgs.neovimPlugins; {
-                              # start = builtins.attrNames pkgs.neovimPlugins;
                               start = start;
                               opt = opt;
                             };
                           };
                         };
-
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [
-            pluginOverlay
-            (final: prev: {
-              neovim-unwrapped = inputs.neovim-flake.packages.${prev.system}.neovim;
-            })
-          ];
-        };
       in
       rec {
+        defaultApp = apps.nvim;
+        defaultPackage = packages.neovimLuca;
+
         apps.nvim = {
             type = "app";
             program = "${defaultPackage}/bin/nvim";
           };
 
-        defaultApp = apps.nvim;
-        defaultPackage = packages.neovimLuca;
-
-        overlay = (self: super: {
-          inherit neovimBuilder;
-          neovimPlugins = pkgs.neovimPlugins;
-        });
-
         packages.neovimLuca = neovimBuilder {
-          start = ["gitsigns"];
+          # the next line loads a trivial example of a init.vim:
+          customRC = "colorscheme onedark";
+          # if you wish to only load the onedark-vim colorscheme:
+          # start = with pkgs.neovimPlugins; [ onedark-vim ];
         };
       }
     );
