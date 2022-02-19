@@ -17,6 +17,14 @@ and overwrite `init.vim`! Done!
 
 ## Installation
 
+### Run over the internet
+
+`nix run github:quoteme/neovim-flake /some/file`
+
+### Run from a folder (for hacking )
+
+Clone the repo and run `nix run /some/file` inside the new folder.
+
 ### Install system-wide
 
 Open `/etc/nixos/flake.nix` and add the following:
@@ -46,7 +54,3 @@ outputs = {self, nixpkgs, ...}@attr: {
 
 Note that `...blabla...` is a placeholder for any other configuration
 you might have set inside your `flake.nix`!
-
-### Run from a folder (for hacking )
-
-Clone the repo and run `nix run /some/file` inside the new folder.
