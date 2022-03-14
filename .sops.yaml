@@ -1,0 +1,9 @@
+keys:
+  - &nixosvm age1nxsxzqj33pq6pzj3ftmm4vj0tn7epe222484k5e8fc3ucnw3f4kqra5r8z
+  - &generated age12z9h25t4lt4fnvf0pcnnw8jdydk5zlsvhvezs4vf3gnwehe6np0qwku8ky
+creation_rules:
+  - path_regex: secrets/[^/]+\.yaml$
+    key_groups:
+    - age:
+      - *nixosvm
+      - *generated
