@@ -92,7 +92,6 @@ in
       monthly = -1; # Keep at least one archive for each month
     };
     # TODO remote backups
-    # TODO test backups
     preHook = ''
       ${pkgs.nixos-container}/bin/nixos-container run nextcloud -- nextcloud-occ maintenance:mode --on
       ${pkgs.nixos-container}/bin/nixos-container run nextcloud -- sudo -u nextcloud pg_dump -f /var/lib/nextcloud/db-backup.sql

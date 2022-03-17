@@ -9,6 +9,7 @@
   sops.secrets = {
     mullvadPrivateKey = { };
     borgPassword = { };
+    keycloakDbPassword = { };
   };
 
   imports = [

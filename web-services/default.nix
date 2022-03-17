@@ -33,7 +33,7 @@ in
 
   # traefik dashboard setup
   services.traefik.dynamicConfigOptions = lib.mkMerge [
-    (utils.mkTraefikRoute "traefik" "http://127.0.0.1:8080")
+    (utils.mkProtectedTraefikRoute "traefik" "http://127.0.0.1:8080")
     {
       http.middlewares.minimalAuth.basicAuth.users = [
         "jack:$apr1$FTlk6Bt5$I3HJFgeSfZsDEjyVlvToc."
@@ -85,5 +85,6 @@ in
     ./nextcloud.nix
     ./photoprism.nix
     ./servarr.nix
+    /* ./keycloak.nix */
   ];
 }
