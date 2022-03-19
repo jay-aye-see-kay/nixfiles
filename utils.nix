@@ -15,7 +15,7 @@
       rule = "Host(`${name}.h.jackrose.co.nz`)";
       service = "${name}";
       tls.certResolver = "default";
-      middlewares = "minimalAuth@file";
+      middlewares = "authelia@file";
     };
     http.services.${name}.loadBalancer.servers = [{
       url = "${localUrl}";

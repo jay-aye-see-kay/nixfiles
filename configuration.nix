@@ -7,9 +7,12 @@
 {
   sops.defaultSopsFile = ./secrets/main.yaml;
   sops.secrets = {
-    mullvadPrivateKey = { };
+    autheliaJwtSecret = { };
+    autheliaSessionSecret = { };
+    autheliaStorageEncryptionKey = { };
     borgPassword = { };
-    keycloakDbPassword = { };
+    mullvadPrivateKey = { };
+    serviceMailAccountPassword = { };
   };
 
   imports = [
@@ -60,6 +63,8 @@
     age
     sops
     git
+    docker-compose
+    pwgen
   ];
 
   # Enable the OpenSSH daemon.

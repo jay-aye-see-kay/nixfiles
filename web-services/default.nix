@@ -3,6 +3,9 @@ let
   utils = import ../utils.nix;
 in
 {
+  # TODO does this "just work" with traefik out of the box?
+  services.fail2ban.enable = true;
+
   # traefik base setup
   services.traefik.enable = true;
   services.traefik.staticConfigOptions = {
@@ -35,9 +38,11 @@ in
   services.traefik.dynamicConfigOptions = lib.mkMerge [
     (utils.mkProtectedTraefikRoute "traefik" "http://127.0.0.1:8080")
     {
-      http.middlewares.minimalAuth.basicAuth.users = [
-        "jack:$apr1$FTlk6Bt5$I3HJFgeSfZsDEjyVlvToc."
-      ];
+      http.middlewares.authelia.forwardAuth = {
+        address = "https://auth.h.jackrose.co.nz/api/verify?rd=https://auth.h.jackrose.co.nz";
+        trustForwardHeader = true;
+        authResponseHeaders = "Remote-User, Remote-Groups, Remote-Name, Remote-Email";
+      };
     }
   ];
 
@@ -79,12 +84,12 @@ in
   };
 
   imports = [
+    ./authelia.nix
     ./homer.nix
     ./jellyfin.nix
     ./netdata.nix
     ./nextcloud.nix
     ./photoprism.nix
     ./servarr.nix
-    /* ./keycloak.nix */
   ];
 }
