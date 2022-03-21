@@ -2,6 +2,7 @@
   mkTraefikRoute = name: localUrl: {
     http.routers.${name} = {
       rule = "Host(`${name}.h.jackrose.co.nz`)";
+      entrypoints="websecure";
       service = "${name}";
       tls.certResolver = "default";
     };
@@ -13,6 +14,7 @@
   mkProtectedTraefikRoute = name: localUrl: {
     http.routers.${name} = {
       rule = "Host(`${name}.h.jackrose.co.nz`)";
+      entrypoints="websecure";
       service = "${name}";
       tls.certResolver = "default";
       middlewares = "authelia@file";

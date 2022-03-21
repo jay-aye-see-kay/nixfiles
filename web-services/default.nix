@@ -91,5 +91,6 @@ in
     ./nextcloud.nix
     ./photoprism.nix
     ./servarr.nix
+    ./tandoor.nix
   ];
 }
