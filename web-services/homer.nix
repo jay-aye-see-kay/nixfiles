@@ -59,7 +59,7 @@ in
 
   virtualisation.oci-containers.containers.homer = {
     autoStart = true;
-    image = "b4bz/homer:latest";
+    image = "b4bz/homer";
     ports = [
       "${port}:8080"
     ];

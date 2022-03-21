@@ -1,39 +1,19 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
-
 {
-  sops.defaultSopsFile = ./secrets/main.yaml;
-  sops.secrets = {
-    autheliaJwtSecret = { };
-    autheliaSessionSecret = { };
-    autheliaStorageEncryptionKey = { };
-    borgPassword = { };
-    mullvadPrivateKey = { };
-    serviceMailAccountPassword = { };
+  nix = {
+    package = pkgs.nixFlakes; # or versioned attributes like nix_2_7
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
   };
-
-  imports = [
-    ./hardware-configuration.nix # Include the results of the hardware scan.
-    ./web-services
-    <sops-nix/modules/sops>
-  ];
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
-  # boot.loader.grub.efiSupport = true;
-  # boot.loader.grub.efiInstallAsRemovable = true;
-  # boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  # Define on which hard drive you want to install Grub.
   boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
 
-  # networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.hostName = "kakapo";
 
-  # Set your time zone.
   time.timeZone = "Australia/Melbourne";
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
@@ -78,6 +58,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "21.11"; # Did you read the comment?
-
 }
-
