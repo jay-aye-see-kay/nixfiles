@@ -87,10 +87,10 @@ in
     ./authelia.nix
     ./homer.nix
     ./jellyfin.nix
+    ./mealie.nix
     ./netdata.nix
     ./nextcloud.nix
     ./photoprism.nix
     ./servarr.nix
-    ./tandoor.nix
   ];
 }
