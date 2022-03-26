@@ -7,12 +7,40 @@
     '';
   };
 
-  # Use the GRUB 2 boot loader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
-  boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  # ZFS boot settings.
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs.devNodes = "/dev/";
+  boot.zfs.requestEncryptionCredentials = true;
 
   networking.hostName = "kakapo";
+  networking.hostId = "e319c2ad"; # for zfs; 'hostname | md5sum | head -c 8'
+
+  boot = {
+    # see: https://nixos.wiki/wiki/ZFS#Unlock_encrypted_zfs_via_ssh_on_boot
+    initrd.network = {
+      enable = true;
+      ssh = {
+        enable = true;
+        port = 2222;
+        hostKeys = [ /root/.ssh/boot_ed25519_key ];
+        authorizedKeys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDhM9hxQe+Mcu42h2PTZqbDK2l81VLNs+EfIyOOPoRRKIDVsF/7fgc/ZHXBXSlaQbC+b6xvsVxUl/ordDVBtaLYupG2XqZltAvRPe+2wzA/kTDmZZ6V/ZxAeUgJdrKr+X3h6dKAU8dBSgWmeZAo1CyBTCf0cX/wh0VPxE09zd35kIfvJBocJXFuwdH0qNYpOm3Ce44sV+8hmngCfXQt09qQhvdBS6UQMMsQ+1WBEGA07Wo5BXfyBwn9aYdxnEBWUlLZ3RxHoeqHq0h40GRpmNJGbP+k7kr2KXeN13prLiK6t/YnfwxJU7GnPZaro02SES3P56CDtsr9KN9Apm2W9nm9cHcMu4ZdA3DAHN0ym8EONZGgFhfYDM5YQDXyxdQ5QVlMuB0QEn7f6XxJx3GhWrgVjlYjJXg9HZtux6+epNNuf9CaJHZC5d3Xa6QwaH93tUM2xdMiDZQ32lm4ChpmtewPpebtoQJCyWMmdTDuSEJCX4/u0aLJTM6zWPo7rg6Je+U= jackderryrose@gmail.com" ];
+      };
+      postCommands = ''
+        cat <<EOF > /root/.profile
+        if pgrep -x "zfs" > /dev/null
+        then
+          zfs load-key -a
+          killall zfs
+        else
+          echo "zfs not running -- maybe the pool is taking some time to load for some unforseen reason."
+        fi
+        EOF
+      '';
+    };
+  };
 
   time.timeZone = "Australia/Melbourne";
 
@@ -20,7 +48,7 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.ens18.useDHCP = true;
+  networking.interfaces.enp7s0.useDHCP = true;
 
   users.users.jack = {
     isNormalUser = true;
@@ -37,11 +65,11 @@
     sops
     docker-compose
     pwgen
+    pciutils # provides lspci
   ];
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  services.openssh.permitRootLogin = "yes";
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
