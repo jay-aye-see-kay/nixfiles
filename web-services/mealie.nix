@@ -1,15 +1,34 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 let
-  utils = import ../utils.nix;
-  port = "1504";
+  dataDir = "/web-service-data/mealie";
+  hostName = "mealie.h.jackrose.co.nz";
+  localPort = "1501";
 in
 {
-  services.traefik.dynamicConfigOptions =
-    utils.mkTraefikRoute "mealie" "http://127.0.0.1:${port}";
+  services.nginx.virtualHosts."${hostName}" = {
+    forceSSL = true;
+    enableACME = true;
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:${localPort}";
+      proxyWebsockets = true;
+      extraConfig = "proxy_pass_header Authorization;";
+    };
+  };
+
+  users.groups.mealie = { };
+  users.users.mealie = {
+    isSystemUser = true;
+    group = "mealie";
+  };
+
+  systemd.tmpfiles.rules = [
+    "d ${dataDir} - mealie mealie -"
+  ];
 
   virtualisation.oci-containers.containers.mealie = {
     autoStart = true;
-    image = "hkotel/mealie";
+    /* user = "mealie:mealie"; */
+    image = "hkotel/mealie:v0.5.5";
     environment = {
       TZ = "Australia/Melbourne";
       RECIPE_PUBLIC = "true";
@@ -20,10 +39,10 @@ in
       RECIPE_DISABLE_AMOUNT = "false";
     };
     ports = [
-      "${port}:80"
+      "${localPort}:80"
     ];
     volumes = [
-      "/data/mealie/data:/app/data"
+      "${dataDir}:/app/data"
     ];
   };
 }

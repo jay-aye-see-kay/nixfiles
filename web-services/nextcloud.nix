@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
-  hostName = "nextcloud.h.jackrose.co.nz";
   dataDir = "/web-service-data/nextcloud";
+  hostName = "nextcloud.h.jackrose.co.nz";
 in
 {
   systemd.tmpfiles.rules = [
