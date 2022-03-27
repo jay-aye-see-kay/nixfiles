@@ -1,17 +1,25 @@
 { pkgs, ... }:
 let
-  utils = import ../utils.nix;
+  dataDir = "/web-service-data/jellyfin";
+  hostName = "jellyfin.h.jackrose.co.nz";
+  localPort = "8096";
 in
 {
-  services.traefik.dynamicConfigOptions =
-    utils.mkTraefikRoute "jellyfin" "http://127.0.0.1:8096";
+  services.nginx.virtualHosts."${hostName}" = {
+    forceSSL = true;
+    enableACME = true;
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:${localPort}";
+      proxyWebsockets = true;
+      extraConfig = "proxy_pass_header Authorization;";
+    };
+  };
 
   users.groups.media = {
     members = [ "jellyfin" ];
     gid = 3000;
   };
 
-  # TODO wrap in container like nextcloud
   services.jellyfin = {
     enable = true;
     group = "media";

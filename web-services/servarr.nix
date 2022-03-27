@@ -1,20 +1,33 @@
 { config, pkgs, lib, ... }:
 let
   privateKeyFile = config.sops.secrets.mullvadPrivateKey.path;
-  utils = import ../utils.nix;
   containerIp = "192.168.100.12";
+  sonarrDataDir = "/web-service-data/sonarr";
+  radarrDataDir = "/web-service-data/radarr";
+  prowlarrDataDir = "/web-service-data/prowlarr";
+  mediaDir = "/media";
+  ports = {
+    sonarr = 7878;
+    radarr = 8989;
+    prowlarr = 9696;
+  };
+  mkLocalProxy = port: {
+    # quick function to expose these only on the local network, until I get proper auth setup
+    listen = [{ addr = "192.168.1.72"; port = port; }];
+    locations."/".proxyPass = "http://${containerIp}:${builtins.toString port}";
+  };
 in
 {
-  services.traefik.dynamicConfigOptions = lib.mkMerge [
-    (utils.mkProtectedTraefikRoute "radarr" "http://${containerIp}:7878")
-    (utils.mkProtectedTraefikRoute "prowlarr" "http://${containerIp}:9696")
-    (utils.mkProtectedTraefikRoute "sonarr" "http://${containerIp}:8989")
-  ];
+  services.nginx.virtualHosts = {
+    sonarr = mkLocalProxy ports.sonarr;
+    radarr = mkLocalProxy ports.radarr;
+    prowlarr = mkLocalProxy ports.prowlarr;
+  };
 
   systemd.tmpfiles.rules = [
-    "d /data/sonarr/data - - - -"
-    "d /data/radarr/data - - - -"
-    "d /data/prowlarr/data - - - -"
+    "d ${sonarrDataDir} - - - -"
+    "d ${radarrDataDir} - - - -"
+    "d ${prowlarrDataDir} - - - -"
   ];
 
   # Main container
@@ -27,10 +40,10 @@ in
 
     bindMounts = {
       "${privateKeyFile}" = { hostPath = privateKeyFile; isReadOnly = true; };
-      "/media" = { hostPath = "/media"; isReadOnly = false; };
-      "/var/lib/sonarr/.config" = { hostPath = "/data/sonarr/data"; isReadOnly = false; };
-      "/var/lib/radarr/.config" = { hostPath = "/data/radarr/data"; isReadOnly = false; };
-      "/var/lib/private/prowlarr" = { hostPath = "/data/prowlarr/data"; isReadOnly = false; };
+      "/media" = { hostPath = mediaDir; isReadOnly = false; };
+      "/var/lib/sonarr/.config" = { hostPath = sonarrDataDir; isReadOnly = false; };
+      "/var/lib/radarr/.config" = { hostPath = radarrDataDir; isReadOnly = false; };
+      "/var/lib/private/prowlarr" = { hostPath = prowlarrDataDir; isReadOnly = false; };
     };
 
     config = { pkgs, ... }:
@@ -46,13 +59,13 @@ in
         networking.wg-quick.interfaces = {
           wg0 = {
             inherit privateKeyFile;
-            address = [ "10.67.174.33/32" "fc00:bbbb:bbbb:bb01::4:ae20/128" ];
+            address = [ "10.64.201.123/32" "fc00:bbbb:bbbb:bb01::1:c97a/128" ];
             dns = [ "193.138.218.74" ];
             peers = [
               {
-                publicKey = "AYucpq+ZBJkPhIkJdpcDkUPG3xNrGUkQWCtmvCk1cFc=";
+                publicKey = "qzi6yOzbLmoJXYYLzijkA5GO9lFhcEwglxI5qi4NpCI=";
                 allowedIPs = [ "0.0.0.0/0" "::0/0" ];
-                endpoint = "89.45.90.236:51820";
+                endpoint = "198.54.129.66:51820";
               }
             ];
           };
@@ -60,9 +73,9 @@ in
 
         networking.firewall = {
           allowedTCPPorts = [
-            7878 # radarr
-            8989 # sonarr
-            9696 # prowlarr
+            ports.radarr
+            ports.sonarr
+            ports.prowlarr
           ];
           allowedUDPPorts = [ 51820 ]; # wireguard
         };

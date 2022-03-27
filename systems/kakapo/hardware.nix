@@ -5,12 +5,17 @@
 
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
   boot.initrd.availableKernelModules = [
     # modules supplied by generate-config
-    "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod"
+    "xhci_pci"
+    "ahci"
+    "usb_storage"
+    "usbhid"
+    "sd_mod"
     # my network driver so I can ssh in to unlock hard disk
     "r8169"
   ];
@@ -18,38 +23,27 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "rpool/system/root";
-      fsType = "zfs";
-    };
+  fileSystems."/boot" = { device = "/dev/disk/by-uuid/3F44-CE05"; fsType = "vfat"; };
+  fileSystems."/" = { device = "rpool/system/root"; fsType = "zfs"; };
 
-  fileSystems."/nix" =
-    { device = "rpool/system/nix-store";
-      fsType = "zfs";
-    };
+  fileSystems."/nix" = { device = "rpool/system/nix-store"; fsType = "zfs"; };
 
-  fileSystems."/web-service-data" =
-    { device = "rpool/system/web-service-data";
-      fsType = "zfs";
-    };
+  fileSystems."/web-service-data" = { device = "rpool/system/web-service-data"; fsType = "zfs"; };
+  fileSystems."/var/lib/postgres" = { device = "rpool/system/postgres"; fsType = "zfs"; };
 
-  fileSystems."/var/lib/postgres" =
-    { device = "rpool/system/postgres";
-      fsType = "zfs";
-    };
+  fileSystems."/media" = { device = "apool/media/root"; fsType = "zfs"; };
+  fileSystems."/media/tv" = { device = "apool/media/tv"; fsType = "zfs"; };
+  fileSystems."/media/movies" = { device = "apool/media/movies"; fsType = "zfs"; };
+  fileSystems."/media/music" = { device = "apool/media/music"; fsType = "zfs"; };
 
-  fileSystems."/home" =
-    { device = "rpool/user/home";
-      fsType = "zfs";
-    };
+  fileSystems."/backups" = { device = "apool/backups"; fsType = "zfs"; };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/3F44-CE05";
-      fsType = "vfat";
-    };
+  fileSystems."/home" = { device = "rpool/user/home"; fsType = "zfs"; };
+
 
   swapDevices = [
-    { device = "/dev/disk/by-id/wwn-0x5001b448ba0c2403-part2";
+    {
+      device = "/dev/disk/by-id/wwn-0x5001b448ba0c2403-part2";
       randomEncryption = true;
     }
   ];

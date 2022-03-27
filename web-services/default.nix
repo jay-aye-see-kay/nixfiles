@@ -31,6 +31,10 @@ in
       443 # https
       465 # smtp
       25565 # minecraft
+
+      7878 # radarr
+      8989 # sonarr
+      9696 # prowlarr
     ];
   };
 
@@ -38,17 +42,17 @@ in
   networking.nat = {
     enable = true;
     internalInterfaces = [ "ve-+" ];
-    externalInterface = "ens18";
+    externalInterface = "enp7s0";
   };
 
   imports = [
+    ./jellyfin.nix
     ./mealie.nix
     ./nextcloud.nix
+    ./servarr.nix
     # ./authelia.nix
     # ./homer.nix
-    # ./jellyfin.nix
     # ./netdata.nix
     # ./photoprism.nix
-    # ./servarr.nix
   ];
 }
