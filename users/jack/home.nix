@@ -5,7 +5,10 @@
 
     fish.enable = true;
     fish.shellAbbrs = {
+      _ = "sudo";
       g = "git";
+      s = "systemctl";
+      ss = "sudo systemctl";
       v = "nvim";
       y = "yarn";
     };

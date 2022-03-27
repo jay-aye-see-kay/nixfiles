@@ -1,4 +1,7 @@
 { config, pkgs, ... }:
+let
+  publicKeys = import ../../publicKeys.nix;
+in
 {
   nix = {
     package = pkgs.nixFlakes; # or versioned attributes like nix_2_7
@@ -26,7 +29,10 @@
         enable = true;
         port = 2222;
         hostKeys = [ /root/.ssh/boot_ed25519_key ];
-        authorizedKeys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDhM9hxQe+Mcu42h2PTZqbDK2l81VLNs+EfIyOOPoRRKIDVsF/7fgc/ZHXBXSlaQbC+b6xvsVxUl/ordDVBtaLYupG2XqZltAvRPe+2wzA/kTDmZZ6V/ZxAeUgJdrKr+X3h6dKAU8dBSgWmeZAo1CyBTCf0cX/wh0VPxE09zd35kIfvJBocJXFuwdH0qNYpOm3Ce44sV+8hmngCfXQt09qQhvdBS6UQMMsQ+1WBEGA07Wo5BXfyBwn9aYdxnEBWUlLZ3RxHoeqHq0h40GRpmNJGbP+k7kr2KXeN13prLiK6t/YnfwxJU7GnPZaro02SES3P56CDtsr9KN9Apm2W9nm9cHcMu4ZdA3DAHN0ym8EONZGgFhfYDM5YQDXyxdQ5QVlMuB0QEn7f6XxJx3GhWrgVjlYjJXg9HZtux6+epNNuf9CaJHZC5d3Xa6QwaH93tUM2xdMiDZQ32lm4ChpmtewPpebtoQJCyWMmdTDuSEJCX4/u0aLJTM6zWPo7rg6Je+U= jackderryrose@gmail.com" ];
+        authorizedKeys = [
+          publicKeys.x1aJack
+          publicKeys.deskJack
+        ];
       };
       postCommands = ''
         cat <<EOF > /root/.profile
@@ -54,18 +60,27 @@
     isNormalUser = true;
     shell = pkgs.fish;
     extraGroups = [ "wheel" "docker" ];
+    openssh.authorizedKeys.keys = [
+      publicKeys.x1aJack
+      publicKeys.deskJack
+    ];
   };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    fd
-    ripgrep
     age
-    sops
     docker-compose
-    pwgen
+    fd
+    git
+    neovim
+    nmap
     pciutils # provides lspci
+    pwgen
+    ripgrep
+    sops
+    tldr
+    bind
   ];
 
   # Enable the OpenSSH daemon.

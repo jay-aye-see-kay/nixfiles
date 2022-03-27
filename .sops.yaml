@@ -1,9 +1,11 @@
 keys:
-  - &nixosvm age1nxsxzqj33pq6pzj3ftmm4vj0tn7epe222484k5e8fc3ucnw3f4kqra5r8z
-  - &generated age12z9h25t4lt4fnvf0pcnnw8jdydk5zlsvhvezs4vf3gnwehe6np0qwku8ky
+  - &kakapo-jack age1dfy7vjkxzkuufg89jljnp6kqc59ywvhh9zyyf2l9qha05xdnq5ss4r2nuv
+  - &kakapo-host age1zjl9mflz3gsd0t48k4lkvayqc22p9htp9mp6wz0er79w5ne2pygqj3el7t
+  - &backup age103vasuevd6756az2rgmahjeu5ljs8zkmyfgjqw9vmzd9vqde9qgqthmd3v
 creation_rules:
   - path_regex: secrets/[^/]+\.yaml$
     key_groups:
     - age:
-      - *nixosvm
-      - *generated
+      - *kakapo-jack
+      - *kakapo-host
+      - *backup

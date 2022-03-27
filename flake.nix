@@ -32,7 +32,7 @@
             sops-nix.nixosModules.sops
             ./secrets/sops.nix
             ./systems/kakapo
-            # ./web-services
+            ./web-services
           ];
         };
 

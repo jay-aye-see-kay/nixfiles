@@ -28,6 +28,16 @@
       fsType = "zfs";
     };
 
+  fileSystems."/web-service-data" =
+    { device = "rpool/system/web-service-data";
+      fsType = "zfs";
+    };
+
+  fileSystems."/var/lib/postgres" =
+    { device = "rpool/system/postgres";
+      fsType = "zfs";
+    };
+
   fileSystems."/home" =
     { device = "rpool/user/home";
       fsType = "zfs";
