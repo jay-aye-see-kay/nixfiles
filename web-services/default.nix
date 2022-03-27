@@ -20,12 +20,16 @@ in
 
   networking.firewall = {
     allowedUDPPorts = [
+      53 # dns
+      465 # smtp
       25565 # minecraft
       51820 # wireguard
     ];
     allowedTCPPorts = [
+      53 # dns
       80 # http
       443 # https
+      465 # smtp
       25565 # minecraft
     ];
   };
@@ -38,12 +42,12 @@ in
   };
 
   imports = [
+    ./mealie.nix
+    ./nextcloud.nix
     # ./authelia.nix
     # ./homer.nix
     # ./jellyfin.nix
-    ./mealie.nix
     # ./netdata.nix
-    ./nextcloud.nix
     # ./photoprism.nix
     # ./servarr.nix
   ];

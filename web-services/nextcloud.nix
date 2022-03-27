@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 let
   dataDir = "/web-service-data/nextcloud";
   hostName = "nextcloud.h.jackrose.co.nz";
@@ -14,6 +14,11 @@ in
     home = dataDir;
     hostName = hostName;
     package = pkgs.nextcloud23;
+    maxUploadSize = "2048M";
+    autoUpdateApps = {
+      enable = true;
+      startAt = "05:00:00";
+    };
     config = {
       dbtype = "pgsql";
       dbuser = "nextcloud";
@@ -21,6 +26,7 @@ in
       dbname = "nextcloud";
       adminuser = "admin";
       adminpassFile = "/run/secrets/nextcloudAdminPassword";
+      defaultPhoneRegion = "AU";
     };
   };
 
