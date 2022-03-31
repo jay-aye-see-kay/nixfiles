@@ -1,4 +1,4 @@
 #!/bin/sh
 
-nix build .#homeManagerConfigurations.jack.activationPackage
-./result/activate
+nix build .#homeManagerConfigurations.jack.activationPackage \
+  && ./result/activate

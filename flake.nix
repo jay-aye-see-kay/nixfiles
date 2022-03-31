@@ -31,6 +31,7 @@
         homeDirectory = "/home/jack";
         configuration.imports = [
           ./users/jack/home.nix
+          ./users/jack/neovim
         ];
       };
 
