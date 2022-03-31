@@ -80,7 +80,7 @@ in
     ripgrep
     sops
     tldr
-    bind
+    btop
   ];
 
   # Enable the OpenSSH daemon.

@@ -4,15 +4,24 @@
     home-manager.url = "github:nix-community/home-manager/release-21.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     sops-nix.url = "github:Mic92/sops-nix";
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable"; 
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
-  outputs = { self, nixpkgs, home-manager, sops-nix }:
+  outputs = { self, nixpkgs, home-manager, sops-nix, nixpkgs-unstable, neovim-nightly-overlay }:
     let
       username = "jack";
       system = "x86_64-linux";
+      overlay-unstable = final: prev: {
+        unstable = nixpkgs-unstable.legacyPackages.${prev.system};
+      };
       pkgs = import nixpkgs {
         inherit system;
         config = { allowUnfree = true; };
+        overlays = [
+          overlay-unstable
+          neovim-nightly-overlay.overlay
+        ];
       };
       lib = nixpkgs.lib;
     in

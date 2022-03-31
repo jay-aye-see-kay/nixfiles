@@ -3,6 +3,41 @@
   programs = {
     home-manager.enable = true;
 
+    neovim = {
+      enable = true;
+      viAlias = true;
+      vimAlias = true;
+
+      plugins = with pkgs.unstable.vimPlugins; [
+        vim-nix
+        nvim-lspconfig
+        nvim-treesitter
+        luasnip
+        # { plugin = vim-startify; config = "let g:startify_change_to_vcs_root = 0"; }
+      ];
+
+      extraPackages = with pkgs.unstable; [
+        stylua
+
+        # language servers
+        nodePackages.bash-language-server
+        nodePackages.dockerfile-language-server-nodejs
+        nodePackages.typescript
+        nodePackages.typescript-language-server
+        nodePackages.vim-language-server
+        nodePackages.vscode-langservers-extracted
+        pkgs.rnix-lsp
+        rust-analyzer
+        sumneko-lua-language-server
+
+        # tree-sitter
+        tree-sitter
+        tree-sitter-grammars.tree-sitter-nix
+        tree-sitter-grammars.tree-sitter-tsx
+        tree-sitter-grammars.tree-sitter-typescript
+      ];
+    };
+
     fish.enable = true;
     fish.shellAbbrs = {
       _ = "sudo";
@@ -89,13 +124,6 @@
         ".python-version"
         ".npmrc"
       ];
-    };
-
-    neovim = {
-      enable = true;
-      /* defaultEditor = true; */
-      viAlias = true;
-      vimAlias = true;
     };
   };
 }
