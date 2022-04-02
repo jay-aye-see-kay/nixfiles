@@ -56,6 +56,16 @@ in
   networking.useDHCP = false;
   networking.interfaces.enp7s0.useDHCP = true;
 
+  # sound setup
+  security.rtkit.enable = true; # optional but recommend for pipewire
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    media-session.enable = true; # use default session manager (default for now)
+  };
+
   users.users.jack = {
     isNormalUser = true;
     shell = pkgs.fish;
@@ -82,6 +92,20 @@ in
     tldr
     btop
   ];
+
+  # kodi run on boot as a kiosk
+  users.extraUsers.kodi.isNormalUser = true;
+  services.cage = let
+    kodi = pkgs.kodi-wayland.withPackages(kodiPkgs: [
+      kodiPkgs.jellyfin
+      kodiPkgs.netflix
+      kodiPkgs.youtube
+    ]);
+  in {
+    enable = true;
+    user = "kodi";
+    program = "${kodi}/bin/kodi-standalone";
+  };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;

@@ -24,6 +24,7 @@ in
       465 # smtp
       25565 # minecraft
       51820 # wireguard
+      8080 # kodi
     ];
     allowedTCPPorts = [
       53 # dns
@@ -32,6 +33,7 @@ in
       465 # smtp
       25565 # minecraft
 
+      8080 # kodi
       7878 # radarr
       8989 # sonarr
       9696 # prowlarr
