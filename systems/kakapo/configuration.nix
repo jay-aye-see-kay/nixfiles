@@ -98,17 +98,19 @@ in
 
   # kodi run on boot as a kiosk
   users.extraUsers.kodi.isNormalUser = true;
-  services.cage = let
-    kodi = pkgs.kodi-wayland.withPackages(kodiPkgs: [
-      kodiPkgs.jellyfin
-      kodiPkgs.netflix
-      kodiPkgs.youtube
-    ]);
-  in {
-    enable = true;
-    user = "kodi";
-    program = "${kodi}/bin/kodi-standalone";
-  };
+  services.cage =
+    let
+      kodi = pkgs.kodi-wayland.withPackages (kodiPkgs: [
+        kodiPkgs.jellyfin
+        kodiPkgs.netflix
+        kodiPkgs.youtube
+      ]);
+    in
+    {
+      enable = true;
+      user = "kodi";
+      program = "${kodi}/bin/kodi-standalone";
+    };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
