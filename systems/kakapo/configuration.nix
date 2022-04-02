@@ -10,6 +10,11 @@ in
     '';
   };
 
+  powerManagement = {
+    cpuFreqGovernor = "ondemand";
+    powertop.enable = true;
+  };
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -74,7 +79,6 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     age
-    docker-compose
     fd
     git
     neovim
@@ -85,6 +89,11 @@ in
     sops
     tldr
     btop
+    stress
+    parted
+    progress
+    powertop
+    hdparm
   ];
 
   # kodi run on boot as a kiosk
