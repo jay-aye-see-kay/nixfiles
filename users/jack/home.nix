@@ -1,5 +1,9 @@
 { config, pkgs, ... }:
 {
+  home.packages = with pkgs; [
+    yarn
+  ];
+
   programs = {
     home-manager.enable = true;
 

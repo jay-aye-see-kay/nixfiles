@@ -1,12 +1,14 @@
 { config, pkgs, ... }:
 {
-
   programs.neovim = {
     enable = true;
     withNodeJs = true;
 
     extraConfig = ''
       set termguicolors
+      ${pkgs.lib.readFile ./file-tree.vim}
+      ${pkgs.lib.readFile ./functions.vim}
+      ${pkgs.lib.readFile ./terminal.vim}
 
       lua << EOF
       ${pkgs.lib.readFile ./init.lua}
@@ -15,26 +17,105 @@
 
     plugins = with pkgs.unstable.vimPlugins; [
       { plugin = nvcode-color-schemes-vim; config = "colorscheme nvcode"; }
+
+      # langs
+      vim-nix
+      vim-json
+      jsonc-vim
+
       nvim-treesitter
       nvim-treesitter-textobjects
-      orgmode
-      vim-nix
+      nvim-ts-autotag
+      playground # tree-sitter playground
+
       nvim-lspconfig
-      nvim-treesitter
+      nvim-lsp-ts-utils
+      SchemaStore-nvim
+      nvim-cmp
+      cmp-buffer
+      cmp-path
+      cmp-nvim-lua
+      cmp-nvim-lsp
+      cmp_luasnip
+      lspkind-nvim
       luasnip
+
+      orgmode
+      friendly-snippets
+      neoformat
+      tabular
+      nvim-ts-context-commentstring
+      lightline-vim
+      lightline-lsp
+      nvim-web-devicons
+      vim-bbye
+      plenary-nvim
+      popup-nvim
+      trouble-nvim
+      symbols-outline-nvim
+      fern-vim
+
+      telescope-nvim
+      telescope-fzf-native-nvim
+      telescope-symbols-nvim
+      fzf-vim
+      nvim-fzf
+
+      nvim-colorizer-lua
+      hop-nvim
+      vim-mundo
+      vim-lastplace
+      which-key-nvim
+      lua-dev-nvim
+      dressing-nvim
+      fidget-nvim
+
+      # tpope
+      vim-abolish
+      vim-commentary
+      vim-repeat
+      vim-surround
+      vim-unimpaired
+      targets-vim
+
+      # git
+      git-messenger-vim
+      diffview-nvim
+      gitsigns-nvim
+      vim-fugitive
+      vim-rhubarb
+
+      /* TODO:
+        "dkarter/bullets.vim",
+        "lambdalisue/fern-git-status.vim",
+        "lambdalisue/fern-hijack.vim",
+        "lambdalisue/fern-renderer-nerdfont.vim",
+        "lambdalisue/nerdfont.vim",
+        use({ "aymericbeaumet/vim-symlink" })
+        use({ "rafcamlet/nvim-luapad", cmd = { "Luapad", "LuaRun" } })
+        use({ "sedm0784/vim-resize-mode" })
+        "ibhagwan/fzf-lua",
+        "monaqa/dial.nvim",
+      */
+
     ];
 
     extraPackages = with pkgs.unstable; [
+      fzf
+      nodejs
       stylua
 
       # language servers
       nodePackages.bash-language-server
       nodePackages.dockerfile-language-server-nodejs
+      nodePackages.pyright
       nodePackages.typescript
       nodePackages.typescript-language-server
       nodePackages.vim-language-server
       nodePackages.vscode-langservers-extracted
-      pkgs.rnix-lsp
+      nodePackages.yaml-language-server
+      rnix-lsp
+      rubyPackages.solargraph
       rust-analyzer
       sumneko-lua-language-server
 
