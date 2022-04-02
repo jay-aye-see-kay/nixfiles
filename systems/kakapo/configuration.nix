@@ -35,15 +35,9 @@ in
         ];
       };
       postCommands = ''
-        cat <<EOF > /root/.profile
-        if pgrep -x "zfs" > /dev/null
-        then
-          zfs load-key -a
-          killall zfs
-        else
-          echo "zfs not running -- maybe the pool is taking some time to load for some unforseen reason."
-        fi
-        EOF
+        zpool import rpool
+        zpool import apool
+        echo "zfs load-key -a; killall zfs" >> /root/.profile
       '';
     };
   };
