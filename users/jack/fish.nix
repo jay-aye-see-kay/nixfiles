@@ -10,9 +10,58 @@
       ss = "sudo systemctl";
       v = "nvim";
       y = "yarn";
+      "~" = "cd ~";
+      "-" = "cd -";
+      ".." = "cd ..";
+      "..." = "cd ../..";
+      "...." = "cd ../../..";
+      "....." = "cd ../../../..";
+    };
+
+    shellAliases = {
+      rg = "rg --hidden";
+      sizes = "du -csh * | sort -h";
+      whoslistening = "ss -lntup";
+      vwt = "nvim -c LogbookToday";
+      journal = "nvim $HOME/Documents/journal-2022.org";
+      shopping_list = "nvim $HOME/Documents/shopping-lists/(date --iso-8601).md";
+      vg = "nvim -c \"Git | wincmd k | q\"";
+      pbc = "wl-copy";
+      pbp = "wl-paste";
     };
 
     shellInit = ''
+      # suppress default greeting
+      set -U fish_greeting
+
+      # setup fast node manager
+      fnm env --use-on-cd --log-level quiet | source
+
+      # use bash default to edit line in vim
+      bind \cx\ce edit_command_buffer
+
+      # language env set up
+      fish_add_path "$HOME/.local/bin" # pip
+      fish_add_path "$HOME/.poetry/bin" # poetry
+      fish_add_path "(ruby -e 'puts Gem.user_dir')/bin" # ruby
+      fish_add_path "$HOME/.npm_global/bin" # npm
+      fish_add_path "$HOME/.yarn/bin" # yarn
+      fish_add_path "$HOME/.cargo/bin" # rust
+      fish_add_path "$HOME/.emacs.d/bin" # doom/emacs
+
+      set -x GOPATH "$HOME/go/bin"
+      set -x GOROOT /usr/lib/go
+      fish_add_path "$GOPATH" "$GOROOT"
+
+      set -x ANDROID_HOME "$HOME/Android/Sdk"
+      [ (uname) = "Darwin" ] && set -x ANDROID_HOME "$HOME/Library/Android/Sdk"
+      fish_add_path \
+        "$ANDROID_HOME/emulator" \
+        "$ANDROID_HOME/tools" \
+        "$ANDROID_HOME/tools/bin" \
+        "$ANDROID_HOME/platform-tools"
+
+      # nord theme
       set -U fish_color_normal normal
       set -U fish_color_command 81a1c1
       set -U fish_color_quote a3be8c
