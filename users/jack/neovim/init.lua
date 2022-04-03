@@ -96,6 +96,8 @@ augroup("natural_movement_in_text_files", {
 -- }}}
 
 -- basic core stuff {{{
+vim.cmd([[ set laststatus=3 ]]) -- global statusline; only works on neovim 0.7+
+
 -- faster window movements
 nnoremap("<c-h>", "<c-w>h")
 nnoremap("<c-j>", "<c-w>j")
@@ -849,15 +851,15 @@ vim.g.mundo_width = 40
 vim.g.mundo_preview_height = 20
 
 require("which-key").setup({
-  plugins = {
-    spelling = { enabled = true },
-  },
-  window = {
-    winblend = 15,
-  },
-  layout = {
-    spacing = 4,
-    align = "center",
-  },
+	plugins = {
+		spelling = { enabled = true },
+	},
+	window = {
+		winblend = 15,
+	},
+	layout = {
+		spacing = 4,
+		align = "center",
+	},
 })
 -- }}}
