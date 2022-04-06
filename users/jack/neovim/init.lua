@@ -179,7 +179,7 @@ augroup("fzfDefaultEscapeBehavior", {
 -- }}}
 
 -- lsp {{{
-local lsp_servers = { -- TODO sync with nix installed
+local lsp_servers = {
 	"bashls",
 	"cssls",
 	"dockerls",
@@ -194,46 +194,36 @@ local lsp_servers = { -- TODO sync with nix installed
 	"vimls",
 	"yamlls", --
 }
-
--- tsserver set up
-local tsserver_on_attach = function(client)
-	local ts_utils = require("nvim-lsp-ts-utils")
-	ts_utils.setup({})
-	ts_utils.setup_client(client)
-end
-
-local on_attach = function(server)
-	-- local opts = {}
-
-	-- opts.capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-	-- if server == "tsserver" then
-	-- 	opts.on_attach = tsserver_on_attach
-	-- elseif server == "jsonls" then
-	-- 	opts.filetypes = { "json", "jsonc" }
-	-- 	opts.settings = {
-	-- 		json = {
-	-- 			schemas = require("schemastore").json.schemas(),
-	-- 		},
-	-- 	}
-	-- elseif server == "sumneko_lua" then
-	-- 	opts.settings = {
-	-- 		Lua = {
-	-- 			diagnostics = { globals = { "vim" } },
-	-- 			workspace = { library = vim.api.nvim_get_runtime_file("", true) },
-	-- 			telemetry = { enable = false },
-	-- 		},
-	-- 	}
-	-- end
-end
-
 for _, lsp in pairs(lsp_servers) do
+	-- TODO clean this per lsp setup logic up, jsonls properly
+	local settings = {}
+	-- local filetypes = {}
+	if lsp == "jsonls" then
+		settings.json = {
+			schemas = require("schemastore").json.schemas(),
+		}
+		-- filetypes = { "json", "jsonc" }
+	elseif lsp == "" then
+		settings.Lua = {
+			diagnostics = { globals = { "vim" } },
+			workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+			telemetry = { enable = false },
+		}
+	end
 	require("lspconfig")[lsp].setup({
-		on_attach = on_attach,
 		flags = {
 			-- This will be the default in neovim 0.7+
 			debounce_text_changes = 150,
 		},
+		settings = settings,
+		-- filetypes = filetypes,
+		on_attach = function(client)
+			if lsp == "tsserver" then
+				local ts_utils = require("nvim-lsp-ts-utils")
+				ts_utils.setup({})
+				ts_utils.setup_client(client)
+			end
+		end,
 	})
 end
 
