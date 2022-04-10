@@ -59,6 +59,13 @@
       };
 
       nixosConfigurations = {
+        tui = lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./systems/tui
+          ];
+        };
+
         kakapo = lib.nixosSystem {
           inherit system;
           modules = [
