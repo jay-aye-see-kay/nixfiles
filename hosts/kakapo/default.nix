@@ -104,8 +104,6 @@ in
     let
       kodi = pkgs.kodi-wayland.withPackages (kodiPkgs: [
         kodiPkgs.jellyfin
-        kodiPkgs.netflix
-        kodiPkgs.youtube
       ]);
     in
     {
