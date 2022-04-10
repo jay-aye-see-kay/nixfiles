@@ -2,6 +2,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.11";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     home-manager.url = "github:nix-community/home-manager/release-21.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -10,7 +11,7 @@
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, sops-nix, neovim-nightly-overlay }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, sops-nix, neovim-nightly-overlay }:
     let
       username = "jack";
       system = "x86_64-linux";
@@ -62,6 +63,7 @@
         tui = lib.nixosSystem {
           inherit system;
           modules = [
+            nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
             ./hosts/tui
             ./features/fonts.nix
             ./features/i3-desktop.nix
