@@ -3,6 +3,8 @@ let
   publicKeys = import ../../publicKeys.nix;
 in
 {
+  imports = [ ./hardware.nix ];
+
   nix = {
     package = pkgs.nixFlakes; # or versioned attributes like nix_2_7
     extraOptions = ''

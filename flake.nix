@@ -62,7 +62,7 @@
         tui = lib.nixosSystem {
           inherit system;
           modules = [
-            ./systems/tui
+            ./hosts/tui
           ];
         };
 
@@ -71,7 +71,7 @@
           modules = [
             sops-nix.nixosModules.sops
             ./secrets/sops.nix
-            ./systems/kakapo
+            ./hosts/kakapo
             ./web-services
           ];
         };
