@@ -6,21 +6,31 @@
     enableDefaultFonts = true;
 
     fonts = with pkgs; [
-      font-awesome
+      awesome
+      cantarell-fonts
+      corefonts
+      dejavu_fonts
       fira-code
       fira-code-symbols
-      cantarell-fonts
+      font-awesome
+      hack-font
+      inconsolata
+      liberation_ttf
+      nerdfonts
+      noto-fonts
+      noto-fonts-cjk
       noto-fonts-emoji
-      (nerdfonts.override { fonts = [ "Noto" ]; })
+      proggyfonts
+      ubuntu_font_family
     ];
 
-    fontconfig = {
-      defaultFonts = {
-        serif = [ "NotoSerif Nerd Font" ];
-        sansSerif = [ "NotoSans Nerd Font" ];
-        monospace = [ "NotoSansMono Nerd Font" ];
-        emoji = [ "NotoColorEmoji" ];
-      };
-    };
+    # fontconfig = {
+    #   defaultFonts = {
+    #     serif = [ "NotoSerif Nerd Font" ];
+    #     sansSerif = [ "NotoSans Nerd Font" ];
+    #     monospace = [ "NotoSansMono Nerd Font" ];
+    #     emoji = [ "NotoColorEmoji" ];
+    #   };
+    # };
   };
 }

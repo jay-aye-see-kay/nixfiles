@@ -1,5 +1,10 @@
 { config, pkgs, ... }:
 {
+  imports = [
+    # WIP better firefox defaults
+    # ./firefox.nix
+  ];
+
   home.packages = with pkgs; [
     fnm
     htop
