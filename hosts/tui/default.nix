@@ -33,6 +33,8 @@ in
 
   # Set your time zone.
   time.timeZone = "Australia/Melbourne";
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_AU.UTF-8";
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -40,39 +42,6 @@ in
   networking.useDHCP = false;
   networking.interfaces.enp0s31f6.useDHCP = true;
   networking.interfaces.wlp2s0.useDHCP = true;
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_AU.UTF-8";
-
-  services.xserver.dpi = 144;
-  services.xserver.videoDrivers = [ "modesetting" ];
-  services.xserver.useGlamor = true;
-  services.picom = {
-    enable = true;
-    vSync = true;
-  };
-
-  services.xserver = {
-    enable = true;
-    displayManager.defaultSession = "xfce";
-    desktopManager = {
-      xterm.enable = false;
-      xfce = {
-        enable = true;
-        noDesktop = true;
-        enableXfwm = false;
-      };
-    };
-    windowManager.i3 = {
-      enable = true;
-      extraPackages = with pkgs; [
-        dmenu
-        i3status-rust
-        i3lock
-      ];
-    };
-  };
-
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -87,9 +56,6 @@ in
     pulse.enable = true;
     media-session.enable = true;
   };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
 
   users.users.jack = {
     isNormalUser = true;
@@ -129,43 +95,6 @@ in
     wget
   ];
 
-  fonts.fonts = with pkgs; [
-    font-awesome
-    noto-fonts
-    noto-fonts-emoji
-    fira-code
-    fira-code-symbols
-  ];
-
-  services.interception-tools = {
-    enable = true;
-    plugins = [ pkgs.interception-tools-plugins.dual-function-keys ];
-    udevmonConfig =
-      let
-        dualFnConfig = builtins.toFile "dual-caps.yaml" (builtins.toJSON {
-          TIMING = {
-            TAP_MILLISEC = 200;
-            DOUBLE_TAP_MILLISEC = 150;
-          };
-          MAPPINGS = [{
-            KEY = "KEY_CAPSLOCK";
-            TAP = "KEY_ESC";
-            HOLD = "KEY_LEFTCTRL";
-          }];
-        });
-      in
-      builtins.toJSON [{
-        JOB = "${pkgs.interception-tools}/bin/intercept -g $DEVNODE"
-          + " | ${pkgs.interception-tools-plugins.dual-function-keys}/bin/dual-function-keys -c ${dualFnConfig}"
-          + " | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE";
-        DEVICE = {
-          EVENTS = {
-            EV_KEY = [ "KEY_CAPSLOCK" ];
-          };
-        };
-      }];
-  };
-
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ ];
   networking.firewall.allowedUDPPorts = [ ];
@@ -177,6 +106,4 @@ in
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "21.11"; # Did you read the comment?
-
 }
-

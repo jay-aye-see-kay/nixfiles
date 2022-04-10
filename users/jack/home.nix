@@ -24,6 +24,11 @@
     starship.enable = true;
     starship.enableFishIntegration = true;
 
+    alacritty.enable = true;
+    alacritty.settings = {
+      font.size = 8;
+    };
+
     git = {
       enable = true;
       package = pkgs.gitAndTools.gitFull;

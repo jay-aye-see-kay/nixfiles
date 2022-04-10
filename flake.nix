@@ -63,6 +63,9 @@
           inherit system;
           modules = [
             ./hosts/tui
+            ./features/fonts.nix
+            ./features/i3-desktop.nix
+            ./features/key-remapping.nix
           ];
         };
 
