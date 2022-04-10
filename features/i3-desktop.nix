@@ -1,13 +1,19 @@
 { config, pkgs, ... }:
 {
-  services.xserver.dpi = 144;
-  services.xserver.videoDrivers = [ "modesetting" ];
-  services.xserver.useGlamor = true;
+  # make X 1.5x scale and stop screen tearing
+  services.xserver = {
+    dpi = 144;
+    videoDrivers = [ "modesetting" ];
+    useGlamor = true;
+  };
   services.picom = {
     enable = true;
     vSync = true;
+    backend = "glx";
+    inactiveOpacity = 0.9;
   };
 
+  # basic xfce+i3 setup from the NixOS wiki
   services.xserver = {
     enable = true;
     displayManager.defaultSession = "xfce";

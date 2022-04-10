@@ -70,17 +70,19 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    chromium
-    lm_sensors
     _1password
     _1password-gui
     age
     alacritty
     btop
+    chromium
     fd
     firefox
+    freecad
     git
     hdparm
+    libreoffice
+    lm_sensors
     neovim
     nmap
     parted
