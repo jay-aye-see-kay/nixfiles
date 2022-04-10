@@ -62,7 +62,6 @@ in
     shell = pkgs.fish;
     extraGroups = [ "wheel" "docker" "networkmanager" ];
     openssh.authorizedKeys.keys = [
-      publicKeys.x1aJack
       publicKeys.deskJack
     ];
   };
@@ -76,6 +75,7 @@ in
     alacritty
     btop
     chromium
+    dbeaver
     fd
     firefox
     freecad

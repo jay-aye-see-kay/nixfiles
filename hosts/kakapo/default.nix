@@ -37,7 +37,7 @@ in
         port = 2222;
         hostKeys = [ /root/.ssh/boot_ed25519_key ];
         authorizedKeys = [
-          publicKeys.x1aJack
+          publicKeys.tuiJack
           publicKeys.deskJack
         ];
       };
@@ -72,7 +72,7 @@ in
     shell = pkgs.fish;
     extraGroups = [ "wheel" "docker" ];
     openssh.authorizedKeys.keys = [
-      publicKeys.x1aJack
+      publicKeys.tuiJack
       publicKeys.deskJack
     ];
   };
