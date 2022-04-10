@@ -66,6 +66,7 @@
             nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
             ./hosts/tui
             ./features/fonts.nix
+            ./features/games.nix
             ./features/i3-desktop.nix
             ./features/key-remapping.nix
           ];
