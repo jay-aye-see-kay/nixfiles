@@ -81,6 +81,7 @@ in
     freecad
     git
     hdparm
+    libnotify
     libreoffice
     lm_sensors
     neovim

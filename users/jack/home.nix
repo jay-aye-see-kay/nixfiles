@@ -30,9 +30,6 @@
     starship.enableFishIntegration = true;
 
     alacritty.enable = true;
-    alacritty.settings = {
-      font.size = 8;
-    };
 
     git = {
       enable = true;

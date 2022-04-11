@@ -39,6 +39,7 @@
       homeManagerImports = [
         ./users/jack/home.nix
         ./users/jack/fish.nix
+        ./users/jack/sway
         ./users/jack/neovim
       ];
     in
@@ -61,19 +62,19 @@
 
       nixosConfigurations = {
         tui = lib.nixosSystem {
-          inherit system;
+          inherit system pkgs;
           modules = [
             nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
             ./hosts/tui
             ./features/fonts.nix
             ./features/games.nix
-            ./features/i3-desktop.nix
+            ./features/sway-desktop.nix
             ./features/key-remapping.nix
           ];
         };
 
         kakapo = lib.nixosSystem {
-          inherit system;
+          inherit system pkgs;
           modules = [
             sops-nix.nixosModules.sops
             ./secrets/sops.nix
