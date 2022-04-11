@@ -57,6 +57,10 @@ in
     media-session.enable = true;
   };
 
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+  programs.nm-applet.enable = true;
+
   users.users.jack = {
     isNormalUser = true;
     shell = pkgs.fish;
@@ -96,6 +100,8 @@ in
     stress
     tldr
     wget
+    wireshark
+    wireshark-cli
   ];
 
   # Open ports in the firewall.
