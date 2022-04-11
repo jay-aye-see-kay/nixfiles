@@ -3,6 +3,7 @@
   environment.pathsToLink = [ "/libexec" ];
   environment.systemPackages = with pkgs; [
     polkit_gnome
+    gtk3
   ];
 
   services.greetd = {
