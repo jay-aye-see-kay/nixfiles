@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 {
   home.packages = with pkgs; [
-    gtk-engine-murrine
     grim
     kanshi # autorandr
     pkgs.unstable.swaynotificationcenter
@@ -14,9 +13,6 @@
     wdisplays
     wl-clipboard
     xwayland
-    gsettings-desktop-schemas
-    gtk_engines
-    lxappearance
   ];
 
   wayland.windowManager.sway =
@@ -24,7 +20,6 @@
       lockScreen = "${pkgs.swaylock-effects}/bin/swaylock"
         + " --grace 2"
         + " --fade-in 0.25"
-        + " --indicator"
         + " --indicator-radius 45"
         + " --indicator-thickness 90"
         + " --screenshot"
@@ -44,10 +39,7 @@
         modifier = "Mod4"; # logo key
         menu = "${pkgs.sirula}/bin/sirula";
         terminal = "${pkgs.alacritty}/bin/alacritty";
-        bars = [{
-          position = "top";
-          command = "waybar";
-        }];
+        bars = [{ position = "top"; command = "waybar"; }];
         startup = [
           { command = "swaync"; always = false; }
         ];

@@ -17,7 +17,10 @@
       system = "x86_64-linux";
       systemDarwin = "x86_64-darwin";
       overlay-unstable = final: prev: {
-        unstable = nixpkgs-unstable.legacyPackages.${prev.system};
+        unstable = import nixpkgs-unstable {
+          inherit system;
+          config.allowUnfree = true;
+        };
       };
       pkgs = import nixpkgs {
         inherit system;

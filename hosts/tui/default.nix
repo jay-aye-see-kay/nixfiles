@@ -92,6 +92,7 @@ in
     nmap
     parted
     pciutils # provides lspci
+    pkgs.unstable.slack # the 2022 version works on wayland
     powertop
     progress
     pwgen
@@ -102,6 +103,7 @@ in
     wget
     wireshark
     wireshark-cli
+    inkscape
   ];
 
   # Open ports in the firewall.
