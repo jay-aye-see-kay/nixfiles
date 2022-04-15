@@ -74,6 +74,11 @@ window#waybar.chromium {
     color: #ffffff;
 }
 
+#idle_inhibitor.activated {
+    background-color: #ecf0f1;
+    color: #2d3436;
+}
+
 #window,
 #workspaces {
     margin: 0 4px;

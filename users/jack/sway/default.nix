@@ -73,6 +73,10 @@
             "${mod}+p" = screenshotRegion;
             "${mod}+Shift+p" = screenshotScreen;
             "Control+Mod1+l" = "exec ${lockScreen}";
+            "${mod}+Control+Shift+l" = "move workspace to output right";
+            "${mod}+Control+Shift+h" = "move workspace to output left";
+            "${mod}+Control+Shift+k" = "move workspace to output up";
+            "${mod}+Control+Shift+j" = "move workspace to output down";
           };
       };
 
