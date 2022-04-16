@@ -9,9 +9,10 @@
 
     sops-nix.url = "github:Mic92/sops-nix";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, sops-nix, neovim-nightly-overlay }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, sops-nix, neovim-nightly-overlay, emacs-overlay }:
     let
       username = "jack";
       system = "x86_64-linux";
@@ -28,6 +29,7 @@
         overlays = [
           overlay-unstable
           neovim-nightly-overlay.overlay
+          emacs-overlay.overlay
         ];
       };
       pkgsDarwin = import nixpkgs {
@@ -36,6 +38,7 @@
         overlays = [
           overlay-unstable
           neovim-nightly-overlay.overlay
+          emacs-overlay.overlay
         ];
       };
       lib = nixpkgs.lib;
@@ -44,6 +47,7 @@
         ./users/jack/fish.nix
         ./users/jack/sway
         ./users/jack/neovim
+        ./users/jack/emacs
       ];
     in
     {

@@ -1,5 +1,20 @@
 {
   "nodes": {
+    "emacs-overlay": {
+      "locked": {
+        "lastModified": 1649963026,
+        "narHash": "sha256-2gaQCVa9LWal65+i1ySFDZ6rgAVH07/GqKOf1DKle4A=",
+        "owner": "nix-community",
+        "repo": "emacs-overlay",
+        "rev": "82f83fbd561c08e83faeb4a8c37fb43375d88bd1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "emacs-overlay",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -177,6 +192,7 @@
     },
     "root": {
       "inputs": {
+        "emacs-overlay": "emacs-overlay",
         "home-manager": "home-manager",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nixos-hardware": "nixos-hardware",
