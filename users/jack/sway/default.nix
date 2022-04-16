@@ -1,9 +1,11 @@
 { config, lib, pkgs, ... }:
 {
   home.packages = with pkgs; [
+    brightnessctl
     grim
     kanshi # autorandr
     pkgs.unstable.swaynotificationcenter
+    pulseaudio # not used as audio server, just need pactl
     sirula
     slurp
     swappy
@@ -77,6 +79,15 @@
             "${mod}+Control+Shift+h" = "move workspace to output left";
             "${mod}+Control+Shift+k" = "move workspace to output up";
             "${mod}+Control+Shift+j" = "move workspace to output down";
+            "XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
+            "XF86MonBrightnessUp" = "exec brightnessctl set 5%+";
+            "XF86MonBrightnessDown+Shift" = "exec brightnessctl set 5%";
+            "XF86MonBrightnessUp+Shift" = "exec brightnessctl set 100%";
+            "XF86AudioRaiseVolume" = "exec 'pactl set-sink-volume @DEFAULT_SINK@ +5%'";
+            "XF86AudioLowerVolume" = "exec 'pactl set-sink-volume @DEFAULT_SINK@ -5%'";
+            "XF86AudioRaiseVolume+Shift" = "exec 'pactl set-sink-volume @DEFAULT_SINK@ 100%'";
+            "XF86AudioLowerVolume+Shift" = "exec 'pactl set-sink-volume @DEFAULT_SINK@ 10%'";
+            "XF86AudioMute" = "exec 'pactl set-sink-mute @DEFAULT_SINK@ toggle'";
           };
       };
 

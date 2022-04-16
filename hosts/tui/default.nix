@@ -64,7 +64,7 @@ in
   users.users.jack = {
     isNormalUser = true;
     shell = pkgs.fish;
-    extraGroups = [ "wheel" "docker" "networkmanager" ];
+    extraGroups = [ "wheel" "docker" "networkmanager" "video" ];
     openssh.authorizedKeys.keys = [
       publicKeys.deskJack
     ];
@@ -104,6 +104,7 @@ in
     wireshark
     wireshark-cli
     inkscape
+    pulsemixer
   ];
 
   # Open ports in the firewall.
