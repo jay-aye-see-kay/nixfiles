@@ -85,10 +85,12 @@ in
     freecad
     git
     hdparm
+    inkscape
     libnotify
     libreoffice
     lm_sensors
     neovim
+    nextcloud-client
     nmap
     parted
     pciutils # provides lspci
@@ -103,9 +105,13 @@ in
     wget
     wireshark
     wireshark-cli
-    inkscape
+    mullvad-vpn
     pulsemixer
   ];
+
+  # This option enables Mullvad VPN daemon. This sets networking.firewall.checkReversePath
+  # to "loose", which might be undesirable for security.
+  services.mullvad-vpn.enable = true;
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ ];

@@ -15,6 +15,11 @@
     tree
     yarn
     yq
+    rustc
+    rustfmt
+    cargo
+    clippy
+    rust-analyzer
   ];
 
   programs = {
