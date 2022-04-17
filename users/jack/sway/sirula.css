@@ -1,0 +1,36 @@
+.app-row {
+    transition: unset;
+    padding: 5px 0 5px 10px;
+    background-color: rgba(43, 48, 59, 0.5);
+}
+
+.app-row:selected {
+    background-color: rgba(43, 48, 59, 1.0);
+}
+
+.app-label {
+    color: #ffffff;
+    margin-left: 10px;
+}
+
+#root-box {
+    border: 3px solid rgba(43, 48, 59, 1.0);
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+    margin: 100px;
+}
+
+#search {
+    border: unset;
+    outline: unset;
+    box-shadow: unset;
+    border-radius: unset;
+    padding: 2px 8px;
+    margin: 5px;
+    background-color: rgba(43, 48, 59, 0.5);
+    color: #ffffff;
+}
+
+#root-box, .background, #app-list, .overlay-indicator {
+    background-color: rgba(43, 48, 59, 0.5);
+}

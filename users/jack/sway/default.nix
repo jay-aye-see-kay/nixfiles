@@ -101,5 +101,8 @@
 
   xdg.configFile."waybar/config".source = ./waybar.json;
   xdg.configFile."waybar/style.css".source = ./waybar.css;
+
+  xdg.configFile."sirula/config.toml".source = ./sirula.toml;
+  xdg.configFile."sirula/style.css".source = ./sirula.css;
 }
 
