@@ -42,6 +42,7 @@
         menu = "${pkgs.sirula}/bin/sirula";
         terminal = "${pkgs.alacritty}/bin/alacritty";
         bars = [{ position = "top"; command = "waybar"; }];
+        window.border = 4;
         startup = [
           { command = "swaync"; always = false; }
         ];
