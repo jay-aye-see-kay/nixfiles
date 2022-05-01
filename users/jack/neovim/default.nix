@@ -184,7 +184,7 @@ in
       rnix-lsp
       rubyPackages.solargraph
       rust-analyzer
-      sumneko-lua-language-server
+      pkgs.sumneko-lua-language-server # unstable is currently broken https://github.com/NixOS/nixpkgs/issues/169562
     ];
   };
 }

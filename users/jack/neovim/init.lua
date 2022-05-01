@@ -295,7 +295,7 @@ cmp.setup({
 			require("luasnip").lsp_expand(args.body)
 		end,
 	},
-	mapping = {
+	mapping = cmp.mapping.preset.insert({
 		["<C-y>"] = cmp.mapping.confirm({ select = true }),
 		["<C-f>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
 		["<C-e>"] = cmp.mapping({
@@ -305,7 +305,7 @@ cmp.setup({
 		-- ['<CR>'] = cmp.mapping.confirm({ select = true }),
 		-- ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
 		-- ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-	},
+	}),
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
 		{ name = "luasnip" },
