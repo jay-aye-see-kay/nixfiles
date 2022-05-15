@@ -17,9 +17,14 @@
     yq
     rustc
     rustfmt
+    cargo-edit
+    clang
     cargo
     clippy
     rust-analyzer
+    imv
+    entr
+    youtube-dl
   ];
 
   programs = {
