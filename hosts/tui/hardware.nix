@@ -31,6 +31,7 @@
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/5014-7581";
       fsType = "vfat";
+      options = [ "discard" ];
     };
 
   swapDevices = [
