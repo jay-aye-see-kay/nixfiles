@@ -5,5 +5,5 @@ if [ $(uname) == "Darwin" ]; then
   exit 1
 fi
 
-sudo nixos-rebuild switch --flake .# \
+nixos-rebuild  --use-remote-sudo switch --flake .# \
   && ./home-switch.sh
