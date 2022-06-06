@@ -97,6 +97,7 @@ augroup("natural_movement_in_text_files", {
 
 -- basic core stuff {{{
 vim.cmd([[ set laststatus=3 ]]) -- global statusline; only works on neovim 0.7+
+vim.cmd([[ set winbar=%=%m\ %f ]]) -- local window title; only works on neovim 0.8+
 
 -- faster window movements
 nnoremap("<c-h>", "<c-w>h")
