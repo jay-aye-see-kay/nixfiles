@@ -54,7 +54,6 @@ in
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    media-session.enable = true;
   };
 
   hardware.bluetooth.enable = true;
@@ -94,7 +93,7 @@ in
     nmap
     parted
     pciutils # provides lspci
-    pkgs.unstable.slack # the 2022 version works on wayland
+    slack
     powertop
     progress
     pwgen
@@ -107,6 +106,7 @@ in
     wireshark-cli
     mullvad-vpn
     pulsemixer
+    qbittorrent
   ];
 
   # This option enables Mullvad VPN daemon. This sets networking.firewall.checkReversePath

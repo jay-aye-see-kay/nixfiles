@@ -23,7 +23,7 @@
       nix-mode
       no-littering
       orderless
-      # org-modern
+      org-modern
       origami
       projectile
       restclient
