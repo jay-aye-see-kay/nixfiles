@@ -25,6 +25,7 @@
     imv
     entr
     youtube-dl
+    exercism
   ];
 
   programs = {
