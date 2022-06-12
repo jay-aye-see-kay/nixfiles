@@ -2,7 +2,6 @@
 {
   programs.emacs = {
     enable = true;
-    package = pkgs.emacsPgtk;
     # extraConfig = lib.readFile ./emacs.el;
     extraPackages = epkgs: with epkgs; [
       all-the-icons
@@ -24,7 +23,7 @@
       nix-mode
       no-littering
       orderless
-      org-modern
+      # org-modern
       origami
       projectile
       restclient
