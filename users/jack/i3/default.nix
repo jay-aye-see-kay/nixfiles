@@ -6,10 +6,9 @@
     i3lock
     sway-launcher-desktop
     xclip
+    i3status-rust
   ];
 
   xdg.configFile."i3/config".source = ./i3-config;
-
-  programs.i3status-rust.enable = true;
-  # programs.i3status-rust.bars = {};
+  xdg.configFile."i3status-rust/config.toml".source = ./i3status-rust-config.toml;
 }

@@ -1,0 +1,50 @@
+icons = "material-nf"
+
+[[block]]
+block = "sound"
+
+[[block]]
+block = "networkmanager"
+interface_name_exclude = ["br\\-[0-9a-f]{12}", "docker\\d+"]
+interface_name_include = []
+ap_format = "{ssid^12} ({strength})"
+
+[[block]]
+block = "disk_space"
+path = "/"
+alias = ""
+info_type = "available"
+interval = 20
+warning = 20.0
+alert = 5.0
+format = "{icon} {available}"
+
+[[block]]
+block = "memory"
+format_mem = "{mem_used;G}"
+format_swap = "{swap_used;G}"
+display_type = "memory"
+icons = true
+clickable = true
+interval = 5
+warning_mem = 80
+warning_swap = 80
+critical_mem = 95
+critical_swap = 95
+
+[[block]]
+block = "cpu"
+interval = 1
+
+[[block]]
+block = "temperature"
+
+[[block]]
+block = "battery"
+allow_missing = true
+hide_missing = true
+
+[[block]]
+block = "time"
+interval = 60
+format = "%a %d/%m %R"

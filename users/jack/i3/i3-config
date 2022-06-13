@@ -101,12 +101,12 @@ set $ws1 "1: editor "
 set $ws2 "2: vcs: "
 set $ws3 "3: web "
 set $ws4 "4: comms "
-set $ws5 "5: docs "
+set $ws5 "5: docs "
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
-set $ws10 "10: music "
+set $ws10 "10: music "
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -174,7 +174,7 @@ mode "resize" {
 # finds out, if available)
 bar {
     font pango:Fira Code, Font Awesome 5 Free 10
-    status_command i3status
+    status_command i3status-rs
     position top
     tray_output primary
     wheel_up_cmd nop
