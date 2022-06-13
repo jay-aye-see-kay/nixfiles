@@ -42,7 +42,7 @@
       homeManagerImports = [
         ./users/jack/home.nix
         ./users/jack/fish.nix
-        ./users/jack/sway
+        ./users/jack/i3
         ./users/jack/neovim
         ./users/jack/emacs
       ];
@@ -72,7 +72,7 @@
             ./hosts/tui
             ./features/fonts.nix
             ./features/games.nix
-            ./features/sway-desktop.nix
+            ./features/i3-desktop.nix
             ./features/key-remapping.nix
           ];
         };
