@@ -5,15 +5,19 @@
     # extraConfig = lib.readFile ./emacs.el;
     extraPackages = epkgs: with epkgs; [
       all-the-icons
+      avy
       company
       company-box
       dashboard
       devdocs
+      deadgrep
       evil
       evil-collection
       evil-numbers
       evil-org
       evil-surround
+      evil-commentary
+      marginalia
       general
       helpful
       hydra
