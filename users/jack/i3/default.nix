@@ -4,9 +4,11 @@
     brightnessctl
     dmenu
     i3lock
-    sway-launcher-desktop
-    xclip
     i3status-rust
+    sway-launcher-desktop
+    whitesur-gtk-theme
+    whitesur-icon-theme
+    xclip
   ];
 
   xdg.configFile."i3/config".source = ./i3-config;
