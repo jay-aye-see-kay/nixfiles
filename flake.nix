@@ -39,19 +39,24 @@
         ];
       };
       lib = nixpkgs.lib;
-      homeManagerImports = [
+      commonHomeManagerImports = [
         ./users/jack/home.nix
         ./users/jack/fish.nix
-        ./users/jack/i3
         ./users/jack/neovim
+      ];
+      linuxHomeManagerImports = commonHomeManagerImports ++ [
+        ./users/jack/i3
         ./users/jack/emacs
+      ];
+      darwinHomeManagerImports = commonHomeManagerImports ++ [
+        ./users/jack/fish-macos-fix.nix
       ];
     in
     {
       homeManagerConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
         inherit system pkgs username;
         homeDirectory = "/home/${username}";
-        configuration.imports = homeManagerImports;
+        configuration.imports = linuxHomeManagerImports;
       };
 
       homeManagerConfigurations."${username}-mbp" = home-manager.lib.homeManagerConfiguration {
@@ -59,9 +64,7 @@
         pkgs = pkgsDarwin;
         system = systemDarwin;
         homeDirectory = "/Users/${username}";
-        configuration.imports = homeManagerImports ++ [
-          ./users/jack/fish-macos-fix.nix
-        ];
+        configuration.imports = darwinHomeManagerImports;
       };
 
       nixosConfigurations = {
