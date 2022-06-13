@@ -89,7 +89,6 @@ in
     libreoffice
     lm_sensors
     neovim
-    nextcloud-client
     nmap
     parted
     pciutils # provides lspci

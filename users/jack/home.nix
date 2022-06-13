@@ -28,6 +28,11 @@
     exercism
   ];
 
+  services.nextcloud-client = {
+    enable = true;
+    startInBackground = true;
+  };
+
   programs = {
     home-manager.enable = true;
 
