@@ -70,15 +70,19 @@ end
 local function noremap(from, to)
 	_noremap("", from, to)
 end
+
 local function nnoremap(from, to)
 	_noremap("n", from, to)
 end
+
 local function inoremap(from, to)
 	_noremap("i", from, to)
 end
+
 local function vnoremap(from, to)
 	_noremap("v", from, to)
 end
+
 -- }}}
 
 -- init file setup {{{
@@ -267,6 +271,7 @@ end
 function EnableAutocomplete()
 	require("cmp").setup.buffer({})
 end
+
 -- }}}
 
 -- completions {{{
@@ -301,9 +306,6 @@ cmp.setup({
 			i = cmp.mapping.abort(),
 			c = cmp.mapping.close(),
 		}),
-		-- ['<CR>'] = cmp.mapping.confirm({ select = true }),
-		-- ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-		-- ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
 	}),
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
@@ -379,9 +381,11 @@ end
 function LogbookToday()
 	open_logbook()
 end
+
 function LogbookYesterday()
 	open_logbook(-1)
 end
+
 function LogbookTomorrow()
 	open_logbook(1)
 end
@@ -439,6 +443,7 @@ function WhichkeyOrgmode()
 		buffer = vim.api.nvim_get_current_buf(),
 	})
 end
+
 augroup("whichkeyOrgmode", {
 	{ "FileType", "org", "lua WhichkeyOrgmode()" },
 })
@@ -625,6 +630,7 @@ local function snip_map(from, to)
 	vim.api.nvim_set_keymap("i", from, to, {})
 	vim.api.nvim_set_keymap("s", from, to, {})
 end
+
 snip_map("<C-j>", "<Plug>luasnip-expand-snippet")
 snip_map("<C-l>", "<Plug>luasnip-jump-next")
 snip_map("<C-h>", "<Plug>luasnip-jump-prev")
@@ -678,43 +684,43 @@ local js_snippets = {
 	vsc("!u", "!== undefined"),
 }
 
-ls.snippets = {
-	all = {
-		s("date", { i(1, os.date("%Y-%m-%d")) }),
-		s("uuid", { f(uuid, {}) }),
-		vsc("filename", "$TM_FILENAME"),
-		vsc("filepath", "$TM_FILEPATH"),
-		vsc({ trig = "v", wordTrig = false }, "\\${${1}}"),
-		vsc({ trig = "(", wordTrig = false }, "(${1})${0}"),
-		vsc({ trig = "{", wordTrig = false }, "{${1}}${0}"),
-		vsc({ trig = "[", wordTrig = false }, "[${1}]${0}"),
-		vsc({ trig = "<", wordTrig = false }, "<${1}>${0}"),
-	},
-	markdown = {
-		-- task
-		vsc("t", "- [ ] ${0}"),
-		-- code blocks
-		vsc("c", "```\n${1}\n```"),
-		vsc("cj", "```json\n${1}\n```"),
-		vsc("ct", "```typescript\n${1}\n```"),
-		vsc("cp", "```python\n${1}\n```"),
-		vsc("cs", "```sh\n${1}\n```"),
-	},
-	org = {
-		-- todo
-		vsc("t", "- [ ] ${0}"),
-		-- code blocks
-		vsc("c", "#+BEGIN_SRC ${1}\n${0}\n#+END_SRC\n"),
-		vsc("cj", "#+BEGIN_SRC json\n${0}\n#+END_SRC\n"),
-		vsc("ct", "#+BEGIN_SRC typescript\n${0}\n#+END_SRC\n"),
-		vsc("cp", "#+BEGIN_SRC python\n${0}\n#+END_SRC\n"),
-	},
-	javascript = js_snippets,
-	typescript = js_snippets,
-	javascriptreact = js_snippets,
-	typescriptreact = js_snippets,
-}
+ls.add_snippets("all", {
+	s("date", { i(1, os.date("%Y-%m-%d")) }),
+	s("uuid", { f(uuid, {}) }),
+	vsc("filename", "$TM_FILENAME"),
+	vsc("filepath", "$TM_FILEPATH"),
+	vsc({ trig = "v", wordTrig = false }, "\\${${1}}"),
+	vsc({ trig = "(", wordTrig = false }, "(${1})${0}"),
+	vsc({ trig = "{", wordTrig = false }, "{${1}}${0}"),
+	vsc({ trig = "[", wordTrig = false }, "[${1}]${0}"),
+	vsc({ trig = "<", wordTrig = false }, "<${1}>${0}"),
+})
 
+ls.add_snippets("markdown", {
+	-- task
+	vsc("t", "- [ ] ${0}"),
+	-- code blocks
+	vsc("c", "```\n${1}\n```"),
+	vsc("cj", "```json\n${1}\n```"),
+	vsc("ct", "```typescript\n${1}\n```"),
+	vsc("cp", "```python\n${1}\n```"),
+	vsc("cs", "```sh\n${1}\n```"),
+})
+
+ls.add_snippets("org", {
+	-- todo
+	vsc("t", "- [ ] ${0}"),
+	-- code blocks
+	vsc("c", "#+BEGIN_SRC ${1}\n${0}\n#+END_SRC\n"),
+	vsc("cj", "#+BEGIN_SRC json\n${0}\n#+END_SRC\n"),
+	vsc("ct", "#+BEGIN_SRC typescript\n${0}\n#+END_SRC\n"),
+	vsc("cp", "#+BEGIN_SRC python\n${0}\n#+END_SRC\n"),
+})
+
+ls.add_snippets("javascript", js_snippets)
+ls.add_snippets("typescript", js_snippets)
+ls.add_snippets("javascriptreact", js_snippets)
+ls.add_snippets("typescriptreact", js_snippets)
 -- }}}
 
 --
