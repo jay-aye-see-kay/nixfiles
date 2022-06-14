@@ -82,7 +82,7 @@ in
       EOF
     '';
 
-    plugins = with pkgs.unstable.vimPlugins; [
+    plugins = with pkgs.vimPlugins; [
       { plugin = nvcode-color-schemes-vim; config = "colorscheme nvcode"; }
 
       # langs
@@ -90,7 +90,7 @@ in
       vim-json
       jsonc-vim
 
-      (nvim-treesitter.withPlugins (plugins: pkgs.unstable.tree-sitter.allGrammars))
+      (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
       nvim-treesitter-textobjects
       nvim-ts-autotag
       playground # tree-sitter playground
@@ -167,7 +167,7 @@ in
       */
     ];
 
-    extraPackages = with pkgs.unstable; [
+    extraPackages = with pkgs; [
       fzf
       nodejs
       stylua

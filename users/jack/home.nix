@@ -1,4 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
+let
+  ifLinux = lib.mkIf pkgs.stdenv.isLinux;
+  darwinOnlyPackages = [ ];
+  linuxOnlyPackages = with pkgs; [
+    imv
+  ];
+in
 {
   imports = [
     # WIP better firefox defaults
@@ -22,13 +29,17 @@
     cargo
     clippy
     rust-analyzer
-    imv
     entr
     youtube-dl
     exercism
-  ];
+  ] ++ (
+    if pkgs.stdenv.isLinux then
+      linuxOnlyPackages
+    else
+      darwinOnlyPackages
+  );
 
-  services.nextcloud-client = {
+  services.nextcloud-client = ifLinux {
     enable = true;
     startInBackground = true;
   };
