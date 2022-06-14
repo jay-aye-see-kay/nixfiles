@@ -155,7 +155,7 @@ in
       # git
       git-messenger-vim
       diffview-nvim
-      gitsigns-nvim
+      { plugin = gitsigns-nvim; config = "lua require('gitsigns').setup()"; }
       vim-fugitive
       vim-rhubarb
 

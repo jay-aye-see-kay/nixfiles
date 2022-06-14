@@ -526,9 +526,8 @@ local main_keymap = {
 		l = { telescope_fns.current_buffer_fuzzy_find, "🔭 buffer lines" },
 		w = { telescope_fns.spell_suggest, "🔭 spelling suggestions" },
 		s = { telescope_fns.symbols, "🔭 unicode and emoji symbols" },
-		a = { "<Cmd>FzfLua live_grep<CR>", "FZF full text search" },
-		u = { "<Cmd>FzfLua grep_cword<CR>", "FZF word under cursor" },
-		U = { "<Cmd>FzfLua grep_cWORD<CR>", "FZF WORD under cursor" },
+		a = { "<Cmd>Rg<CR>", "FZF full text search" },
+		u = { ":Rg <C-r><C-w><CR>", "FZF word under cursor" },
 		n = { grep_notes, "🔭 search all notes" },
 	},
 	git = merge(directed_keymaps.git_status, {
