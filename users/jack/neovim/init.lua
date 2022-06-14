@@ -96,8 +96,6 @@ augroup("natural_movement_in_text_files", {
 -- }}}
 
 -- basic core stuff {{{
-vim.cmd([[ set laststatus=3 ]]) -- global statusline; only works on neovim 0.7+
-vim.cmd([[ set winbar=%=%m\ %f ]]) -- local window title; only works on neovim 0.8+
 
 -- faster window movements
 nnoremap("<c-h>", "<c-w>h")
@@ -717,6 +715,8 @@ ls.snippets = {
 	typescriptreact = js_snippets,
 }
 
+-- }}}
+
 --
 -- END old init.lua
 --
@@ -854,3 +854,37 @@ require("which-key").setup({
 	},
 })
 -- }}}
+
+-- {{{ status and winbar
+vim.cmd([[ set laststatus=3 ]]) -- global statusline; only works on neovim 0.7+
+vim.api.nvim_create_autocmd({
+	"DirChanged",
+	"CursorMoved",
+	"BufWinEnter",
+	"BufFilePost",
+	"InsertEnter",
+	"BufWritePost",
+}, {
+	callback = function()
+		local exclude_buftypes = { "terminal" }
+		local exclude_filetypes = {
+			"help",
+			"qf",
+			"packer",
+			"Trouble",
+			"fugitive",
+			"gitcommit",
+			"fern",
+			"Telescope",
+			"TelescopePrompt",
+		}
+		local should_exclude = vim.tbl_contains(exclude_filetypes, vim.bo.filetype)
+			or vim.tbl_contains(exclude_buftypes, vim.bo.buftype)
+		if not should_exclude then
+			pcall(vim.api.nvim_set_option_value, "winbar", "%=%m %f", { scope = "local" })
+		else
+			vim.opt_local.winbar = nil
+		end
+	end,
+})
+-- }}} status and winbar
