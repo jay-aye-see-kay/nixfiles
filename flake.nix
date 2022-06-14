@@ -43,10 +43,10 @@
         ./users/jack/home.nix
         ./users/jack/fish.nix
         ./users/jack/neovim
+        ./users/jack/emacs
       ];
       linuxHomeManagerImports = commonHomeManagerImports ++ [
         ./users/jack/i3
-        ./users/jack/emacs
       ];
       darwinHomeManagerImports = commonHomeManagerImports ++ [
         ./users/jack/fish-macos-fix.nix
