@@ -3,6 +3,8 @@ let
   ifLinux = lib.mkIf pkgs.stdenv.isLinux;
   darwinOnlyPackages = [ ];
   linuxOnlyPackages = with pkgs; [
+    arandr
+    autorandr
     imv
   ];
 in
