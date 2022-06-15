@@ -2,6 +2,9 @@
 {
   home.packages = with pkgs; [
     brightnessctl
+    pulseaudio
+    light
+    playerctl
     dmenu
     i3lock
     i3status-rust
