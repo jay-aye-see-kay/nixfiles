@@ -53,7 +53,6 @@ in
     ./nextcloud.nix
     ./servarr.nix
     ./minecraft.nix
-    ./puffer-panel.nix
     # ./authelia.nix
     # ./homer.nix
     # ./netdata.nix
