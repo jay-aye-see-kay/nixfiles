@@ -6,10 +6,11 @@
     light
     playerctl
     dmenu
-    i3lock
+    i3lock-fancy
     i3status-rust
     sway-launcher-desktop
     xclip
+    xautolock
 
     themechanger
     whitesur-gtk-theme

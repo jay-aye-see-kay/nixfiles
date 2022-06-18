@@ -49,7 +49,9 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # lock screen
-bindsym $mod+Ctrl+l exec --no-startup-id qdbus org.kde.ksmserver /ScreenSaver org.freedesktop.ScreenSaver.Lock
+set $lock "i3lock-fancy"
+exec --no-startup-id xautolock -time 10 -locker $lock 
+bindsym $mod+Ctrl+l exec $lock
 
 # split in horizontal or vertical orientation
 bindsym $mod+backslash split h
