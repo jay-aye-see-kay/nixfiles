@@ -57,16 +57,16 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock-fancy --nofork
 # lock screen after period of inactivity
 # - don't lock when there's a fullscreen application
 # - don't lock when there's audio playing
-# - dim the screen after 60 seconds, undim if user becomes active
-# - undim & lock after 10 more seconds
+# - dim the screen after 300 seconds, undim if user becomes active
+# - undim & lock after 30 more seconds
 # - finally, suspend an hour after it locks
 exec --no-startup-id xidlehook \
   --not-when-fullscreen \
   --not-when-audio \
-  --timer 60 \
+  --timer 300 \
     'xrandr --output "$PRIMARY_DISPLAY" --brightness .1' \
     'xrandr --output "$PRIMARY_DISPLAY" --brightness 1' \
-  --timer 10 \
+  --timer 30 \
     'xrandr --output "$PRIMARY_DISPLAY" --brightness 1; i3lock-fancy' \
     '' \
   --timer 3600 \
