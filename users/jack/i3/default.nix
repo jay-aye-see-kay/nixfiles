@@ -10,7 +10,8 @@
     i3status-rust
     sway-launcher-desktop
     xclip
-    xautolock
+    xidlehook
+    xss-lock
 
     themechanger
     whitesur-gtk-theme
