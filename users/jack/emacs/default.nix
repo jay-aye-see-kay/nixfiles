@@ -9,21 +9,23 @@
       company
       company-box
       dashboard
-      devdocs
       deadgrep
+      devdocs
+      doom-modeline
       evil
       evil-collection
+      evil-commentary
+      evil-goggles
       evil-numbers
       evil-org
       evil-surround
-      evil-commentary
-      marginalia
       general
       helpful
       hydra
       lsp-mode
       lsp-ui
       magit
+      marginalia
       nix-mode
       no-littering
       orderless
@@ -37,6 +39,7 @@
       undo-tree
       use-package
       vertico
+      visual-fill-column
       vterm
       which-key
     ];

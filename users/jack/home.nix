@@ -6,6 +6,8 @@ let
     arandr
     autorandr
     imv
+    pdfarranger
+    unzip
   ];
 in
 {
@@ -15,6 +17,7 @@ in
   ];
 
   home.packages = with pkgs; [
+    python3Full
     fnm
     htop
     jq
