@@ -6,6 +6,7 @@ let
     arandr
     autorandr
     imv
+    nextcloud-client
     pdfarranger
     unzip
   ];
