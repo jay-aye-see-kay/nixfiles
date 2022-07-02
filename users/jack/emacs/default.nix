@@ -34,7 +34,6 @@
       org
       origami
       plantuml-mode
-      projectile
       restclient
       tree-sitter
       tree-sitter-langs
