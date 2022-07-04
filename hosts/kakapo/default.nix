@@ -64,7 +64,6 @@ in
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    media-session.enable = true; # use default session manager (default for now)
   };
 
   users.users.jack = {
