@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 {
-  virtualisation.oci-containers.containers.minecraft-1 = {
+  virtualisation.oci-containers.containers.minecraft-2 = {
     autoStart = true;
     image = "itzg/minecraft-server:java17";
     environment = {
@@ -12,7 +12,7 @@
       "25565:25565"
     ];
     volumes = [
-      "/data/minecraft-1/data:/data"
+      "/data/minecraft-2/data:/data"
     ];
   };
 }
