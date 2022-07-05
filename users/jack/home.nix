@@ -5,7 +5,9 @@ let
   linuxOnlyPackages = with pkgs; [
     arandr
     autorandr
+    helvum
     imv
+    mpv
     nextcloud-client
     pdfarranger
     unzip

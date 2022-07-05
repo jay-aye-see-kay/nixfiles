@@ -7,6 +7,7 @@
     # extraConfig = lib.readFile ./emacs.el;
     extraPackages = epkgs: with epkgs; [
       all-the-icons
+      apheleia
       avy
       company
       company-box
@@ -21,6 +22,7 @@
       evil-numbers
       evil-org
       evil-surround
+      evil-textobj-tree-sitter
       general
       helpful
       hydra
@@ -34,6 +36,8 @@
       org
       origami
       plantuml-mode
+      quelpa
+      quelpa-use-package
       restclient
       tree-sitter
       tree-sitter-langs
@@ -54,5 +58,6 @@
     rnix-lsp
     nodePackages.typescript
     nodePackages.typescript-language-server
+    tree-sitter-grammars.tree-sitter-tsx
   ];
 }
