@@ -28,6 +28,9 @@
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
 
+  # auto enable external screens when added/removed (does this need any more config?)
+  services.autorandr.enable = true;
+
   environment.systemPackages = with pkgs; [
     lxappearance
   ];

@@ -4,7 +4,6 @@ let
   darwinOnlyPackages = [ ];
   linuxOnlyPackages = with pkgs; [
     arandr
-    autorandr
     helvum
     imv
     mpv
