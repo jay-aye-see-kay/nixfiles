@@ -11,10 +11,12 @@
       avy
       company
       company-box
+      consult
       dashboard
       deadgrep
       devdocs
       doom-modeline
+      embark
       evil
       evil-collection
       evil-commentary
@@ -41,6 +43,8 @@
       restclient
       tree-sitter
       tree-sitter-langs
+      treemacs
+      treemacs-evil
       typescript-mode
       undo-tree
       use-package
@@ -59,5 +63,7 @@
     nodePackages.typescript
     nodePackages.typescript-language-server
     tree-sitter-grammars.tree-sitter-tsx
+    nodePackages.mermaid-cli
+    nixfmt
   ];
 }

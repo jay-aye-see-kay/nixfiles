@@ -6,8 +6,10 @@ let
     arandr
     helvum
     imv
+    lsof
     mpv
     nextcloud-client
+    gparted
     pdfarranger
     unzip
   ];
