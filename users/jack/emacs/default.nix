@@ -1,5 +1,8 @@
-{ lib, pkgs, ... }: {
-  services.emacs.enable = true;
+{ lib, pkgs, ... }:
+let ifLinux = lib.mkIf pkgs.stdenv.isLinux;
+in {
+  services.emacs = ifLinux { enable = true; };
+
   programs.emacs = {
     enable = true;
     package = pkgs.emacs28NativeComp;
