@@ -128,6 +128,29 @@ in
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
+
+  networking.firewall = {
+    allowedUDPPorts = [
+      53 # dns
+      465 # smtp
+      25565 # minecraft
+      51820 # wireguard
+      8080 # kodi
+    ];
+    allowedTCPPorts = [
+      53 # dns
+      80 # http
+      443 # https
+      465 # smtp
+      25565 # minecraft
+
+      8080 # kodi
+      7878 # radarr
+      8989 # sonarr
+      9696 # prowlarr
+    ];
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

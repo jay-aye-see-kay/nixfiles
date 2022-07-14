@@ -39,7 +39,7 @@ in
       };
       service = {
         container_name = "${projectName}-caddy";
-        ports = [ "80:80" "443:443" "25565:25565" ];
+        ports = [ "80:80" "443:443" ];
         volumes = [ "${basePath}/caddy-data:/.local/share/caddy" ];
       };
     };
