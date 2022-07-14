@@ -17,6 +17,10 @@ let
     mealie.h.jackrose.co.nz {
       reverse_proxy mealie:80
     }
+
+    jellyfin.h.jackrose.co.nz {
+      reverse_proxy jellyfin:8096
+    }
   '';
 in
 {
@@ -38,6 +42,7 @@ in
       };
     };
 
+    # Mealie (recipes)
     mealie.service = {
       container_name = "${projectName}-mealie";
       image = "hkotel/mealie:v0.5.6";
@@ -47,5 +52,19 @@ in
       };
     };
 
+    # Jellyfin (video)
+    jellyfin.service = {
+      container_name = "${projectName}-jellyfin";
+      image = "jellyfin/jellyfin:10.8.1";
+      volumes = [
+        "${basePath}/jellyfin-data:/config"
+        "/tmp/jellyfin-cache:/cache"
+        "/media/tv:/tv:ro"
+        "/media/movies:/movies:ro"
+      ];
+      environment = {
+        TZ = "Australia/Melbourne";
+      };
+    };
   };
 }
