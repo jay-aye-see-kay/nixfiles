@@ -21,6 +21,7 @@ in
   ];
 
   home.packages = with pkgs; [
+    syncthing
     python3Full
     fnm
     htop
