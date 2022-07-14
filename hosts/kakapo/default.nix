@@ -69,12 +69,24 @@ in
   users.users.jack = {
     isNormalUser = true;
     shell = pkgs.fish;
-    extraGroups = [ "wheel" "docker" ];
+    extraGroups = [ "wheel" "docker" "podman" ];
     openssh.authorizedKeys.keys = [
       publicKeys.tuiJack
       publicKeys.deskJack
     ];
   };
+
+  # OCI container setup for Arion (should work for most docker [compose] stuff too)
+  virtualisation = {
+    oci-containers.backend = "podman";
+    docker.enable = false;
+    podman = {
+      enable = true;
+      dockerSocket.enable = true;
+      defaultNetwork.dnsname.enable = true;
+    };
+  };
+
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -95,6 +107,8 @@ in
     progress
     powertop
     hdparm
+    arion # for running web services
+    docker-client # required by arion even because it's using podman
   ];
 
   # kodi run on boot as a kiosk
