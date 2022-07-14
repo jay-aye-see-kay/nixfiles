@@ -12,6 +12,7 @@ let
     gparted
     pdfarranger
     unzip
+    minecraft # the launcher, it probably works on mac, but I don't want it there
   ];
 in
 {
