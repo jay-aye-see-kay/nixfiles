@@ -35,9 +35,10 @@ focus_wrapping no
 # Don't allow windows to take focus, but still allow them to mark as urgent
 focus_on_window_activation urgent
 
-# start a terminal or browser
+# start a terminal or browser or emacs
 bindsym $mod+Return exec $term
 bindsym $mod+b exec firefox
+bindsym $mod+n exec emacsclient -nc
 
 # kill focused window
 bindsym $mod+Shift+q kill
