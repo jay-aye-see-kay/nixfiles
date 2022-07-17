@@ -22,6 +22,7 @@ in
   ];
 
   home.packages = with pkgs; [
+    atool
     syncthing
     python3Full
     fnm
