@@ -39,6 +39,7 @@ in {
         no-littering
         orderless
         org
+        org-journal
         origami
         plantuml-mode
         quelpa
