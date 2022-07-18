@@ -24,6 +24,7 @@ in
   home.packages = with pkgs; [
     atool
     syncthing
+    nodePackages.pnpm
     python3Full
     fnm
     htop
