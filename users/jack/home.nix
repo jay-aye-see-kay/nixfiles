@@ -14,43 +14,40 @@ let
     unzip
     minecraft # the launcher, it probably works on mac, but I don't want it there
   ];
-in
-{
+in {
   imports = [
     # WIP better firefox defaults
     # ./firefox.nix
   ];
 
-  home.packages = with pkgs; [
-    atool
-    syncthing
-    nodePackages.pnpm
-    python3Full
-    fnm
-    htop
-    jq
-    nodejs
-    ripgrep
-    tldr
-    tree
-    yarn
-    yq
-    rustc
-    rustfmt
-    cargo-edit
-    clang
-    cargo
-    clippy
-    rust-analyzer
-    entr
-    youtube-dl
-    exercism
-  ] ++ (
-    if pkgs.stdenv.isLinux then
-      linuxOnlyPackages
-    else
-      darwinOnlyPackages
-  );
+  home.packages = with pkgs;
+    [
+      awscli2
+      atool
+      syncthing
+      nodePackages.pnpm
+      python3Full
+      fnm
+      htop
+      jq
+      nodejs
+      ripgrep
+      tldr
+      tree
+      yarn
+      yq
+      rustc
+      rustfmt
+      cargo-edit
+      clang
+      cargo
+      clippy
+      rust-analyzer
+      entr
+      youtube-dl
+      exercism
+    ]
+    ++ (if pkgs.stdenv.isLinux then linuxOnlyPackages else darwinOnlyPackages);
 
   services.nextcloud-client = ifLinux {
     enable = true;
@@ -70,9 +67,7 @@ in
     starship.enableFishIntegration = true;
 
     alacritty.enable = true;
-    alacritty.settings = ifLinux {
-      font.size = 8;
-    };
+    alacritty.settings = ifLinux { font.size = 8; };
 
     git = {
       enable = true;
@@ -100,7 +95,8 @@ in
         pfl = "push --force-with-lease";
         pop = "stash pop";
         unstage = "reset HEAD --";
-        brt = "!git for-each-ref refs/heads --color=always --sort -committerdate --format='%(HEAD)%(color:reset) %(color:yellow)%(refname:short)%(color:reset) %(contents:subject) %(color:green)(%(committerdate:relative))%(color:blue) <%(authorname)>'";
+        brt =
+          "!git for-each-ref refs/heads --color=always --sort -committerdate --format='%(HEAD)%(color:reset) %(color:yellow)%(refname:short)%(color:reset) %(contents:subject) %(color:green)(%(committerdate:relative))%(color:blue) <%(authorname)>'";
         uncommit = "reset --soft HEAD~1";
         recommit = "commit --amend --no-edit";
       };
