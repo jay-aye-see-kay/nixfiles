@@ -16,6 +16,7 @@ let
   ];
 in {
   imports = [
+    ./macos-spotlight-fix.nix
     # WIP better firefox defaults
     # ./firefox.nix
   ];
