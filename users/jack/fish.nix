@@ -1,5 +1,4 @@
-{ config, pkgs, ... }:
-{
+{ config, pkgs, ... }: {
   programs.fish = {
     enable = true;
 
@@ -24,8 +23,9 @@
       whoslistening = "ss -lntup";
       vwt = "nvim -c LogbookToday";
       journal = "nvim $HOME/Documents/journal-2022.org";
-      shopping_list = "nvim $HOME/Documents/shopping-lists/(date --iso-8601).md";
-      vg = "nvim -c \"Git | wincmd k | q\"";
+      shopping_list =
+        "nvim $HOME/Documents/shopping-lists/(date --iso-8601).md";
+      vg = ''nvim -c "Git | wincmd k | q"'';
       pbc = "wl-copy";
       pbp = "wl-paste";
     };
@@ -35,7 +35,7 @@
       set -U fish_greeting
 
       # setup fast node manager
-      fnm env --use-on-cd --log-level quiet | source
+      ${pkgs.fnm}/bin/fnm env --use-on-cd --log-level quiet | source
 
       # use bash default to edit line in vim
       bind \cx\ce edit_command_buffer
