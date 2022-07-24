@@ -1,68 +1,28 @@
 { lib, pkgs, ... }:
-let ifLinux = lib.mkIf pkgs.stdenv.isLinux;
+let
+  ifLinux = lib.mkIf pkgs.stdenv.isLinux;
+  emacsPkg = (pkgs.emacsWithPackagesFromUsePackage {
+    config = ./init.el;
+    package = pkgs.emacs28NativeComp;
+    alwaysEnsure = true;
+  });
 in {
-  services.emacs = ifLinux { enable = true; };
+  home.file.".emacs.d/init.el".source = ./init.el;
+  home.file.".emacs.d/templates.el".source = ./templates.el;
 
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs28NativeComp;
-    # extraConfig = lib.readFile ./emacs.el;
-    extraPackages = epkgs:
-      with epkgs; [
-        eglot
-        corfu
-        corfu-doc
-        flymake
-        tempel
-
-        all-the-icons
-        apheleia
-        avy
-        consult
-        dashboard
-        deadgrep
-        devdocs
-        doom-modeline
-        embark
-        evil
-        evil-collection
-        evil-commentary
-        evil-goggles
-        evil-numbers
-        evil-org
-        evil-surround
-        evil-textobj-tree-sitter
-        general
-        helpful
-        hydra
-        magit
-        marginalia
-        nix-mode
-        no-littering
-        orderless
-        org
-        org-journal
-        origami
-        plantuml-mode
-        quelpa
-        quelpa-use-package
-        restclient
-        tree-sitter
-        tree-sitter-langs
-        treemacs
-        treemacs-evil
-        typescript-mode
-        undo-tree
-        use-package
-        vertico
-        visual-fill-column
-        vterm
-        vundo
-        which-key
-      ];
+    package = emacsPkg;
   };
 
-  # just install language servers globally
+  services.emacs = ifLinux {
+    enable = true;
+    client.enable = true;
+    defaultEditor = true;
+    package = emacsPkg;
+  };
+
+  # install language servers globally
   home.packages = with pkgs; [
     rnix-lsp
     nixfmt

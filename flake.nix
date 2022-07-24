@@ -9,9 +9,11 @@
 
     sops-nix.url = "github:Mic92/sops-nix";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, sops-nix, neovim-nightly-overlay }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager
+    , sops-nix, neovim-nightly-overlay, emacs-overlay }:
     let
       username = "jack";
       system = "x86_64-linux";
@@ -28,6 +30,7 @@
         overlays = [
           overlay-unstable
           neovim-nightly-overlay.overlay
+          emacs-overlay.overlay
         ];
       };
       pkgsDarwin = import nixpkgs {
@@ -36,6 +39,7 @@
         overlays = [
           overlay-unstable
           neovim-nightly-overlay.overlay
+          emacs-overlay.overlay
         ];
       };
       lib = nixpkgs.lib;
@@ -45,27 +49,25 @@
         ./users/jack/neovim
         ./users/jack/emacs
       ];
-      linuxHomeManagerImports = commonHomeManagerImports ++ [
-        ./users/jack/i3
-      ];
-      darwinHomeManagerImports = commonHomeManagerImports ++ [
-        ./users/jack/fish-macos-fix.nix
-      ];
-    in
-    {
-      homeManagerConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
-        inherit system pkgs username;
-        homeDirectory = "/home/${username}";
-        configuration.imports = linuxHomeManagerImports;
-      };
+      linuxHomeManagerImports = commonHomeManagerImports ++ [ ./users/jack/i3 ];
+      darwinHomeManagerImports = commonHomeManagerImports
+        ++ [ ./users/jack/fish-macos-fix.nix ];
+    in {
+      homeManagerConfigurations.${username} =
+        home-manager.lib.homeManagerConfiguration {
+          inherit system pkgs username;
+          homeDirectory = "/home/${username}";
+          configuration.imports = linuxHomeManagerImports;
+        };
 
-      homeManagerConfigurations."${username}-mbp" = home-manager.lib.homeManagerConfiguration {
-        inherit username;
-        pkgs = pkgsDarwin;
-        system = systemDarwin;
-        homeDirectory = "/Users/${username}";
-        configuration.imports = darwinHomeManagerImports;
-      };
+      homeManagerConfigurations."${username}-mbp" =
+        home-manager.lib.homeManagerConfiguration {
+          inherit username;
+          pkgs = pkgsDarwin;
+          system = systemDarwin;
+          homeDirectory = "/Users/${username}";
+          configuration.imports = darwinHomeManagerImports;
+        };
 
       nixosConfigurations = {
         tui = lib.nixosSystem {
