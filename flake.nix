@@ -16,32 +16,52 @@
     , sops-nix, neovim-nightly-overlay, emacs-overlay }:
     let
       username = "jack";
+
+      # x86 linux setup
       system = "x86_64-linux";
-      systemDarwin = "x86_64-darwin";
-      overlay-unstable = final: prev: {
-        unstable = import nixpkgs-unstable {
-          inherit system;
-          config.allowUnfree = true;
-        };
+      overlayUnstable = final: prev: {
+        unstable = import nixpkgs-unstable { inherit system; config.allowUnfree = true; };
       };
       pkgs = import nixpkgs {
         inherit system;
         config = { allowUnfree = true; };
         overlays = [
-          overlay-unstable
+          overlayUnstable
           neovim-nightly-overlay.overlay
           emacs-overlay.overlay
         ];
+      };
+
+      # aarch64 setup (used by VM on m1)
+      systemAarch64 = "aarch64-linux";
+      overlayUnstableAarch64 = final: prev: {
+        unstable = import nixpkgs-unstable { system = systemAarch64; config.allowUnfree = true; };
+      };
+      pkgsAarch64 = import nixpkgs {
+        system = systemAarch64;
+        config = { allowUnfree = true; };
+        overlays = [
+          overlayUnstableAarch64
+          neovim-nightly-overlay.overlay
+          emacs-overlay.overlay
+        ];
+      };
+
+      # x86 Darwin setup (why does this seem to work for home manager on aarch64-darwin?)
+      systemDarwin = "x86_64-darwin";
+      overlayUnstableDarwin = final: prev: {
+        unstable = import nixpkgs-unstable { system = systemDarwin; config.allowUnfree = true; };
       };
       pkgsDarwin = import nixpkgs {
         system = systemDarwin;
         config = { allowUnfree = true; };
         overlays = [
-          overlay-unstable
+          overlayUnstableDarwin
           neovim-nightly-overlay.overlay
           emacs-overlay.overlay
         ];
       };
+
       lib = nixpkgs.lib;
       commonHomeManagerImports = [
         ./users/jack/home.nix
@@ -59,6 +79,14 @@
           homeDirectory = "/home/${username}";
           configuration.imports = linuxHomeManagerImports;
         };
+
+      homeManagerConfigurations."${username}-aarch64" = home-manager.lib.homeManagerConfiguration {
+        inherit username;
+        system = systemAarch64;
+        pkgs = pkgsAarch64;
+        homeDirectory = "/home/${username}";
+        configuration.imports = linuxHomeManagerImports;
+      };
 
       homeManagerConfigurations."${username}-mbp" =
         home-manager.lib.homeManagerConfiguration {
@@ -89,6 +117,15 @@
             ./secrets/sops.nix
             ./hosts/kakapo
             ./web-services
+          ];
+        };
+
+        moa = lib.nixosSystem {
+          system = systemAarch64;
+          pkgs = pkgsAarch64;
+          modules = [
+            ./hosts/moa
+            ./features/fonts.nix
           ];
         };
 
