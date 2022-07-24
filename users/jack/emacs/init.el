@@ -415,6 +415,8 @@
 
 (use-package apheleia
   :config
+  (add-to-list 'apheleia-formatters '(nixfmt . ("nixfmt")))
+  (add-to-list 'apheleia-mode-alist '(nix-mode . nixfmt))
   (apheleia-global-mode +1))
 
 (use-package typescript-mode
