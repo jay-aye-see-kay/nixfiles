@@ -24,6 +24,7 @@ in {
 
   home.packages = with pkgs;
     [
+      nodePackages.prettier
       awscli2
       atool
       syncthing
