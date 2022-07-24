@@ -426,7 +426,14 @@
   (setq typescript-indent-level 2))
 
 (use-package nix-mode
+  :hook (nix-mode . eglot-ensure)
   :mode "\\.nix\\'")
+
+(use-package rust-mode
+  :hook (rust-mode . eglot-ensure)
+  :custom
+  ;; apheleia 1.2 doesn't work with rustfmt, so use rust-mode's formatting
+  (rust-format-on-save t))
 
 (use-package plantuml-mode)
 (setq plantuml-executable-path "/usr/bin/plantuml")

@@ -538,7 +538,17 @@ Org Mode’s structure templates feature enables you to quickly insert code bloc
 ** Nix
 #+begin_src emacs-lisp
   (use-package nix-mode
+    :hook (nix-mode . eglot-ensure)
     :mode "\\.nix\\'")
+#+end_src
+
+** Rust
+#+begin_src emacs-lisp
+  (use-package rust-mode
+    :hook (rust-mode . eglot-ensure)
+    :custom
+    ;; apheleia 1.2 doesn't work with rustfmt, so use rust-mode's formatting
+    (rust-format-on-save t))
 #+end_src
 
 ** PlantUML
