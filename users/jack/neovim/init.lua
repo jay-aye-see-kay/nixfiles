@@ -186,16 +186,17 @@ local lsp_servers = {
 	"bashls",
 	"cssls",
 	"dockerls",
+	"gopls",
 	"html",
 	"jsonls",
-	"pyright", --
+	"pyright",
 	"rnix",
 	"rust_analyzer",
-	"solargraph", --
+	"solargraph",
 	"sumneko_lua",
 	"tsserver",
 	"vimls",
-	"yamlls", --
+	"yamlls",
 }
 for _, lsp in pairs(lsp_servers) do
 	-- TODO clean this per lsp setup logic up, jsonls properly

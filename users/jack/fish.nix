@@ -49,10 +49,6 @@
       fish_add_path "$HOME/.cargo/bin" # rust
       fish_add_path "$HOME/.emacs.d/bin" # doom/emacs
 
-      set -x GOPATH "$HOME/go/bin"
-      set -x GOROOT /usr/lib/go
-      fish_add_path "$GOPATH" "$GOROOT"
-
       set -x ANDROID_HOME "$HOME/Android/Sdk"
       [ (uname) = "Darwin" ] && set -x ANDROID_HOME "$HOME/Library/Android/Sdk"
       fish_add_path \

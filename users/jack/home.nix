@@ -23,6 +23,8 @@ in {
 
   home.packages = with pkgs;
     [
+      go
+      gopls
       nodePackages.prettier
       awscli2
       atool
