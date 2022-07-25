@@ -551,6 +551,12 @@ Org Mode’s structure templates feature enables you to quickly insert code bloc
     (rust-format-on-save t))
 #+end_src
 
+** Go
+#+begin_src emacs-lisp
+  (use-package go-mode
+    :hook (go-mode . eglot-ensure))
+#+end_src
+
 ** PlantUML
 Currently only using this in org source blocks, and it's not working yet. But will be nice to have around once it is.
 #+begin_src emacs-lisp

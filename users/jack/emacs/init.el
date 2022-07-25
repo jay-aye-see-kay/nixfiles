@@ -435,6 +435,9 @@
   ;; apheleia 1.2 doesn't work with rustfmt, so use rust-mode's formatting
   (rust-format-on-save t))
 
+(use-package go-mode
+  :hook (go-mode . eglot-ensure))
+
 (use-package plantuml-mode)
 (setq plantuml-executable-path "/usr/bin/plantuml")
 (setq org-plantuml-executable-path "/usr/bin/plantuml")
