@@ -413,10 +413,13 @@
   :ensure t
   :after tree-sitter)
 
-
 (use-package evil-textobj-tree-sitter
   :after evil
   :config
+  (define-key evil-outer-text-objects-map "c"
+    (evil-textobj-tree-sitter-get-textobj "class.outer"))
+  (define-key evil-inner-text-objects-map "c"
+    (evil-textobj-tree-sitter-get-textobj "class.inner"))
   (define-key evil-outer-text-objects-map "f"
     (evil-textobj-tree-sitter-get-textobj "function.outer"))
   (define-key evil-inner-text-objects-map "f"
