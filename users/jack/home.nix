@@ -23,6 +23,7 @@ in {
 
   home.packages = with pkgs;
     [
+      fd
       go
       gopls
       nodePackages.prettier
