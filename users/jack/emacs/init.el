@@ -335,7 +335,9 @@
   (org-todo-keywords
    '((sequence "TODO(t)" "IN-PROGRESS(p!)" "WAITING(w@/!)"
                "|" "DONE(d!)" "CANCELLED(c!)")))
-  )
+  :config
+  ;; load org stuff up front rather than on the first time an org file is opened
+  (org-load-modules-maybe t))
 
 (use-package org-journal
   :ensure t
