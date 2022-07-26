@@ -21,7 +21,8 @@
 
 ;; base font setup
 (setq font-use-system-font t)
-(set-face-attribute 'default nil :height 110)
+(let ((default-font-height (if (eq system-type 'darwin) 150 110)))
+  (set-face-attribute 'default nil :height default-font-height))
 
 ;; Enable line numbering in `prog-mode'
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)

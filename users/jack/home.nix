@@ -71,7 +71,7 @@ in {
     starship.enableFishIntegration = true;
 
     alacritty.enable = true;
-    alacritty.settings = ifLinux { font.size = 8; };
+    alacritty.settings.font.size = if pkgs.stdenv.isLinux then 8 else 16;
 
     git = {
       enable = true;
