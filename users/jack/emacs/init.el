@@ -174,9 +174,6 @@
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
 
-(use-package evil-textobj-tree-sitter
-  :after evil)
-
 (use-package evil
   :ensure t
   :custom
@@ -415,6 +412,15 @@
 (use-package tree-sitter-langs
   :ensure t
   :after tree-sitter)
+
+
+(use-package evil-textobj-tree-sitter
+  :after evil
+  :config
+  (define-key evil-outer-text-objects-map "f"
+    (evil-textobj-tree-sitter-get-textobj "function.outer"))
+  (define-key evil-inner-text-objects-map "f"
+    (evil-textobj-tree-sitter-get-textobj "function.inner")))
 
 (use-package apheleia
   :config

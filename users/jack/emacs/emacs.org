@@ -237,9 +237,6 @@ Covers minibuffer completions, for completion at point look under the [[*Lsp][ls
 ** Evil core
 This section sets up evil behaving enough like vanilla vim for me
 #+begin_src emacs-lisp
-  (use-package evil-textobj-tree-sitter
-    :after evil)
-
   (use-package evil
     :ensure t
     :custom
@@ -518,6 +515,15 @@ Org Mode’s structure templates feature enables you to quickly insert code bloc
   (use-package tree-sitter-langs
     :ensure t
     :after tree-sitter)
+
+
+  (use-package evil-textobj-tree-sitter
+    :after evil
+    :config
+    (define-key evil-outer-text-objects-map "f"
+      (evil-textobj-tree-sitter-get-textobj "function.outer"))
+    (define-key evil-inner-text-objects-map "f"
+      (evil-textobj-tree-sitter-get-textobj "function.inner")))
 #+end_src
 
 ** Formatting
