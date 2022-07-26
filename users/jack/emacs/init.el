@@ -450,6 +450,10 @@
 (use-package go-mode
   :hook (go-mode . eglot-ensure))
 
+(use-package flymake-shellcheck
+  :init
+  (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
+
 (use-package plantuml-mode)
 (setq plantuml-executable-path "/usr/bin/plantuml")
 (setq org-plantuml-executable-path "/usr/bin/plantuml")

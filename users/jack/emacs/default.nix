@@ -24,6 +24,7 @@ in {
 
   # install language servers globally
   home.packages = with pkgs; [
+    shellcheck
     rnix-lsp
     nixfmt
     nodePackages.typescript
