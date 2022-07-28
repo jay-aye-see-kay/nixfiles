@@ -1,14 +1,15 @@
 { config, pkgs, ... }:
-let
-  publicKeys = import ../../publicKeys.nix;
-in
-{
+let publicKeys = import ../../publicKeys.nix;
+in {
   imports = [ ./hardware.nix ];
 
   nix = {
     package = pkgs.nixFlakes; # or versioned attributes like nix_2_7
+    # second two for nix-direnv
     extraOptions = ''
       experimental-features = nix-command flakes
+      keep-outputs = true
+      keep-derivations = true
     '';
   };
   nixpkgs.config.allowUnfree = true;
@@ -64,9 +65,7 @@ in
     isNormalUser = true;
     shell = pkgs.fish;
     extraGroups = [ "wheel" "docker" "networkmanager" "video" ];
-    openssh.authorizedKeys.keys = [
-      publicKeys.deskJack
-    ];
+    openssh.authorizedKeys.keys = [ publicKeys.deskJack ];
   };
 
   virtualisation.docker.enable = true;

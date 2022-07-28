@@ -34,9 +34,6 @@
       # suppress default greeting
       set -U fish_greeting
 
-      # setup fast node manager
-      ${pkgs.fnm}/bin/fnm env --use-on-cd --log-level quiet | source
-
       # use bash default to edit line in vim
       bind \cx\ce edit_command_buffer
 

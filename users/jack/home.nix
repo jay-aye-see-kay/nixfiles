@@ -32,7 +32,6 @@ in {
       syncthing
       nodePackages.pnpm
       python3Full
-      fnm
       htop
       jq
       nodejs
@@ -53,6 +52,9 @@ in {
       exercism
     ]
     ++ (if pkgs.stdenv.isLinux then linuxOnlyPackages else darwinOnlyPackages);
+
+  programs.direnv.enable = true;
+  programs.direnv.nix-direnv.enable = true;
 
   services.nextcloud-client = ifLinux {
     enable = true;
