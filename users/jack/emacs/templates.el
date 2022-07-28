@@ -22,6 +22,15 @@ org-mode
 (src "#+begin_src " p n> r> n> "#+end_src" :post (org-edit-src-code))
 (elisp "#+begin_src emacs-lisp" n> r> n "#+end_src" :post (org-edit-src-code))
 
+javascript-mode typescript-mode typescriptreact-mode
+
+(c "const " p " = " p)
+(l "let " p " = " p)
+(r "return " p)
+(f "function " p "(" p ") {" n> p n "}")
+(af "(" p ") => " p)
+(cl "console.log(" p ")")
+
 lisp-mode emacs-lisp-mode ;; Specify multiple modes
 
 (lambda "(lambda (" p ")" n> r> ")")

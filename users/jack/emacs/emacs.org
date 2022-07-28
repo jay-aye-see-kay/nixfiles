@@ -678,6 +678,19 @@ These are still just examples from the tempel repo, can do better than this.
   (src "#+begin_src " p n> r> n> "#+end_src" :post (org-edit-src-code))
   (elisp "#+begin_src emacs-lisp" n> r> n "#+end_src" :post (org-edit-src-code))
 #+end_src
+
+*** {java,type}script[react]
+#+begin_src lisp-data :tangle ./templates.el
+  javascript-mode typescript-mode typescriptreact-mode
+
+  (c "const " p " = " p)
+  (l "let " p " = " p)
+  (r "return " p)
+  (f "function " p "(" p ") {" n> p n "}")
+  (af "(" p ") => " p)
+  (cl "console.log(" p ")")
+#+end_src
+
 *** Lisp modes
 These are still just examples from the tempel repo, probably get rid of most
 #+begin_src lisp-data :tangle ./templates.el
