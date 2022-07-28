@@ -3,7 +3,7 @@ let
   publicKeys = import ../../publicKeys.nix;
 in
 {
-  imports = [ ./hardware.nix ];
+  imports = [ ./hardware.nix ./sway.nix ];
 
   nix = {
     package = pkgs.nixFlakes; # or versioned attributes like nix_2_7
@@ -57,15 +57,6 @@ in
   networking.useDHCP = false;
   networking.interfaces.enp7s0.useDHCP = true;
 
-  # sound setup
-  security.rtkit.enable = true; # optional but recommend for pipewire
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
   users.users.jack = {
     isNormalUser = true;
     shell = pkgs.fish;
@@ -86,7 +77,6 @@ in
       defaultNetwork.dnsname.enable = true;
     };
   };
-
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -111,23 +101,20 @@ in
     docker-client # required by arion even because it's using podman
   ];
 
-  # kodi run on boot as a kiosk
-  users.extraUsers.kodi.isNormalUser = true;
-  services.cage =
-    let
-      kodi = pkgs.kodi-wayland.withPackages (kodiPkgs: [
-        kodiPkgs.jellyfin
-      ]);
-    in
-    {
-      enable = true;
-      user = "kodi";
-      program = "${kodi}/bin/kodi-standalone";
-    };
+  # hud setup for the tv
+  users.users.hud = {
+    isNormalUser = true;
+    extraGroups = [];
+  };
+  services.xserver.enable = true;
+  services.xserver.displayManager = {
+    lightdm.enable = true;
+    autoLogin.enable = true;
+    autoLogin.user = "hud";
+  };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-
 
   networking.firewall = {
     allowedUDPPorts = [
