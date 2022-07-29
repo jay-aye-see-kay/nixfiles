@@ -114,9 +114,8 @@ in {
   # to "loose", which might be undesirable for security.
   services.mullvad-vpn.enable = true;
 
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ ];
-  networking.firewall.allowedUDPPorts = [ ];
+  # disable firewall so chromecast can work
+  networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
