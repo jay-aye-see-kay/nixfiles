@@ -131,6 +131,17 @@
   :bind (("C-x p t" . project-vterm)
 	 ("C-x p m" . magit-project-status)))
 
+(use-package treemacs)
+
+(use-package treemacs-evil
+  :after (treemacs evil))
+
+(use-package treemacs-icons-dired
+  :hook (dired-mode . treemacs-icons-dired-enable-once))
+
+(use-package treemacs-magit
+  :after (treemacs magit))
+
 (use-package vertico
   :init
   (vertico-mode)
@@ -258,8 +269,10 @@
     :prefix ","))
 
 (rune/leader-keys
+  "SPC" 'project-find-file
   "p" project-prefix-map
   "gs" 'magit-status
+  "hh" 'helpful-at-point
   "hf" 'helpful-function
   "hv" 'helpful-variable
   "hk" 'helpful-key)
@@ -272,6 +285,7 @@
 
 ;; quick keymaps like my vim setup
 (rune/quick-keys
+  "e" 'treemacs
   "b" 'consult-buffer
   "B" 'consult-project-buffer
   "f" 'find-file
@@ -282,7 +296,7 @@
 
 (use-package deadgrep)
 (use-package consult)
-;; (use-package embark) ;; yeah?
+(use-package embark) ;; TODO understand and setup
 
 (defun jdr/org-mode-setup ()
   (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)

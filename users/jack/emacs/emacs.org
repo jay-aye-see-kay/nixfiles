@@ -184,6 +184,19 @@ Use the built in undo-redo system, and the basic =vundo= package to visualise th
     :bind (("C-x p t" . project-vterm)
 	   ("C-x p m" . magit-project-status)))
 #+end_src
+** Treemacs
+#+begin_src emacs-lisp
+  (use-package treemacs)
+
+  (use-package treemacs-evil
+    :after (treemacs evil))
+
+  (use-package treemacs-icons-dired
+    :hook (dired-mode . treemacs-icons-dired-enable-once))
+
+  (use-package treemacs-magit
+    :after (treemacs magit))
+#+end_src
 
 * Minibuffer completions
 Covers minibuffer completions, for completion at point look under the [[*Lsp][lsp section]]
@@ -332,8 +345,10 @@ Make evil window movements less strict, by default they're only =C-w {h,j,k,l}=,
       :prefix ","))
 
   (rune/leader-keys
+    "SPC" 'project-find-file
     "p" project-prefix-map
     "gs" 'magit-status
+    "hh" 'helpful-at-point
     "hf" 'helpful-function
     "hv" 'helpful-variable
     "hk" 'helpful-key)
@@ -346,6 +361,7 @@ Make evil window movements less strict, by default they're only =C-w {h,j,k,l}=,
 
   ;; quick keymaps like my vim setup
   (rune/quick-keys
+    "e" 'treemacs
     "b" 'consult-buffer
     "B" 'consult-project-buffer
     "f" 'find-file
@@ -356,7 +372,7 @@ Make evil window movements less strict, by default they're only =C-w {h,j,k,l}=,
 
   (use-package deadgrep)
   (use-package consult)
-  ;; (use-package embark) ;; yeah?
+  (use-package embark) ;; TODO understand and setup
   
 #+end_src
 
