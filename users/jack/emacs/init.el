@@ -328,7 +328,6 @@
   :bind (("C-c l" . org-store-link))
   :custom
   (org-startup-with-inline-images t)
-  (org-confirm-babel-evaluate nil)
   (org-auto-align-tags nil)
   (org-tags-column 0)
   (org-catch-invisible-edits 'show-and-error)
@@ -338,9 +337,9 @@
   (org-ellipsis "…")
   (org-agenda-start-with-log-mode t)
   (org-log-into-drawer t)
-  (org-directory "~/org/")
-  (org-agenda-files '("~/org/" "~/org/logbook"))
-  (org-archive-location "~/org/archive")
+  (org-directory "~/Documents/org/")
+  (org-agenda-files '("~/Documents/org/" "~/Documents/org/logbook"))
+  (org-archive-location "~/Documents/org/archive")
   (org-todo-keywords
    '((sequence "TODO(t)" "IN-PROGRESS(p!)" "WAITING(w@/!)"
                "|" "DONE(d!)" "CANCELLED(c!)")))
