@@ -23,6 +23,11 @@ in {
 
   home.packages = with pkgs;
     [
+      (python3.withPackages (ps: [ ps.ipykernel ]))
+      nodePackages.pyright
+      black
+
+      beekeeper-studio
       fd
       go
       gopls
@@ -31,7 +36,6 @@ in {
       atool
       syncthing
       nodePackages.pnpm
-      python3Full
       htop
       jq
       nodejs
@@ -63,6 +67,8 @@ in {
 
   programs = {
     home-manager.enable = true;
+
+    vscode.enable = true;
 
     zoxide.enable = true;
     zoxide.enableFishIntegration = true;
