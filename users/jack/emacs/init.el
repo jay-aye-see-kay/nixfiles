@@ -501,17 +501,10 @@
      "fish_color_status=#000000"
      "fish_color_user=#000000")))
 
-(use-package tempel
+(use-package yasnippet
   :bind (("C-j" . tempel-expand)
          ("C-l" . tempel-next)
          ("M-+" . tempel-complete)
          ("M-*" . tempel-insert))
-  :custom
-  (tempel-path "~/.emacs.d/templates.el")
-  :init
-  (defun tempel-setup-capf ()
-    (setq-local completion-at-point-functions
-                (cons #'tempel-expand
-                      completion-at-point-functions)))
-  (add-hook 'prog-mode-hook 'tempel-setup-capf)
-  (add-hook 'text-mode-hook 'tempel-setup-capf))
+  :config
+(yas-global-mode 1))
