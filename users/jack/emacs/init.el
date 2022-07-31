@@ -339,10 +339,12 @@
   (org-log-into-drawer t)
   (org-directory "~/Documents/org/")
   (org-agenda-files '("~/Documents/org/" "~/Documents/org/logbook"))
-  (org-archive-location "~/Documents/org/archive")
+  (org-archive-location "~/Documents/org/archive.org::")
   (org-todo-keywords
    '((sequence "TODO(t)" "IN-PROGRESS(p!)" "WAITING(w@/!)"
                "|" "DONE(d!)" "CANCELLED(c!)")))
+  (org-refile-targets
+   `((,(directory-files-recursively "~/Documents/org/" "^[a-z0-9]*.org$") :maxlevel . 1)))
   :config
   ;; load org stuff up front rather than on the first time an org file is opened
   (org-load-modules-maybe t))
