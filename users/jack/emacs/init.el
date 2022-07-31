@@ -141,9 +141,7 @@
   (marginalia-mode 1))
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
-(use-package savehist
-  :init
-  (savehist-mode))
+(savehist-mode 1)
 
 ;; A few more useful configurations...
 (use-package emacs
