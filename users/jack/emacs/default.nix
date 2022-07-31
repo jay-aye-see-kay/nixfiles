@@ -8,7 +8,6 @@ let
   });
 in {
   home.file.".emacs.d/init.el".source = ./init.el;
-  home.file.".emacs.d/templates.el".source = ./templates.el;
 
   programs.emacs = {
     enable = true;
