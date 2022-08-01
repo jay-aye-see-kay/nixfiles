@@ -4,15 +4,16 @@ let
   darwinOnlyPackages = [ ];
   linuxOnlyPackages = with pkgs; [
     arandr
+    beekeeper-studio
+    gparted
     helvum
     imv
     lsof
     mpv
     nextcloud-client
-    gparted
     pdfarranger
-    unzip
     polymc # minecraft launcher, it probably works on mac, but I don't want it there
+    unzip
   ];
 in {
   imports = [
@@ -27,7 +28,6 @@ in {
       nodePackages.pyright
       black
 
-      beekeeper-studio
       fd
       go
       gopls
