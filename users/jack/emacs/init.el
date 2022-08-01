@@ -268,6 +268,8 @@
     :keymaps '(normal)
     :prefix ","))
 
+(general-unbind magit-mode-map "SPC")
+
 (rune/leader-keys
   "SPC" 'project-find-file
   "p" project-prefix-map

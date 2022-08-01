@@ -344,6 +344,8 @@ Make evil window movements less strict, by default they're only =C-w {h,j,k,l}=,
       :keymaps '(normal)
       :prefix ","))
 
+  (general-unbind magit-mode-map "SPC")
+
   (rune/leader-keys
     "SPC" 'project-find-file
     "p" project-prefix-map
