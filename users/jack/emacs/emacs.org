@@ -385,6 +385,7 @@ Make evil window movements less strict, by default they're only =C-w {h,j,k,l}=,
     (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
     (org-indent-mode 1)
     (visual-line-mode 1)
+    (add-to-list 'org-export-backends 'md)
 
     (setq
      ;; Agenda styling
@@ -613,6 +614,13 @@ Currently only using this in org source blocks, and it's not working yet. But wi
   (setq org-plantuml-executable-path "/usr/bin/plantuml")
   (setq plantuml-default-exec-mode 'executable)
   (setq org-plantuml-exec-mode 'executable)
+#+end_src
+
+** Markdown
+#+begin_src emacs-lisp
+  (use-package markdown-mode
+    :ensure t
+    :mode ("README\\.md\\'" . gfm-mode))
 #+end_src
 
 * VCS and Magit

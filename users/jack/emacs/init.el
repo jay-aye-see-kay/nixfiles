@@ -304,6 +304,7 @@
   (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
   (org-indent-mode 1)
   (visual-line-mode 1)
+  (add-to-list 'org-export-backends 'md)
 
   (setq
    ;; Agenda styling
@@ -486,6 +487,10 @@
 (setq org-plantuml-executable-path "/usr/bin/plantuml")
 (setq plantuml-default-exec-mode 'executable)
 (setq org-plantuml-exec-mode 'executable)
+
+(use-package markdown-mode
+  :ensure t
+  :mode ("README\\.md\\'" . gfm-mode))
 
 (use-package magit)
 
