@@ -491,7 +491,8 @@ Org Mode’s structure templates feature enables you to quickly insert code bloc
     (visual-fill-column-mode 1))
 
   (use-package visual-fill-column
-    :hook (org-mode . jdr/org-mode-visual-fill))
+    :hook ((org-mode . jdr/org-mode-visual-fill)
+           (markdown-mode . jdr/org-mode-visual-fill)))
 #+end_src
 
 * Completion at point
@@ -621,7 +622,8 @@ Currently only using this in org source blocks, and it's not working yet. But wi
 #+begin_src emacs-lisp
   (use-package markdown-mode
     :ensure t
-    :mode ("README\\.md\\'" . gfm-mode))
+    :mode ("README\\.md\\'" . gfm-mode)
+    :hook (markdown-mode . visual-line-mode))
 #+end_src
 
 * VCS and Magit

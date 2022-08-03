@@ -396,7 +396,8 @@
   (visual-fill-column-mode 1))
 
 (use-package visual-fill-column
-  :hook (org-mode . jdr/org-mode-visual-fill))
+  :hook ((org-mode . jdr/org-mode-visual-fill)
+         (markdown-mode . jdr/org-mode-visual-fill)))
 
 (use-package corfu
   :custom
@@ -491,7 +492,8 @@
 
 (use-package markdown-mode
   :ensure t
-  :mode ("README\\.md\\'" . gfm-mode))
+  :mode ("README\\.md\\'" . gfm-mode)
+  :hook (markdown-mode . visual-line-mode))
 
 (use-package magit)
 
