@@ -328,7 +328,8 @@
 
 (use-package org
   :hook (org-mode . jdr/org-mode-setup)
-  :bind (("C-c l" . org-store-link))
+  :bind (("C-c l" . org-store-link)
+         ("C-c a" . org-agenda))
   :custom
   (org-startup-with-inline-images t)
   (org-auto-align-tags nil)
