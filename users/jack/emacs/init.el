@@ -409,7 +409,9 @@
   (corfu-echo-documentation nil)
   (corfu-cycle t)
   :init
-  (global-corfu-mode))
+  (global-corfu-mode)
+  :config
+  (evil-define-key 'insert 'global (kbd "C-k") 'completion-at-point))
 
 ;; TODO render markdown from lsp? or is that an eglot thing?
 (use-package corfu-doc
@@ -523,6 +525,7 @@
   (add-to-list 'tree-sitter-major-mode-language-alist '(graphql-mode . graphql)))
 
 (use-package prisma-mode
+  :hook (prisma-mode . eglot-ensure)
   :config
   (add-to-list 'eglot-server-programs '(prisma-mode . ("prisma-language-server" "--stdio")))
   (add-to-list 'tree-sitter-major-mode-language-alist '(prisma-mode . prisma)))
