@@ -49,6 +49,7 @@ in {
     texlive.combined.scheme-medium
 
     # language servers
+    nodePackages."@prisma/language-server"
     nodePackages.bash-language-server
     nodePackages.dockerfile-language-server-nodejs
     nodePackages.pyright

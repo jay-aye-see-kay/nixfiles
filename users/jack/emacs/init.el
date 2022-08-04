@@ -277,7 +277,10 @@
   "hh" 'helpful-at-point
   "hf" 'helpful-function
   "hv" 'helpful-variable
-  "hk" 'helpful-key)
+  "hk" 'helpful-key
+  "lf" 'eglot-format-buffer
+  "lr" 'eglot-rename
+  "la" 'eglot-code-actions)
 
 ;; setup avy like my hop.nvim setup
 (use-package avy
@@ -521,6 +524,7 @@
 
 (use-package prisma-mode
   :config
+  (add-to-list 'eglot-server-programs '(prisma-mode . ("prisma-language-server" "--stdio")))
   (add-to-list 'tree-sitter-major-mode-language-alist '(prisma-mode . prisma)))
 
 (use-package vimrc-mode

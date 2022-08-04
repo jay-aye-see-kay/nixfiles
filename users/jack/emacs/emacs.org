@@ -353,7 +353,10 @@ Make evil window movements less strict, by default they're only =C-w {h,j,k,l}=,
     "hh" 'helpful-at-point
     "hf" 'helpful-function
     "hv" 'helpful-variable
-    "hk" 'helpful-key)
+    "hk" 'helpful-key
+    "lf" 'eglot-format-buffer
+    "lr" 'eglot-rename
+    "la" 'eglot-code-actions)
 
   ;; setup avy like my hop.nvim setup
   (use-package avy
@@ -375,7 +378,7 @@ Make evil window movements less strict, by default they're only =C-w {h,j,k,l}=,
   (use-package deadgrep)
   (use-package consult)
   (use-package embark) ;; TODO understand and setup
-  
+
 #+end_src
 
 * Org
@@ -667,6 +670,7 @@ Currently only using this in org source blocks, and it's not working yet. But wi
 #+begin_src emacs-lisp
   (use-package prisma-mode
     :config
+    (add-to-list 'eglot-server-programs '(prisma-mode . ("prisma-language-server" "--stdio")))
     (add-to-list 'tree-sitter-major-mode-language-alist '(prisma-mode . prisma)))
 #+end_src
 
