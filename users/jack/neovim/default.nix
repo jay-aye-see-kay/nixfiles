@@ -65,8 +65,7 @@ let
       sha256 = "drQG1ObxR4HHsNnEEBtvZQVPrsjZuHt57PTHOSkNMSs=";
     };
   };
-in
-{
+in {
   programs.neovim = {
     enable = true;
     withNodeJs = true;
@@ -83,7 +82,10 @@ in
     '';
 
     plugins = with pkgs.vimPlugins; [
-      { plugin = nvcode-color-schemes-vim; config = "colorscheme nvcode"; }
+      {
+        plugin = nvcode-color-schemes-vim;
+        config = "colorscheme nvcode";
+      }
 
       # langs
       vim-nix
@@ -142,7 +144,10 @@ in
       which-key-nvim
       lua-dev-nvim
       dressing-nvim
-      { plugin = fidget-nvim; config = "lua require('fidget').setup()"; }
+      {
+        plugin = fidget-nvim;
+        config = "lua require('fidget').setup()";
+      }
 
       # tpope
       vim-abolish
@@ -155,15 +160,27 @@ in
       # git
       git-messenger-vim
       diffview-nvim
-      { plugin = gitsigns-nvim; config = "lua require('gitsigns').setup()"; }
+      {
+        plugin = gitsigns-nvim;
+        config = "lua require('gitsigns').setup()";
+      }
       vim-fugitive
       vim-rhubarb
 
+      {
+        plugin = pkgs.unstable.vimPlugins.copilot-vim;
+        config = ''
+          lua vim.g.copilot_node_command = "${pkgs.nodejs}/bin/node"
+          lua vim.g.copilot_no_tab_map = true
+          lua vim.g.copilot_enabled = false
+        '';
+      }
+
       /* TODO:
-        "dkarter/bullets.vim",
-        use({ "rafcamlet/nvim-luapad", cmd = { "Luapad", "LuaRun" } })
-        "ibhagwan/fzf-lua",
-        "monaqa/dial.nvim",
+         "dkarter/bullets.vim",
+         use({ "rafcamlet/nvim-luapad", cmd = { "Luapad", "LuaRun" } })
+         "ibhagwan/fzf-lua",
+         "monaqa/dial.nvim",
       */
     ];
 

@@ -276,9 +276,6 @@ end
 -- }}}
 
 -- completions {{{
-vim.g.copilot_node_command = "/usr/bin/node"
-vim.g.copilot_no_tab_map = true
-vim.g.copilot_enabled = false
 vim.cmd([[ imap <silent><script><expr> <C-k> copilot#Accept() ]])
 
 function ToggleCopilot()
