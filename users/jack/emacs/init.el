@@ -451,19 +451,14 @@
 
 (use-package typescript-mode
   :after tree-sitter
-  :mode "\\.ts\\'\\|\\.tsx\\'"
   :hook (typescript-mode . eglot-ensure)
   :config
-  ;; we choose this instead of tsx-mode so that eglot can
-  ;; automatically figure out language for server see
-  ;; https://github.com/joaotavora/eglot/issues/624 and
-  ;; https://github.com/joaotavora/eglot#handling-quirky-servers
+  ;; choose this instead of tsx-mode so that eglot can automatically
+  ;; figure out language server
   (define-derived-mode typescriptreact-mode typescript-mode
     "TypeScript TSX")
-  ;; use our derived mode for tsx files
-  (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
-  ;; by default, typescript-mode is mapped to the treesitter typescript parser
-  ;; use our derived mode to map both .tsx AND .ts -> typescriptreact-mode -> treesitter tsx
+  ;; setup file type and tree sitter
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescriptreact-mode))
   (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx))
   (setq typescript-indent-level 2))
 

@@ -21,6 +21,10 @@ in {
     package = emacsPkg;
   };
 
+  # put tsx grammar somewhere where emacs can find it
+  home.file.".tree-sitter/bin/tsx.so".source =
+    "${pkgs.tree-sitter-grammars.tree-sitter-tsx}/parser";
+
   # install language servers globally
   home.packages = with pkgs; [
     shellcheck
@@ -28,7 +32,6 @@ in {
     nixfmt
     nodePackages.typescript
     nodePackages.typescript-language-server
-    tree-sitter-grammars.tree-sitter-tsx
     nodePackages.mermaid-cli
     texlive.combined.scheme-medium
   ];
