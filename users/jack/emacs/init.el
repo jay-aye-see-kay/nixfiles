@@ -479,6 +479,8 @@
   :init
   (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
 
+(add-hook 'sh-mode-hook 'eglot-ensure)
+
 (use-package plantuml-mode)
 (setq plantuml-executable-path "/usr/bin/plantuml")
 (setq org-plantuml-executable-path "/usr/bin/plantuml")
@@ -491,20 +493,41 @@
   :hook (markdown-mode . visual-line-mode))
 
 (use-package yaml-mode
-  :hook (yaml-mode . display-line-numbers-mode))
+  :hook ((yaml-mode . display-line-numbers-mode)
+         (yaml-mode . eglot-ensure))
+  :config
+  (add-to-list 'tree-sitter-major-mode-language-alist '(yaml-mode . yaml)))
 
-(use-package yaml-pro)
-
-(general-define-key
- :states 'normal
- :keymaps 'yaml-mode-map
- "C-k" 'yaml-pro-prev-subtree
- "C-j" 'yaml-pro-next-subtree
- "M-k" 'yaml-pro-move-subtree-up
- "M-j" 'yaml-pro-move-subtree-down)
+(use-package yaml-pro
+  :config
+  (general-define-key
+   :states 'normal
+   :keymaps 'yaml-mode-map
+   "C-k" 'yaml-pro-prev-subtree
+   "C-j" 'yaml-pro-next-subtree
+   "M-k" 'yaml-pro-move-subtree-up
+   "M-j" 'yaml-pro-move-subtree-down))
 
 (use-package docker
   :bind ("C-c d" . docker))
+
+(use-package fish-mode
+  :config
+  (add-to-list 'tree-sitter-major-mode-language-alist '(fish-mode . fish)))
+
+(use-package graphql-mode
+  :config
+  (add-to-list 'tree-sitter-major-mode-language-alist '(graphql-mode . graphql)))
+
+(use-package prisma-mode
+  :config
+  (add-to-list 'tree-sitter-major-mode-language-alist '(prisma-mode . prisma)))
+
+(use-package vimrc-mode
+  :hook (vimrc-mode . eglot-ensure)
+  :config
+  (add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
+  (add-to-list 'tree-sitter-major-mode-language-alist '(vim-mode . vim)))
 
 (use-package magit)
 

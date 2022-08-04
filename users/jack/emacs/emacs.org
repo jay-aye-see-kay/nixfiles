@@ -601,6 +601,8 @@ Org Mode’s structure templates feature enables you to quickly insert code bloc
   (use-package flymake-shellcheck
     :init
     (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
+
+  (add-hook 'sh-mode-hook 'eglot-ensure)
 #+end_src
 
 ** PlantUML
@@ -624,23 +626,57 @@ Currently only using this in org source blocks, and it's not working yet. But wi
 ** Yaml
 #+begin_src emacs-lisp
   (use-package yaml-mode
-    :hook (yaml-mode . display-line-numbers-mode))
+    :hook ((yaml-mode . display-line-numbers-mode)
+           (yaml-mode . eglot-ensure))
+    :config
+    (add-to-list 'tree-sitter-major-mode-language-alist '(yaml-mode . yaml)))
 
-  (use-package yaml-pro)
+  (use-package yaml-pro
+    :config
+    (general-define-key
+     :states 'normal
+     :keymaps 'yaml-mode-map
+     "C-k" 'yaml-pro-prev-subtree
+     "C-j" 'yaml-pro-next-subtree
+     "M-k" 'yaml-pro-move-subtree-up
+     "M-j" 'yaml-pro-move-subtree-down))
 
-  (general-define-key
-   :states 'normal
-   :keymaps 'yaml-mode-map
-   "C-k" 'yaml-pro-prev-subtree
-   "C-j" 'yaml-pro-next-subtree
-   "M-k" 'yaml-pro-move-subtree-up
-   "M-j" 'yaml-pro-move-subtree-down)
 #+end_src
 
 ** Docker
 #+begin_src emacs-lisp
   (use-package docker
     :bind ("C-c d" . docker))
+#+end_src
+
+** Fish
+#+begin_src emacs-lisp
+  (use-package fish-mode
+    :config
+    (add-to-list 'tree-sitter-major-mode-language-alist '(fish-mode . fish)))
+#+end_src
+
+** GraphQL
+#+begin_src emacs-lisp
+  (use-package graphql-mode
+    :config
+    (add-to-list 'tree-sitter-major-mode-language-alist '(graphql-mode . graphql)))
+#+end_src
+
+** Prisma
+#+begin_src emacs-lisp
+  (use-package prisma-mode
+    :config
+    (add-to-list 'tree-sitter-major-mode-language-alist '(prisma-mode . prisma)))
+#+end_src
+
+** Vim
+#+begin_src emacs-lisp
+  (use-package vimrc-mode
+    :hook (vimrc-mode . eglot-ensure)
+    :config
+    (add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(vim-mode . vim)))
 #+end_src
 
 * VCS and Magit
