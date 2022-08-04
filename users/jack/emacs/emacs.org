@@ -621,6 +621,28 @@ Currently only using this in org source blocks, and it's not working yet. But wi
     :hook (markdown-mode . visual-line-mode))
 #+end_src
 
+** Yaml
+#+begin_src emacs-lisp
+  (use-package yaml-mode
+    :hook (yaml-mode . display-line-numbers-mode))
+
+  (use-package yaml-pro)
+
+  (general-define-key
+   :states 'normal
+   :keymaps 'yaml-mode-map
+   "C-k" 'yaml-pro-prev-subtree
+   "C-j" 'yaml-pro-next-subtree
+   "M-k" 'yaml-pro-move-subtree-up
+   "M-j" 'yaml-pro-move-subtree-down)
+#+end_src
+
+** Docker
+#+begin_src emacs-lisp
+  (use-package docker
+    :bind ("C-c d" . docker))
+#+end_src
+
 * VCS and Magit
 #+begin_src emacs-lisp
   (use-package magit)
@@ -669,5 +691,10 @@ Setup fish colors so they match my current theme (modus-operandi), this is quite
              ("M-*" . tempel-insert))
       :config
     (yas-global-mode 1))
+#+end_src
+
+* PDF
+#+begin_src emacs-lisp
+  (use-package pdf-tools)
 #+end_src
 

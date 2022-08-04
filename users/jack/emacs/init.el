@@ -490,6 +490,22 @@
   :mode ("README\\.md\\'" . gfm-mode)
   :hook (markdown-mode . visual-line-mode))
 
+(use-package yaml-mode
+  :hook (yaml-mode . display-line-numbers-mode))
+
+(use-package yaml-pro)
+
+(general-define-key
+ :states 'normal
+ :keymaps 'yaml-mode-map
+ "C-k" 'yaml-pro-prev-subtree
+ "C-j" 'yaml-pro-next-subtree
+ "M-k" 'yaml-pro-move-subtree-up
+ "M-j" 'yaml-pro-move-subtree-down)
+
+(use-package docker
+  :bind ("C-c d" . docker))
+
 (use-package magit)
 
 (use-package vterm
@@ -526,3 +542,5 @@
          ("M-*" . tempel-insert))
   :config
 (yas-global-mode 1))
+
+(use-package pdf-tools)
