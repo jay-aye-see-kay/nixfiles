@@ -20,8 +20,16 @@
       # x86 linux setup
       system = "x86_64-linux";
       overlayUnstable = final: prev: {
-        unstable = import nixpkgs-unstable { inherit system; config.allowUnfree = true; };
+        unstable = import nixpkgs-unstable {
+          inherit system;
+          config.allowUnfree = true;
+        };
       };
+      nodePkgsOverlay = final: prev: {
+        customNodePackages =
+          import ./node-packages/default.nix { pkgs = prev; };
+      };
+
       pkgs = import nixpkgs {
         inherit system;
         config = { allowUnfree = true; };
@@ -29,13 +37,17 @@
           overlayUnstable
           neovim-nightly-overlay.overlay
           emacs-overlay.overlay
+          nodePkgsOverlay
         ];
       };
 
       # aarch64 setup (used by VM on m1)
       systemAarch64 = "aarch64-linux";
       overlayUnstableAarch64 = final: prev: {
-        unstable = import nixpkgs-unstable { system = systemAarch64; config.allowUnfree = true; };
+        unstable = import nixpkgs-unstable {
+          system = systemAarch64;
+          config.allowUnfree = true;
+        };
       };
       pkgsAarch64 = import nixpkgs {
         system = systemAarch64;
@@ -44,13 +56,17 @@
           overlayUnstableAarch64
           neovim-nightly-overlay.overlay
           emacs-overlay.overlay
+          nodePkgsOverlay
         ];
       };
 
       # x86 Darwin setup (why does this seem to work for home manager on aarch64-darwin?)
       systemDarwin = "x86_64-darwin";
       overlayUnstableDarwin = final: prev: {
-        unstable = import nixpkgs-unstable { system = systemDarwin; config.allowUnfree = true; };
+        unstable = import nixpkgs-unstable {
+          system = systemDarwin;
+          config.allowUnfree = true;
+        };
       };
       pkgsDarwin = import nixpkgs {
         system = systemDarwin;
@@ -59,6 +75,7 @@
           overlayUnstableDarwin
           neovim-nightly-overlay.overlay
           emacs-overlay.overlay
+          nodePkgsOverlay
         ];
       };
 
@@ -80,13 +97,14 @@
           configuration.imports = linuxHomeManagerImports;
         };
 
-      homeManagerConfigurations."${username}-aarch64" = home-manager.lib.homeManagerConfiguration {
-        inherit username;
-        system = systemAarch64;
-        pkgs = pkgsAarch64;
-        homeDirectory = "/home/${username}";
-        configuration.imports = linuxHomeManagerImports;
-      };
+      homeManagerConfigurations."${username}-aarch64" =
+        home-manager.lib.homeManagerConfiguration {
+          inherit username;
+          system = systemAarch64;
+          pkgs = pkgsAarch64;
+          homeDirectory = "/home/${username}";
+          configuration.imports = linuxHomeManagerImports;
+        };
 
       homeManagerConfigurations."${username}-mbp" =
         home-manager.lib.homeManagerConfiguration {
@@ -123,10 +141,7 @@
         moa = lib.nixosSystem {
           system = systemAarch64;
           pkgs = pkgsAarch64;
-          modules = [
-            ./hosts/moa
-            ./features/fonts.nix
-          ];
+          modules = [ ./hosts/moa ./features/fonts.nix ];
         };
 
       };

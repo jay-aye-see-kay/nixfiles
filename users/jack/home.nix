@@ -28,6 +28,8 @@ in {
       nodePackages.pyright
       black
 
+      customNodePackages."aws-cdk-1.x"
+
       fd
       go
       gopls
