@@ -650,6 +650,8 @@ Currently only using this in org source blocks, and it's not working yet. But wi
 
 ** Docker
 #+begin_src emacs-lisp
+  (use-package dockerfile-mode)
+
   (use-package docker
     :bind ("C-c d" . docker))
 #+end_src

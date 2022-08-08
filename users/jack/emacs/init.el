@@ -513,6 +513,8 @@
    "M-k" 'yaml-pro-move-subtree-up
    "M-j" 'yaml-pro-move-subtree-down))
 
+(use-package dockerfile-mode)
+
 (use-package docker
   :bind ("C-c d" . docker))
 
