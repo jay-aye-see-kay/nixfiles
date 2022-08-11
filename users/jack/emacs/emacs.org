@@ -382,6 +382,13 @@ Make evil window movements less strict, by default they're only =C-w {h,j,k,l}=,
 
 #+end_src
 
+** Mouse keys
+Use the back and forward keys on my mouse to move around the jumplist kind of like a browser.
+#+begin_src emacs-lisp
+  (evil-define-key 'normal 'global (kbd "<mouse-8>") 'evil-jump-backward)
+  (evil-define-key 'normal 'global (kbd "<mouse-9>") 'evil-jump-forward)
+#+end_src
+
 * Org
 ** Core
 #+begin_src emacs-lisp
@@ -530,10 +537,20 @@ Org Mode’s structure templates feature enables you to quickly insert code bloc
     :custom
     (lsp-eldoc-enable-hover nil)
     (lsp-auto-execute-action nil)
+    (lsp-enable-symbol-highlighting nil)
     :config
     (setq read-process-output-max (* 1024 1024)) ;; 1mb
     (evil-define-key 'normal 'global (kbd "gd") 'xref-find-definitions)
     (evil-define-key 'normal 'global (kbd "gr") 'lsp-find-references))
+
+  (use-package lsp-ui
+    :custom
+    (lsp-ui-doc-show-with-cursor nil)
+    (lsp-ui-doc-show-with-mouse nil)
+    (lsp-ui-sideline-show-code-actions nil)
+    :config
+    (evil-define-key 'normal 'global (kbd "gh") 'lsp-ui-doc-glance)
+    (evil-define-key 'normal 'global (kbd "gp") 'lsp-ui-peek-find-references))
 
   (use-package flymake
     :bind (("M-n" . flymake-goto-next-error)
@@ -706,7 +723,8 @@ Currently only using this in org source blocks, and it's not working yet. But wi
     :config
     (evil-define-key 'normal 'global (kbd "]h") 'diff-hl-next-hunk)
     (evil-define-key 'normal 'global (kbd "[h") 'diff-hl-previous-hunk)
-    (global-diff-hl-mode))
+    (diff-hl-flydiff-mode 1)
+    (global-diff-hl-mode 1))
 #+end_src
 
 * Terminals

@@ -304,6 +304,9 @@
 (use-package consult)
 (use-package embark) ;; TODO understand and setup
 
+(evil-define-key 'normal 'global (kbd "<mouse-8>") 'evil-jump-backward)
+(evil-define-key 'normal 'global (kbd "<mouse-9>") 'evil-jump-forward)
+
 (defun jdr/org-mode-setup ()
   (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
   (org-indent-mode 1)
@@ -428,10 +431,20 @@
   :custom
   (lsp-eldoc-enable-hover nil)
   (lsp-auto-execute-action nil)
+  (lsp-enable-symbol-highlighting nil)
   :config
   (setq read-process-output-max (* 1024 1024)) ;; 1mb
   (evil-define-key 'normal 'global (kbd "gd") 'xref-find-definitions)
   (evil-define-key 'normal 'global (kbd "gr") 'lsp-find-references))
+
+(use-package lsp-ui
+  :custom
+  (lsp-ui-doc-show-with-cursor nil)
+  (lsp-ui-doc-show-with-mouse nil)
+  (lsp-ui-sideline-show-code-actions nil)
+  :config
+  (evil-define-key 'normal 'global (kbd "gh") 'lsp-ui-doc-glance)
+  (evil-define-key 'normal 'global (kbd "gp") 'lsp-ui-peek-find-references))
 
 (use-package flymake
   :bind (("M-n" . flymake-goto-next-error)
@@ -554,7 +567,8 @@
   :config
   (evil-define-key 'normal 'global (kbd "]h") 'diff-hl-next-hunk)
   (evil-define-key 'normal 'global (kbd "[h") 'diff-hl-previous-hunk)
-  (global-diff-hl-mode))
+  (diff-hl-flydiff-mode 1)
+  (global-diff-hl-mode 1))
 
 (use-package vterm
   :custom
