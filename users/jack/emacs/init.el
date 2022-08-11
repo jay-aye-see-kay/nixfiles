@@ -497,10 +497,7 @@
   (add-to-list 'apheleia-mode-alist '(nix-mode . nixpkgs-fmt)))
 
 (use-package rust-mode
-  :hook (rust-mode . lsp-deferred)
-  :custom
-  ;; apheleia 1.2 doesn't work with rustfmt, so use rust-mode's formatting
-  (rust-format-on-save t))
+  :hook (rust-mode . lsp-deferred))
 
 (use-package go-mode
   :hook (go-mode . lsp-deferred))

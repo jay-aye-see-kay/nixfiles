@@ -619,10 +619,7 @@ Org Mode’s structure templates feature enables you to quickly insert code bloc
 ** Rust
 #+begin_src emacs-lisp
   (use-package rust-mode
-    :hook (rust-mode . lsp-deferred)
-    :custom
-    ;; apheleia 1.2 doesn't work with rustfmt, so use rust-mode's formatting
-    (rust-format-on-save t))
+    :hook (rust-mode . lsp-deferred))
 #+end_src
 
 ** Go
