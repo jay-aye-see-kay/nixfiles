@@ -542,6 +542,14 @@
 
 (use-package magit)
 
+(use-package git-timemachine)
+
+(use-package diff-hl
+  :config
+  (evil-define-key 'normal 'global (kbd "]h") 'diff-hl-next-hunk)
+  (evil-define-key 'normal 'global (kbd "[h") 'diff-hl-previous-hunk)
+  (global-diff-hl-mode))
+
 (use-package vterm
   :custom
   (vterm-environment
