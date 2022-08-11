@@ -552,9 +552,12 @@ Org Mode’s structure templates feature enables you to quickly insert code bloc
     (evil-define-key 'normal 'global (kbd "gh") 'lsp-ui-doc-glance)
     (evil-define-key 'normal 'global (kbd "gp") 'lsp-ui-peek-find-references))
 
-  (use-package flymake
-    :bind (("M-n" . flymake-goto-next-error)
-           ("M-p" . flymake-goto-prev-error)))
+  (use-package flycheck
+    :config
+    (global-flycheck-mode)
+    :bind (("M-n" . flycheck-next-error)
+           ("M-p" . flycheck-previous-error)))
+
 #+end_src
 
 ** Tree sitter
@@ -586,8 +589,6 @@ Org Mode’s structure templates feature enables you to quickly insert code bloc
 #+begin_src emacs-lisp
   (use-package apheleia
     :config
-    (add-to-list 'apheleia-formatters '(nixfmt . ("nixfmt")))
-    (add-to-list 'apheleia-mode-alist '(nix-mode . nixfmt))
     (apheleia-global-mode +1))
 #+end_src
 
@@ -609,7 +610,10 @@ Org Mode’s structure templates feature enables you to quickly insert code bloc
 #+begin_src emacs-lisp
   (use-package nix-mode
     :hook (nix-mode . lsp-deferred)
-    :mode "\\.nix\\'")
+    :mode "\\.nix\\'"
+    :config
+    (add-to-list 'apheleia-formatters '(nixfmt . ("nixfmt")))
+    (add-to-list 'apheleia-mode-alist '(nix-mode . nixfmt)))
 #+end_src
 
 ** Rust
@@ -629,11 +633,9 @@ Org Mode’s structure templates feature enables you to quickly insert code bloc
 
 ** Shell
 #+begin_src emacs-lisp
-  (use-package flymake-shellcheck
-    :init
-    (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
-
   (add-hook 'sh-mode-hook 'lsp-deferred)
+  (add-to-list 'apheleia-formatters '(shfmt . ("shfmt")))
+  (add-to-list 'apheleia-mode-alist '(sh-mode . shfmt))
 #+end_src
 
 ** PlantUML

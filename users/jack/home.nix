@@ -30,6 +30,7 @@ in {
 
       customNodePackages."aws-cdk-1.x"
 
+      shfmt
       fd
       go
       gopls

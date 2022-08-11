@@ -446,9 +446,11 @@
   (evil-define-key 'normal 'global (kbd "gh") 'lsp-ui-doc-glance)
   (evil-define-key 'normal 'global (kbd "gp") 'lsp-ui-peek-find-references))
 
-(use-package flymake
-  :bind (("M-n" . flymake-goto-next-error)
-         ("M-p" . flymake-goto-prev-error)))
+(use-package flycheck
+  :config
+  (global-flycheck-mode)
+  :bind (("M-n" . flycheck-next-error)
+         ("M-p" . flycheck-previous-error)))
 
 (use-package tree-sitter
   :ensure t
@@ -476,6 +478,7 @@
   :config
   (add-to-list 'apheleia-formatters '(nixfmt . ("nixfmt")))
   (add-to-list 'apheleia-mode-alist '(nix-mode . nixfmt))
+
   (apheleia-global-mode +1))
 
 (use-package typescript-mode
@@ -502,11 +505,9 @@
 (use-package go-mode
   :hook (go-mode . lsp-deferred))
 
-(use-package flymake-shellcheck
-  :init
-  (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
-
 (add-hook 'sh-mode-hook 'lsp-deferred)
+(add-to-list 'apheleia-formatters '(shfmt . ("shfmt")))
+(add-to-list 'apheleia-mode-alist '(sh-mode . shfmt))
 
 (use-package plantuml-mode)
 (setq plantuml-executable-path "/usr/bin/plantuml")
