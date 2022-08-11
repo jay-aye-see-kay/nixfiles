@@ -1,4 +1,6 @@
-set -eu -o pipefail
+#!/bin/sh
+
+set -eu
 
 nix-shell -p nodePackages.node2nix --run \
-  "node2nix -i node-packages.json --pkg-name nodejs-14_x"
+	"node2nix -i node-packages.json --pkg-name nodejs-14_x"
