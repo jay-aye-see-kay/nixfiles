@@ -80,7 +80,11 @@
   :init (doom-modeline-mode 1))
 
 (recentf-mode t)
-(setq recentf-max-saved-items 50)
+(setq recentf-max-saved-items 200)
+
+(setq scroll-conservatively 1)
+(save-place-mode 1)
+(use-package sudo-edit)
 
 (electric-pair-mode 1)
 
@@ -114,14 +118,20 @@
   :config
   (setq vundo-glyph-alist vundo-unicode-symbols))
 
+;; `trailing' is an options here, but it just gives a color, I want a dot instead
+(setq whitespace-style (quote (face tab-mark)))
+(global-whitespace-mode 1)
+
+(setq-default tab-width 4)
+
 (defun project-vterm ()
   "Start a new vterm in project root (based on `project-shell`)"
   (interactive)
   (let* ((default-directory (project-root (project-current t)))
-	 (default-project-vterm-name (project-prefixed-buffer-name "vterm"))
-	 (vterm-buffer (get-buffer default-project-vterm-name)))
+         (default-project-vterm-name (project-prefixed-buffer-name "vterm"))
+         (vterm-buffer (get-buffer default-project-vterm-name)))
     (if (and vterm-buffer (not current-prefix-arg))
-	(pop-to-buffer-same-window vterm-buffer)
+        (pop-to-buffer-same-window vterm-buffer)
       (vterm (generate-new-buffer-name default-project-vterm-name)))))
 
 (use-package project
@@ -129,7 +139,7 @@
   (add-to-list 'project-switch-commands '(project-vterm "VTerm"))
   (add-to-list 'project-switch-commands '(magit-project-status "Magit"))
   :bind (("C-x p t" . project-vterm)
-	 ("C-x p m" . magit-project-status)))
+         ("C-x p m" . magit-project-status)))
 
 (use-package treemacs
   :hook (treemacs-mode . (lambda () (variable-pitch-mode 1))))
@@ -558,6 +568,11 @@
   (add-to-list 'tree-sitter-major-mode-language-alist '(vim-mode . vim)))
 
 (use-package magit)
+
+(use-package forge
+  :after magit)
+
+(use-package git-modes)
 
 (use-package git-timemachine)
 

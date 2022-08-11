@@ -96,6 +96,7 @@ in
         pull.rebase = false;
         push.default = "current";
         init.defaultBranch = "master";
+        github.user = "jay-aye-see-kay";
       };
       aliases = {
         aa = "add .";

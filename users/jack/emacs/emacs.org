@@ -112,7 +112,11 @@ Use the [[https://github.com/emacscollective/no-littering/blob/master/no-litteri
     :init (doom-modeline-mode 1))
 
   (recentf-mode t)
-  (setq recentf-max-saved-items 50)
+  (setq recentf-max-saved-items 200)
+
+  (setq scroll-conservatively 1)
+  (save-place-mode 1)
+  (use-package sudo-edit)
 #+end_src
 
 ** Autopair brackets
@@ -163,6 +167,16 @@ Use the built in undo-redo system, and the basic =vundo= package to visualise th
     (setq vundo-glyph-alist vundo-unicode-symbols))
 #+end_src
 
+** Whitespace
+Show a marker so we can see tab characters.
+#+begin_src emacs-lisp
+  ;; `trailing' is an options here, but it just gives a color, I want a dot instead
+  (setq whitespace-style (quote (face tab-mark)))
+  (global-whitespace-mode 1)
+
+  (setq-default tab-width 4)
+#+end_src
+
 * Project management stuff
 ** Project.el
 =C-x p p= to open project switcher
@@ -171,18 +185,18 @@ Use the built in undo-redo system, and the basic =vundo= package to visualise th
     "Start a new vterm in project root (based on `project-shell`)"
     (interactive)
     (let* ((default-directory (project-root (project-current t)))
-	   (default-project-vterm-name (project-prefixed-buffer-name "vterm"))
-	   (vterm-buffer (get-buffer default-project-vterm-name)))
+           (default-project-vterm-name (project-prefixed-buffer-name "vterm"))
+           (vterm-buffer (get-buffer default-project-vterm-name)))
       (if (and vterm-buffer (not current-prefix-arg))
-	  (pop-to-buffer-same-window vterm-buffer)
-	(vterm (generate-new-buffer-name default-project-vterm-name)))))
+          (pop-to-buffer-same-window vterm-buffer)
+        (vterm (generate-new-buffer-name default-project-vterm-name)))))
 
   (use-package project
     :config
     (add-to-list 'project-switch-commands '(project-vterm "VTerm"))
     (add-to-list 'project-switch-commands '(magit-project-status "Magit"))
     :bind (("C-x p t" . project-vterm)
-	   ("C-x p m" . magit-project-status)))
+           ("C-x p m" . magit-project-status)))
 #+end_src
 ** Treemacs
 #+begin_src emacs-lisp
@@ -715,6 +729,11 @@ Currently only using this in org source blocks, and it's not working yet. But wi
 * VCS and Magit
 #+begin_src emacs-lisp
   (use-package magit)
+
+  (use-package forge
+    :after magit)
+
+  (use-package git-modes)
 
   (use-package git-timemachine)
 
