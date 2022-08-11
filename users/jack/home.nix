@@ -15,7 +15,8 @@ let
     polymc # minecraft launcher, it probably works on mac, but I don't want it there
     unzip
   ];
-in {
+in
+{
   imports = [
     ./macos-spotlight-fix.nix
     # WIP better firefox defaults

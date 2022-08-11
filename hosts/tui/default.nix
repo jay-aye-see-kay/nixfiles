@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 let publicKeys = import ../../publicKeys.nix;
-in {
+in
+{
   imports = [ ./hardware.nix ];
 
   nix = {

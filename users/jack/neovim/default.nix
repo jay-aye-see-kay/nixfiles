@@ -65,7 +65,8 @@ let
       sha256 = "drQG1ObxR4HHsNnEEBtvZQVPrsjZuHt57PTHOSkNMSs=";
     };
   };
-in {
+in
+{
   programs.neovim = {
     enable = true;
     withNodeJs = true;
@@ -177,10 +178,10 @@ in {
       }
 
       /* TODO:
-         "dkarter/bullets.vim",
-         use({ "rafcamlet/nvim-luapad", cmd = { "Luapad", "LuaRun" } })
-         "ibhagwan/fzf-lua",
-         "monaqa/dial.nvim",
+        "dkarter/bullets.vim",
+        use({ "rafcamlet/nvim-luapad", cmd = { "Luapad", "LuaRun" } })
+        "ibhagwan/fzf-lua",
+        "monaqa/dial.nvim",
       */
     ];
 

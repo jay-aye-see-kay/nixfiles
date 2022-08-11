@@ -11,7 +11,8 @@ let
         pkgs = pkgs;
       };
   });
-in {
+in
+{
   home.file.".emacs.d/init.el".source = ./init.el;
 
   programs.emacs = {
