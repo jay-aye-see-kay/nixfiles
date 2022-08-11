@@ -131,7 +131,8 @@
   :bind (("C-x p t" . project-vterm)
 	 ("C-x p m" . magit-project-status)))
 
-(use-package treemacs)
+(use-package treemacs
+  :hook (treemacs-mode . (lambda () (variable-pitch-mode 1))))
 
 (use-package treemacs-evil
   :after (treemacs evil))
@@ -322,6 +323,7 @@
   ;; override variable pitch fonts selectively
   (variable-pitch-mode 1)
   (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-checkbox nil :foreground nil :inherit 'fixed-pitch)
   (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
