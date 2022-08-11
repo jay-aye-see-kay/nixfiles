@@ -279,9 +279,9 @@
   "hf" 'helpful-function
   "hv" 'helpful-variable
   "hk" 'helpful-key
-  "lf" 'eglot-format-buffer
-  "lr" 'eglot-rename
-  "la" 'eglot-code-actions)
+  "lf" 'lsp-format-buffer
+  "lr" 'lsp-rename
+  "la" 'lsp-execute-code-action)
 
 ;; setup avy like my hop.nvim setup
 (use-package avy
@@ -409,20 +409,29 @@
   (corfu-auto t)
   (corfu-auto-delay 0)
   (corfu-echo-documentation nil)
+  (corfu-auto-prefix 1)
   (corfu-cycle t)
   :init
   (global-corfu-mode)
   :config
   (evil-define-key 'insert 'global (kbd "C-k") 'completion-at-point))
 
-;; TODO render markdown from lsp? or is that an eglot thing?
 (use-package corfu-doc
   :config
   (add-hook 'corfu-mode-hook #'corfu-doc-mode))
 
-(use-package eglot
+(use-package lsp-mode
+  :init
+  (setq lsp-keymap-prefix nil)
+  :hook ((lsp-mode . lsp-enable-which-key-integration))
+  :commands (lsp lsp-deferred)
   :custom
-  (eldoc-echo-area-use-multiline-p nil))
+  (lsp-eldoc-enable-hover nil)
+  (lsp-auto-execute-action nil)
+  :config
+  (setq read-process-output-max (* 1024 1024)) ;; 1mb
+  (evil-define-key 'normal 'global (kbd "gd") 'xref-find-definitions)
+  (evil-define-key 'normal 'global (kbd "gr") 'lsp-find-references))
 
 (use-package flymake
   :bind (("M-n" . flymake-goto-next-error)
@@ -458,35 +467,33 @@
 
 (use-package typescript-mode
   :after tree-sitter
-  :hook (typescript-mode . eglot-ensure)
+  :hook (typescript-mode . lsp-deferred)
   :config
-  ;; choose this instead of tsx-mode so that eglot can automatically
-  ;; figure out language server
-  (define-derived-mode typescriptreact-mode typescript-mode
-    "TypeScript TSX")
-  ;; setup file type and tree sitter
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescriptreact-mode))
-  (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-mode))
+  (add-to-list 'tree-sitter-major-mode-language-alist '(tsx-mode . tsx))
   (setq typescript-indent-level 2))
 
+(define-derived-mode tsx-mode typescript-mode "TSX"
+  "A typescript derived mode for working with tsx")
+
 (use-package nix-mode
-  :hook (nix-mode . eglot-ensure)
+  :hook (nix-mode . lsp-deferred)
   :mode "\\.nix\\'")
 
 (use-package rust-mode
-  :hook (rust-mode . eglot-ensure)
+  :hook (rust-mode . lsp-deferred)
   :custom
   ;; apheleia 1.2 doesn't work with rustfmt, so use rust-mode's formatting
   (rust-format-on-save t))
 
 (use-package go-mode
-  :hook (go-mode . eglot-ensure))
+  :hook (go-mode . lsp-deferred))
 
 (use-package flymake-shellcheck
   :init
   (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
 
-(add-hook 'sh-mode-hook 'eglot-ensure)
+(add-hook 'sh-mode-hook 'lsp-deferred)
 
 (use-package plantuml-mode)
 (setq plantuml-executable-path "/usr/bin/plantuml")
@@ -501,7 +508,7 @@
 
 (use-package yaml-mode
   :hook ((yaml-mode . display-line-numbers-mode)
-         (yaml-mode . eglot-ensure))
+         (yaml-mode . lsp-deferred))
   :config
   (add-to-list 'tree-sitter-major-mode-language-alist '(yaml-mode . yaml)))
 
@@ -529,13 +536,12 @@
   (add-to-list 'tree-sitter-major-mode-language-alist '(graphql-mode . graphql)))
 
 (use-package prisma-mode
-  :hook (prisma-mode . eglot-ensure)
+  :hook (prisma-mode . lsp-deferred)
   :config
-  (add-to-list 'eglot-server-programs '(prisma-mode . ("prisma-language-server" "--stdio")))
   (add-to-list 'tree-sitter-major-mode-language-alist '(prisma-mode . prisma)))
 
 (use-package vimrc-mode
-  :hook (vimrc-mode . eglot-ensure)
+  :hook (vimrc-mode . lsp-deferred)
   :config
   (add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
   (add-to-list 'tree-sitter-major-mode-language-alist '(vim-mode . vim)))
