@@ -476,9 +476,6 @@
 
 (use-package apheleia
   :config
-  (add-to-list 'apheleia-formatters '(nixfmt . ("nixfmt")))
-  (add-to-list 'apheleia-mode-alist '(nix-mode . nixfmt))
-
   (apheleia-global-mode +1))
 
 (use-package typescript-mode
@@ -494,7 +491,10 @@
 
 (use-package nix-mode
   :hook (nix-mode . lsp-deferred)
-  :mode "\\.nix\\'")
+  :mode "\\.nix\\'"
+  :config
+  (add-to-list 'apheleia-formatters '(nixpkgs-fmt . ("nixpkgs-fmt")))
+  (add-to-list 'apheleia-mode-alist '(nix-mode . nixpkgs-fmt)))
 
 (use-package rust-mode
   :hook (rust-mode . lsp-deferred)

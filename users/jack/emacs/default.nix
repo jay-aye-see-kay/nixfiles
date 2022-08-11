@@ -44,7 +44,7 @@ in {
   home.packages = with pkgs; [
     emacs-all-the-icons-fonts
     shellcheck
-    nixfmt
+    nixpkgs-fmt
     nodePackages.mermaid-cli
     texlive.combined.scheme-medium
 

@@ -612,8 +612,8 @@ Org Mode’s structure templates feature enables you to quickly insert code bloc
     :hook (nix-mode . lsp-deferred)
     :mode "\\.nix\\'"
     :config
-    (add-to-list 'apheleia-formatters '(nixfmt . ("nixfmt")))
-    (add-to-list 'apheleia-mode-alist '(nix-mode . nixfmt)))
+    (add-to-list 'apheleia-formatters '(nixpkgs-fmt . ("nixpkgs-fmt")))
+    (add-to-list 'apheleia-mode-alist '(nix-mode . nixpkgs-fmt)))
 #+end_src
 
 ** Rust
