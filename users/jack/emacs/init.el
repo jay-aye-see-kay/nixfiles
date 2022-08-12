@@ -317,6 +317,9 @@
 (evil-define-key 'normal 'global (kbd "<mouse-8>") 'evil-jump-backward)
 (evil-define-key 'normal 'global (kbd "<mouse-9>") 'evil-jump-forward)
 
+(evil-define-key '(insert replace) 'global (kbd "C-S-v") 'evil-quoted-insert)
+(evil-define-key '(insert replace) 'global (kbd "C-v") 'yank)
+
 (defun jdr/org-mode-setup ()
   (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
   (org-indent-mode 1)
@@ -442,6 +445,7 @@
   (lsp-eldoc-enable-hover nil)
   (lsp-auto-execute-action nil)
   (lsp-enable-symbol-highlighting nil)
+  (lsp-clients-typescript-server-args '("--stdio" "--tsserver-log-file" "/dev/stderr"))
   :config
   (setq read-process-output-max (* 1024 1024)) ;; 1mb
   (evil-define-key 'normal 'global (kbd "gd") 'xref-find-definitions)

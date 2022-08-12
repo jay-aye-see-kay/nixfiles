@@ -403,6 +403,13 @@ Use the back and forward keys on my mouse to move around the jumplist kind of li
   (evil-define-key 'normal 'global (kbd "<mouse-9>") 'evil-jump-forward)
 #+end_src
 
+** Copy paste
+Make literal input =ctrl-shift-v= because it doesn't get used much and allow =ctrl-v= to be paste in insert mode.
+#+begin_src emacs-lisp
+  (evil-define-key '(insert replace) 'global (kbd "C-S-v") 'evil-quoted-insert)
+  (evil-define-key '(insert replace) 'global (kbd "C-v") 'yank)
+#+end_src
+
 * Org
 ** Core
 #+begin_src emacs-lisp
@@ -542,6 +549,7 @@ Org Mode’s structure templates feature enables you to quickly insert code bloc
 
 * Languages
 ** Lsp
+Note: =tsserver= needs to be told not to create a =.log= file in each project, [[https://github.com/emacs-lsp/lsp-mode/issues/1490#issuecomment-625825914][see this issue]].
 #+begin_src emacs-lisp
   (use-package lsp-mode
     :init
@@ -552,6 +560,7 @@ Org Mode’s structure templates feature enables you to quickly insert code bloc
     (lsp-eldoc-enable-hover nil)
     (lsp-auto-execute-action nil)
     (lsp-enable-symbol-highlighting nil)
+    (lsp-clients-typescript-server-args '("--stdio" "--tsserver-log-file" "/dev/stderr"))
     :config
     (setq read-process-output-max (* 1024 1024)) ;; 1mb
     (evil-define-key 'normal 'global (kbd "gd") 'xref-find-definitions)
