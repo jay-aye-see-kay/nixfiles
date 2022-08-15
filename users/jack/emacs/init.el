@@ -350,7 +350,8 @@
 (use-package org
   :hook (org-mode . jdr/org-mode-setup)
   :bind (("C-c l" . org-store-link)
-         ("C-c a" . org-agenda))
+         ("C-c a" . org-agenda)
+         ("C-c c" . org-capture))
   :custom
   (org-startup-with-inline-images t)
   (org-auto-align-tags nil)
@@ -373,6 +374,12 @@
   :config
   ;; load org stuff up front rather than on the first time an org file is opened
   (org-load-modules-maybe t))
+
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/Documents/org/refile.org" "Tasks")
+         "* TODO %?\n  %i\n  %a")
+        ("i" "Idea" entry (file+headline "~/Documents/org/refile.org" "Ideas")
+         "* %?\nEntered on %U\n  %i\n  %a")))
 
 (use-package org-journal
   :ensure t

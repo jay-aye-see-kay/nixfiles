@@ -443,7 +443,8 @@ Make literal input =ctrl-shift-v= because it doesn't get used much and allow =ct
   (use-package org
     :hook (org-mode . jdr/org-mode-setup)
     :bind (("C-c l" . org-store-link)
-           ("C-c a" . org-agenda))
+           ("C-c a" . org-agenda)
+           ("C-c c" . org-capture))
     :custom
     (org-startup-with-inline-images t)
     (org-auto-align-tags nil)
@@ -467,6 +468,18 @@ Make literal input =ctrl-shift-v= because it doesn't get used much and allow =ct
     ;; load org stuff up front rather than on the first time an org file is opened
     (org-load-modules-maybe t))
     #+end_src
+
+** Capture templates
+I'm not sure how I'll use these yet, so I'll just start keeping it simple.
+TODO: use the =org-directory= vairable instead of hard coding the path.
+TODO: try capturing metrics like weight or exercise [[https://github.com/daviwil/emacs-from-scratch/blob/master/Emacs.org#basic-config][EFS has an example of doing this]].
+#+begin_src emacs-lisp
+  (setq org-capture-templates
+        '(("t" "Todo" entry (file+headline "~/Documents/org/refile.org" "Tasks")
+           "* TODO %?\n  %i\n  %a")
+          ("i" "Idea" entry (file+headline "~/Documents/org/refile.org" "Ideas")
+           "* %?\nEntered on %U\n  %i\n  %a")))
+#+end_src
 
 ** Org journal
 =C-c C-j= is the default binding for ~org-journal-new-entry~, but we need to bind it in org-mode as this is ~org-goto~ by default.
