@@ -25,6 +25,18 @@ let
     nextcloud.h.jackrose.co.nz {
       reverse_proxy nextcloud:80
     }
+
+    crafty.h.jackrose.co.nz {
+      tls {
+        alpn http/1.1
+      }
+      reverse_proxy https://crafty:8443 {
+        transport http {
+          tls_insecure_skip_verify
+          versions 1.1
+        }
+      }
+    }
   '';
 in
 {
@@ -41,6 +53,21 @@ in
         container_name = "${projectName}-caddy";
         ports = [ "80:80" "443:443" ];
         volumes = [ "${basePath}/caddy-data:/.local/share/caddy" ];
+      };
+    };
+
+    # Crafty controller (minecraft dashboard)
+    crafty.service = {
+      container_name = "${projectName}-crafty";
+      image = "registry.gitlab.com/crafty-controller/crafty-4:latest";
+      # TODO volumes
+      ports = [
+        "8123:8123"  # DYNMAP
+        "19132:19132/udp"  # BEDROCK
+        "25500-25600:25500-25600"  # MC SERV PORT RANGE
+      ];
+      environment = {
+        TZ = "Australia/Melbourne";
       };
     };
 
