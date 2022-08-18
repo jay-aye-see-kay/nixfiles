@@ -35,6 +35,7 @@ in
       fd
       go
       gopls
+      godef
       nodePackages.prettier
       awscli2
       atool
