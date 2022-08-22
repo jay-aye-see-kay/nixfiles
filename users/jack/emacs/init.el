@@ -437,6 +437,7 @@
   :init
   (global-corfu-mode)
   :config
+  (general-unbind 'insert corfu-map "C-j")
   (evil-define-key 'insert 'global (kbd "C-k") 'completion-at-point))
 
 (use-package corfu-doc
@@ -622,11 +623,11 @@
      "fish_color_user=#000000")))
 
 (use-package yasnippet
-  :bind (("C-j" . tempel-expand)
-         ("C-l" . tempel-next)
-         ("M-+" . tempel-complete)
-         ("M-*" . tempel-insert))
+  :bind (("C-j" . yas-expand)
+         ("C-l" . yas-next-field))
+  :custom
+  (yas-snippet-dirs '("~/nixfiles/users/jack/emacs/snippets"))
   :config
-(yas-global-mode 1))
+  (yas-global-mode 1))
 
 (use-package pdf-tools)

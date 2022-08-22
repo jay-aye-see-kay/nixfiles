@@ -553,6 +553,7 @@ Org Mode’s structure templates feature enables you to quickly insert code bloc
     :init
     (global-corfu-mode)
     :config
+    (general-unbind 'insert corfu-map "C-j")
     (evil-define-key 'insert 'global (kbd "C-k") 'completion-at-point))
 
   (use-package corfu-doc
@@ -801,14 +802,21 @@ Setup fish colors so they match my current theme (modus-operandi), this is quite
 #+end_src
 
 * Snippets
+Currently I'm just using these direct from nixfile instead of putting them in the store which is fine for now until I get round to loading them from this file somehow.
+
+*TODO* define these in this/a literate org-mode file
+- using =yas-define-snippets= is probably the way to do it in org mode snippets
+- =yas--parse-template= may also be helpful to convert yas template files to elisp syntax.
+- also =lsp--to-yasnippet-snippet= could make things easier?
+
 ** Yasnippet setup
 #+begin_src emacs-lisp
-    (use-package yasnippet
-      :bind (("C-j" . tempel-expand)
-             ("C-l" . tempel-next)
-             ("M-+" . tempel-complete)
-             ("M-*" . tempel-insert))
-      :config
+  (use-package yasnippet
+    :bind (("C-j" . yas-expand)
+           ("C-l" . yas-next-field))
+    :custom
+    (yas-snippet-dirs '("~/nixfiles/users/jack/emacs/snippets"))
+    :config
     (yas-global-mode 1))
 #+end_src
 

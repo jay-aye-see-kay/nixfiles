@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: const
+# key: c
+# --
+const ${1:x} = $0
