@@ -31,6 +31,9 @@ in
 
       customNodePackages."aws-cdk-1.x"
 
+      aspell
+      aspellDicts.en
+
       shfmt
       fd
       go

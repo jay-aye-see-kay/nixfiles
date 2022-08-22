@@ -631,3 +631,5 @@
   (yas-global-mode 1))
 
 (use-package pdf-tools)
+
+(setq ispell-program-name "aspell")

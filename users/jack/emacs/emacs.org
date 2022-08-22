@@ -825,3 +825,7 @@ Currently I'm just using these direct from nixfile instead of putting them in th
   (use-package pdf-tools)
 #+end_src
 
+* Spelling
+#+begin_src emacs-lisp
+(setq ispell-program-name "aspell")
+#+end_src
