@@ -388,6 +388,8 @@ Make evil window movements less strict, by default they're only =C-w {h,j,k,l}=,
     "l" 'consult-line
     "o" 'consult-recent-file
     "a" 'deadgrep
+    "M" 'bookmark-set
+    "m" 'consult-bookmark
     "x" 'execute-extended-command)
 
   (use-package deadgrep)
@@ -766,7 +768,15 @@ Currently only using this in org source blocks, and it's not working yet. But wi
     (evil-define-key 'normal 'global (kbd "[h") 'diff-hl-previous-hunk)
     (diff-hl-flydiff-mode 1)
     (global-diff-hl-mode 1))
-#+end_src
+
+  (use-package hl-todo
+    :config
+    (global-hl-todo-mode))
+
+  (use-package magit-todos
+    :config
+    (magit-todos-mode))
+        #+end_src
 
 * Terminals
 ** TODO setup eshell

@@ -308,6 +308,8 @@
   "l" 'consult-line
   "o" 'consult-recent-file
   "a" 'deadgrep
+  "M" 'bookmark-set
+  "m" 'consult-bookmark
   "x" 'execute-extended-command)
 
 (use-package deadgrep)
@@ -594,6 +596,14 @@
   (evil-define-key 'normal 'global (kbd "[h") 'diff-hl-previous-hunk)
   (diff-hl-flydiff-mode 1)
   (global-diff-hl-mode 1))
+
+(use-package hl-todo
+  :config
+  (global-hl-todo-mode))
+
+(use-package magit-todos
+  :config
+  (magit-todos-mode))
 
 (use-package vterm
   :custom
