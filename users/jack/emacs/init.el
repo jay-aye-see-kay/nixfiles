@@ -260,10 +260,10 @@
   :after evil
   :config (evil-commentary-mode))
 
-(evil-define-key 'normal 'global (kbd "C-w C-h") 'evil-window-left)
-(evil-define-key 'normal 'global (kbd "C-w C-j") 'evil-window-down)
-(evil-define-key 'normal 'global (kbd "C-w C-k") 'evil-window-up)
-(evil-define-key 'normal 'global (kbd "C-w C-l") 'evil-window-right)
+(general-def 'normal 'override "C-w C-h" 'evil-window-left)
+(general-def 'normal 'override "C-w C-j" 'evil-window-down)
+(general-def 'normal 'override "C-w C-k" 'evil-window-up)
+(general-def 'normal 'override "C-w C-l" 'evil-window-right)
 
 (use-package which-key
   :init (which-key-mode)
@@ -281,7 +281,7 @@
     :prefix "SPC"
     :global-prefix "C-SPC")
   (general-create-definer rune/quick-keys
-    :keymaps '(normal)
+    :keymaps '(normal override)
     :prefix ","))
 
 (general-unbind magit-mode-map "SPC")
