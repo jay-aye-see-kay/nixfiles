@@ -7,6 +7,7 @@ let
     beekeeper-studio
     gparted
     helvum
+    easyeffects
     imv
     lsof
     mpv
