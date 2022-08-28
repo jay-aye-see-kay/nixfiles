@@ -76,8 +76,6 @@ in
   programs = {
     home-manager.enable = true;
 
-    vscode.enable = true;
-
     zoxide.enable = true;
     zoxide.enableFishIntegration = true;
 
