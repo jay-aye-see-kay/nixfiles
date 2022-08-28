@@ -114,6 +114,11 @@
   (evil-goggles-mode)
   (evil-goggles-use-diff-faces))
 
+;; These limits copied from doom
+(setq undo-limit 800000           ; 800kb (default is 160kb)
+      undo-strong-limit 12000000  ; 12mb  (default is 240kb)
+      undo-outer-limit 128000000) ; 128mb (default is 24mb)
+
 (use-package vundo
   :config
   (setq vundo-glyph-alist vundo-unicode-symbols))
