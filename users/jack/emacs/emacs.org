@@ -361,7 +361,7 @@ Make evil window movements less strict, by default they're only =C-w {h,j,k,l}=,
       :prefix "SPC"
       :global-prefix "C-SPC")
     (general-create-definer rune/quick-keys
-      :keymaps '(normal override)
+      :keymaps 'normal
       :prefix ","))
 
   (general-unbind magit-mode-map "SPC")

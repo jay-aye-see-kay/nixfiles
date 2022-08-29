@@ -281,7 +281,7 @@
     :prefix "SPC"
     :global-prefix "C-SPC")
   (general-create-definer rune/quick-keys
-    :keymaps '(normal override)
+    :keymaps 'normal
     :prefix ","))
 
 (general-unbind magit-mode-map "SPC")
