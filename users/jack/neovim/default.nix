@@ -176,13 +176,6 @@ in
           lua vim.g.copilot_enabled = false
         '';
       }
-
-      /* TODO:
-        "dkarter/bullets.vim",
-        use({ "rafcamlet/nvim-luapad", cmd = { "Luapad", "LuaRun" } })
-        "ibhagwan/fzf-lua",
-        "monaqa/dial.nvim",
-      */
     ];
 
     extraPackages = with pkgs; [

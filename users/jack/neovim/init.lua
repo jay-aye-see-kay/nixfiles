@@ -367,8 +367,6 @@ vim.g.bullets_checkbox_markers = " .oOx"
 vim.g.wiki_root = "~/Documents/notes"
 vim.g.markdown_folding = true
 
-nnoremap("glt", "<cmd>ToggleCheckbox<cr>") -- TODO: create or toggle checkbox
-
 local function open_logbook(days_from_today)
 	local date_offset = (days_from_today or 0) * 24 * 60 * 60
 	local filename = os.date("%Y-%m-%d-%A", os.time() + date_offset) .. ".org"
@@ -495,7 +493,7 @@ local main_keymap = {
 		f = { "<cmd>lua LspFormat()<cr>", "Prev Diagnostic" },
 		c = { "<cmd>call v:lua.ToggleCopilot()<cr>", "Toggle Copilot" },
 
-		-- HACK: pop into insert mode after to trigger lsp applying settings
+		-- hack: pop into insert mode after to trigger lsp applying settings
 		q = { "<cmd>call v:lua.QuietLsp()<cr>i <bs><esc>", "Hide lsp diagnostics" },
 		Q = { "<cmd>call v:lua.LoudenLsp()<cr>i <bs><esc>", "Show lsp diagnostics" },
 
