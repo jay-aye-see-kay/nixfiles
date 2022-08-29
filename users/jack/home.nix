@@ -1,7 +1,9 @@
 { config, pkgs, lib, ... }:
 let
   ifLinux = lib.mkIf pkgs.stdenv.isLinux;
-  darwinOnlyPackages = [ ];
+  darwinOnlyPackages = with pkgs; [
+    unstable.nodePackages.snyk
+  ];
   linuxOnlyPackages = with pkgs; [
     arandr
     beekeeper-studio
