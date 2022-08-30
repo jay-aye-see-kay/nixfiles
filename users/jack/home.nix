@@ -33,6 +33,8 @@ in
       black
 
       customNodePackages."aws-cdk-1.x"
+      unstable.nodePackages.cdk8s-cli
+      unstable.kubectl
 
       aspell
       aspellDicts.en
