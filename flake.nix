@@ -8,8 +8,9 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     sops-nix.url = "github:Mic92/sops-nix";
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
+
+    neovim-flake.url = "github:jay-aye-see-kay/neovim-flake";
   };
 
   outputs =
@@ -19,8 +20,8 @@
     , nixos-hardware
     , home-manager
     , sops-nix
-    , neovim-nightly-overlay
     , emacs-overlay
+    , neovim-flake
     }:
     let
       username = "jack";
@@ -43,9 +44,9 @@
         config = { allowUnfree = true; };
         overlays = [
           overlayUnstable
-          neovim-nightly-overlay.overlay
           emacs-overlay.overlay
           nodePkgsOverlay
+          neovim-flake.overlays.${system}.default
         ];
       };
 
@@ -62,7 +63,6 @@
         config = { allowUnfree = true; };
         overlays = [
           overlayUnstableAarch64
-          neovim-nightly-overlay.overlay
           emacs-overlay.overlay
           nodePkgsOverlay
         ];
@@ -81,7 +81,6 @@
         config = { allowUnfree = true; };
         overlays = [
           overlayUnstableDarwin
-          neovim-nightly-overlay.overlay
           emacs-overlay.overlay
           nodePkgsOverlay
         ];
@@ -91,7 +90,7 @@
       commonHomeManagerImports = [
         ./users/jack/home.nix
         ./users/jack/fish.nix
-        ./users/jack/neovim
+        # ./users/jack/neovim
         ./users/jack/emacs
       ];
       linuxHomeManagerImports = commonHomeManagerImports ++ [ ./users/jack/i3 ];

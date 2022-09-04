@@ -28,6 +28,28 @@ in
 
   home.packages = with pkgs;
     [
+      neovim
+      # === neovim stuff
+      fzf
+      nodejs
+      stylua
+
+      # language servers
+      nodePackages.bash-language-server
+      nodePackages.dockerfile-language-server-nodejs
+      nodePackages.pyright
+      nodePackages.typescript
+      nodePackages.typescript-language-server
+      nodePackages.vim-language-server
+      nodePackages.vscode-langservers-extracted
+      nodePackages.yaml-language-server
+      rnix-lsp
+      rubyPackages.solargraph
+      rust-analyzer
+      sumneko-lua-language-server
+      # ===
+
+
       (python3.withPackages (ps: [ ps.ipykernel ]))
       nodePackages.pyright
       black
