@@ -49,7 +49,7 @@ in
       sumneko-lua-language-server
       # ===
 
-
+      trash-cli
       (python3.withPackages (ps: [ ps.ipykernel ]))
       nodePackages.pyright
       black
