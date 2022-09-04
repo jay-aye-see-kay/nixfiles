@@ -85,6 +85,38 @@
         "type": "github"
       }
     },
+    "plugin:neo-tree": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1660951200,
+        "narHash": "sha256-yKZXHByatDefFeJpl067RGn9JClOKAnCwAnBFKeWYAs=",
+        "owner": "nvim-neo-tree",
+        "repo": "neo-tree.nvim",
+        "rev": "a7d6f05e57487326fd70b24195c3b7a86a88b156",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-neo-tree",
+        "repo": "neo-tree.nvim",
+        "type": "github"
+      }
+    },
+    "plugin:nui": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1661439400,
+        "narHash": "sha256-I6VZ3DECwIGqpsJBj35bcN0Boantp3Rn6DU3S6yYeaY=",
+        "owner": "MunifTanjim",
+        "repo": "nui.nvim",
+        "rev": "62facd37e0dd8196212399a897374f689886f500",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MunifTanjim",
+        "repo": "nui.nvim",
+        "type": "github"
+      }
+    },
     "plugin:vim-resize-mode": {
       "flake": false,
       "locked": {
@@ -123,6 +155,8 @@
         "neovim-flake": "neovim-flake",
         "nixpkgs": "nixpkgs",
         "plugin:bullets": "plugin:bullets",
+        "plugin:neo-tree": "plugin:neo-tree",
+        "plugin:nui": "plugin:nui",
         "plugin:vim-resize-mode": "plugin:vim-resize-mode",
         "plugin:vim-symlink": "plugin:vim-symlink"
       }

@@ -27,6 +27,14 @@
       url = "github:aymericbeaumet/vim-symlink";
       flake = false;
     };
+    "plugin:neo-tree" = {
+      url = "github:nvim-neo-tree/neo-tree.nvim";
+      flake = false;
+    };
+    "plugin:nui" = {
+      url = "github:MunifTanjim/nui.nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
