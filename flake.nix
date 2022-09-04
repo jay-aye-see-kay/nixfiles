@@ -11,7 +11,7 @@
       url = "github:neovim/neovim?dir=contrib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     # Theme
     "plugin:onedark-vim" = {
       url = "github:joshdick/onedark.vim";
@@ -120,37 +120,39 @@
         #          | to your imports!
         # opt      | List of optional plugins to load only when 
         #          | explicitly loaded from inside neovim
-        neovimBuilder = { customRC ? ""
-                        , viAlias  ? true
-                        , vimAlias ? true
-                        , start    ? builtins.attrValues pkgs.neovimPlugins
-                        , opt      ? []
-                        , debug    ? false }:
-                        let
-                          myNeovimUnwrapped = pkgs.neovim-unwrapped.overrideAttrs (prev: {
-                            propagatedBuildInputs = with pkgs; [ pkgs.stdenv.cc.cc.lib ];
-                          });
-                        in
-                        pkgs.wrapNeovim myNeovimUnwrapped {
-                          inherit viAlias;
-                          inherit vimAlias;
-                          configure = {
-                            customRC = customRC;
-                            packages.myVimPackage = with pkgs.neovimPlugins; {
-                              start = start;
-                              opt = opt;
-                            };
-                          };
-                        };
+        neovimBuilder =
+          { customRC ? ""
+          , viAlias ? true
+          , vimAlias ? true
+          , start ? builtins.attrValues pkgs.neovimPlugins
+          , opt ? [ ]
+          , debug ? false
+          }:
+          let
+            myNeovimUnwrapped = pkgs.neovim-unwrapped.overrideAttrs (prev: {
+              propagatedBuildInputs = with pkgs; [ pkgs.stdenv.cc.cc.lib ];
+            });
+          in
+          pkgs.wrapNeovim myNeovimUnwrapped {
+            inherit viAlias;
+            inherit vimAlias;
+            configure = {
+              customRC = customRC;
+              packages.myVimPackage = with pkgs.neovimPlugins; {
+                start = start;
+                opt = opt;
+              };
+            };
+          };
       in
       rec {
-        defaultApp = apps.nvim;
+        apps.default = apps.nvim;
         defaultPackage = packages.neovimLuca;
 
         apps.nvim = {
-            type = "app";
-            program = "${defaultPackage}/bin/nvim";
-          };
+          type = "app";
+          program = "${defaultPackage}/bin/nvim";
+        };
 
         packages.neovimLuca = neovimBuilder {
           # the next line loads a trivial example of a init.vim:
@@ -158,6 +160,8 @@
           # if you wish to only load the onedark-vim colorscheme:
           # start = with pkgs.neovimPlugins; [ onedark-vim ];
         };
+
+        overlays.default = final: prev: { neovim = defaultPackage; };
       }
     );
 }
