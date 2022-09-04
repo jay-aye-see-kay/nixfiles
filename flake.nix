@@ -153,10 +153,99 @@
         };
 
         packages.myNeovim = neovimBuilder {
-          # the next line loads a trivial example of a init.vim:
-          customRC = pkgs.lib.readFile ./init.vim;
-          # if you wish to only load the onedark-vim colorscheme:
-          # start = with pkgs.neovimPlugins; [ onedark-vim ];
+          customRC = ''
+            set termguicolors
+            ${pkgs.lib.readFile ./file-tree.vim}
+            ${pkgs.lib.readFile ./functions.vim}
+            ${pkgs.lib.readFile ./terminal.vim}
+
+            lua << EOF
+            ${pkgs.lib.readFile ./init.lua}
+            EOF
+          '';
+          start =
+            let
+              # get all the plugins defined in this file, a fair bit of doing + undoing, could be simplified a lot
+              allPluginsFromInputs = (pkgs.lib.attrsets.mapAttrsToList (name: value: value) pkgs.neovimPlugins);
+            in
+            allPluginsFromInputs ++ (with pkgs.vimPlugins; [
+              nvcode-color-schemes-vim
+
+              # langs
+              vim-nix
+              vim-json
+              jsonc-vim
+
+              (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
+              nvim-treesitter-textobjects
+              nvim-ts-autotag
+              playground # tree-sitter playground
+
+              nvim-lspconfig
+              nvim-lsp-ts-utils
+              SchemaStore-nvim
+              nvim-cmp
+              cmp-buffer
+              cmp-path
+              cmp-nvim-lua
+              cmp-nvim-lsp
+              cmp_luasnip
+              lspkind-nvim
+              luasnip
+
+              # contain these, maybe remove
+              orgmode
+              friendly-snippets
+              neoformat
+              lightline-vim
+              lightline-lsp
+              nvim-web-devicons
+              fern-vim
+              # fern-hijack
+              # fern-git-status
+              # fern-renderer-nerdfont
+              # nerdfont
+              # bullets-vim
+              # vim-symlink
+              # vim-resize-mode
+
+              tabular
+              nvim-ts-context-commentstring
+              vim-bbye
+              plenary-nvim
+              popup-nvim
+              trouble-nvim
+              symbols-outline-nvim
+
+              telescope-nvim
+              telescope-fzf-native-nvim
+              telescope-symbols-nvim
+              fzf-vim
+
+              nvim-colorizer-lua
+              hop-nvim
+              vim-mundo
+              vim-lastplace
+              which-key-nvim
+              lua-dev-nvim
+              dressing-nvim
+              fidget-nvim
+
+              # tpope
+              vim-abolish
+              vim-commentary
+              vim-repeat
+              vim-surround
+              vim-unimpaired
+              targets-vim
+
+              # git
+              git-messenger-vim
+              diffview-nvim
+              gitsigns-nvim
+              vim-fugitive
+              vim-rhubarb
+            ]);
         };
 
         overlays.default = final: prev: { neovim = defaultPackage; };
