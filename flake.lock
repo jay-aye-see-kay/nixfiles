@@ -69,35 +69,51 @@
         "type": "github"
       }
     },
-    "plugin:gitsigns": {
+    "plugin:bullets": {
       "flake": false,
       "locked": {
-        "lastModified": 1662037601,
-        "narHash": "sha256-kyiQoboYq4iNLOj1iKA2cfXQ9FFiRYdvf55bX5Xvj8A=",
-        "owner": "lewis6991",
-        "repo": "gitsigns.nvim",
-        "rev": "d7e0bcbe45bd9d5d106a7b2e11dc15917d272c7a",
+        "lastModified": 1660406545,
+        "narHash": "sha256-HwbJVnF3X530uTg3vSo25SoKcFo3RuRHvddjKg4zYP4=",
+        "owner": "dkarter",
+        "repo": "bullets.vim",
+        "rev": "5b38374ead59c84ecc1013d3267af14b624f4469",
         "type": "github"
       },
       "original": {
-        "owner": "lewis6991",
-        "repo": "gitsigns.nvim",
+        "owner": "dkarter",
+        "repo": "bullets.vim",
         "type": "github"
       }
     },
-    "plugin:onedark-vim": {
+    "plugin:vim-resize-mode": {
       "flake": false,
       "locked": {
-        "lastModified": 1658129205,
-        "narHash": "sha256-mEzN3y5knjwdSE47qnsw3/7iHqkPA/E5yy/yFrm7UKY=",
-        "owner": "joshdick",
-        "repo": "onedark.vim",
-        "rev": "1fe54f212f09a03c2b5e277f0fe5b7b9d0b0a4ed",
+        "lastModified": 1612225355,
+        "narHash": "sha256-drQG1ObxR4HHsNnEEBtvZQVPrsjZuHt57PTHOSkNMSs=",
+        "owner": "sedm0784",
+        "repo": "vim-resize-mode",
+        "rev": "555759fbbd0b7096da1cf6e7bf29acf850423f94",
         "type": "github"
       },
       "original": {
-        "owner": "joshdick",
-        "repo": "onedark.vim",
+        "owner": "sedm0784",
+        "repo": "vim-resize-mode",
+        "type": "github"
+      }
+    },
+    "plugin:vim-symlink": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1658828180,
+        "narHash": "sha256-V5ziS/Q/0hulAdUIg7PgR+yjf6vljaGQBksUCiIeHyM=",
+        "owner": "aymericbeaumet",
+        "repo": "vim-symlink",
+        "rev": "fec2d1a72c6875557109ce6113f26d3140b64374",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aymericbeaumet",
+        "repo": "vim-symlink",
         "type": "github"
       }
     },
@@ -106,8 +122,9 @@
         "flake-utils": "flake-utils",
         "neovim-flake": "neovim-flake",
         "nixpkgs": "nixpkgs",
-        "plugin:gitsigns": "plugin:gitsigns",
-        "plugin:onedark-vim": "plugin:onedark-vim"
+        "plugin:bullets": "plugin:bullets",
+        "plugin:vim-resize-mode": "plugin:vim-resize-mode",
+        "plugin:vim-symlink": "plugin:vim-symlink"
       }
     }
   },

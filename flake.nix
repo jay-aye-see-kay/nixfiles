@@ -12,14 +12,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Theme
-    "plugin:onedark-vim" = {
-      url = "github:joshdick/onedark.vim";
+    # Plugins direct from their repos
+    "plugin:vim-resize-mode" = {
+      url = "github:sedm0784/vim-resize-mode";
       flake = false;
     };
-    # Git
-    "plugin:gitsigns" = {
-      url = "github:lewis6991/gitsigns.nvim";
+    "plugin:bullets" = {
+      url = "github:dkarter/bullets.vim";
+      flake = false;
+    };
+    "plugin:vim-symlink" = {
+      url = "github:aymericbeaumet/vim-symlink";
       flake = false;
     };
   };
@@ -205,9 +208,6 @@
               # fern-git-status
               # fern-renderer-nerdfont
               # nerdfont
-              # bullets-vim
-              # vim-symlink
-              # vim-resize-mode
 
               tabular
               nvim-ts-context-commentstring
