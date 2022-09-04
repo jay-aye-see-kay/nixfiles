@@ -14,17 +14,8 @@ local function augroup(group_name, definition)
 	vim.api.nvim_command("augroup END")
 end
 
--- https://stackoverflow.com/a/7470789/7164888
--- TODO use vim.tbl_extend() instead
 local function merge(t1, t2)
-	for k, v in pairs(t2) do
-		if (type(v) == "table") and (type(t1[k] or false) == "table") then
-			merge(t1[k], t2[k])
-		else
-			t1[k] = v
-		end
-	end
-	return t1
+	return vim.tbl_extend("force", t1, t2)
 end
 
 local function make_directed_maps(command_desc, command)
@@ -51,10 +42,10 @@ end
 
 local function exec(command)
 	local file, err = io.popen(command, "r")
-  if file == nil then
-    print(err)
-    return
-  end
+	if file == nil then
+		print("file could not be opened:", err)
+		return
+	end
 	local res = {}
 	for line in file:lines() do
 		table.insert(res, line)
@@ -894,4 +885,3 @@ vim.api.nvim_create_autocmd({
 	end,
 })
 -- }}} status and winbar
-
