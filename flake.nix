@@ -1,6 +1,8 @@
 {
   description = "A configured Neovim flake";
 
+  # TODO maybe use makeNeovimConfig from https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/editors/neovim/utils.nix
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     flake-utils = {
