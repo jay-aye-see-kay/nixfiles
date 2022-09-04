@@ -1,38 +1,24 @@
-# Luca's super simple neovim flake configuration
+# Neovim flake configuration
 
-This configuration is heavily inspired by
-[jordanisaacs/neovim-flake](https://github.com/jordanisaacs/neovim-flake)
-and was forked, but heavily edited from [jordanisaacs/neovim-flake](https://github.com/jordanisaacs/neovim-flake).
-The problem with their flakes (and pretty much all other (neovim-)flakes)
-so far, is that the learning curve for flakes is so steep that only
-experts know how to create them. This leads to eiter overly complex
-examples or excessively trivial ones.
-
-The above flakes are to complicated for most people, which is why
-I simplified them into a small, single file. Now you can create your
-own neovim flake in no time!
-
-Just add your prefered plugins into the `inputs` section of `flake.nix`
-and overwrite `init.vim`! Done!
+Kept separate so I can update it when I feel like, independent from the rest of my Nix system.
 
 ## Installation
 
 ### Run over the internet
 
-`nix run github:quoteme/neovim-flake /some/file`
+`nix run github:jay-aye-see-kay/neovim-flake /some/file`
 
-### Run from a folder (for hacking )
+### Install with an overlay
 
-Clone the repo and run `nix run /some/file` inside the new folder.
+TODO
 
 ### Install system-wide
 
 Open `/etc/nixos/flake.nix` and add the following:
 
-```
+```nix
 inputs = {
-    # ...blabla...
-    neovim-flake.url = "github:Quoteme/neovim-flake";
+    neovim-flake.url = "github:jay-aye-see-kay/neovim-flake";
 }
 
 outputs = {self, nixpkgs, ...}@attr: {
@@ -51,6 +37,3 @@ outputs = {self, nixpkgs, ...}@attr: {
     }
 }
 ```
-
-Note that `...blabla...` is a placeholder for any other configuration
-you might have set inside your `flake.nix`!

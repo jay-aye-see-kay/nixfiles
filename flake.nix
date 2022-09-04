@@ -1,5 +1,5 @@
 {
-  description = "Luca's simple Neovim flake for easy configuration";
+  description = "A configured Neovim flake";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
@@ -25,8 +25,6 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
-    # This line makes this package availeable for all systems
-    # ("x86_64-linux", "aarch64-linux", "i686-linux", "x86_64-darwin",...)
     flake-utils.lib.eachDefaultSystem (system:
       let
         # Once we add this overlay to our nixpkgs, we are able to
@@ -147,14 +145,14 @@
       in
       rec {
         apps.default = apps.nvim;
-        defaultPackage = packages.neovimLuca;
+        defaultPackage = packages.myNeovim;
 
         apps.nvim = {
           type = "app";
           program = "${defaultPackage}/bin/nvim";
         };
 
-        packages.neovimLuca = neovimBuilder {
+        packages.myNeovim = neovimBuilder {
           # the next line loads a trivial example of a init.vim:
           customRC = pkgs.lib.readFile ./init.vim;
           # if you wish to only load the onedark-vim colorscheme:
