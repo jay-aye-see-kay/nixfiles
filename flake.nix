@@ -65,6 +65,7 @@
           overlayUnstableAarch64
           emacs-overlay.overlay
           nodePkgsOverlay
+          neovim-flake.overlays.${systemAarch64}.default
         ];
       };
 
@@ -83,6 +84,7 @@
           overlayUnstableDarwin
           emacs-overlay.overlay
           nodePkgsOverlay
+          neovim-flake.overlays.${systemDarwin}.default
         ];
       };
 
@@ -90,7 +92,6 @@
       commonHomeManagerImports = [
         ./users/jack/home.nix
         ./users/jack/fish.nix
-        # ./users/jack/neovim
         ./users/jack/emacs
       ];
       linuxHomeManagerImports = commonHomeManagerImports ++ [ ./users/jack/i3 ];
