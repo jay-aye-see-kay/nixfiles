@@ -50,7 +50,11 @@ local function make_directed_maps(command_desc, command)
 end
 
 local function exec(command)
-	local file = io.popen(command, "r")
+	local file, err = io.popen(command, "r")
+  if file == nil then
+    print(err)
+    return
+  end
 	local res = {}
 	for line in file:lines() do
 		table.insert(res, line)
@@ -207,8 +211,9 @@ for _, lsp in pairs(lsp_servers) do
 			schemas = require("schemastore").json.schemas(),
 		}
 		-- filetypes = { "json", "jsonc" }
-	elseif lsp == "" then
+	elseif lsp == "sumneko_lua" then
 		settings.Lua = {
+			runtime = { version = "LuaJIT" },
 			diagnostics = { globals = { "vim" } },
 			workspace = { library = vim.api.nvim_get_runtime_file("", true) },
 			telemetry = { enable = false },
@@ -855,3 +860,38 @@ require("which-key").setup({
 	},
 })
 -- }}}
+
+-- {{{ status and winbar
+vim.cmd([[ set laststatus=3 ]]) -- global statusline; only works on neovim 0.7+
+vim.api.nvim_create_autocmd({
+	"DirChanged",
+	"CursorMoved",
+	"BufWinEnter",
+	"BufFilePost",
+	"InsertEnter",
+	"BufWritePost",
+}, {
+	callback = function()
+		local exclude_buftypes = { "terminal" }
+		local exclude_filetypes = {
+			"help",
+			"qf",
+			"packer",
+			"Trouble",
+			"fugitive",
+			"gitcommit",
+			"fern",
+			"Telescope",
+			"TelescopePrompt",
+		}
+		local should_exclude = vim.tbl_contains(exclude_filetypes, vim.bo.filetype)
+			or vim.tbl_contains(exclude_buftypes, vim.bo.buftype)
+		if not should_exclude then
+			pcall(vim.api.nvim_set_option_value, "winbar", "%=%m %f", { scope = "local" })
+		else
+			vim.opt_local.winbar = nil
+		end
+	end,
+})
+-- }}} status and winbar
+
