@@ -296,7 +296,9 @@
   "hk" 'helpful-key
   "lf" 'lsp-format-buffer
   "lr" 'lsp-rename
-  "la" 'lsp-execute-code-action)
+  "la" 'lsp-execute-code-action
+  "ld" 'lsp-describe-thing-at-point
+  "lt" 'flycheck-list-errors)
 
 ;; setup avy like my hop.nvim setup
 (use-package avy
@@ -451,6 +453,19 @@
 (use-package corfu-doc
   :config
   (add-hook 'corfu-mode-hook #'corfu-doc-mode))
+
+(use-package cape
+  :bind (("C-c p h" . cape-history)
+         ("C-c p f" . cape-file)
+         ("C-c p k" . cape-keyword)
+         ("C-c p s" . cape-symbol)
+         ("C-c p i" . cape-ispell)
+         ("C-c p l" . cape-line)
+         ("C-c p w" . cape-dict)
+         ("C-c p &" . cape-sgml)
+         ("C-c p r" . cape-rfc1345))
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-file))
 
 (use-package lsp-mode
   :init
