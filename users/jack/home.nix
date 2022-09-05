@@ -124,7 +124,7 @@ in
       extraConfig = {
         pull.rebase = false;
         push.default = "current";
-        init.defaultBranch = "master";
+        init.defaultBranch = "main";
         github.user = "jay-aye-see-kay";
       };
       aliases = {
