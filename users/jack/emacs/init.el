@@ -50,7 +50,7 @@
       modus-themes-paren-match '(intense)
       modus-themes-prompts '(bold intense)
       modus-themes-completions 'opinionated
-      modus-themes-org-blocks 'tinted-background
+      modus-themes-org-blocks 'gray-background
       modus-themes-scale-headings t
       modus-themes-region '(bg-only)
       modus-themes-syntax '(yellow-comments)
