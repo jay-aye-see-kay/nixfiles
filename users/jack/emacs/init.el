@@ -290,7 +290,7 @@
   "SPC" 'project-find-file
   "p" project-prefix-map
   "gs" 'magit-status
-  "hh" 'helpful-at-point
+  "hh" 'consult-apropos
   "hf" 'helpful-function
   "hv" 'helpful-variable
   "hk" 'helpful-key
@@ -298,7 +298,7 @@
   "lr" 'lsp-rename
   "la" 'lsp-execute-code-action
   "ld" 'lsp-describe-thing-at-point
-  "lt" 'flycheck-list-errors)
+  "lt" 'lsp-ui-flycheck-list)
 
 ;; setup avy like my hop.nvim setup
 (use-package avy
@@ -313,6 +313,7 @@
   "B" 'consult-project-buffer
   "f" 'find-file
   "l" 'consult-line
+  "L" 'consult-outline
   "o" 'consult-recent-file
   "a" 'deadgrep
   "M" 'bookmark-set
@@ -321,7 +322,10 @@
 
 (use-package deadgrep)
 (use-package consult)
-(use-package embark) ;; TODO understand and setup
+
+(use-package embark
+  :config
+  (evil-define-key 'insert 'minibuffer-mode-map (kbd "C-c e") 'embark-act))
 
 (evil-define-key 'normal 'global (kbd "<mouse-8>") 'evil-jump-backward)
 (evil-define-key 'normal 'global (kbd "<mouse-9>") 'evil-jump-forward)

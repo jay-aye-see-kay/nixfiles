@@ -370,7 +370,7 @@ Make evil window movements less strict, by default they're only =C-w {h,j,k,l}=,
     "SPC" 'project-find-file
     "p" project-prefix-map
     "gs" 'magit-status
-    "hh" 'helpful-at-point
+    "hh" 'consult-apropos
     "hf" 'helpful-function
     "hv" 'helpful-variable
     "hk" 'helpful-key
@@ -378,7 +378,7 @@ Make evil window movements less strict, by default they're only =C-w {h,j,k,l}=,
     "lr" 'lsp-rename
     "la" 'lsp-execute-code-action
     "ld" 'lsp-describe-thing-at-point
-    "lt" 'flycheck-list-errors)
+    "lt" 'lsp-ui-flycheck-list)
 
   ;; setup avy like my hop.nvim setup
   (use-package avy
@@ -393,6 +393,7 @@ Make evil window movements less strict, by default they're only =C-w {h,j,k,l}=,
     "B" 'consult-project-buffer
     "f" 'find-file
     "l" 'consult-line
+    "L" 'consult-outline
     "o" 'consult-recent-file
     "a" 'deadgrep
     "M" 'bookmark-set
@@ -401,8 +402,10 @@ Make evil window movements less strict, by default they're only =C-w {h,j,k,l}=,
 
   (use-package deadgrep)
   (use-package consult)
-  (use-package embark) ;; TODO understand and setup
 
+  (use-package embark
+    :config
+    (evil-define-key 'insert 'minibuffer-mode-map (kbd "C-c e") 'embark-act))
 #+end_src
 
 ** Mouse keys
