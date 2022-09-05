@@ -586,7 +586,9 @@
   (add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
   (add-to-list 'tree-sitter-major-mode-language-alist '(vim-mode . vim)))
 
-(use-package magit)
+(use-package magit
+  :custom
+  (magit-commit-ask-to-stage nil))
 
 (use-package forge
   :after magit)

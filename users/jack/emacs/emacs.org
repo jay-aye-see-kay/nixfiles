@@ -758,7 +758,9 @@ Currently only using this in org source blocks, and it's not working yet. But wi
 
 * VCS and Magit
 #+begin_src emacs-lisp
-  (use-package magit)
+  (use-package magit
+    :custom
+    (magit-commit-ask-to-stage nil))
 
   (use-package forge
     :after magit)
