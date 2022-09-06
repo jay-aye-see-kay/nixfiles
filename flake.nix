@@ -160,6 +160,8 @@
         apps.default = apps.nvim;
         defaultPackage = packages.myNeovim;
 
+        extraPackages = [pkgs.hello];
+
         apps.nvim = {
           type = "app";
           program = "${defaultPackage}/bin/nvim";
