@@ -49,6 +49,7 @@ in
       sumneko-lua-language-server
       # ===
 
+      prusa-slicer
       trash-cli
       (python3.withPackages (ps: [ ps.ipykernel ]))
       nodePackages.pyright
