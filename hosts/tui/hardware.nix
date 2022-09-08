@@ -34,7 +34,7 @@
 
   fileSystems."/boot" =
     {
-      device = "/dev/disk/by-uuid/5014-7581";
+      device = "/dev/disk/by-partlabel/BOOT";
       fsType = "vfat";
       options = [ "discard" ];
     };
