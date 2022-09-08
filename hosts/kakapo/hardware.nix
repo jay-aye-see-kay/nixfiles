@@ -32,9 +32,9 @@
   fileSystems."/var/lib/postgres" = { device = "rpool/system/postgres"; fsType = "zfs"; };
 
   fileSystems."/media" = { device = "apool/media/root"; fsType = "zfs"; };
-  fileSystems."/media/tv" = { device = "apool/media/tv"; fsType = "zfs"; };
-  fileSystems."/media/movies" = { device = "apool/media/movies"; fsType = "zfs"; };
-  fileSystems."/media/music" = { device = "apool/media/music"; fsType = "zfs"; };
+
+  # new home server data dir, TODO migrate everything except media here
+  fileSystems."/hs" = { device = "apool/hs"; fsType = "zfs"; };
 
   fileSystems."/backups" = { device = "apool/backups"; fsType = "zfs"; };
 

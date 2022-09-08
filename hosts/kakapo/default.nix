@@ -69,13 +69,8 @@ in
 
   # OCI container setup for Arion (should work for most docker [compose] stuff too)
   virtualisation = {
-    oci-containers.backend = "podman";
-    docker.enable = false;
-    podman = {
-      enable = true;
-      dockerSocket.enable = true;
-      defaultNetwork.dnsname.enable = true;
-    };
+    docker.enable = true;
+    oci-containers.backend = "docker";
   };
 
   # List packages installed in system profile. To search, run:
@@ -98,7 +93,8 @@ in
     powertop
     hdparm
     arion # for running web services
-    docker-client # required by arion even because it's using podman
+    docker
+    docker-compose
   ];
 
   # hud setup for the tv
