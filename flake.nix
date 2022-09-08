@@ -109,6 +109,9 @@
           inherit system pkgs username;
           homeDirectory = "/home/${username}";
           configuration.imports = linuxHomeManagerImports;
+          extraSpecialArgs = {
+            jdr.neovim-packages = neovim-flake.extraPackages.${system};
+          };
         };
 
       homeManagerConfigurations."${username}-aarch64" =
