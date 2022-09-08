@@ -39,11 +39,11 @@
       },
       "locked": {
         "dir": "contrib",
-        "lastModified": 1662263385,
-        "narHash": "sha256-tl/sk2S7y1QzYy3p68EvBSbgiNqw0dVarkcAtTXdQJA=",
+        "lastModified": 1662534485,
+        "narHash": "sha256-G9dADQ53yaHNfMy5c2CZgaFk+5Y5qP85WcgAaluGX6g=",
         "owner": "neovim",
         "repo": "neovim",
-        "rev": "ea10e0c104897528a20bb1d9618e2b941eed1b3a",
+        "rev": "ff9d2b17fb0f538b2b6d58c33c1568c699b0bb0e",
         "type": "github"
       },
       "original": {
@@ -72,11 +72,11 @@
     "plugin:bullets": {
       "flake": false,
       "locked": {
-        "lastModified": 1660406545,
-        "narHash": "sha256-HwbJVnF3X530uTg3vSo25SoKcFo3RuRHvddjKg4zYP4=",
+        "lastModified": 1662377171,
+        "narHash": "sha256-Y7GBXKoLbjCfGO3EqG0XvPzotN3mu65zwTGUuM0Glhc=",
         "owner": "dkarter",
         "repo": "bullets.vim",
-        "rev": "5b38374ead59c84ecc1013d3267af14b624f4469",
+        "rev": "770a93c1770491ad45e47678a9cd7c581f3f24ee",
         "type": "github"
       },
       "original": {
