@@ -160,8 +160,6 @@
         apps.default = apps.nvim;
         defaultPackage = packages.myNeovim;
 
-        extraPackages = [pkgs.hello];
-
         apps.nvim = {
           type = "app";
           program = "${defaultPackage}/bin/nvim";
@@ -261,6 +259,25 @@
         };
 
         overlays.default = final: prev: { neovim = defaultPackage; };
+
+        extraPackages = with pkgs; [
+          fzf
+          nodejs
+          stylua
+          # language servers
+          nodePackages.bash-language-server
+          nodePackages.dockerfile-language-server-nodejs
+          nodePackages.pyright
+          nodePackages.typescript
+          nodePackages.typescript-language-server
+          nodePackages.vim-language-server
+          nodePackages.vscode-langservers-extracted
+          nodePackages.yaml-language-server
+          rnix-lsp
+          rubyPackages.solargraph
+          rust-analyzer
+          sumneko-lua-language-server
+        ];
       }
     );
 }
