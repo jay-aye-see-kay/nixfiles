@@ -236,7 +236,7 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 })
 
 function LspFormat()
-	vim.lsp.buf.formatting_sync()
+	vim.lsp.buf.format()
 	local tsserver_filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }
 	if vim.tbl_contains(tsserver_filetypes, vim.bo.filetype) then
 		vim.cmd([[ TSLspOrganizeSync ]])
