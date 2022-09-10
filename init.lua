@@ -271,6 +271,8 @@ end
 
 require('fidget').setup()
 
+require('lsp_signature').setup()
+
 -- }}}
 
 -- completions {{{
@@ -292,7 +294,7 @@ cmp.setup({
 	mapping = cmp.mapping.preset.insert({
 		["<CR>"] = cmp.mapping.confirm({ select = true }),
 		["<C-y>"] = cmp.mapping.confirm({ select = true }),
-		["<C-f>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+		["<C-k>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
 		["<C-e>"] = cmp.mapping({
 			i = cmp.mapping.abort(),
 			c = cmp.mapping.close(),
