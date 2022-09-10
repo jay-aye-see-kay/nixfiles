@@ -269,6 +269,8 @@ function EnableAutocomplete()
 	require("cmp").setup.buffer({})
 end
 
+require('fidget').setup()
+
 -- }}}
 
 -- completions {{{
