@@ -274,17 +274,6 @@ require('fidget').setup()
 -- }}}
 
 -- completions {{{
-vim.cmd([[ imap <silent><script><expr> <C-k> copilot#Accept() ]])
-
-function ToggleCopilot()
-	if vim.fn["copilot#Enabled"]() == 1 then
-		vim.cmd([[ Copilot disable ]])
-	else
-		vim.cmd([[ Copilot enable ]])
-	end
-	vim.cmd([[ Copilot status ]])
-end
-
 vim.cmd([[ set completeopt=menu,menuone,noselect ]])
 
 require("nvim-autopairs").setup()
@@ -495,7 +484,6 @@ local main_keymap = {
 		j = { "<cmd>lua vim.diagnostic.goto_next()<cr>", "Next diagnostic" },
 		k = { "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Prev diagnostic" },
 		f = { "<cmd>lua LspFormat()<cr>", "Prev Diagnostic" },
-		c = { "<cmd>call v:lua.ToggleCopilot()<cr>", "Toggle Copilot" },
 
 		-- hack: pop into insert mode after to trigger lsp applying settings
 		q = { "<cmd>call v:lua.QuietLsp()<cr>i <bs><esc>", "Hide lsp diagnostics" },
