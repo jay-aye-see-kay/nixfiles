@@ -867,7 +867,7 @@ vim.api.nvim_create_autocmd({
 	"BufWritePost",
 }, {
 	callback = function()
-		local exclude_buftypes = { "terminal" }
+		local exclude_buftypes = { "terminal", "nofile" }
 		local exclude_filetypes = {
 			"help",
 			"qf",
