@@ -235,14 +235,6 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "single",
 })
 
-function LspFormat()
-	vim.lsp.buf.format()
-	local tsserver_filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }
-	if vim.tbl_contains(tsserver_filetypes, vim.bo.filetype) then
-		vim.cmd([[ TSLspOrganizeSync ]])
-	end
-end
-
 function QuietLsp()
 	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 		signs = false,
@@ -485,7 +477,7 @@ local main_keymap = {
 		i = { "<cmd>LspInfo<cr>", "Info" },
 		j = { "<cmd>lua vim.diagnostic.goto_next()<cr>", "Next diagnostic" },
 		k = { "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Prev diagnostic" },
-		f = { "<cmd>lua LspFormat()<cr>", "Prev Diagnostic" },
+		f = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format buffer with LSP" },
 
 		-- hack: pop into insert mode after to trigger lsp applying settings
 		q = { "<cmd>call v:lua.QuietLsp()<cr>i <bs><esc>", "Hide lsp diagnostics" },
