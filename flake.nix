@@ -205,6 +205,7 @@
               cmp_luasnip
               lspkind-nvim
               luasnip
+              nvim-autopairs
 
               # contain these, maybe remove
               orgmode

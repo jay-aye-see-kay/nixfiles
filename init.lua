@@ -285,7 +285,12 @@ end
 
 vim.cmd([[ set completeopt=menu,menuone,noselect ]])
 
+require("nvim-autopairs").setup()
+
 local cmp = require("cmp")
+local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
 cmp.setup({
 	snippet = {
@@ -294,6 +299,7 @@ cmp.setup({
 		end,
 	},
 	mapping = cmp.mapping.preset.insert({
+		["<CR>"] = cmp.mapping.confirm({ select = true }),
 		["<C-y>"] = cmp.mapping.confirm({ select = true }),
 		["<C-f>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
 		["<C-e>"] = cmp.mapping({
@@ -681,10 +687,6 @@ ls.add_snippets("all", {
 	vsc("filename", "$TM_FILENAME"),
 	vsc("filepath", "$TM_FILEPATH"),
 	vsc({ trig = "v", wordTrig = false }, "\\${${1}}"),
-	vsc({ trig = "(", wordTrig = false }, "(${1})${0}"),
-	vsc({ trig = "{", wordTrig = false }, "{${1}}${0}"),
-	vsc({ trig = "[", wordTrig = false }, "[${1}]${0}"),
-	vsc({ trig = "<", wordTrig = false }, "<${1}>${0}"),
 })
 
 ls.add_snippets("markdown", {
