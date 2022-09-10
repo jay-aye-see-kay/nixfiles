@@ -1,12 +1,7 @@
 #!/bin/sh
 
-if [ "$(uname)" = "Darwin" ]; then
-	config_name="jack-mbp"
-elif [ "$(uname -m)" = "aarch64" ]; then
-	config_name="jack-aarch64"
-else
-	config_name="jack"
-fi
+kernel="$(uname | tr "[:upper:]" "[:lower:]")"
+system="$(uname -m)-${kernel}"
 
-nix build ".#homeManagerConfigurations.${config_name}.activationPackage" &&
+nix build ".#homeManagerConfigurations.$(whoami).${system}.activationPackage" &&
 	./result/activate

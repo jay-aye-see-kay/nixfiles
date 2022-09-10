@@ -24,11 +24,30 @@
     , neovim-flake
     }:
     let
-      username = "jack";
+      lib = nixpkgs.lib;
 
+      username = "jack";
+      mySystems = [ "x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin" ];
+
+      # Build an attrset of config for each mySystem with `system` as the keys
+      # e.g.
+      #     eachMySystem (system: "__${system}")
+      # will return:
+      #     {
+      #       "x86_64-linux": "__x86_64-linux";
+      #       "x86_64-darwn": "__x86_64-darwn";
+      #       "aarch64-linux": "__aarch64-linux";
+      #       "aarch64-darwn": "__aarch64-darwn";
+      #     }
+      eachMySystem = (mkConfig: (lib.lists.fold
+        (system: accum: accum // { ${system} = mkConfig system; })
+        { }
+        mySystems));
+
+      # Build pkgs with all my overlays for a given system
       mkPkgs = system:
         let
-          overlayUnstable = final: prev: {
+          nixpkgs-unstable-overlay = final: prev: {
             unstable = import nixpkgs-unstable {
               inherit system;
               config.allowUnfree = true;
@@ -42,14 +61,13 @@
           inherit system;
           config = { allowUnfree = true; };
           overlays = [
-            overlayUnstable
+            nixpkgs-unstable-overlay
             emacs-overlay.overlay
             nodePkgsOverlay
             neovim-flake.overlays.${system}.default
           ];
         };
 
-      lib = nixpkgs.lib;
       commonHomeManagerImports = [
         ./users/jack/home.nix
         ./users/jack/fish.nix
@@ -60,13 +78,9 @@
         ++ [ ./users/jack/fish-macos-fix.nix ];
     in
     {
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
-      formatter.aarch64-linux = nixpkgs.legacyPackages.aarch64-linux.nixpkgs-fmt;
-      formatter.x86_64-darwin = nixpkgs.legacyPackages.x86_64-darwin.nixpkgs-fmt;
-      formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixpkgs-fmt;
+      formatter = eachMySystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
-      homeManagerConfigurations.${username} =
-        let system = "x86_64-linux"; in
+      homeManagerConfigurations.${username} = eachMySystem (system:
         home-manager.lib.homeManagerConfiguration {
           inherit system username;
           pkgs = mkPkgs system;
@@ -76,25 +90,8 @@
             # WIP not using this, but it's cool I can pass it through
             jdr.neovim-packages = neovim-flake.extraPackages.${system};
           };
-        };
-
-      homeManagerConfigurations."${username}-aarch64" =
-        let system = "aarch64-linux"; in
-        home-manager.lib.homeManagerConfiguration {
-          inherit system username;
-          pkgs = mkPkgs system;
-          homeDirectory = "/home/${username}";
-          configuration.imports = linuxHomeManagerImports;
-        };
-
-      homeManagerConfigurations."${username}-mbp" =
-        let system = "aarch64-darwin"; in
-        home-manager.lib.homeManagerConfiguration {
-          inherit system username;
-          pkgs = mkPkgs system;
-          homeDirectory = "/Users/${username}";
-          configuration.imports = darwinHomeManagerImports;
-        };
+        }
+      );
 
       nixosConfigurations = {
         tui = let system = "x86_64-linux"; in
