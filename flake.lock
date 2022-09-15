@@ -69,19 +69,19 @@
         "type": "github"
       }
     },
-    "plugin:bullets": {
+    "plugin:mkdnflow": {
       "flake": false,
       "locked": {
-        "lastModified": 1662377171,
-        "narHash": "sha256-Y7GBXKoLbjCfGO3EqG0XvPzotN3mu65zwTGUuM0Glhc=",
-        "owner": "dkarter",
-        "repo": "bullets.vim",
-        "rev": "770a93c1770491ad45e47678a9cd7c581f3f24ee",
+        "lastModified": 1661959479,
+        "narHash": "sha256-QjGo9aKu5MieQ1AHKbHcDAO9cp8VERuPOWWI/uvPUPk=",
+        "owner": "jakewvincent",
+        "repo": "mkdnflow.nvim",
+        "rev": "c094cffa37660015470872868c7ca01137fc976b",
         "type": "github"
       },
       "original": {
-        "owner": "dkarter",
-        "repo": "bullets.vim",
+        "owner": "jakewvincent",
+        "repo": "mkdnflow.nvim",
         "type": "github"
       }
     },
@@ -154,7 +154,7 @@
         "flake-utils": "flake-utils",
         "neovim-flake": "neovim-flake",
         "nixpkgs": "nixpkgs",
-        "plugin:bullets": "plugin:bullets",
+        "plugin:mkdnflow": "plugin:mkdnflow",
         "plugin:neo-tree": "plugin:neo-tree",
         "plugin:nui": "plugin:nui",
         "plugin:vim-resize-mode": "plugin:vim-resize-mode",

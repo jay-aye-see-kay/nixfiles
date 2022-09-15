@@ -81,16 +81,16 @@ end
 -- }}}
 
 -- init file setup {{{
-local all_config_files = "*/neovim/init.lua,*/neovim/plugins.lua"
+local all_config_files = "*code/neovim-flake/*.lua,*/neovim/init.lua,*/neovim/plugins.lua"
 augroup("init_file_setup", {
 	{ "BufNewFile,BufRead", all_config_files, "setlocal foldmethod=marker" },
 	{ "BufWritePre", all_config_files, "Neoformat stylua" },
 })
 -- TODO move somewhere?
 augroup("natural_movement_in_text_files", {
-	{ "FileType", "text,markdown,org", "nnoremap j gj" },
-	{ "FileType", "text,markdown,org", "nnoremap k gk" },
-	{ "FileType", "text,markdown,org", "setlocal wrap" },
+	{ "FileType", "text,markdown", "nnoremap j gj" },
+	{ "FileType", "text,markdown", "nnoremap k gk" },
+	{ "FileType", "text,markdown", "setlocal wrap" },
 })
 -- }}}
 
@@ -128,10 +128,6 @@ augroup("only_show_cursorline_on_focued_window", {
 vim.cmd([[ set tabstop=2 ]])
 vim.cmd([[ set softtabstop=2 ]])
 vim.cmd([[ set shiftwidth=2 ]])
-augroup("msh_tabs", {
-	{ "BufEnter", "*", "set expandtab" },
-	{ "BufEnter", "*/code/msh/*", "set noexpandtab" },
-})
 
 augroup("highlight_on_yank", {
 	{ "TextYankPost", "*", "silent! lua vim.highlight.on_yank()" },
@@ -296,7 +292,6 @@ cmp.setup({
 		{ name = "nvim_lsp" },
 		{ name = "luasnip" },
 		{ name = "nvim_lua" },
-		{ name = "orgmode" },
 	}, {
 		{ name = "path" },
 		{
@@ -315,16 +310,7 @@ cmp.setup({
 -- }}}
 
 -- notes/wiki {{{
-augroup("orgmode-setup", {
-	{ "FileType", "org", "setlocal conceallevel=2" },
-	{ "FileType", "org", "setlocal concealcursor=nc" },
-})
-
-local function org_capture_task()
-	local Templates = require("orgmode.capture.templates")
-	local task_template = Templates:new():get_list()["t"]
-	require("orgmode").action("capture.open_template", task_template)
-end
+require('mkdnflow').setup({})
 
 vim.g.markdown_fenced_languages = {
 	"bash=sh",
@@ -350,10 +336,6 @@ vim.g.markdown_fenced_languages = {
 	"yaml",
 }
 
-vim.g.bullets_checkbox_markers = " .oOx"
-vim.g.wiki_root = "~/Documents/notes"
-vim.g.markdown_folding = true
-
 local function open_logbook(days_from_today)
 	local date_offset = (days_from_today or 0) * 24 * 60 * 60
 	local filename = os.date("%Y-%m-%d-%A", os.time() + date_offset) .. ".org"
@@ -376,60 +358,6 @@ end
 vim.cmd([[command! LogbookToday :call v:lua.LogbookToday()]])
 vim.cmd([[command! LogbookYesterday :call v:lua.LogbookYesterday()]])
 vim.cmd([[command! LogbookTomorrow :call v:lua.LogbookTomorrow()]])
-
-function WhichkeyOrgmode()
-	require("which-key").register({
-		name = "orgmode keymap lables",
-		["<leader>"] = {
-			o = {
-				o = "open at point",
-				r = "refile",
-				t = "set tags",
-				e = "export",
-				A = "archive tag",
-				K = "move subtree up",
-				J = "move subtree down",
-				["'"] = "edit in special buffer",
-				["$"] = "archive subtree",
-				[","] = "change priority",
-				["*"] = "toggle heading",
-				i = {
-					name = "+change things",
-					d = "change date under cursor",
-					h = "insert heading respect content",
-					T = "insert todo heading",
-					t = "insert todo heading respect content",
-					s = "change schedule",
-					["."] = "change time stamp",
-					["!"] = "change time stamp inactive",
-				},
-				x = {
-					name = "+clocking",
-					i = "clock in",
-					o = "clock out",
-					q = "cancel active clock",
-					j = "goto clocked in header",
-					e = "set effort for current header",
-				},
-			},
-		},
-		c = {
-			i = {
-				d = "ORG change date",
-				R = "ORG priority up",
-				r = "ORG priority down",
-				t = "ORG change TODO state",
-				T = "ORG cycle TODO state back",
-			},
-		},
-	}, {
-		buffer = vim.api.nvim_get_current_buf(),
-	})
-end
-
-augroup("whichkeyOrgmode", {
-	{ "FileType", "org", "lua WhichkeyOrgmode()" },
-})
 -- }}}
 
 -- keymaps {{{
@@ -448,11 +376,6 @@ local directed_keymaps = {
 --- grep through old markdown notes
 local grep_notes = function()
 	require("telescope.builtin").live_grep({ cwd = "$HOME/Documents/notes" })
-end
-
---- grep through new orgmode notes (still need to learn if orgmode's advanced search is better)
-local grep_org_files = function()
-	require("telescope.builtin").live_grep({ cwd = "$HOME/Documents/org" })
 end
 
 --- git files, falling back onto all files in cwd if not in a git repo
@@ -564,12 +487,6 @@ local main_keymap = {
 			"unpin window",
 		},
 	},
-	org = {
-		name = "+org",
-		c = "Org capture",
-		a = "Org agenda",
-		f = { grep_org_files, "Grep org files" },
-	},
 }
 
 local which_key = require("which-key")
@@ -584,7 +501,6 @@ which_key.register({
 	n = main_keymap.notes,
 	v = main_keymap.vim_config,
 	m = main_keymap.misc,
-	o = main_keymap.org,
 }, {
 	prefix = "<leader>",
 })
@@ -599,7 +515,6 @@ which_key.register({
 	a = main_keymap.finder.a, -- Rg
 	["."] = main_keymap.explorer["."], -- Fern .
 	[">"] = main_keymap.explorer.e["."], -- Fern . (relative to file)
-	c = { org_capture_task, "Capture task" },
 }, {
 	prefix = ",",
 })
@@ -684,16 +599,6 @@ ls.add_snippets("markdown", {
 	vsc("cs", "```sh\n${1}\n```"),
 })
 
-ls.add_snippets("org", {
-	-- todo
-	vsc("t", "- [ ] ${0}"),
-	-- code blocks
-	vsc("c", "#+BEGIN_SRC ${1}\n${0}\n#+END_SRC\n"),
-	vsc("cj", "#+BEGIN_SRC json\n${0}\n#+END_SRC\n"),
-	vsc("ct", "#+BEGIN_SRC typescript\n${0}\n#+END_SRC\n"),
-	vsc("cp", "#+BEGIN_SRC python\n${0}\n#+END_SRC\n"),
-})
-
 ls.add_snippets("javascript", js_snippets)
 ls.add_snippets("typescript", js_snippets)
 ls.add_snippets("javascriptreact", js_snippets)
@@ -708,8 +613,6 @@ ls.add_snippets("typescriptreact", js_snippets)
 require("nvim-treesitter.configs").setup({
 	highlight = {
 		enable = true,
-		disable = { "org" },
-		additional_vim_regex_highlighting = { "org" },
 	},
 	incremental_selection = { enable = true },
 	playground = { enable = true },
@@ -733,48 +636,6 @@ require("nvim-treesitter.configs").setup({
 			swap_previous = {
 				["<leader>ph"] = "@parameter.inner",
 			},
-		},
-	},
-})
-
-local todays_journal_file = "~/Documents/org/logbook/" .. os.date("%Y-%m-%d-%A") .. ".org"
-require("orgmode").setup_ts_grammar()
-require("orgmode").setup({
-	org_agenda_files = {
-		"~/Documents/org/*",
-		"~/Documents/org/logbook/*",
-		"~/Documents/org/projects/*",
-	},
-	org_default_notes_file = todays_journal_file,
-	org_todo_keywords = { "TODO(t)", "INPROGRESS(p)", "WAITING(w)", "|", "DONE(d)", "CANCELLED(c)" },
-	org_todo_keyword_faces = {
-		TODO = ":foreground #CE9178 :weight bold :underline on",
-		NEXT = ":foreground #DCDCAA :weight bold :underline on",
-		INPROGRESS = ":foreground #729CB3 :weight bold :underline on",
-		DONE = ":foreground #81B88B :weight bold :underline on",
-	},
-	org_agenda_templates = {
-		u = {
-			description = "Unfiled task",
-			template = "\n* TODO %?\n  CREATED: %U",
-			target = "~/Documents/org/refile.org",
-		},
-		l = {
-			description = "Logbook note",
-			template = "\n%?",
-		},
-		t = {
-			description = "Task",
-			template = "\n* TODO %?\n  CREATED: %U",
-		},
-		T = {
-			description = "Urgent task",
-			template = "\n* TODO [#A] %?\n  DEADLINE: %t\n  CREATED: %U",
-		},
-		i = {
-			description = "Idea",
-			template = "\n** %?\n",
-			target = "~/Documents/org/ideas.org",
 		},
 	},
 })

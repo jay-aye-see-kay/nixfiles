@@ -19,10 +19,6 @@
       url = "github:sedm0784/vim-resize-mode";
       flake = false;
     };
-    "plugin:bullets" = {
-      url = "github:dkarter/bullets.vim";
-      flake = false;
-    };
     "plugin:vim-symlink" = {
       url = "github:aymericbeaumet/vim-symlink";
       flake = false;
@@ -33,6 +29,10 @@
     };
     "plugin:nui" = {
       url = "github:MunifTanjim/nui.nvim";
+      flake = false;
+    };
+    "plugin:mkdnflow" = {
+      url = "github:jakewvincent/mkdnflow.nvim";
       flake = false;
     };
   };
@@ -57,7 +57,6 @@
         pluginOverlay = final: prev:
           let
             inherit (prev.vimUtils) buildVimPluginFrom2Nix;
-            treesitterGrammars = prev.tree-sitter.withPlugins (_: prev.tree-sitter.allGrammars);
             plugins = builtins.filter
               (s: (builtins.match "plugin:.*" s) != null)
               (builtins.attrNames inputs);
@@ -70,14 +69,6 @@
               pname = plugName name;
               version = "master";
               src = builtins.getAttr name inputs;
-
-              # Tree-sitter fails for a variety of lang grammars unless using :TSUpdate
-              # For now install imperatively
-              #postPatch =
-              #  if (name == "nvim-treesitter") then ''
-              #    rm -r parser
-              #    ln -s ${treesitterGrammars} parser
-              #  '' else "";
             };
           in
           {
@@ -209,7 +200,6 @@
               nvim-autopairs
 
               # contain these, maybe remove
-              orgmode
               friendly-snippets
               neoformat
               lightline-vim
