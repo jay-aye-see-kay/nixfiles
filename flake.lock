@@ -69,6 +69,22 @@
         "type": "github"
       }
     },
+    "plugin:debugprint": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1663095852,
+        "narHash": "sha256-UbY01XekOEczYcyzrIA6Y8CaJatdpf/EOWAzjJc3klw=",
+        "owner": "andrewferrier",
+        "repo": "debugprint.nvim",
+        "rev": "6becfae03fc4eafd51585ec8a6265449cb377886",
+        "type": "github"
+      },
+      "original": {
+        "owner": "andrewferrier",
+        "repo": "debugprint.nvim",
+        "type": "github"
+      }
+    },
     "plugin:mkdnflow": {
       "flake": false,
       "locked": {
@@ -154,6 +170,7 @@
         "flake-utils": "flake-utils",
         "neovim-flake": "neovim-flake",
         "nixpkgs": "nixpkgs",
+        "plugin:debugprint": "plugin:debugprint",
         "plugin:mkdnflow": "plugin:mkdnflow",
         "plugin:neo-tree": "plugin:neo-tree",
         "plugin:nui": "plugin:nui",

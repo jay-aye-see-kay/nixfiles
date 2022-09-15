@@ -35,6 +35,10 @@
       url = "github:jakewvincent/mkdnflow.nvim";
       flake = false;
     };
+    "plugin:debugprint" = {
+      url = "github:andrewferrier/debugprint.nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
@@ -160,7 +164,6 @@
           customRC = ''
             set termguicolors
             ${pkgs.lib.readFile ./file-tree.vim}
-            ${pkgs.lib.readFile ./functions.vim}
             ${pkgs.lib.readFile ./terminal.vim}
 
             lua << EOF

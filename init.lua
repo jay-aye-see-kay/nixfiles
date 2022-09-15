@@ -724,3 +724,21 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	end,
 })
 -- }}} status and winbar
+
+-- {{{ pro debugging
+require("debugprint").setup()
+
+require("which-key").register({
+	name = "debugprint",
+	p = "plain below",
+	P = "plain above",
+	v = "variable below",
+	V = "variable above",
+	o = "variable below [motion]",
+	O = "variable above [motion]",
+	x = { require("debugprint").deleteprints, "clear debug prints" },
+}, {
+	prefix = "g?",
+})
+
+-- }}} pro debugging
