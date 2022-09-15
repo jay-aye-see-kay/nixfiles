@@ -257,9 +257,9 @@ function EnableAutocomplete()
 	require("cmp").setup.buffer({})
 end
 
-require('fidget').setup()
+require("fidget").setup()
 
-require('lsp_signature').setup()
+require("lsp_signature").setup()
 
 -- }}}
 
@@ -310,7 +310,7 @@ cmp.setup({
 -- }}}
 
 -- notes/wiki {{{
-require('mkdnflow').setup({})
+require("mkdnflow").setup({})
 
 vim.g.markdown_fenced_languages = {
 	"bash=sh",
