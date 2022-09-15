@@ -462,15 +462,6 @@ local main_keymap = {
 			name = "+Tomorrow' notepad",
 		}),
 	}),
-	vim_config = {
-		name = "+vim config",
-		c = {
-			"<cmd>tabedit $MYVIMRC | vsplit " .. vim.fn.stdpath("config") .. "/plugins.lua<cr>",
-			"Edit config in new tab",
-		},
-		r = { "<cmd>source $MYVIMRC | PackerCompile<cr>", "Reload config" },
-		s = { "<cmd>PackerSync<cr>", "Packer sync" },
-	},
 	misc = {
 		name = "+misc",
 		p = {
@@ -499,7 +490,6 @@ which_key.register({
 	l = main_keymap.lsp,
 	t = main_keymap.terminal,
 	n = main_keymap.notes,
-	v = main_keymap.vim_config,
 	m = main_keymap.misc,
 }, {
 	prefix = "<leader>",
