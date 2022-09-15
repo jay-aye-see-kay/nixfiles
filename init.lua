@@ -701,26 +701,18 @@ require("which-key").setup({
 
 -- {{{ status and winbar
 vim.cmd([[ set laststatus=3 ]]) -- global statusline; only works on neovim 0.7+
-vim.api.nvim_create_autocmd({
-	"DirChanged",
-	"CursorMoved",
-	"BufWinEnter",
-	"BufFilePost",
-	"InsertEnter",
-	"BufWritePost",
-}, {
+vim.api.nvim_create_autocmd({ "FileType" }, {
 	callback = function()
-		local exclude_buftypes = { "terminal", "nofile" }
-		local exclude_filetypes = {
+		local exclude_buftypes = {
+			"terminal",
+			"nofile",
+			"prompt",
 			"help",
-			"qf",
-			"packer",
-			"Trouble",
+			"quickfix",
+		}
+		local exclude_filetypes = {
 			"fugitive",
 			"gitcommit",
-			"fern",
-			"Telescope",
-			"TelescopePrompt",
 		}
 		local should_exclude = vim.tbl_contains(exclude_filetypes, vim.bo.filetype)
 			or vim.tbl_contains(exclude_buftypes, vim.bo.buftype)
