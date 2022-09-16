@@ -439,14 +439,19 @@ local main_keymap = {
 		},
 		f = { telescope_fns.find_files, "🔭 files" },
 		g = { project_files, "🔭 git files" },
-		h = { telescope_fns.help_tags, "🔭 help tags" },
+		h = {
+			function()
+				require("telescope.builtin").help_tags({ default_text = vim.fn.expand("<cword>") })
+			end,
+			"🔭 help tags",
+		},
 		c = { telescope_fns.commands, "🔭 commands" },
 		o = { telescope_fns.oldfiles, "🔭 oldfiles" },
 		l = { telescope_fns.current_buffer_fuzzy_find, "🔭 buffer lines" },
 		w = { telescope_fns.spell_suggest, "🔭 spelling suggestions" },
 		s = { telescope_fns.symbols, "🔭 unicode and emoji symbols" },
-		a = { "<Cmd>Rg<CR>", "FZF full text search" },
-		u = { ":Rg <C-r><C-w><CR>", "FZF word under cursor" },
+		a = { telescope_fns.live_grep, "🔭 full text search" },
+		u = { telescope_fns.grep_string, "🔭 word under cursor" },
 		n = { grep_notes, "🔭 search all notes" },
 	},
 	git = merge(directed_keymaps.git_status, {
