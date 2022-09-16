@@ -310,31 +310,40 @@ cmp.setup({
 -- }}}
 
 -- notes/wiki {{{
-require("mkdnflow").setup({})
+require("mkdnflow").setup({
+	modules = {
+		bib = false,
+		folds = false,
+	},
+	to_do = {
+		symbols = { " ", "-", "x" },
+		update_parents = false,
+		not_started = " ",
+		in_progress = "-",
+		complete = "x",
+	},
+	mappings = {
+		MkdnGoBack = false,
+		MkdnGoForward = false,
+	},
+	perspective = {
+		-- Changes in perspective will be reflected in the nvim working directory.
+		-- (In other words, the working directory will "heel" to the plugin's perspective.)
+		-- This helps ensure (at least) that path completions (if using a completion plugin with support for paths) will be accurate and usable.
+		-- Leaving this note as I don't know if I want this behaviour
+		nvim_wd_heel = true,
+	},
+})
 
-vim.g.markdown_fenced_languages = {
-	"bash=sh",
-	"c",
-	"cpp",
-	"css",
-	"elm",
-	"fish",
-	"go",
-	"html",
-	"java",
-	"javascript",
-	"js=javascript",
-	"json",
-	"lisp",
-	"lua",
-	"python",
-	"ruby",
-	"rust",
-	"sh",
-	"ts=typescript",
-	"typescript",
-	"yaml",
-}
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	group = vim.api.nvim_create_augroup("MarkdownTsFolding", {}),
+	pattern = { "markdown", "md" },
+	callback = function()
+		vim.opt_local.foldlevel = 99
+		vim.opt_local.foldmethod = "expr"
+		vim.opt_local.foldexpr = "nvim_treesitter#foldexpr()"
+	end,
+})
 
 local function open_logbook(days_from_today)
 	local date_offset = (days_from_today or 0) * 24 * 60 * 60
