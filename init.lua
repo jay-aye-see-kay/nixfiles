@@ -379,6 +379,8 @@ vim.cmd([[command! LogbookTomorrow :call v:lua.LogbookTomorrow()]])
 -- }}}
 
 -- file tree {{{
+vim.g.neo_tree_remove_legacy_commands = 1
+
 require("neo-tree").setup({
 	window = {
 		position = "left",
@@ -512,7 +514,7 @@ local main_keymap = {
 	}),
 	explorer = merge(directed_keymaps.file_explorer, {
 		name = "+file explorer",
-		e = { "<cmd>Neotree toggle show<cr>", "toggle side file tree" },
+		e = { "<cmd>Neotree toggle<cr>", "toggle side file tree" },
 	}),
 	notes = merge(directed_keymaps.todays_notepad, {
 		name = "+notes",
