@@ -163,7 +163,6 @@
         packages.myNeovim = neovimBuilder {
           customRC = ''
             set termguicolors
-            ${pkgs.lib.readFile ./file-tree.vim}
             ${pkgs.lib.readFile ./terminal.vim}
 
             lua << EOF
@@ -208,11 +207,6 @@
               lightline-vim
               lightline-lsp
               nvim-web-devicons
-              fern-vim
-              # fern-hijack
-              # fern-git-status
-              # fern-renderer-nerdfont
-              # nerdfont
 
               tabular
               nvim-ts-context-commentstring

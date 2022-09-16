@@ -113,7 +113,11 @@ vim.api.nvim_create_autocmd({ "VimEnter", "WinEnter", "BufWinEnter" }, {
 })
 vim.api.nvim_create_autocmd({ "WinLeave" }, {
 	group = cursor_augroup,
-	command = "setlocal nocursorline",
+	callback = function()
+		if vim.bo.filetype ~= "neo-tree" then
+			vim.cmd("setlocal nocursorline")
+		end
+	end,
 })
 
 -- prefer spaces over tabs, unless working on MSH files
@@ -374,6 +378,39 @@ vim.cmd([[command! LogbookYesterday :call v:lua.LogbookYesterday()]])
 vim.cmd([[command! LogbookTomorrow :call v:lua.LogbookTomorrow()]])
 -- }}}
 
+-- file tree {{{
+require("neo-tree").setup({
+	window = {
+		position = "left",
+		width = 30,
+		mappings = {
+			["<space>"] = false,
+			["l"] = "open",
+			["h"] = "close_node",
+			["Z"] = "expand_all_nodes",
+		},
+	},
+	filesystem = {
+		hijack_netrw_behavior = "open_current",
+		use_libuv_file_watcher = true,
+		follow_current_file = true,
+		window = {
+			mappings = {
+				["H"] = "navigate_up",
+				["L"] = "set_root",
+				-- ["H"] = "toggle_hidden",
+				["/"] = "fuzzy_finder",
+				["D"] = "fuzzy_finder_directory",
+				["<c-x>"] = "clear_filter",
+				["[g"] = "prev_git_modified",
+				["]g"] = "next_git_modified",
+			},
+		},
+	},
+})
+
+-- }}}
+
 -- keymaps {{{
 nnoremap("<c-s>", "<cmd>w<cr>")
 
@@ -383,8 +420,7 @@ local directed_keymaps = {
 	todays_notepad = make_directed_maps("Today's notepad", "LogbookToday"),
 	yesterdays_notepad = make_directed_maps("Yesterday's notepad", "LogbookYesterday"),
 	tomorrows_notepad = make_directed_maps("Tomorrow's notepad", "LogbookTomorrow"),
-	file_explorer = make_directed_maps("File explorer", "Fern . -reveal=%"),
-	roaming_file_explorer = make_directed_maps("File explorer (focused on file's directory)", "Fern %:h -reveal=%"),
+	file_explorer = make_directed_maps("File explorer", "Neotree reveal current"),
 }
 
 --- grep through old markdown notes
@@ -467,9 +503,7 @@ local main_keymap = {
 	}),
 	explorer = merge(directed_keymaps.file_explorer, {
 		name = "+file explorer",
-		["e"] = merge(directed_keymaps.roaming_file_explorer, {
-			name = "+in current file' directory",
-		}),
+		e = { "<cmd>Neotree toggle show<cr>", "toggle side file tree" },
 	}),
 	notes = merge(directed_keymaps.todays_notepad, {
 		name = "+notes",
@@ -522,8 +556,8 @@ which_key.register({
 	f = main_keymap.finder.f, -- find_files
 	o = main_keymap.finder.o, -- old_files
 	a = main_keymap.finder.a, -- Rg
-	["."] = main_keymap.explorer["."], -- Fern .
-	[">"] = main_keymap.explorer.e["."], -- Fern . (relative to file)
+	["."] = main_keymap.explorer["."],
+	[">"] = main_keymap.explorer.e["."],
 }, {
 	prefix = ",",
 })
