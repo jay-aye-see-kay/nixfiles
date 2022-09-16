@@ -1,19 +1,4 @@
 -- helpers {{{
-
--- usage:
--- augroup('my_group', {
---   { "BufEnter", "*.md", "set filetype=markdown" },
--- })
-local function augroup(group_name, definition)
-	vim.api.nvim_command("augroup " .. group_name)
-	vim.api.nvim_command("autocmd!")
-	for _, def in ipairs(definition) do
-		local command = table.concat(vim.tbl_flatten({ "autocmd", def }), " ")
-		vim.api.nvim_command(command)
-	end
-	vim.api.nvim_command("augroup END")
-end
-
 local function merge(t1, t2)
 	return vim.tbl_extend("force", t1, t2)
 end
@@ -77,20 +62,22 @@ end
 local function vnoremap(from, to)
 	_noremap("v", from, to)
 end
-
 -- }}}
 
 -- init file setup {{{
-local all_config_files = "*code/neovim-flake/*.lua,*/neovim/init.lua,*/neovim/plugins.lua"
-augroup("init_file_setup", {
-	{ "BufNewFile,BufRead", all_config_files, "setlocal foldmethod=marker" },
-	{ "BufWritePre", all_config_files, "Neoformat stylua" },
+local all_config_files = { "*code/neovim-flake/*.lua" }
+local init_augroup = vim.api.nvim_create_augroup("InitFilesSetup", {})
+
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+	group = init_augroup,
+	pattern = all_config_files,
+	command = "setlocal foldmethod=marker",
 })
--- TODO move somewhere?
-augroup("natural_movement_in_text_files", {
-	{ "FileType", "text,markdown", "nnoremap j gj" },
-	{ "FileType", "text,markdown", "nnoremap k gk" },
-	{ "FileType", "text,markdown", "setlocal wrap" },
+
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+	group = init_augroup,
+	pattern = all_config_files,
+	command = "Neoformat stylua",
 })
 -- }}}
 
@@ -119,9 +106,14 @@ vim.cmd([[ set undofile ]])
 -- increase oldfile saved ( default is !,'100,<50,s10,h )
 vim.cmd([[ set shada=!,'1000,<50,s10,h ]])
 
-augroup("only_show_cursorline_on_focued_window", {
-	{ "VimEnter,WinEnter,BufWinEnter ", "*", "setlocal cursorline" },
-	{ "WinLeave", "*", "setlocal nocursorline" },
+local cursor_augroup = vim.api.nvim_create_augroup("CursorLineOnlyOnFocusedWindow", {})
+vim.api.nvim_create_autocmd({ "VimEnter", "WinEnter", "BufWinEnter" }, {
+	group = cursor_augroup,
+	command = "setlocal cursorline",
+})
+vim.api.nvim_create_autocmd({ "WinLeave" }, {
+	group = cursor_augroup,
+	command = "setlocal nocursorline",
 })
 
 -- prefer spaces over tabs, unless working on MSH files
@@ -129,8 +121,9 @@ vim.cmd([[ set tabstop=2 ]])
 vim.cmd([[ set softtabstop=2 ]])
 vim.cmd([[ set shiftwidth=2 ]])
 
-augroup("highlight_on_yank", {
-	{ "TextYankPost", "*", "silent! lua vim.highlight.on_yank()" },
+vim.api.nvim_create_autocmd({ "TextYankPost" }, {
+	group = vim.api.nvim_create_augroup("HighlightOnYank", {}),
+	command = "silent! lua vim.highlight.on_yank()",
 })
 
 -- modern copy paste keymaps
@@ -167,8 +160,10 @@ vim.opt.scrolloff = 4
 vim.opt.sidescrolloff = 4
 vim.opt.wrap = false
 
-augroup("fzfDefaultEscapeBehavior", {
-	{ "FileType", "fzf", "tnoremap <buffer> <ESC> <ESC>" },
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	group = vim.api.nvim_create_augroup("FzfEscapeBehavior", {}),
+	pattern = "fzf",
+	command = "tnoremap <buffer> <ESC> <ESC>",
 })
 -- }}}
 
@@ -342,6 +337,16 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		vim.opt_local.foldlevel = 99
 		vim.opt_local.foldmethod = "expr"
 		vim.opt_local.foldexpr = "nvim_treesitter#foldexpr()"
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	group = vim.api.nvim_create_augroup("TextWrappingAndMovements", {}),
+	pattern = { "text", "markdown", "md" },
+	callback = function()
+		vim.opt_local.wrap = true
+		vim.api.nvim_buf_set_keymap(0, "n", "j", "gj", { silent = true })
+		vim.api.nvim_buf_set_keymap(0, "n", "k", "gk", { silent = true })
 	end,
 })
 
@@ -699,8 +704,11 @@ require("which-key").setup({
 -- }}}
 
 -- {{{ status and winbar
-vim.cmd([[ set laststatus=3 ]]) -- global statusline; only works on neovim 0.7+
+-- global statusline; only works on neovim 0.7+
+vim.cmd([[ set laststatus=3 ]])
+
 vim.api.nvim_create_autocmd({ "FileType" }, {
+	group = vim.api.nvim_create_augroup("WinbarSetup", {}),
 	callback = function()
 		local exclude_buftypes = {
 			"terminal",
