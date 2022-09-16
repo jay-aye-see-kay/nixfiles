@@ -39,6 +39,10 @@
       url = "github:andrewferrier/debugprint.nvim";
       flake = false;
     };
+    "plugin:nvim-window-picker" = {
+      url = "github:s1n7ax/nvim-window-picker";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
