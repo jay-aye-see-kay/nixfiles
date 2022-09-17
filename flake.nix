@@ -170,9 +170,6 @@
 
         packages.myNeovim = neovimBuilder {
           customRC = ''
-            set termguicolors
-            ${pkgs.lib.readFile ./terminal.vim}
-
             lua << EOF
             ${pkgs.lib.readFile ./init.lua}
             EOF

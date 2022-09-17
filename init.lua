@@ -763,6 +763,41 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 })
 -- }}}
 
+-- {{{ terminal
+_noremap("t", "<Esc>", [[<C-\><C-n>]])
+
+local terminal_augroup = vim.api.nvim_create_augroup("TerminalSetup", {})
+
+-- darken terminal background when in insert mode
+vim.api.nvim_create_autocmd({ "TermEnter" }, {
+	group = terminal_augroup,
+	command = "set winhighlight=Normal:ActiveTermBg",
+})
+vim.api.nvim_create_autocmd({ "TermLeave" }, {
+	group = terminal_augroup,
+	command = "set winhighlight=Normal:Normal",
+})
+
+vim.api.nvim_create_autocmd({ "TermOpen" }, {
+	group = terminal_augroup,
+	callback = function()
+		-- stops terminal side scrolling
+		vim.cmd([[ setlocal nonumber norelativenumber signcolumn=no ]])
+
+		-- ctrl-c, ctrl-p, ctrl-n, enter should all be passed through from normal mode
+		vim.cmd([[ nnoremap <buffer> <C-C> i<C-C><C-\><C-n> ]])
+		vim.cmd([[ nnoremap <buffer> <C-P> i<C-P><C-\><C-n> ]])
+		vim.cmd([[ nnoremap <buffer> <C-N> i<C-N><C-\><C-n> ]])
+		vim.cmd([[ nnoremap <buffer> <CR> i<CR><C-\><C-n> ]])
+
+		-- keep 'other' terminal cursor visible when in normal mode
+		vim.cmd([[ hi! TermCursorNC ctermfg=15 guifg=#fdf6e3 ctermbg=14 guibg=#5f875f cterm=NONE gui=NONE ]])
+		-- darker background, used in terminal-insert mode
+		vim.cmd([[ hi ActiveTermBg ctermbg=0 guibg=#111111 ]])
+	end,
+})
+-- }}}
+
 -- {{{ status and winbar
 -- global statusline; only works on neovim 0.7+
 vim.cmd([[ set laststatus=3 ]])
