@@ -544,8 +544,21 @@ local main_keymap = {
 	},
 }
 
-local which_key = require("which-key")
 vim.opt.timeoutlen = 250
+
+local which_key = require("which-key")
+which_key.setup({
+	plugins = {
+		spelling = { enabled = true },
+	},
+	window = {
+		winblend = 15,
+	},
+	layout = {
+		spacing = 4,
+		align = "center",
+	},
+})
 
 which_key.register({
 	e = main_keymap.explorer,
@@ -575,7 +588,6 @@ which_key.register({
 -- }}}
 
 -- snippets {{{
-
 local function snip_map(from, to)
 	vim.api.nvim_set_keymap("i", from, to, {})
 	vim.api.nvim_set_keymap("s", from, to, {})
@@ -659,11 +671,7 @@ ls.add_snippets("javascriptreact", js_snippets)
 ls.add_snippets("typescriptreact", js_snippets)
 -- }}}
 
---
--- END old init.lua
---
-
--- {{{ imported from plugin config
+-- {{{ tree sitter
 require("nvim-treesitter.configs").setup({
 	highlight = {
 		enable = true,
@@ -729,27 +737,28 @@ require("telescope").setup({
 	},
 })
 require("telescope").load_extension("fzf")
+-- }}}
 
+-- {{{ misc and UI stuff
 require("hop").setup()
-vim.api.nvim_set_keymap("n", "s", ":HopChar1<cr>", { silent = true })
-vim.api.nvim_set_keymap("n", "S", ":HopWord<cr>", { silent = true })
+nnoremap("s", ":HopChar1<cr>")
+nnoremap("S", ":HopWordMW<cr>")
 
-vim.api.nvim_set_keymap("n", "<leader>u", "<cmd>MundoToggle<cr>", { silent = true })
+nnoremap("<leader>u", "<cmd>MundoToggle<cr>")
 vim.g.mundo_preview_bottom = 1
 vim.g.mundo_width = 40
 vim.g.mundo_preview_height = 20
 
-require("which-key").setup({
-	plugins = {
-		spelling = { enabled = true },
-	},
-	window = {
-		winblend = 15,
-	},
-	layout = {
-		spacing = 4,
-		align = "center",
-	},
+-- }}}
+
+-- {{{ git + fugitive
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	group = vim.api.nvim_create_augroup("FugitiveSetup", {}),
+	pattern = "fugitive",
+	callback = function()
+		vim.opt_local.foldlevel = 99
+		vim.cmd([[ nnoremap <buffer> <Tab> = ]])
+	end,
 })
 -- }}}
 
