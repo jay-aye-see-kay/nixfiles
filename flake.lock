@@ -133,6 +133,22 @@
         "type": "github"
       }
     },
+    "plugin:nvim-scrollbar": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1657545514,
+        "narHash": "sha256-EqHoR/vdifrN3uhrA0AoJVXKf5jKxznJEgKh8bXm2PQ=",
+        "owner": "petertriho",
+        "repo": "nvim-scrollbar",
+        "rev": "ce0df6954a69d61315452f23f427566dc1e937ae",
+        "type": "github"
+      },
+      "original": {
+        "owner": "petertriho",
+        "repo": "nvim-scrollbar",
+        "type": "github"
+      }
+    },
     "plugin:nvim-window-picker": {
       "flake": false,
       "locked": {
@@ -190,6 +206,7 @@
         "plugin:mkdnflow": "plugin:mkdnflow",
         "plugin:neo-tree": "plugin:neo-tree",
         "plugin:nui": "plugin:nui",
+        "plugin:nvim-scrollbar": "plugin:nvim-scrollbar",
         "plugin:nvim-window-picker": "plugin:nvim-window-picker",
         "plugin:vim-resize-mode": "plugin:vim-resize-mode",
         "plugin:vim-symlink": "plugin:vim-symlink"

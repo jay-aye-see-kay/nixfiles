@@ -43,6 +43,10 @@
       url = "github:s1n7ax/nvim-window-picker";
       flake = false;
     };
+    "plugin:nvim-scrollbar" = {
+      url = "github:petertriho/nvim-scrollbar";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
