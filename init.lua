@@ -62,6 +62,7 @@ end
 local function vnoremap(from, to)
 	_noremap("v", from, to)
 end
+
 -- }}}
 
 -- init file setup {{{
@@ -158,7 +159,23 @@ vim.o.smartcase = true
 
 --Set colorscheme (order is important here)
 vim.o.termguicolors = true
-vim.cmd([[ colorscheme nvcode ]])
+vim.o.background = "dark"
+require("vscode").setup({
+	italic_comments = true,
+})
+require("lualine").setup({
+	options = {
+		theme = "vscode",
+	},
+	sections = {
+		lualine_a = { "mode" },
+		lualine_b = { "branch", "diagnostics" },
+		lualine_c = { "filename" },
+		lualine_x = { "lsp_progress", "filetype" },
+		lualine_y = { "progress" },
+		lualine_z = { "location" },
+	},
+})
 
 vim.opt.scrolloff = 4
 vim.opt.sidescrolloff = 4
@@ -256,10 +273,7 @@ function EnableAutocomplete()
 	require("cmp").setup.buffer({})
 end
 
-require("fidget").setup()
-
 require("lsp_signature").setup()
-
 -- }}}
 
 -- completions {{{

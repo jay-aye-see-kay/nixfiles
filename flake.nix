@@ -47,6 +47,10 @@
       url = "github:petertriho/nvim-scrollbar";
       flake = false;
     };
+    "plugin:vscode.nvim" = {
+      url = "github:Mofiqul/vscode.nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
@@ -180,8 +184,6 @@
               allPluginsFromInputs = (pkgs.lib.attrsets.mapAttrsToList (name: value: value) pkgs.neovimPlugins);
             in
             allPluginsFromInputs ++ (with pkgs.vimPlugins; [
-              nvcode-color-schemes-vim
-
               # langs
               vim-nix
               vim-json
@@ -209,9 +211,10 @@
               # contain these, maybe remove
               friendly-snippets
               neoformat
-              lightline-vim
-              lightline-lsp
+
               nvim-web-devicons
+              lualine-nvim
+              lualine-lsp-progress
 
               tabular
               nvim-ts-context-commentstring
@@ -233,7 +236,6 @@
               which-key-nvim
               lua-dev-nvim
               dressing-nvim
-              fidget-nvim
 
               # tpope
               vim-abolish
