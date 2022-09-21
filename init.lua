@@ -52,6 +52,7 @@ function M.map(mode, lhs, rhs, extraOpts)
 	end
 	vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
 end
+
 -- }}}
 
 -- init file setup {{{
@@ -756,6 +757,8 @@ require("scrollbar").setup()
 -- }}}
 
 -- {{{ git + fugitive
+require("gitsigns").setup()
+
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	group = vim.api.nvim_create_augroup("FugitiveSetup", {}),
 	pattern = "fugitive",

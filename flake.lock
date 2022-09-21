@@ -85,6 +85,22 @@
         "type": "github"
       }
     },
+    "plugin:gitsigns": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1663543397,
+        "narHash": "sha256-FgNSwvW7Bk+eKutMj0zqEorJ3+ijCALtOXs2OYiSX1I=",
+        "owner": "lewis6991",
+        "repo": "gitsigns.nvim",
+        "rev": "f98c85e7c3d65a51f45863a34feb4849c82f240f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lewis6991",
+        "repo": "gitsigns.nvim",
+        "type": "github"
+      }
+    },
     "plugin:mkdnflow": {
       "flake": false,
       "locked": {
@@ -219,6 +235,7 @@
         "neovim-flake": "neovim-flake",
         "nixpkgs": "nixpkgs",
         "plugin:debugprint": "plugin:debugprint",
+        "plugin:gitsigns": "plugin:gitsigns",
         "plugin:mkdnflow": "plugin:mkdnflow",
         "plugin:neo-tree": "plugin:neo-tree",
         "plugin:nui": "plugin:nui",

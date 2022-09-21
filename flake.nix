@@ -51,6 +51,10 @@
       url = "github:Mofiqul/vscode.nvim";
       flake = false;
     };
+    "plugin:gitsigns" = {
+      url = "github:lewis6991/gitsigns.nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
@@ -248,7 +252,6 @@
               # git
               git-messenger-vim
               diffview-nvim
-              gitsigns-nvim
               vim-fugitive
               vim-rhubarb
             ]);
