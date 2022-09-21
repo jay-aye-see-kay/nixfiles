@@ -1,9 +1,11 @@
 -- helpers {{{
-local function merge(t1, t2)
+M = {}
+
+function M.merge(t1, t2)
 	return vim.tbl_extend("force", t1, t2)
 end
 
-local function make_directed_maps(command_desc, command)
+function M.make_directed_maps(command_desc, command)
 	local directions = {
 		left = { key = "h", description = "to left", command_prefix = "aboveleft vsplit" },
 		right = { key = "l", description = "to right", command_prefix = "belowright vsplit" },
@@ -25,7 +27,7 @@ local function make_directed_maps(command_desc, command)
 	return maps
 end
 
-local function exec(command)
+function M.exec(command)
 	local file, err = io.popen(command, "r")
 	if file == nil then
 		print("file could not be opened:", err)
@@ -38,31 +40,18 @@ local function exec(command)
 	return res
 end
 
-local function uuid()
-	local res = exec([[ python -c "import uuid, sys; sys.stdout.write(str(uuid.uuid4()))" ]])
+function M.uuid()
+	local res = M.exec([[ python -c "import uuid, sys; sys.stdout.write(str(uuid.uuid4()))" ]])
 	return res[1]
 end
 
-local function _noremap(mode, from, to)
-	vim.api.nvim_set_keymap(mode, from, to, { noremap = true, silent = true })
+function M.map(mode, lhs, rhs, extraOpts)
+	local opts = { noremap = true, silent = true }
+	if extraOpts then
+		opts = M.merge(opts, extraOpts)
+	end
+	vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
 end
-
-local function noremap(from, to)
-	_noremap("", from, to)
-end
-
-local function nnoremap(from, to)
-	_noremap("n", from, to)
-end
-
-local function inoremap(from, to)
-	_noremap("i", from, to)
-end
-
-local function vnoremap(from, to)
-	_noremap("v", from, to)
-end
-
 -- }}}
 
 -- init file setup {{{
@@ -85,17 +74,17 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 -- basic core stuff {{{
 
 -- faster window movements
-nnoremap("<c-h>", "<c-w>h")
-nnoremap("<c-j>", "<c-w>j")
-nnoremap("<c-k>", "<c-w>k")
-nnoremap("<c-l>", "<c-w>l")
+M.map("n", "<c-h>", "<c-w>h")
+M.map("n", "<c-j>", "<c-w>j")
+M.map("n", "<c-k>", "<c-w>k")
+M.map("n", "<c-l>", "<c-w>l")
 
 -- disable ex mode
-nnoremap("Q", "<nop>")
-nnoremap("gQ", "<nop>")
+M.map("n", "Q", "<nop>")
+M.map("n", "gQ", "<nop>")
 
-inoremap("<c-a>", "<nop>") -- disable insert repeating
-nnoremap("Y", "y$") -- make Y behave like C and D
+M.map("i", "<c-a>", "<nop>") -- disable insert repeating
+M.map("n", "Y", "y$") -- make Y behave like C and D
 
 vim.cmd([[ set splitbelow splitright ]]) -- matches i3 behaviour
 vim.cmd([[ set linebreak ]]) -- don't break words when wrapping
@@ -121,7 +110,7 @@ vim.api.nvim_create_autocmd({ "WinLeave" }, {
 	end,
 })
 
--- prefer spaces over tabs, unless working on MSH files
+-- prefer spaces over tabs
 vim.cmd([[ set tabstop=2 ]])
 vim.cmd([[ set softtabstop=2 ]])
 vim.cmd([[ set shiftwidth=2 ]])
@@ -132,13 +121,13 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 })
 
 -- modern copy paste keymaps
-inoremap("<C-v>", "<C-r>+")
-vnoremap("<C-c>", '"+y')
+M.map("i", "<C-v>", "<C-r>+")
+M.map("v", "<C-c>", '"+y')
 
 -- stuff from https://github.com/mjlbach/defaults.nvim
 
 --Remap space as leader key
-noremap("<Space>", "")
+M.map("", "<Space>", "")
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
@@ -239,10 +228,10 @@ for _, lsp in pairs(lsp_servers) do
 	})
 end
 
-nnoremap("gd", "<CMD>Telescope lsp_definitions<CR>")
-nnoremap("gr", "<CMD>Telescope lsp_references<CR>")
-nnoremap("gy", "<CMD>Telescope lsp_type_definitions<CR>")
-nnoremap("gh", "<CMD>lua vim.lsp.buf.hover()<CR>")
+M.map("n", "gd", "<CMD>Telescope lsp_definitions<CR>")
+M.map("n", "gr", "<CMD>Telescope lsp_references<CR>")
+M.map("n", "gy", "<CMD>Telescope lsp_type_definitions<CR>")
+M.map("n", "gh", "<CMD>lua vim.lsp.buf.hover()<CR>")
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "single",
 })
@@ -437,15 +426,15 @@ end, { desc = "Pick a window" })
 -- }}}
 
 -- keymaps {{{
-nnoremap("<c-s>", "<cmd>w<cr>")
+M.map("n", "<c-s>", "<cmd>w<cr>")
 
 local directed_keymaps = {
-	git_status = make_directed_maps("Git Status", "Gedit :"),
-	new_terminal = make_directed_maps("New terminal", "terminal"),
-	todays_notepad = make_directed_maps("Today's notepad", "LogbookToday"),
-	yesterdays_notepad = make_directed_maps("Yesterday's notepad", "LogbookYesterday"),
-	tomorrows_notepad = make_directed_maps("Tomorrow's notepad", "LogbookTomorrow"),
-	file_explorer = make_directed_maps("File explorer", "Neotree reveal current"),
+	git_status = M.make_directed_maps("Git Status", "Gedit :"),
+	new_terminal = M.make_directed_maps("New terminal", "terminal"),
+	todays_notepad = M.make_directed_maps("Today's notepad", "LogbookToday"),
+	yesterdays_notepad = M.make_directed_maps("Yesterday's notepad", "LogbookYesterday"),
+	tomorrows_notepad = M.make_directed_maps("Tomorrow's notepad", "LogbookTomorrow"),
+	file_explorer = M.make_directed_maps("File explorer", "Neotree reveal current"),
 }
 
 --- grep through old markdown notes
@@ -515,7 +504,7 @@ local main_keymap = {
 		u = { telescope_fns.grep_string, "🔭 word under cursor" },
 		n = { grep_notes, "🔭 search all notes" },
 	},
-	git = merge(directed_keymaps.git_status, {
+	git = M.merge(directed_keymaps.git_status, {
 		name = "+git",
 		g = { "<Cmd>Telescope git_commits<CR>", "🔭 commits" },
 		c = { "<Cmd>Telescope git_bcommits<CR>", "🔭 buffer commits" },
@@ -523,20 +512,20 @@ local main_keymap = {
 		R = { "<Cmd>Gitsigns reset_hunk<CR>", "reset hunk" },
 		p = { "<Cmd>Gitsigns preview_hunk<CR>", "preview hunk" },
 	}),
-	terminal = merge(directed_keymaps.new_terminal, {
+	terminal = M.merge(directed_keymaps.new_terminal, {
 		name = "+terminal",
 	}),
-	explorer = merge(directed_keymaps.file_explorer, {
+	explorer = M.merge(directed_keymaps.file_explorer, {
 		name = "+file explorer",
 		e = { "<cmd>Neotree toggle<cr>", "toggle side file tree" },
 	}),
-	notes = merge(directed_keymaps.todays_notepad, {
+	notes = M.merge(directed_keymaps.todays_notepad, {
 		name = "+notes",
 		f = { grep_notes, "🔭 search all notes" },
-		y = merge(directed_keymaps.yesterdays_notepad, {
+		y = M.merge(directed_keymaps.yesterdays_notepad, {
 			name = "+Yesterday' notepad",
 		}),
-		t = merge(directed_keymaps.tomorrows_notepad, {
+		t = M.merge(directed_keymaps.tomorrows_notepad, {
 			name = "+Tomorrow' notepad",
 		}),
 	}),
@@ -662,7 +651,7 @@ local js_snippets = {
 
 ls.add_snippets("all", {
 	s("date", { i(1, os.date("%Y-%m-%d")) }),
-	s("uuid", { f(uuid, {}) }),
+	s("uuid", { f(M.uuid, {}) }),
 	vsc("filename", "$TM_FILENAME"),
 	vsc("filepath", "$TM_FILEPATH"),
 	vsc({ trig = "v", wordTrig = false }, "\\${${1}}"),
@@ -755,10 +744,10 @@ require("telescope").load_extension("fzf")
 
 -- {{{ misc and UI stuff
 require("hop").setup()
-nnoremap("s", ":HopChar1<cr>")
-nnoremap("S", ":HopWordMW<cr>")
+M.map("n", "s", ":HopChar1<cr>")
+M.map("n", "S", ":HopWordMW<cr>")
 
-nnoremap("<leader>u", "<cmd>MundoToggle<cr>")
+M.map("n", "<leader>u", "<cmd>MundoToggle<cr>")
 vim.g.mundo_preview_bottom = 1
 vim.g.mundo_width = 40
 vim.g.mundo_preview_height = 20
@@ -778,7 +767,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 -- }}}
 
 -- {{{ terminal
-_noremap("t", "<Esc>", [[<C-\><C-n>]])
+M.map("t", "<Esc>", [[<C-\><C-n>]])
 
 local terminal_augroup = vim.api.nvim_create_augroup("TerminalSetup", {})
 
