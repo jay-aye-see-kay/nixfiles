@@ -53,6 +53,14 @@ function M.map(mode, lhs, rhs, extraOpts)
 	vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
 end
 
+function M.buf_map(buffer, mode, lhs, rhs, extraOpts)
+	local opts = { noremap = true, silent = true }
+	if extraOpts then
+		opts = M.merge(opts, extraOpts)
+	end
+	vim.api.nvim_buf_set_keymap(buffer, mode, lhs, rhs, opts)
+end
+
 -- }}}
 
 -- init file setup {{{
@@ -353,8 +361,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "text", "markdown", "md" },
 	callback = function()
 		vim.opt_local.wrap = true
-		vim.api.nvim_buf_set_keymap(0, "n", "j", "gj", { silent = true })
-		vim.api.nvim_buf_set_keymap(0, "n", "k", "gk", { silent = true })
+		M.buf_map(0, "n", "j", "gj")
+		M.buf_map(0, "n", "k", "gk")
 	end,
 })
 
@@ -592,11 +600,12 @@ which_key.register({
 -- }}}
 
 -- snippets {{{
-local function snip_map(from, to)
-	vim.api.nvim_set_keymap("i", from, to, {})
-	vim.api.nvim_set_keymap("s", from, to, {})
-end
 
+-- these need to work in insert and select mode for some reason
+local function snip_map(lhs, rhs)
+	M.map("i", lhs, rhs)
+	M.map("s", lhs, rhs)
+end
 snip_map("<C-j>", "<Plug>luasnip-expand-snippet")
 snip_map("<C-l>", "<Plug>luasnip-jump-next")
 snip_map("<C-h>", "<Plug>luasnip-jump-prev")
