@@ -49,6 +49,8 @@ in
       sumneko-lua-language-server
       # ===
 
+      unstable.anki-bin
+
       prusa-slicer
       trash-cli
       (python3.withPackages (ps: [ ps.ipykernel ]))
