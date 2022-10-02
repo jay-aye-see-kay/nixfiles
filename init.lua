@@ -360,8 +360,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 
 local function open_logbook(days_from_today)
 	local date_offset = (days_from_today or 0) * 24 * 60 * 60
-	local filename = os.date("%Y-%m-%d-%A", os.time() + date_offset) .. ".org"
-	local todays_journal_file = "~/Documents/org/logbook/" .. filename
+	local filename = os.date("%Y-%m-%d-%A", os.time() + date_offset) .. ".md"
+	local todays_journal_file = "~/Documents/notes/logbook/" .. filename
 	vim.cmd("edit " .. todays_journal_file)
 end
 
