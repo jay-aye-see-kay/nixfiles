@@ -9,10 +9,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:numtide/flake-utils";
     };
-    neovim-flake = {
-      url = "github:neovim/neovim?dir=contrib";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     # Plugins direct from their repos
     "plugin:vim-resize-mode" = {
@@ -105,9 +101,6 @@
           inherit system;
           overlays = [
             pluginOverlay
-            (final: prev: {
-              neovim-unwrapped = inputs.neovim-flake.packages.${prev.system}.neovim;
-            })
           ];
         };
 
