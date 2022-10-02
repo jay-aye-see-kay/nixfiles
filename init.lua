@@ -149,13 +149,13 @@ vim.o.smartcase = true
 
 --Set colorscheme (order is important here)
 vim.o.termguicolors = true
+vim.cmd([[ colorscheme nvcode ]])
 vim.o.background = "dark"
-require("vscode").setup({
-	italic_comments = true,
-})
+
 require("lualine").setup({
 	options = {
-		theme = "vscode",
+		theme = "codedark",
+		globalstatus = true,
 	},
 	sections = {
 		lualine_a = { "mode" },
@@ -805,9 +805,6 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
 -- }}}
 
 -- {{{ status and winbar
--- global statusline; only works on neovim 0.7+
-vim.cmd([[ set laststatus=3 ]])
-
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	group = vim.api.nvim_create_augroup("WinbarSetup", {}),
 	callback = function()

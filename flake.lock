@@ -175,22 +175,6 @@
         "type": "github"
       }
     },
-    "plugin:vscode.nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1663209637,
-        "narHash": "sha256-E2dtkEt8MyMFza8HocbEzJ8LZO98L8STw3s8gYhU60o=",
-        "owner": "Mofiqul",
-        "repo": "vscode.nvim",
-        "rev": "c5125820a0915ef50f03fae10423c43dc49c66b1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Mofiqul",
-        "repo": "vscode.nvim",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -203,8 +187,7 @@
         "plugin:nvim-scrollbar": "plugin:nvim-scrollbar",
         "plugin:nvim-window-picker": "plugin:nvim-window-picker",
         "plugin:vim-resize-mode": "plugin:vim-resize-mode",
-        "plugin:vim-symlink": "plugin:vim-symlink",
-        "plugin:vscode.nvim": "plugin:vscode.nvim"
+        "plugin:vim-symlink": "plugin:vim-symlink"
       }
     }
   },

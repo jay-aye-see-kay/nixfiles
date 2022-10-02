@@ -43,10 +43,6 @@
       url = "github:petertriho/nvim-scrollbar";
       flake = false;
     };
-    "plugin:vscode.nvim" = {
-      url = "github:Mofiqul/vscode.nvim";
-      flake = false;
-    };
     "plugin:gitsigns" = {
       url = "github:lewis6991/gitsigns.nvim";
       flake = false;
@@ -181,6 +177,8 @@
               allPluginsFromInputs = (pkgs.lib.attrsets.mapAttrsToList (name: value: value) pkgs.neovimPlugins);
             in
             allPluginsFromInputs ++ (with pkgs.vimPlugins; [
+              nvcode-color-schemes-vim
+
               # langs
               vim-nix
               vim-json
