@@ -17,6 +17,7 @@ let
     pdfarranger
     polymc # minecraft launcher, it probably works on mac, but I don't want it there
     unzip
+    prusa-slicer
   ];
 in
 {
@@ -51,7 +52,6 @@ in
 
       unstable.anki-bin
 
-      prusa-slicer
       trash-cli
       (python3.withPackages (ps: [ ps.ipykernel ]))
       nodePackages.pyright
