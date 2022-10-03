@@ -54,7 +54,6 @@ in
 
       trash-cli
       (python3.withPackages (ps: [ ps.ipykernel ]))
-      nodePackages.pyright
       black
 
       customNodePackages."aws-cdk-1.x"
