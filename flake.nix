@@ -77,11 +77,19 @@
       formatter = eachMySystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
       homeManagerConfigurations.${username} = eachMySystem (system:
-        home-manager.lib.homeManagerConfiguration {
+        home-manager.lib.homeManagerConfiguration rec {
           inherit system username;
           pkgs = mkPkgs system;
-          homeDirectory = "/home/${username}";
-          configuration.imports = linuxHomeManagerImports;
+
+          homeDirectory =
+            if pkgs.stdenv.isDarwin
+            then "/Users/${username}"
+            else "/home/${username}";
+          configuration.imports =
+            if pkgs.stdenv.isDarwin
+            then darwinHomeManagerImports
+            else linuxHomeManagerImports;
+
           extraSpecialArgs = {
             # WIP not using this, but it's cool I can pass it through
             jdr.neovim-packages = neovim-flake.extraPackages.${system};
