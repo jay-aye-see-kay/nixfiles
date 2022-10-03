@@ -8,7 +8,6 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     sops-nix.url = "github:Mic92/sops-nix";
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
 
     neovim-flake.url = "github:jay-aye-see-kay/neovim-flake";
   };
@@ -20,7 +19,6 @@
     , nixos-hardware
     , home-manager
     , sops-nix
-    , emacs-overlay
     , neovim-flake
     }:
     let
@@ -62,7 +60,6 @@
           config = { allowUnfree = true; };
           overlays = [
             nixpkgs-unstable-overlay
-            emacs-overlay.overlay
             nodePkgsOverlay
             neovim-flake.overlays.${system}.default
           ];
@@ -71,7 +68,6 @@
       commonHomeManagerImports = [
         ./users/jack/home.nix
         ./users/jack/fish.nix
-        ./users/jack/emacs
       ];
       linuxHomeManagerImports = commonHomeManagerImports ++ [ ./users/jack/i3 ];
       darwinHomeManagerImports = commonHomeManagerImports
