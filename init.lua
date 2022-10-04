@@ -405,6 +405,10 @@ require("neo-tree").setup({
 		},
 	},
 	filesystem = {
+		filtered_items = {
+			visible = true,
+			hide_dotfiles = false,
+		},
 		hijack_netrw_behavior = "open_current",
 		use_libuv_file_watcher = true,
 		follow_current_file = true,
@@ -412,7 +416,7 @@ require("neo-tree").setup({
 			mappings = {
 				["H"] = "navigate_up",
 				["L"] = "set_root",
-				-- ["H"] = "toggle_hidden",
+				["."] = "toggle_hidden",
 				["/"] = "fuzzy_finder",
 				["D"] = "fuzzy_finder_directory",
 				["<c-x>"] = "clear_filter",
