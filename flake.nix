@@ -183,6 +183,7 @@
               vim-nix
               vim-json
               jsonc-vim
+              splitjoin-vim
 
               (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
               nvim-treesitter-textobjects
