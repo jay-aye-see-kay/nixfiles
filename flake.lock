@@ -46,16 +46,17 @@
         "plugin:neo-tree": "plugin:neo-tree",
         "plugin:nui": "plugin:nui",
         "plugin:nvim-scrollbar": "plugin:nvim-scrollbar",
+        "plugin:nvim-unception": "plugin:nvim-unception",
         "plugin:nvim-window-picker": "plugin:nvim-window-picker",
         "plugin:vim-resize-mode": "plugin:vim-resize-mode",
         "plugin:vim-symlink": "plugin:vim-symlink"
       },
       "locked": {
-        "lastModified": 1664964085,
-        "narHash": "sha256-t3JcHQwk3edq8DZ1DlNWaa5Ojp9ZlEFl5IRXuh/fnHI=",
+        "lastModified": 1665041960,
+        "narHash": "sha256-2XRJhE99hy3merHrEmzrEAt4JSbBcjJ/n3yLtUS9H0E=",
         "owner": "jay-aye-see-kay",
         "repo": "neovim-flake",
-        "rev": "a22ef90ad22644abf4baca7def64846ebdae44db",
+        "rev": "a30d1d378576dc9c9e037521131247594a3b6995",
         "type": "github"
       },
       "original": {
@@ -252,6 +253,22 @@
       "original": {
         "owner": "petertriho",
         "repo": "nvim-scrollbar",
+        "type": "github"
+      }
+    },
+    "plugin:nvim-unception": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1664893500,
+        "narHash": "sha256-PUnPwLZB+pS8BSm1ya30dbpZs412jY9V9/R3cOg/FfA=",
+        "owner": "samjwill",
+        "repo": "nvim-unception",
+        "rev": "5aa8a3eb4c68748790cec64d11413d33005d0a21",
+        "type": "github"
+      },
+      "original": {
+        "owner": "samjwill",
+        "repo": "nvim-unception",
         "type": "github"
       }
     },
