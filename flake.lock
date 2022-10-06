@@ -127,6 +127,22 @@
         "type": "github"
       }
     },
+    "plugin:nvim-unception": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1664893500,
+        "narHash": "sha256-PUnPwLZB+pS8BSm1ya30dbpZs412jY9V9/R3cOg/FfA=",
+        "owner": "samjwill",
+        "repo": "nvim-unception",
+        "rev": "5aa8a3eb4c68748790cec64d11413d33005d0a21",
+        "type": "github"
+      },
+      "original": {
+        "owner": "samjwill",
+        "repo": "nvim-unception",
+        "type": "github"
+      }
+    },
     "plugin:nvim-window-picker": {
       "flake": false,
       "locked": {
@@ -185,6 +201,7 @@
         "plugin:neo-tree": "plugin:neo-tree",
         "plugin:nui": "plugin:nui",
         "plugin:nvim-scrollbar": "plugin:nvim-scrollbar",
+        "plugin:nvim-unception": "plugin:nvim-unception",
         "plugin:nvim-window-picker": "plugin:nvim-window-picker",
         "plugin:vim-resize-mode": "plugin:vim-resize-mode",
         "plugin:vim-symlink": "plugin:vim-symlink"

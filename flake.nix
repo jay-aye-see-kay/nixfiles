@@ -47,6 +47,10 @@
       url = "github:lewis6991/gitsigns.nvim";
       flake = false;
     };
+    "plugin:nvim-unception" = {
+      url = "github:samjwill/nvim-unception";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
