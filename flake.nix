@@ -182,6 +182,7 @@
             in
             allPluginsFromInputs ++ (with pkgs.vimPlugins; [
               nvcode-color-schemes-vim
+              indent-blankline-nvim
 
               # langs
               vim-nix

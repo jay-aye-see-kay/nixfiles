@@ -155,6 +155,19 @@ vim.wo.signcolumn = "yes"
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
+vim.opt.scrolloff = 4
+vim.opt.sidescrolloff = 4
+vim.opt.wrap = false
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	group = vim.api.nvim_create_augroup("FzfEscapeBehavior", {}),
+	pattern = "fzf",
+	command = "tnoremap <buffer> <ESC> <ESC>",
+})
+-- }}}
+
+-- visuals look nice {{{
+
 --Set colorscheme (order is important here)
 vim.o.termguicolors = true
 vim.cmd([[ colorscheme nvcode ]])
@@ -175,14 +188,8 @@ require("lualine").setup({
 	},
 })
 
-vim.opt.scrolloff = 4
-vim.opt.sidescrolloff = 4
-vim.opt.wrap = false
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
-	group = vim.api.nvim_create_augroup("FzfEscapeBehavior", {}),
-	pattern = "fzf",
-	command = "tnoremap <buffer> <ESC> <ESC>",
+require("indent_blankline").setup({
+	show_current_context = true,
 })
 -- }}}
 
