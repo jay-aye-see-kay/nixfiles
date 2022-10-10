@@ -35,7 +35,7 @@
       #       "x86_64-linux": "__x86_64-linux";
       #       "x86_64-darwn": "__x86_64-darwn";
       #       "aarch64-linux": "__aarch64-linux";
-      #       "aarch64-darwn": "__aarch64-darwn";
+      #       "aarch64-darwin": "__aarch64-darwin";
       #     }
       eachMySystem = (mkConfig: (lib.lists.fold
         (system: accum: accum // { ${system} = mkConfig system; })
@@ -72,30 +72,48 @@
       linuxHomeManagerImports = commonHomeManagerImports ++ [ ./users/jack/i3 ];
       darwinHomeManagerImports = commonHomeManagerImports
         ++ [ ./users/jack/fish-macos-fix.nix ];
+
+      mkHmConfig = home-manager.lib.homeManagerConfiguration;
     in
     {
       formatter = eachMySystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
-      homeManagerConfigurations.${username} = eachMySystem (system:
-        home-manager.lib.homeManagerConfiguration rec {
-          inherit system username;
-          pkgs = mkPkgs system;
+      # work laptop
+      homeConfigurations."${username}@jjack-XMW16X" = mkHmConfig rec {
+        inherit username;
+        system = "aarch64-darwin";
+        pkgs = mkPkgs system;
+        # pkgs = nixpkgs.legacyPackages.${system};
+        homeDirectory = "/Users/${username}";
+        configuration.imports = darwinHomeManagerImports;
+      };
 
-          homeDirectory =
-            if pkgs.stdenv.isDarwin
-            then "/Users/${username}"
-            else "/home/${username}";
-          configuration.imports =
-            if pkgs.stdenv.isDarwin
-            then darwinHomeManagerImports
-            else linuxHomeManagerImports;
+      # work vm
+      homeConfigurations."${username}@moa" = mkHmConfig rec {
+        inherit username;
+        system = "aarch64-linux";
+        pkgs = mkPkgs system;
+        homeDirectory = "/home/${username}";
+        configuration.imports = linuxHomeManagerImports;
+      };
 
-          extraSpecialArgs = {
-            # WIP not using this, but it's cool I can pass it through
-            jdr.neovim-packages = neovim-flake.extraPackages.${system};
-          };
-        }
-      );
+      # home laptop
+      homeConfigurations."${username}@tui" = mkHmConfig rec {
+        inherit username;
+        system = "x86_64-linux";
+        pkgs = mkPkgs system;
+        homeDirectory = "/home/${username}";
+        configuration.imports = linuxHomeManagerImports;
+      };
+
+      # server
+      homeConfigurations."${username}@kakapo" = mkHmConfig rec {
+        inherit username;
+        system = "x86_64-linux";
+        pkgs = mkPkgs system;
+        homeDirectory = "/home/${username}";
+        configuration.imports = linuxHomeManagerImports;
+      };
 
       nixosConfigurations = {
         tui = let system = "x86_64-linux"; in
