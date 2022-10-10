@@ -18,6 +18,13 @@ let
     polymc # minecraft launcher, it probably works on mac, but I don't want it there
     unzip
     prusa-slicer
+    unstable.anki-bin
+    syncthing
+
+    # these are broken on macos, no idea why but I don't really need them
+    black
+    yq
+    youtube-dl
   ];
 in
 {
@@ -50,11 +57,8 @@ in
       sumneko-lua-language-server
       # ===
 
-      unstable.anki-bin
-
       trash-cli
       (python3.withPackages (ps: [ ps.ipykernel ]))
-      black
 
       customNodePackages."aws-cdk-1.x"
       unstable.nodePackages.cdk8s-cli
@@ -71,7 +75,6 @@ in
       nodePackages.prettier
       awscli2
       atool
-      syncthing
       nodePackages.pnpm
       htop
       jq
@@ -80,7 +83,6 @@ in
       tldr
       tree
       yarn
-      yq
       rustc
       rustfmt
       cargo-edit
@@ -89,7 +91,6 @@ in
       clippy
       rust-analyzer
       entr
-      youtube-dl
       exercism
     ]
     ++ (if pkgs.stdenv.isLinux then linuxOnlyPackages else darwinOnlyPackages);
