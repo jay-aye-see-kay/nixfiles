@@ -1,6 +1,7 @@
 { config, pkgs, lib, ... }:
 let
   ifLinux = lib.mkIf pkgs.stdenv.isLinux;
+  ifDarwin = lib.mkIf pkgs.stdenv.isDarwin;
   darwinOnlyPackages = with pkgs; [
     unstable.nodePackages.snyk
   ];
@@ -116,7 +117,8 @@ in
     starship.enableFishIntegration = true;
 
     alacritty.enable = true;
-    alacritty.settings.font.size = if pkgs.stdenv.isLinux then 8 else 16;
+    alacritty.settings.font.size = if pkgs.stdenv.isLinux then 8 else 14;
+    alacritty.settings.font.normal.family = ifDarwin "FuraMono Nerd Font Mono";
 
     git = {
       enable = true;
