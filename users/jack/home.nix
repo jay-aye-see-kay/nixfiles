@@ -58,6 +58,7 @@ in
       sumneko-lua-language-server
       # ===
 
+      manix
       trash-cli
       (python3.withPackages (ps: [ ps.ipykernel ]))
 
