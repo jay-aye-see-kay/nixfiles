@@ -730,7 +730,8 @@ require("nvim-treesitter.configs").setup({
 
 local actions = require("telescope.actions")
 local action_layout = require("telescope.actions.layout")
-require("telescope").setup({
+local telescope = require("telescope")
+telescope.setup({
 	defaults = {
 		layout_config = { prompt_position = "top" },
 		sorting_strategy = "ascending",
@@ -762,7 +763,8 @@ require("telescope").setup({
 		},
 	},
 })
-require("telescope").load_extension("fzf")
+telescope.load_extension("fzf")
+telescope.load_extension("manix")
 -- }}}
 
 -- {{{ misc and UI stuff

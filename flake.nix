@@ -51,6 +51,10 @@
       url = "github:samjwill/nvim-unception";
       flake = false;
     };
+    "plugin:telescope-manix" = {
+      url = "github:MrcJkb/telescope-manix";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:

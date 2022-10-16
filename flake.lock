@@ -159,6 +159,22 @@
         "type": "github"
       }
     },
+    "plugin:telescope-manix": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1665342535,
+        "narHash": "sha256-R00Fo8pdmyE6TKnb3s/oR531c+PmFSbnxC+u03Z2OBU=",
+        "owner": "MrcJkb",
+        "repo": "telescope-manix",
+        "rev": "b254c28d7d793fe93cfaccf9bd53493a0c579e3b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MrcJkb",
+        "repo": "telescope-manix",
+        "type": "github"
+      }
+    },
     "plugin:vim-resize-mode": {
       "flake": false,
       "locked": {
@@ -203,6 +219,7 @@
         "plugin:nvim-scrollbar": "plugin:nvim-scrollbar",
         "plugin:nvim-unception": "plugin:nvim-unception",
         "plugin:nvim-window-picker": "plugin:nvim-window-picker",
+        "plugin:telescope-manix": "plugin:telescope-manix",
         "plugin:vim-resize-mode": "plugin:vim-resize-mode",
         "plugin:vim-symlink": "plugin:vim-symlink"
       }
