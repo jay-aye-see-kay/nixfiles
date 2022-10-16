@@ -48,15 +48,16 @@
         "plugin:nvim-scrollbar": "plugin:nvim-scrollbar",
         "plugin:nvim-unception": "plugin:nvim-unception",
         "plugin:nvim-window-picker": "plugin:nvim-window-picker",
+        "plugin:telescope-manix": "plugin:telescope-manix",
         "plugin:vim-resize-mode": "plugin:vim-resize-mode",
         "plugin:vim-symlink": "plugin:vim-symlink"
       },
       "locked": {
-        "lastModified": 1665041960,
-        "narHash": "sha256-2XRJhE99hy3merHrEmzrEAt4JSbBcjJ/n3yLtUS9H0E=",
+        "lastModified": 1665918943,
+        "narHash": "sha256-XpZ1E+jp6FSJDwFxPISXgXG1N7U56sOs2UUmCQg72iQ=",
         "owner": "jay-aye-see-kay",
         "repo": "neovim-flake",
-        "rev": "a30d1d378576dc9c9e037521131247594a3b6995",
+        "rev": "5f8babb9628b42006c34e2de9e1efd8b9a417fcf",
         "type": "github"
       },
       "original": {
@@ -285,6 +286,22 @@
       "original": {
         "owner": "s1n7ax",
         "repo": "nvim-window-picker",
+        "type": "github"
+      }
+    },
+    "plugin:telescope-manix": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1665342535,
+        "narHash": "sha256-R00Fo8pdmyE6TKnb3s/oR531c+PmFSbnxC+u03Z2OBU=",
+        "owner": "MrcJkb",
+        "repo": "telescope-manix",
+        "rev": "b254c28d7d793fe93cfaccf9bd53493a0c579e3b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MrcJkb",
+        "repo": "telescope-manix",
         "type": "github"
       }
     },
