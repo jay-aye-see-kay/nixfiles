@@ -95,6 +95,8 @@ in
     arion # for running web services
     docker
     docker-compose
+    smartmontools
+    mullvad-vpn
   ];
 
   # hud setup for the tv
@@ -108,6 +110,8 @@ in
     autoLogin.enable = true;
     autoLogin.user = "hud";
   };
+
+  services.mullvad-vpn.enable = true;
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;

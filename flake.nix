@@ -114,6 +114,15 @@
         homeDirectory = "/home/${username}";
         configuration.imports = linuxHomeManagerImports;
       };
+      homeConfigurations."hud@kakapo" = mkHmConfig rec {
+        username = "hud";
+        system = "x86_64-linux";
+        pkgs = mkPkgs system;
+        homeDirectory = "/home/hud";
+        configuration.imports = [
+          ./users/hud/home.nix
+        ];
+      };
 
       nixosConfigurations = {
         tui = let system = "x86_64-linux"; in
