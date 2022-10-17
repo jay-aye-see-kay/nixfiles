@@ -125,6 +125,7 @@ vim.api.nvim_create_autocmd({ "WinLeave" }, {
 vim.cmd([[ set tabstop=2 ]])
 vim.cmd([[ set softtabstop=2 ]])
 vim.cmd([[ set shiftwidth=2 ]])
+vim.cmd([[ set expandtab ]])
 
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 	group = vim.api.nvim_create_augroup("HighlightOnYank", {}),
