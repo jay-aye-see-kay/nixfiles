@@ -16,7 +16,7 @@ let
     mpv
     nextcloud-client
     pdfarranger
-    polymc # minecraft launcher, it probably works on mac, but I don't want it there
+    prismlauncher # minecraft launcher, it probably works on mac, but I don't want it there
     unzip
     prusa-slicer
     unstable.anki-bin
