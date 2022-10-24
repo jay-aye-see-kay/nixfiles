@@ -63,6 +63,7 @@ in
       (python3.withPackages (ps: [ ps.ipykernel ]))
 
       customNodePackages."aws-cdk-1.x"
+      customNodePackages."@fsouza/prettierd"
       unstable.nodePackages.cdk8s-cli
       unstable.kubectl
 

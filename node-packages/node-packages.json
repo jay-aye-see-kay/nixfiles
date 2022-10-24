@@ -1,1 +1,1 @@
-[{ "aws-cdk": "1.x" }]
+[{ "aws-cdk": "1.x" }, "@fsouza/prettierd"]
