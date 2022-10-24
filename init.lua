@@ -871,5 +871,12 @@ require("which-key").register({
 }, {
 	prefix = "g?",
 })
-
 -- }}} pro debugging
+
+-- {{{ Formatting
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+	group = vim.api.nvim_create_augroup("FormatJsTs", {}),
+	pattern = { "*.js", "*.jsx", "*.ts", "*.tsx" },
+	command = "Neoformat",
+})
+-- }}}
