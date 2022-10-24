@@ -94,6 +94,7 @@ in
       rust-analyzer
       entr
       exercism
+      tokei
     ]
     ++ (if pkgs.stdenv.isLinux then linuxOnlyPackages else darwinOnlyPackages);
 
