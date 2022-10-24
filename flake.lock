@@ -53,11 +53,11 @@
         "plugin:vim-symlink": "plugin:vim-symlink"
       },
       "locked": {
-        "lastModified": 1665974913,
-        "narHash": "sha256-9s3s/oo1GIH9oY7t1BjCRV9QvAByACP1aNcRlSirWh0=",
+        "lastModified": 1666618817,
+        "narHash": "sha256-f8xf9iuoo0O5d8XlptMGmHNJDuNn+en11QBaONGRcM8=",
         "owner": "jay-aye-see-kay",
         "repo": "neovim-flake",
-        "rev": "c85fff4731def680d58a17cca894f398a3f361cd",
+        "rev": "a63829034ab11dc36f9da66ec599632236b5c896",
         "type": "github"
       },
       "original": {
