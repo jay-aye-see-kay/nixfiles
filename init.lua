@@ -879,4 +879,10 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	pattern = { "*.js", "*.jsx", "*.ts", "*.tsx" },
 	command = "Neoformat",
 })
+
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+	group = vim.api.nvim_create_augroup("FormatMyNotes", {}),
+	pattern = "*Documents/notes/**/*.md",
+	command = "Neoformat",
+})
 -- }}}
