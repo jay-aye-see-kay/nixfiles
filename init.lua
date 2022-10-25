@@ -615,6 +615,7 @@ which_key.register({
 -- }}}
 
 -- snippets {{{
+require("luasnip.loaders.from_vscode").lazy_load()
 
 -- these need to work in insert and select mode for some reason
 local function snip_map(lhs, rhs)
