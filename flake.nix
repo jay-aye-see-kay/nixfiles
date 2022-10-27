@@ -182,7 +182,7 @@
               allPluginsFromInputs = (pkgs.lib.attrsets.mapAttrsToList (name: value: value) pkgs.neovimPlugins);
             in
             allPluginsFromInputs ++ (with pkgs.vimPlugins; [
-              nvcode-color-schemes-vim
+              tokyonight-nvim
               indent-blankline-nvim
               impatient-nvim
 

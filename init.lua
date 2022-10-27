@@ -171,10 +171,10 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 
 -- visuals look nice {{{
 
---Set colorscheme (order is important here)
+--Set colorscheme
 vim.o.termguicolors = true
-vim.cmd([[ colorscheme nvcode ]])
 vim.o.background = "dark"
+vim.cmd([[ colorscheme tokyonight-night ]])
 vim.api.nvim_set_var("vim_json_syntax_conceal", 0)
 
 require("lualine").setup({
