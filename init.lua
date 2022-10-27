@@ -172,6 +172,9 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 -- visuals look nice {{{
 
 --Set colorscheme
+require("tokyonight").setup({
+	sidebars = { "qf", "help", "Outline" },
+})
 vim.o.termguicolors = true
 vim.o.background = "dark"
 vim.cmd([[ colorscheme tokyonight-night ]])
@@ -179,7 +182,7 @@ vim.api.nvim_set_var("vim_json_syntax_conceal", 0)
 
 require("lualine").setup({
 	options = {
-		theme = "codedark",
+		theme = "tokyonight",
 		globalstatus = true,
 	},
 	sections = {
@@ -194,6 +197,11 @@ require("lualine").setup({
 
 require("indent_blankline").setup({
 	show_current_context = true,
+})
+
+require("symbols-outline").setup({
+	width = 40,
+	relative_width = false,
 })
 -- }}}
 
