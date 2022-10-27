@@ -187,11 +187,17 @@ require("lualine").setup({
 	},
 	sections = {
 		lualine_a = { "mode" },
-		lualine_b = { "branch", "diagnostics" },
-		lualine_c = { "filename" },
+		lualine_b = { "branch", "diff" },
+		lualine_c = { "diagnostics" },
 		lualine_x = { "lsp_progress", "filetype" },
 		lualine_y = { "progress" },
 		lualine_z = { "location" },
+	},
+	winbar = {
+		lualine_x = { "filename" },
+	},
+	inactive_winbar = {
+		lualine_x = { "filename" },
 	},
 })
 
@@ -841,32 +847,6 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
 	end,
 })
 -- }}}
-
--- {{{ status and winbar
-vim.api.nvim_create_autocmd({ "FileType" }, {
-	group = vim.api.nvim_create_augroup("WinbarSetup", {}),
-	callback = function()
-		local exclude_buftypes = {
-			"terminal",
-			"nofile",
-			"prompt",
-			"help",
-			"quickfix",
-		}
-		local exclude_filetypes = {
-			"fugitive",
-			"gitcommit",
-		}
-		local should_exclude = vim.tbl_contains(exclude_filetypes, vim.bo.filetype)
-			or vim.tbl_contains(exclude_buftypes, vim.bo.buftype)
-		if not should_exclude then
-			pcall(vim.api.nvim_set_option_value, "winbar", "%=%m %f", { scope = "local" })
-		else
-			vim.opt_local.winbar = nil
-		end
-	end,
-})
--- }}} status and winbar
 
 -- {{{ pro debugging
 require("debugprint").setup()
