@@ -52,6 +52,10 @@
       url = "github:MrcJkb/telescope-manix";
       flake = false;
     };
+    "plugin:refactoring-nvim" = {
+      url = "github:ThePrimeagen/refactoring.nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:

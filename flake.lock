@@ -159,6 +159,22 @@
         "type": "github"
       }
     },
+    "plugin:refactoring-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1662239899,
+        "narHash": "sha256-eh3rs004NFggOugjvhhFS+5NHhE85rZDU3QKFcsQZ4E=",
+        "owner": "ThePrimeagen",
+        "repo": "refactoring.nvim",
+        "rev": "c9ca8e3bbf7218101f16e6a03b15bf72b99b2cae",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ThePrimeagen",
+        "repo": "refactoring.nvim",
+        "type": "github"
+      }
+    },
     "plugin:telescope-manix": {
       "flake": false,
       "locked": {
@@ -219,6 +235,7 @@
         "plugin:nvim-scrollbar": "plugin:nvim-scrollbar",
         "plugin:nvim-unception": "plugin:nvim-unception",
         "plugin:nvim-window-picker": "plugin:nvim-window-picker",
+        "plugin:refactoring-nvim": "plugin:refactoring-nvim",
         "plugin:telescope-manix": "plugin:telescope-manix",
         "plugin:vim-resize-mode": "plugin:vim-resize-mode",
         "plugin:vim-symlink": "plugin:vim-symlink"

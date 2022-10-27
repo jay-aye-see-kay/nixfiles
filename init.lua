@@ -781,6 +781,9 @@ vim.g.mundo_width = 40
 vim.g.mundo_preview_height = 20
 
 require("scrollbar").setup()
+
+-- FIXME not working properly because nix paths
+require("neodev").setup({})
 -- }}}
 
 -- {{{ git + fugitive
@@ -885,5 +888,34 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	group = vim.api.nvim_create_augroup("FormatMyNotes", {}),
 	pattern = "*Documents/notes/**/*.md",
 	command = "Neoformat",
+})
+-- }}}
+
+-- {{{ refactoring
+require("refactoring").setup({})
+
+-- helper fn to make passing these functions to which_key easier
+local function refactor(name)
+	return function()
+		require("refactoring").refactor(name)
+	end
+end
+
+require("which-key").register({
+	name = "refactoring",
+	b = { refactor("Extract Block"), "Extract Block" },
+	i = { refactor("Inline Variable"), "Inline Variable" },
+}, {
+	prefix = "<leader>r",
+})
+require("which-key").register({
+	name = "refactoring",
+	e = { refactor("Extract Function"), "Extract Function" },
+	f = { refactor("Extract Function To File"), "Extract Function To File" },
+	v = { refactor("Extract Variable"), "Extract Variable" },
+	i = { refactor("Inline Variable"), "Inline Variable" },
+}, {
+	prefix = "<leader>r",
+	mode = "v",
 })
 -- }}}
