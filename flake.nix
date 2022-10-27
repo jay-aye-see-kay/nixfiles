@@ -5,10 +5,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    flake-utils = {
-      inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:numtide/flake-utils";
-    };
+    flake-utils.url = "github:numtide/flake-utils";
 
     # Plugins direct from their repos
     "plugin:vim-resize-mode" = {
@@ -240,7 +237,7 @@
               vim-mundo
               vim-lastplace
               which-key-nvim
-              lua-dev-nvim
+              neodev-nvim
               dressing-nvim
 
               # tpope
