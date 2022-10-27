@@ -232,15 +232,13 @@ local lsp_servers = {
 	"vimls",
 	"yamlls",
 }
+
 for _, lsp in pairs(lsp_servers) do
-	-- TODO clean this per lsp setup logic up, jsonls properly
 	local settings = {}
-	-- local filetypes = {}
 	if lsp == "jsonls" then
 		settings.json = {
 			schemas = require("schemastore").json.schemas(),
 		}
-		-- filetypes = { "json", "jsonc" }
 	elseif lsp == "sumneko_lua" then
 		settings.Lua = {
 			runtime = { version = "LuaJIT" },
@@ -249,13 +247,9 @@ for _, lsp in pairs(lsp_servers) do
 			telemetry = { enable = false },
 		}
 	end
+
 	require("lspconfig")[lsp].setup({
-		flags = {
-			-- This will be the default in neovim 0.7+
-			debounce_text_changes = 150,
-		},
 		settings = settings,
-		-- filetypes = filetypes,
 		on_attach = function(client, bufnr)
 			if lsp == "tsserver" then
 				local ts_utils = require("nvim-lsp-ts-utils")
