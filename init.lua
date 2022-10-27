@@ -180,6 +180,7 @@ vim.o.background = "dark"
 vim.cmd([[ colorscheme tokyonight-night ]])
 vim.api.nvim_set_var("vim_json_syntax_conceal", 0)
 
+local navic = require("nvim-navic")
 require("lualine").setup({
 	options = {
 		theme = "tokyonight",
@@ -194,6 +195,9 @@ require("lualine").setup({
 		lualine_z = { "location" },
 	},
 	winbar = {
+		lualine_c = {
+			{ navic.get_location, cond = navic.is_available },
+		},
 		lualine_x = { "filename" },
 	},
 	inactive_winbar = {
@@ -252,11 +256,14 @@ for _, lsp in pairs(lsp_servers) do
 		},
 		settings = settings,
 		-- filetypes = filetypes,
-		on_attach = function(client)
+		on_attach = function(client, bufnr)
 			if lsp == "tsserver" then
 				local ts_utils = require("nvim-lsp-ts-utils")
 				ts_utils.setup({})
 				ts_utils.setup_client(client)
+			end
+			if client.server_capabilities.documentSymbolProvider then
+				require("nvim-navic").attach(client, bufnr)
 			end
 		end,
 	})

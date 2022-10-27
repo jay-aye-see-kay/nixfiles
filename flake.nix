@@ -222,6 +222,7 @@
               nvim-web-devicons
               lualine-nvim
               lualine-lsp-progress
+              nvim-navic
 
               tabular
               nvim-ts-context-commentstring
