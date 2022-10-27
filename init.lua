@@ -185,6 +185,9 @@ require("lualine").setup({
 	options = {
 		theme = "tokyonight",
 		globalstatus = true,
+		disabled_filetypes = {
+			winbar = { "", "neo-tree", "Outline", "fugitive" },
+		},
 	},
 	sections = {
 		lualine_a = { "mode" },
