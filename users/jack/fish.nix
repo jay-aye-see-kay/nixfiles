@@ -7,12 +7,15 @@
       g = "git";
       gs = "git status";
       gpr = "git pull --rebase";
+      gpu = "git push -u";
       s = "systemctl";
       v = "nvim";
       y = "yarn";
       p = "pnpm";
       d = "docker";
       dc = "docker-compose";
+      dcu = "docker-compose up -d";
+      dcd = "docker-compose down";
       "~" = "cd ~";
       "-" = "cd -";
       ".." = "cd ..";
