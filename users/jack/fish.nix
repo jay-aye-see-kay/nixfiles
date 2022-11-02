@@ -8,6 +8,7 @@
       gs = "git status";
       gpr = "git pull --rebase";
       gpu = "git push -u";
+      g- = "git checkout -";
       s = "systemctl";
       v = "nvim";
       y = "yarn";
