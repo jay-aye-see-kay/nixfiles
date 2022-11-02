@@ -258,6 +258,7 @@
               diffview-nvim
               vim-fugitive
               vim-rhubarb
+              conflict-marker-vim
             ]);
         };
 
