@@ -181,7 +181,7 @@ require("tokyonight").setup({
 	on_highlights = function(hl, colors)
 		hl.WinSeparator = { fg = colors.black, bg = colors.black }
 		hl.ActiveTermBg = { bg = colors.black }
-		hl.InactiveTermBg = { bg = colors.bg }
+		hl.InactiveTermBg = { bg = colors.bg_dark }
 		hl.TermCursorNC = { bg = colors.info }
 	end,
 })
