@@ -132,6 +132,7 @@ in
       cd /home/jack/home-server-dc
       ${pkgs.docker-compose}/bin/docker-compose pull
       ${pkgs.docker-compose}/bin/docker-compose up -d --remove-orphans
+      ${pkgs.docker}/bin/docker stop $(${pkgs.docker}/bin/docker ps --filter="label=startstopped" --quiet)
     '';
   };
 
