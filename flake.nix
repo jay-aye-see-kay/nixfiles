@@ -147,7 +147,6 @@
               sops-nix.nixosModules.sops
               ./secrets/sops.nix
               ./hosts/kakapo
-              ./web-services
             ];
           };
 
