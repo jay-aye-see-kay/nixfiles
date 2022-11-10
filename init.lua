@@ -441,7 +441,6 @@ require("neo-tree").setup({
 			["<space>"] = false,
 			["l"] = "open",
 			["h"] = "close_node",
-			["Z"] = "expand_all_nodes",
 		},
 	},
 	filesystem = {
