@@ -58,6 +58,9 @@ in
     pulse.enable = true;
   };
 
+  # Needed for nextcloud client
+  services.gnome.gnome-keyring.enable = true;
+
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
   programs.nm-applet.enable = true;
