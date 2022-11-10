@@ -173,8 +173,19 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 
 --Set colorscheme
 require("tokyonight").setup({
-	sidebars = { "qf", "help", "Outline" },
+	sidebars = { "qf", "help", "Outline", "terminal" },
+	terminal_colors = true,
+	on_colors = function(colors)
+		colors.black = "#111111"
+	end,
+	on_highlights = function(hl, colors)
+		hl.WinSeparator = { fg = colors.black, bg = colors.black }
+		hl.ActiveTermBg = { bg = colors.black }
+		hl.InactiveTermBg = { bg = colors.bg }
+		hl.TermCursorNC = { bg = colors.info }
+	end,
 })
+
 vim.o.termguicolors = true
 vim.o.background = "dark"
 vim.cmd([[ colorscheme tokyonight-night ]])
@@ -829,7 +840,7 @@ vim.api.nvim_create_autocmd({ "TermEnter" }, {
 })
 vim.api.nvim_create_autocmd({ "TermLeave" }, {
 	group = terminal_augroup,
-	command = "set winhighlight=Normal:Normal",
+	command = "set winhighlight=Normal:InactiveTermBg",
 })
 
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
@@ -843,11 +854,6 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
 		vim.cmd([[ nnoremap <buffer> <C-P> i<C-P><C-\><C-n> ]])
 		vim.cmd([[ nnoremap <buffer> <C-N> i<C-N><C-\><C-n> ]])
 		vim.cmd([[ nnoremap <buffer> <CR> i<CR><C-\><C-n> ]])
-
-		-- keep 'other' terminal cursor visible when in normal mode
-		vim.cmd([[ hi! TermCursorNC ctermfg=15 guifg=#fdf6e3 ctermbg=14 guibg=#5f875f cterm=NONE gui=NONE ]])
-		-- darker background, used in terminal-insert mode
-		vim.cmd([[ hi ActiveTermBg ctermbg=0 guibg=#111111 ]])
 	end,
 })
 -- }}}
