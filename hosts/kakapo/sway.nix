@@ -63,6 +63,19 @@ in
     pulse.enable = true;
   };
 
+  services.logind.extraConfig = ''
+    HandlePowerKey=ignore
+    HandlePowerKeyLongPress=ignore
+    HandleRebootKey=ignore
+    HandleRebootKeyLongPress=ignore
+    HandleSuspendKey=ignore
+    HandleSuspendKeyLongPress=ignore
+    HandleHibernateKey=ignore
+    HandleHibernateKeyLongPress=ignore
+    HandleLidSwitch=ignore
+    HandleLidSwitchExternalPower=ignore
+    HandleLidSwitchDocked=ignore
+  '';
 
   # xdg-desktop-portal works by exposing a series of D-Bus interfaces
   # known as portals under a well-known name
