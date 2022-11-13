@@ -1,6 +1,9 @@
 { config, pkgs, lib, ... }: {
   home.packages = with pkgs; [
     firefox
+    pulseaudio # system is using pipewire, but we have the binary for `pactl`
+    playerctl
+    i3status-rust
   ];
 
   programs = {
@@ -14,4 +17,5 @@
   };
 
   xdg.configFile."sway/config".source = ./sway-config;
+  xdg.configFile."i3status-rust/config.toml".source = ./i3status-rust-config.toml;
 }

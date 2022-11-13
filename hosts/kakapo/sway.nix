@@ -53,6 +53,9 @@ in
     sway-launcher-desktop
   ];
 
+  fonts.fonts = with pkgs; [
+    (nerdfonts.override { fonts = [ "DejaVuSansMono" ]; })
+  ];
 
   services.pipewire = {
     enable = true;
