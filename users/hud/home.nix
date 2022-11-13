@@ -1,5 +1,6 @@
 { config, pkgs, lib, ... }: {
   home.packages = with pkgs; [
+    wev
     firefox
     pulseaudio # system is using pipewire, but we have the binary for `pactl`
     playerctl
