@@ -224,6 +224,7 @@
               lualine-lsp-progress
               nvim-navic
 
+              markdown-preview-nvim
               tabular
               nvim-ts-context-commentstring
               vim-bbye
