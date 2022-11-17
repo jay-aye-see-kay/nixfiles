@@ -146,6 +146,7 @@ in
       25565 # minecraft
       51820 # wireguard
       8080 # kodi
+      8443 # matrix-synapse
     ];
     allowedTCPPorts = [
       53 # dns
@@ -153,11 +154,8 @@ in
       443 # https
       465 # smtp
       25565 # minecraft
-
       8080 # kodi
-      7878 # radarr
-      8989 # sonarr
-      9696 # prowlarr
+      8443 # matrix-synapse
     ];
   };
 
