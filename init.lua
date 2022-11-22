@@ -42,11 +42,6 @@ function M.exec(command)
 	return res
 end
 
-function M.uuid()
-	local res = M.exec([[ python -c "import uuid, sys; sys.stdout.write(str(uuid.uuid4()))" ]])
-	return res[1]
-end
-
 function M.map(mode, lhs, rhs, extraOpts)
 	local opts = { noremap = true, silent = true }
 	if extraOpts then
@@ -331,7 +326,6 @@ cmp.setup({
 		end,
 	},
 	mapping = cmp.mapping.preset.insert({
-		["<CR>"] = cmp.mapping.confirm({ select = true }),
 		["<C-y>"] = cmp.mapping.confirm({ select = true }),
 		["<C-k>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
 		["<C-e>"] = cmp.mapping({
@@ -650,13 +644,13 @@ local function snip_map(lhs, rhs)
 	M.map("i", lhs, rhs)
 	M.map("s", lhs, rhs)
 end
+
 snip_map("<C-j>", "<Plug>luasnip-expand-snippet")
 snip_map("<C-l>", "<Plug>luasnip-jump-next")
 snip_map("<C-h>", "<Plug>luasnip-jump-prev")
 
 local ls = require("luasnip")
 local l = require("luasnip.extras").lambda
-local f = ls.function_node
 local i = ls.insert_node
 local s = ls.snippet
 local t = ls.text_node
@@ -678,7 +672,6 @@ local js_snippets = {
 	-- basics + keywords
 	vsc("c", "const ${1} = ${0}"),
 	vsc("l", "let ${1} = ${0}"),
-	vsc("r", "return ${0}"),
 	vsc("e", "export ${0}"),
 	vsc("aw", "await ${0}"),
 	vsc("as", "async ${0}"),
@@ -705,10 +698,13 @@ local js_snippets = {
 
 ls.add_snippets("all", {
 	s("date", { i(1, os.date("%Y-%m-%d")) }),
-	s("uuid", { f(M.uuid, {}) }),
+	vsc({ name = "random number", trig = "rn" }, "$RANDOM"),
+	vsc({ name = "random hex number", trig = "rh" }, "$RANDOM_HEX"),
+	vsc({ name = "random uuid", trig = "uuid" }, "$UUID"),
 	vsc("filename", "$TM_FILENAME"),
 	vsc("filepath", "$TM_FILEPATH"),
 	vsc({ trig = "v", wordTrig = false }, "\\${${1}}"),
+	vsc({ name = "return", trig = "r" }, "return ${0}"),
 })
 
 ls.add_snippets("markdown", {
