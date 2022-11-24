@@ -96,6 +96,12 @@
         homeDirectory = "/home/${username}";
         configuration.imports = linuxHomeManagerImports;
       };
+      nixosConfigurations.moa = let system = "aarch64-linux"; in
+        lib.nixosSystem {
+          inherit system;
+          pkgs = mkPkgs system;
+          modules = [ ./hosts/moa ./features/fonts.nix ];
+        };
 
       # home laptop
       homeConfigurations."${username}@tui" = mkHmConfig rec {
@@ -105,6 +111,19 @@
         homeDirectory = "/home/${username}";
         configuration.imports = linuxHomeManagerImports;
       };
+      nixosConfigurations.tui = let system = "x86_64-linux"; in
+        lib.nixosSystem {
+          inherit system;
+          pkgs = mkPkgs system;
+          modules = [
+            nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
+            ./hosts/tui
+            ./features/fonts.nix
+            ./features/games.nix
+            ./features/i3-desktop.nix
+            ./features/key-remapping.nix
+          ];
+        };
 
       # server
       homeConfigurations."${username}@kakapo" = mkHmConfig rec {
@@ -123,40 +142,16 @@
           ./users/hud/home.nix
         ];
       };
+      nixosConfigurations.kakapo = let system = "x86_64-linux"; in
+        lib.nixosSystem {
+          inherit system;
+          pkgs = mkPkgs system;
+          modules = [
+            sops-nix.nixosModules.sops
+            ./secrets/sops.nix
+            ./hosts/kakapo
+          ];
+        };
 
-      nixosConfigurations = {
-        tui = let system = "x86_64-linux"; in
-          lib.nixosSystem {
-            inherit system;
-            pkgs = mkPkgs system;
-            modules = [
-              nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
-              ./hosts/tui
-              ./features/fonts.nix
-              ./features/games.nix
-              ./features/i3-desktop.nix
-              ./features/key-remapping.nix
-            ];
-          };
-
-        kakapo = let system = "x86_64-linux"; in
-          lib.nixosSystem {
-            inherit system;
-            pkgs = mkPkgs system;
-            modules = [
-              sops-nix.nixosModules.sops
-              ./secrets/sops.nix
-              ./hosts/kakapo
-            ];
-          };
-
-        moa = let system = "aarch64-linux"; in
-          lib.nixosSystem {
-            inherit system;
-            pkgs = mkPkgs system;
-            modules = [ ./hosts/moa ./features/fonts.nix ];
-          };
-
-      };
     };
 }
