@@ -13,6 +13,7 @@
     # modules supplied by generate-config
     "xhci_pci"
     "ahci"
+    "nvme"
     "usb_storage"
     "usbhid"
     "sd_mod"
@@ -23,30 +24,24 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/boot" = { device = "/dev/disk/by-uuid/3F44-CE05"; fsType = "vfat"; };
+  fileSystems."/boot" = { device = "/dev/disk/by-uuid/76E0-E849"; fsType = "vfat"; };
   fileSystems."/" = { device = "rpool/system/root"; fsType = "zfs"; };
 
   fileSystems."/nix" = { device = "rpool/system/nix-store"; fsType = "zfs"; };
-
-  fileSystems."/web-service-data" = { device = "rpool/system/web-service-data"; fsType = "zfs"; };
-  fileSystems."/var/lib/postgres" = { device = "rpool/system/postgres"; fsType = "zfs"; };
 
   fileSystems."/media" = { device = "apool/media/root"; fsType = "zfs"; };
 
   # new home server data dir, TODO migrate everything except media here
   fileSystems."/hs" = { device = "apool/hs"; fsType = "zfs"; };
 
-  fileSystems."/backups" = { device = "apool/backups"; fsType = "zfs"; };
-
   fileSystems."/home" = { device = "rpool/user/home"; fsType = "zfs"; };
 
-
-  swapDevices = [
-    {
-      device = "/dev/disk/by-id/wwn-0x5001b448ba0c2403-part2";
-      randomEncryption = true;
-    }
-  ];
+  # swapDevices = [
+  #   {
+  #     device = "/dev/disk/by-id/wwn-0x5001b448ba0c2403-part2";
+  #     randomEncryption = true;
+  #   }
+  # ];
 
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
