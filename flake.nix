@@ -1,10 +1,10 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    home-manager.url = "github:nix-community/home-manager/release-22.05";
+    home-manager.url = "github:nix-community/home-manager/release-22.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     sops-nix.url = "github:Mic92/sops-nix";
@@ -74,27 +74,26 @@
         ++ [ ./users/jack/fish-macos-fix.nix ];
 
       mkHmConfig = home-manager.lib.homeManagerConfiguration;
+
+      mkHmConfigMod = username: [{
+        home.username = username;
+        home.homeDirectory = "/home/${username}";
+        home.stateVersion = "22.05";
+      }];
     in
     {
       formatter = eachMySystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
       # work laptop
       homeConfigurations."${username}@jjack-XMW16X" = mkHmConfig rec {
-        inherit username;
-        system = "aarch64-darwin";
-        pkgs = mkPkgs system;
-        # pkgs = nixpkgs.legacyPackages.${system};
-        homeDirectory = "/Users/${username}";
-        configuration.imports = darwinHomeManagerImports;
+        pkgs = mkPkgs "aarch64-darwin";
+        modules = darwinHomeManagerImports ++ mkHmConfigMod username;
       };
 
       # work vm
       homeConfigurations."${username}@moa" = mkHmConfig rec {
-        inherit username;
-        system = "aarch64-linux";
-        pkgs = mkPkgs system;
-        homeDirectory = "/home/${username}";
-        configuration.imports = linuxHomeManagerImports;
+        pkgs = mkPkgs "aarch64-linux";
+        modules = linuxHomeManagerImports ++ mkHmConfigMod username;
       };
       nixosConfigurations.moa = let system = "aarch64-linux"; in
         lib.nixosSystem {
@@ -105,11 +104,8 @@
 
       # home laptop
       homeConfigurations."${username}@tui" = mkHmConfig rec {
-        inherit username;
-        system = "x86_64-linux";
-        pkgs = mkPkgs system;
-        homeDirectory = "/home/${username}";
-        configuration.imports = linuxHomeManagerImports;
+        pkgs = mkPkgs "x86_64-linux";
+        modules = linuxHomeManagerImports ++ mkHmConfigMod username;
       };
       nixosConfigurations.tui = let system = "x86_64-linux"; in
         lib.nixosSystem {
@@ -127,20 +123,12 @@
 
       # server
       homeConfigurations."${username}@kakapo" = mkHmConfig rec {
-        inherit username;
-        system = "x86_64-linux";
-        pkgs = mkPkgs system;
-        homeDirectory = "/home/${username}";
-        configuration.imports = linuxHomeManagerImports;
+        pkgs = mkPkgs "x86_64-linux";
+        modules = linuxHomeManagerImports ++ mkHmConfigMod username;
       };
       homeConfigurations."hud@kakapo" = mkHmConfig rec {
-        username = "hud";
-        system = "x86_64-linux";
-        pkgs = mkPkgs system;
-        homeDirectory = "/home/hud";
-        configuration.imports = [
-          ./users/hud/home.nix
-        ];
+        pkgs = mkPkgs "x86_64-linux";
+        modules = [ ./users/hud/home.nix ] ++ mkHmConfigMod "hud";
       };
       nixosConfigurations.kakapo = let system = "x86_64-linux"; in
         lib.nixosSystem {

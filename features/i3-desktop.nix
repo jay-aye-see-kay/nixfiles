@@ -4,7 +4,6 @@
   services.xserver = {
     dpi = 144;
     videoDrivers = [ "modesetting" ];
-    useGlamor = true;
   };
   services.picom = {
     enable = true;
