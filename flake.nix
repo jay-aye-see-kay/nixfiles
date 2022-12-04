@@ -75,9 +75,9 @@
 
       mkHmConfig = home-manager.lib.homeManagerConfiguration;
 
-      mkHmConfigMod = username: [{
+      mkHmConfigMod = { username, isDarwin ? false }: [{
         home.username = username;
-        home.homeDirectory = "/home/${username}";
+        home.homeDirectory = "/${if isDarwin then "Users" else "home"}/${username}";
         home.stateVersion = "22.05";
       }];
     in
@@ -87,13 +87,13 @@
       # work laptop
       homeConfigurations."${username}@jjack-XMW16X" = mkHmConfig rec {
         pkgs = mkPkgs "aarch64-darwin";
-        modules = darwinHomeManagerImports ++ mkHmConfigMod username;
+        modules = darwinHomeManagerImports ++ mkHmConfigMod { username = username; isDarwin = true; };
       };
 
       # work vm
       homeConfigurations."${username}@moa" = mkHmConfig rec {
         pkgs = mkPkgs "aarch64-linux";
-        modules = linuxHomeManagerImports ++ mkHmConfigMod username;
+        modules = linuxHomeManagerImports ++ mkHmConfigMod { username = username; };
       };
       nixosConfigurations.moa = let system = "aarch64-linux"; in
         lib.nixosSystem {
@@ -105,7 +105,7 @@
       # home laptop
       homeConfigurations."${username}@tui" = mkHmConfig rec {
         pkgs = mkPkgs "x86_64-linux";
-        modules = linuxHomeManagerImports ++ mkHmConfigMod username;
+        modules = linuxHomeManagerImports ++ mkHmConfigMod { username = username; };
       };
       nixosConfigurations.tui = let system = "x86_64-linux"; in
         lib.nixosSystem {
@@ -124,11 +124,11 @@
       # server
       homeConfigurations."${username}@kakapo" = mkHmConfig rec {
         pkgs = mkPkgs "x86_64-linux";
-        modules = linuxHomeManagerImports ++ mkHmConfigMod username;
+        modules = linuxHomeManagerImports ++ mkHmConfigMod { username = username; };
       };
       homeConfigurations."hud@kakapo" = mkHmConfig rec {
         pkgs = mkPkgs "x86_64-linux";
-        modules = [ ./users/hud/home.nix ] ++ mkHmConfigMod "hud";
+        modules = [ ./users/hud/home.nix ] ++ mkHmConfigMod { username = "hud"; };
       };
       nixosConfigurations.kakapo = let system = "x86_64-linux"; in
         lib.nixosSystem {
