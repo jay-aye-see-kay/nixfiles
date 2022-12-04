@@ -69,6 +69,7 @@ in
       aspell
       aspellDicts.en
 
+      just
       shfmt
       fd
       go
