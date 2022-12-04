@@ -56,6 +56,10 @@
       url = "github:ThePrimeagen/refactoring.nvim";
       flake = false;
     };
+    "plugin:vim-just" = {
+      url = "github:NoahTheDuke/vim-just";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:

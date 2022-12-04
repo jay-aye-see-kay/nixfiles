@@ -191,6 +191,22 @@
         "type": "github"
       }
     },
+    "plugin:vim-just": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1667421278,
+        "narHash": "sha256-DSC47z2wOEXvo2kGO5JtmR3hyHPiYXrkX7MgtagV5h4=",
+        "owner": "NoahTheDuke",
+        "repo": "vim-just",
+        "rev": "838c9096d4c5d64d1000a6442a358746324c2123",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NoahTheDuke",
+        "repo": "vim-just",
+        "type": "github"
+      }
+    },
     "plugin:vim-resize-mode": {
       "flake": false,
       "locked": {
@@ -237,6 +253,7 @@
         "plugin:nvim-window-picker": "plugin:nvim-window-picker",
         "plugin:refactoring-nvim": "plugin:refactoring-nvim",
         "plugin:telescope-manix": "plugin:telescope-manix",
+        "plugin:vim-just": "plugin:vim-just",
         "plugin:vim-resize-mode": "plugin:vim-resize-mode",
         "plugin:vim-symlink": "plugin:vim-symlink"
       }
