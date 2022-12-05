@@ -51,8 +51,26 @@
               config.allowUnfree = true;
             };
           };
-          nodePkgsOverlay = final: prev: {
+          node-pkgs-overlay = final: prev: {
             customNodePackages = import ./node-packages/default.nix { pkgs = prev; };
+          };
+          cultureamp-overlay = final: prev: {
+            silk-cli =
+              let
+                version = "2.28.0";
+                rev = "6e2bbcb5e4852041ac85ebaf7f0504fd3a3ade71";
+              in
+              prev.buildGoModule rec {
+                inherit version;
+                pname = "silk";
+                src = builtins.fetchGit {
+                  inherit rev;
+                  url = "ssh://git@github.com/cultureamp/silk.git";
+                };
+                ldflags = [ "-s" "-w" "-X main.version=${version}" "-X main.commit=${rev}" "-X main.builtBy=nix" ];
+                # To get a new sha: `vendorSha256 = prev.lib.fakeSha256`
+                vendorSha256 = "sha256-/1u/CDc0GNPQqv6gYE9x0Y+ZvtURXgurJssUZiJUlo0=";
+              };
           };
         in
         import nixpkgs {
@@ -60,7 +78,8 @@
           config = { allowUnfree = true; };
           overlays = [
             nixpkgs-unstable-overlay
-            nodePkgsOverlay
+            node-pkgs-overlay
+            cultureamp-overlay
             neovim-flake.overlays.${system}.default
           ];
         };
@@ -87,7 +106,9 @@
       # work laptop
       homeConfigurations."${username}@jjack-XMW16X" = mkHmConfig rec {
         pkgs = mkPkgs "aarch64-darwin";
-        modules = darwinHomeManagerImports ++ mkHmConfigMod { username = username; isDarwin = true; };
+        modules = darwinHomeManagerImports
+          ++ [ ({ pkgs, ... }: { home.packages = [ pkgs.silk-cli ]; }) ]
+          ++ mkHmConfigMod { username = username; isDarwin = true; };
       };
 
       # work vm
