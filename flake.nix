@@ -194,6 +194,11 @@
               indent-blankline-nvim
               impatient-nvim
 
+              nvim-dap
+              # nvim-dap-go
+              nvim-dap-ui
+              nvim-dap-virtual-text
+
               # langs
               vim-nix
               vim-json
