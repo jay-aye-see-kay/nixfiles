@@ -305,8 +305,6 @@ end
 function EnableAutocomplete()
 	require("cmp").setup.buffer({})
 end
-
-require("lsp_signature").setup()
 -- }}}
 
 -- completions {{{

@@ -212,7 +212,6 @@
 
               nvim-lspconfig
               nvim-lsp-ts-utils
-              lsp_signature-nvim
               SchemaStore-nvim
               nvim-cmp
               cmp-buffer
