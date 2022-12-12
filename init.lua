@@ -272,10 +272,13 @@ for _, lsp in pairs(lsp_servers) do
 	})
 end
 
-M.map("n", "gd", "<CMD>Telescope lsp_definitions<CR>")
-M.map("n", "gr", "<CMD>Telescope lsp_references<CR>")
-M.map("n", "gy", "<CMD>Telescope lsp_type_definitions<CR>")
-M.map("n", "gh", "<CMD>lua vim.lsp.buf.hover()<CR>")
+vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "Goto/find definitions" })
+vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, { desc = "Find references" })
+vim.keymap.set("n", "gy", require("telescope.builtin").lsp_type_definitions, { desc = "Find type definitions" })
+vim.keymap.set("n", "gh", vim.lsp.buf.hover, { desc = "Hover docs" })
+vim.keymap.set("n", "[[", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
+vim.keymap.set("n", "]]", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "single",
 })
@@ -305,6 +308,7 @@ end
 function EnableAutocomplete()
 	require("cmp").setup.buffer({})
 end
+
 -- }}}
 
 -- completions {{{
@@ -506,8 +510,6 @@ local main_keymap = {
 		D = { "<cmd>Telescope lsp_workspace_diagnostics<cr>", "Show workspace diagnostics" },
 		t = { "<cmd>TroubleToggle<cr>", "Show workspace diagnostics" },
 		i = { "<cmd>LspInfo<cr>", "Info" },
-		j = { "<cmd>lua vim.diagnostic.goto_next()<cr>", "Next diagnostic" },
-		k = { "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Prev diagnostic" },
 		f = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format buffer with LSP" },
 
 		-- hack: pop into insert mode after to trigger lsp applying settings
