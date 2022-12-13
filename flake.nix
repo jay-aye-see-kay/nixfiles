@@ -226,6 +226,7 @@
               lspkind-nvim
               luasnip
               nvim-autopairs
+              lsp_lines-nvim
 
               # contain these, maybe remove
               friendly-snippets

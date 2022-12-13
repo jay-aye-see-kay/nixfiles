@@ -276,8 +276,8 @@ vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, { desc =
 vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, { desc = "Find references" })
 vim.keymap.set("n", "gy", require("telescope.builtin").lsp_type_definitions, { desc = "Find type definitions" })
 vim.keymap.set("n", "gh", vim.lsp.buf.hover, { desc = "Hover docs" })
-vim.keymap.set("n", "[[", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
-vim.keymap.set("n", "]]", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "single",
@@ -308,6 +308,17 @@ end
 function EnableAutocomplete()
 	require("cmp").setup.buffer({})
 end
+
+require("lsp_lines").setup()
+vim.diagnostic.config({ virtual_lines = false })
+
+vim.keymap.set("n", "<leader>lm", function()
+	vim.diagnostic.config({ virtual_text = false, virtual_lines = true })
+end, { desc = "Enable multiline diagnotics" })
+
+vim.keymap.set("n", "<leader>lM", function()
+	vim.diagnostic.config({ virtual_text = true, virtual_lines = false })
+end, { desc = "Disable multiline diagnotics" })
 
 -- }}}
 
