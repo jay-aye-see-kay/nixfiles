@@ -22,6 +22,8 @@ let
     unstable.anki-bin
     syncthing
 
+    clang # comes with xcode, things expect to use that version
+
     # these are broken on macos, no idea why but I don't really need them
     black
     yq
@@ -89,7 +91,6 @@ in
       rustc
       rustfmt
       cargo-edit
-      clang
       cargo
       clippy
       rust-analyzer
