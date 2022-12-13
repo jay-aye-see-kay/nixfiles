@@ -60,6 +60,10 @@
       url = "github:NoahTheDuke/vim-just";
       flake = false;
     };
+    "plugin:syntax-tree-surfer" = {
+      url = "github:ziontee113/syntax-tree-surfer";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
