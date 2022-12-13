@@ -811,6 +811,7 @@ require("neodev").setup({})
 -- }}}
 
 -- {{{ git + fugitive
+require("octo").setup()
 require("gitsigns").setup()
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
