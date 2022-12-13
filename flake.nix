@@ -4,7 +4,7 @@
   # TODO maybe use makeNeovimConfig from https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/editors/neovim/utils.nix
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
     flake-utils.url = "github:numtide/flake-utils";
 
     # Plugins direct from their repos
