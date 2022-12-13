@@ -69,6 +69,8 @@ in
       unstable.nodePackages.cdk8s-cli
       unstable.kubectl
 
+      delve
+
       aspell
       aspellDicts.en
 
