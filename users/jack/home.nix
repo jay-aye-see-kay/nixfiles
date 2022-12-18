@@ -39,39 +39,23 @@ in
   home.packages = with pkgs;
     [
       neovim
-      # === neovim stuff
       fzf
-      stylua
-
-      # language servers
-      nodePackages.bash-language-server
-      nodePackages.dockerfile-language-server-nodejs
-      nodePackages.pyright
-      nodePackages.typescript
-      nodePackages.typescript-language-server
-      nodePackages.vim-language-server
-      nodePackages.vscode-langservers-extracted
-      nodePackages.yaml-language-server
-      rnix-lsp
-      rubyPackages.solargraph
-      rust-analyzer
-      sumneko-lua-language-server
-      # ===
-
       gh
       manix
       trash-cli
       (python3.withPackages (ps: [ ps.ipykernel ]))
 
+      # TODO: move neovim flake
+      delve
+      gopls
+      godef
+      aspell
+      aspellDicts.en
+
       customNodePackages."aws-cdk-1.x"
       customNodePackages."@fsouza/prettierd"
       unstable.nodePackages.cdk8s-cli
       unstable.kubectl
-
-      delve
-
-      aspell
-      aspellDicts.en
 
       nodejs-16_x
       (yarn.override { nodejs = nodejs-16_x; })
@@ -81,8 +65,6 @@ in
       shfmt
       fd
       go
-      gopls
-      godef
       nodePackages.prettier
       awscli2
       atool
@@ -96,7 +78,6 @@ in
       cargo-edit
       cargo
       clippy
-      rust-analyzer
       entr
       exercism
       tokei
