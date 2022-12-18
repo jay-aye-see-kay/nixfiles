@@ -111,22 +111,6 @@
         "type": "github"
       }
     },
-    "plugin:nvim-scrollbar": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1670453144,
-        "narHash": "sha256-V4z5O2KtOXWuMbN18osDQQn7WEbPiomtoKi+uWtI6ik=",
-        "owner": "petertriho",
-        "repo": "nvim-scrollbar",
-        "rev": "f45aecbba9c402282dfc99721e0ad4c08710907c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "petertriho",
-        "repo": "nvim-scrollbar",
-        "type": "github"
-      }
-    },
     "plugin:nvim-unception": {
       "flake": false,
       "locked": {
@@ -264,7 +248,6 @@
         "plugin:mkdnflow": "plugin:mkdnflow",
         "plugin:neo-tree": "plugin:neo-tree",
         "plugin:nui": "plugin:nui",
-        "plugin:nvim-scrollbar": "plugin:nvim-scrollbar",
         "plugin:nvim-unception": "plugin:nvim-unception",
         "plugin:nvim-window-picker": "plugin:nvim-window-picker",
         "plugin:refactoring-nvim": "plugin:refactoring-nvim",

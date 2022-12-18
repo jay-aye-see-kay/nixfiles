@@ -34,10 +34,6 @@
       url = "github:s1n7ax/nvim-window-picker";
       flake = false;
     };
-    "plugin:nvim-scrollbar" = {
-      url = "github:petertriho/nvim-scrollbar";
-      flake = false;
-    };
     "plugin:gitsigns" = {
       url = "github:lewis6991/gitsigns.nvim";
       flake = false;
