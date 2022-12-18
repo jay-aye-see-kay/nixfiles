@@ -10,6 +10,8 @@
       gpu = "git push -u";
       g- = "git checkout -";
       s = "systemctl";
+      j = "just";
+      e = "nvim";
       v = "nvim";
       y = "yarn";
       p = "pnpm";
@@ -29,6 +31,7 @@
       rg = "rg --hidden";
       sizes = "du -csh * | sort -h";
       whoslistening = "ss -lntup";
+      vwy = "nvim -c LogbookYesterday";
       vwt = "nvim -c LogbookToday";
       journal = "nvim $HOME/Documents/journal-2022.org";
       shopping_list =
