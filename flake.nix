@@ -125,9 +125,10 @@
             EOF
           '';
           plugins = allPluginsFromInputs ++ (with pkgs.vimPlugins; [
-            tokyonight-nvim
+            { plugin = impatient-nvim; config = "lua require('impatient)"; }
+            { plugin = tokyonight-nvim; config = "colorscheme tokyonight-night"; }
+
             indent-blankline-nvim
-            impatient-nvim
 
             nvim-dap
             nvim-dap-go
@@ -225,7 +226,6 @@
           rust-analyzer
           sumneko-lua-language-server
         ]);
-
       in
       rec {
         packages.nvim = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped (customConfig // {
