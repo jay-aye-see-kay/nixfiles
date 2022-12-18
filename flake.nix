@@ -1,8 +1,6 @@
 {
   description = "A configured Neovim flake";
 
-  # TODO maybe use makeNeovimConfig from https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/editors/neovim/utils.nix
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
     flake-utils.url = "github:numtide/flake-utils";
@@ -117,173 +115,103 @@
           ];
         };
 
-        # neovimBuilder is a function that takes your prefered
-        # configuration as input and just returns a version of
-        # neovim where the default config was overwritten with your
-        # config.
-        # 
-        # Parameters:
-        # customRC | your init.vim as string
-        # viAlias  | allow calling neovim using `vi`
-        # vimAlias | allow calling neovim using `vim`
-        # start    | The set of plugins to load on every startup
-        #          | The list is in the form ["yourPluginName" "anotherPluginYouLike"];
-        #          |
-        #          | Important: The default is to load all plugins, if
-        #          |            `start = [ "blabla" "blablabla" ]` is
-        #          |            not passed as an argument to neovimBuilder!
-        #          |
-        #          | Make sure to add:
-        #          | ```
-        #          | "plugin:yourPluginName" = {
-        #          |   url   = "github:exampleAuthor/examplePlugin";
-        #          |   flake = false;
-        #          | };
-        #          | 
-        #          | "plugin:anotherPluginYouLike" = {
-        #          |   url   = "github:exampleAuthor/examplePlugin";
-        #          |   flake = false;
-        #          | };
-        #          | ```
-        #          | to your imports!
-        # opt      | List of optional plugins to load only when 
-        #          | explicitly loaded from inside neovim
-        neovimBuilder =
-          { customRC ? ""
-          , viAlias ? true
-          , vimAlias ? true
-          , start ? builtins.attrValues pkgs.neovimPlugins
-          , opt ? [ ]
-          , debug ? false
-          }:
-          let
-            myNeovimUnwrapped = pkgs.neovim-unwrapped.overrideAttrs (prev: {
-              propagatedBuildInputs = with pkgs; [ pkgs.stdenv.cc.cc.lib ];
-            });
-          in
-          pkgs.wrapNeovim myNeovimUnwrapped {
-            inherit viAlias;
-            inherit vimAlias;
-            configure = {
-              customRC = customRC;
-              packages.myVimPackage = with pkgs.neovimPlugins; {
-                start = start;
-                opt = opt;
-              };
-            };
-          };
-      in
-      rec {
-        apps.default = apps.nvim;
-        defaultPackage = packages.myNeovim;
+        allPluginsFromInputs = (pkgs.lib.attrsets.mapAttrsToList (name: value: value) pkgs.neovimPlugins);
 
-        apps.nvim = {
-          type = "app";
-          program = "${defaultPackage}/bin/nvim";
-        };
-
-        packages.myNeovim = neovimBuilder {
+        customConfig = pkgs.neovimUtils.makeNeovimConfig {
+          withNodeJs = true;
           customRC = ''
             lua << EOF
             ${pkgs.lib.readFile ./init.lua}
             EOF
           '';
-          start =
-            let
-              # get all the plugins defined in this file, a fair bit of doing + undoing, could be simplified a lot
-              allPluginsFromInputs = (pkgs.lib.attrsets.mapAttrsToList (name: value: value) pkgs.neovimPlugins);
-            in
-            allPluginsFromInputs ++ (with pkgs.vimPlugins; [
-              tokyonight-nvim
-              indent-blankline-nvim
-              impatient-nvim
+          plugins = allPluginsFromInputs ++ (with pkgs.vimPlugins; [
+            tokyonight-nvim
+            indent-blankline-nvim
+            impatient-nvim
 
-              nvim-dap
-              nvim-dap-go
-              nvim-dap-ui
-              nvim-dap-virtual-text
+            nvim-dap
+            nvim-dap-go
+            nvim-dap-ui
+            nvim-dap-virtual-text
 
-              # langs
-              vim-nix
-              vim-json
-              jsonc-vim
-              splitjoin-vim
+            # langs
+            vim-nix
+            vim-json
+            jsonc-vim
+            splitjoin-vim
 
-              (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
-              nvim-treesitter-textobjects
-              nvim-ts-autotag
-              playground # tree-sitter playground
+            (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
+            nvim-treesitter-textobjects
+            nvim-ts-autotag
+            playground # tree-sitter playground
 
-              nvim-lspconfig
-              nvim-lsp-ts-utils
-              SchemaStore-nvim
-              nvim-cmp
-              cmp-buffer
-              cmp-path
-              cmp-nvim-lua
-              cmp-nvim-lsp
-              cmp_luasnip
-              lspkind-nvim
-              luasnip
-              nvim-autopairs
-              lsp_lines-nvim
+            nvim-lspconfig
+            nvim-lsp-ts-utils
+            SchemaStore-nvim
+            nvim-cmp
+            cmp-buffer
+            cmp-path
+            cmp-nvim-lua
+            cmp-nvim-lsp
+            cmp_luasnip
+            lspkind-nvim
+            luasnip
+            nvim-autopairs
+            lsp_lines-nvim
 
-              # contain these, maybe remove
-              friendly-snippets
-              neoformat
+            # contain these, maybe remove
+            friendly-snippets
+            neoformat
 
-              nvim-web-devicons
-              lualine-nvim
-              lualine-lsp-progress
-              nvim-navic
+            nvim-web-devicons
+            lualine-nvim
+            lualine-lsp-progress
+            nvim-navic
 
-              markdown-preview-nvim
-              tabular
-              nvim-ts-context-commentstring
-              vim-bbye
-              plenary-nvim
-              popup-nvim
-              trouble-nvim
-              symbols-outline-nvim
+            markdown-preview-nvim
+            tabular
+            nvim-ts-context-commentstring
+            vim-bbye
+            plenary-nvim
+            popup-nvim
+            trouble-nvim
+            symbols-outline-nvim
 
-              telescope-nvim
-              telescope-fzf-native-nvim
-              telescope-symbols-nvim
-              fzf-vim
+            telescope-nvim
+            telescope-fzf-native-nvim
+            telescope-symbols-nvim
+            fzf-vim
 
-              nvim-colorizer-lua
-              hop-nvim
-              vim-mundo
-              vim-lastplace
-              which-key-nvim
-              neodev-nvim
-              dressing-nvim
+            nvim-colorizer-lua
+            hop-nvim
+            vim-mundo
+            vim-lastplace
+            which-key-nvim
+            neodev-nvim
+            dressing-nvim
 
-              # tpope
-              vim-abolish
-              vim-commentary
-              vim-repeat
-              vim-surround
-              vim-unimpaired
-              targets-vim
+            # tpope
+            vim-abolish
+            vim-commentary
+            vim-repeat
+            vim-surround
+            vim-unimpaired
+            targets-vim
 
-              # git
-              git-messenger-vim
-              diffview-nvim
-              vim-fugitive
-              vim-rhubarb
-              conflict-marker-vim
-              octo-nvim
-            ]);
+            # git
+            git-messenger-vim
+            diffview-nvim
+            vim-fugitive
+            vim-rhubarb
+            conflict-marker-vim
+            octo-nvim
+          ]);
         };
 
-        overlays.default = final: prev: { neovim = defaultPackage; };
-
-        extraPackages = with pkgs; [
-          fzf
-          nodejs
+        # Extra packages made available to nvim but not the system
+        # system packages take precedence over these
+        extraPkgsPath = pkgs.lib.makeBinPath (with pkgs; [
           stylua
-          # language servers
           nodePackages.bash-language-server
           nodePackages.dockerfile-language-server-nodejs
           nodePackages.pyright
@@ -296,7 +224,17 @@
           rubyPackages.solargraph
           rust-analyzer
           sumneko-lua-language-server
-        ];
+        ]);
+
+      in
+      rec {
+        packages.nvim = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped (customConfig // {
+          wrapperArgs = customConfig.wrapperArgs ++ [ "--suffix" "PATH" ":" extraPkgsPath ];
+        });
+        defaultPackage = packages.nvim;
+        apps.nvim = { type = "app"; program = "${defaultPackage}/bin/nvim"; };
+        apps.default = apps.nvim;
+        overlays.default = final: prev: { neovim = defaultPackage; };
       }
     );
 }
