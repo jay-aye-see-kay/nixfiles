@@ -41,7 +41,6 @@ in
       neovim
       # === neovim stuff
       fzf
-      nodejs
       stylua
 
       # language servers
@@ -74,6 +73,10 @@ in
       aspell
       aspellDicts.en
 
+      nodejs-16_x
+      (yarn.override { nodejs = nodejs-16_x; })
+      nodePackages_latest.pnpm
+
       just
       shfmt
       fd
@@ -83,14 +86,11 @@ in
       nodePackages.prettier
       awscli2
       atool
-      nodePackages.pnpm
       htop
       jq
-      nodejs
       ripgrep
       tldr
       tree
-      yarn
       rustc
       rustfmt
       cargo-edit
