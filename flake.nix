@@ -125,9 +125,9 @@
             EOF
           '';
           plugins = allPluginsFromInputs ++ (with pkgs.vimPlugins; [
-            { plugin = impatient-nvim; config = "lua require('impatient)"; }
-            { plugin = tokyonight-nvim; config = "colorscheme tokyonight-night"; }
+            { plugin = impatient-nvim; config = "lua require('impatient')"; }
 
+            tokyonight-nvim
             indent-blankline-nvim
 
             nvim-dap

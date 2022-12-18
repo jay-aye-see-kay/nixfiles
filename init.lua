@@ -181,6 +181,7 @@ require("tokyonight").setup({
 
 vim.o.termguicolors = true
 vim.o.background = "dark"
+vim.cmd([[colorscheme tokyonight-night]])
 vim.api.nvim_set_var("vim_json_syntax_conceal", 0)
 
 local navic = require("nvim-navic")
