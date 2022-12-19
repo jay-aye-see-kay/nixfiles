@@ -202,7 +202,7 @@ require("lualine").setup({
 		lualine_z = { "location" },
 	},
 	winbar = {
-		lualine_b = { "filename" },
+		lualine_b = { { "filename", path = 1 } },
 		lualine_c = { { navic.get_location, cond = navic.is_available } },
 	},
 	inactive_winbar = {
