@@ -212,8 +212,10 @@ require("lualine").setup({
 })
 
 require("indent_blankline").setup({
+	enabled = false,
 	show_current_context = true,
 })
+vim.keymap.set("n", "<leader>yb", "<cmd>IndentBlanklineToggle!<cr>")
 
 require("symbols-outline").setup({
 	width = 40,
