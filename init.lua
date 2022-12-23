@@ -59,18 +59,9 @@ end
 -- }}}
 
 -- init file setup {{{
-local all_config_files = { "*code/neovim-flake/*.lua" }
-local init_augroup = vim.api.nvim_create_augroup("InitFilesSetup", {})
-
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-	group = init_augroup,
-	pattern = all_config_files,
-	command = "setlocal foldmethod=marker",
-})
-
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-	group = init_augroup,
-	pattern = all_config_files,
+	group = vim.api.nvim_create_augroup("InitFilesSetup", {}),
+	pattern = { "*code/neovim-flake/*.lua" },
 	command = "Neoformat stylua",
 })
 -- }}}
@@ -970,3 +961,5 @@ vim.keymap.set("x", "<A-k>", "<cmd>STSSwapPrevVisual<cr>")
 vim.keymap.set("v", "<C-j>", "<cmd>STSSwapNextVisual<cr>")
 vim.keymap.set("v", "<C-k>", "<cmd>STSSwapPrevVisual<cr>")
 -- }}}
+
+-- vim:foldmethod=marker
