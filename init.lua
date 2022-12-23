@@ -750,6 +750,7 @@ ls.add_snippets("typescriptreact", js_snippets)
 require("nvim-treesitter.configs").setup({
 	highlight = {
 		enable = true,
+		disable = { "bash" },
 	},
 	incremental_selection = { enable = true },
 	playground = { enable = true },
