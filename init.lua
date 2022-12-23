@@ -827,7 +827,6 @@ vim.g.mundo_preview_bottom = 1
 vim.g.mundo_width = 40
 vim.g.mundo_preview_height = 20
 
--- FIXME not working properly because nix paths
 require("neodev").setup({})
 -- }}}
 
