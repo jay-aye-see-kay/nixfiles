@@ -685,54 +685,54 @@ local js_snippets = {
 		t(")"),
 	}),
 	-- React.useEffect()
-	vsc("ue", "useEffect(() => {\n\t${1}\n}, [${0}])"),
+	vsc("ue", "useEffect(() => {\n\t${1}\n}, [${0}])", {}),
 	-- basics + keywords
-	vsc("c", "const ${1} = ${0}"),
-	vsc("l", "let ${1} = ${0}"),
-	vsc("e", "export ${0}"),
-	vsc("aw", "await ${0}"),
-	vsc("as", "async ${0}"),
-	vsc("d", "debugger"),
+	vsc("c", "const ${1} = ${0}", {}),
+	vsc("l", "let ${1} = ${0}", {}),
+	vsc("e", "export ${0}", {}),
+	vsc("aw", "await ${0}", {}),
+	vsc("as", "async ${0}", {}),
+	vsc("d", "debugger", {}),
 	-- function
-	vsc("f", "function ${1}(${2}) {\n\t${3}\n}"),
+	vsc("f", "function ${1}(${2}) {\n\t${3}\n}", {}),
 	-- anonymous function
-	vsc("af", "(${1}) => $0"),
+	vsc("af", "(${1}) => $0", {}),
 	-- skeleton function
-	vsc("sf", "function ${1}(${2}): ${3:void} {\n\t${0:throw new Error('Not implemented')}\n}"),
+	vsc("sf", "function ${1}(${2}): ${3:void} {\n\t${0:throw new Error('Not implemented')}\n}", {}),
 	-- throw
-	vsc("tn", "throw new Error(${0})"),
+	vsc("tn", "throw new Error(${0})", {}),
 	-- comments
-	vsc("jsdoc", "/**\n * ${0}\n */"),
-	vsc("/", "/* ${0} */"),
-	vsc("/**", "/** ${0} */"),
-	vsc("eld", "/* eslint-disable-next-line ${0} */"),
+	vsc("jsdoc", "/**\n * ${0}\n */", {}),
+	vsc("/", "/* ${0} */", {}),
+	vsc("/**", "/** ${0} */", {}),
+	vsc("eld", "/* eslint-disable-next-line ${0} */", {}),
 	-- template string variable
-	vsc({ trig = "v", wordTrig = false }, "\\${${1}}"),
+	vsc({ trig = "v", wordTrig = false }, "\\${${1}}", {}),
 	-- verbose undefined checks
-	vsc("=u", "=== undefined"),
-	vsc("!u", "!== undefined"),
+	vsc("=u", "=== undefined", {}),
+	vsc("!u", "!== undefined", {}),
 }
 
 ls.add_snippets("all", {
 	s("date", { i(1, os.date("%Y-%m-%d")) }),
-	vsc({ name = "random number", trig = "rn" }, "$RANDOM"),
-	vsc({ name = "random hex number", trig = "rh" }, "$RANDOM_HEX"),
-	vsc({ name = "random uuid", trig = "uuid" }, "$UUID"),
-	vsc("filename", "$TM_FILENAME"),
-	vsc("filepath", "$TM_FILEPATH"),
-	vsc({ trig = "v", wordTrig = false }, "\\${${1}}"),
-	vsc({ name = "return", trig = "r" }, "return ${0}"),
+	vsc({ name = "random number", trig = "rn" }, "$RANDOM", {}),
+	vsc({ name = "random hex number", trig = "rh" }, "$RANDOM_HEX", {}),
+	vsc({ name = "random uuid", trig = "uuid" }, "$UUID", {}),
+	vsc("filename", "$TM_FILENAME", {}),
+	vsc("filepath", "$TM_FILEPATH", {}),
+	vsc({ trig = "v", wordTrig = false }, "\\${${1}}", {}),
+	vsc({ name = "return", trig = "r" }, "return ${0}", {}),
 })
 
 ls.add_snippets("markdown", {
 	-- task
-	vsc("t", "- [ ] ${0}"),
+	vsc("t", "- [ ] ${0}", {}),
 	-- code blocks
-	vsc("c", "```\n${1}\n```"),
-	vsc("cj", "```json\n${1}\n```"),
-	vsc("ct", "```typescript\n${1}\n```"),
-	vsc("cp", "```python\n${1}\n```"),
-	vsc("cs", "```sh\n${1}\n```"),
+	vsc("c", "```\n${1}\n```", {}),
+	vsc("cj", "```json\n${1}\n```", {}),
+	vsc("ct", "```typescript\n${1}\n```", {}),
+	vsc("cp", "```python\n${1}\n```", {}),
+	vsc("cs", "```sh\n${1}\n```", {}),
 })
 
 ls.add_snippets("javascript", js_snippets)
