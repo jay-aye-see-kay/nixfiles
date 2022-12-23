@@ -70,6 +70,7 @@ in
       atool
       htop
       jq
+      yq
       ripgrep
       tldr
       tree
@@ -107,37 +108,10 @@ in
     alacritty.enable = true;
     alacritty.settings.font.size = if pkgs.stdenv.isLinux then 8 else 14;
     alacritty.settings.font.normal.family = ifDarwin "FuraMono Nerd Font Mono";
-    alacritty.settings.colors = {
-      # TokyoNight Alacritty Colors
-      primary = {
-        background = "0x1a1b26";
-        foreground = "0xc0caf5";
-      };
-      normal = {
-        black = "0x15161e";
-        red = "0xf7768e";
-        green = "0x9ece6a";
-        yellow = "0xe0af68";
-        blue = "0x7aa2f7";
-        magenta = "0xbb9af7";
-        cyan = "0x7dcfff";
-        white = "0xa9b1d6";
-      };
-      bright = {
-        black = "0x414868";
-        red = "0xf7768e";
-        green = "0x9ece6a";
-        yellow = "0xe0af68";
-        blue = "0x7aa2f7";
-        magenta = "0xbb9af7";
-        cyan = "0x7dcfff";
-        white = "0xc0caf5";
-      };
-      indexed_colors = [
-        { index = 16; color = "0xff9e64"; }
-        { index = 17; color = "0xdb4b4b"; }
-      ];
-    };
+
+    # from: https://github.com/mcchrish/zenbones.nvim/blob/main/extras/alacritty/zenbones_light.yml
+    # converted to json in vim with `:'<,'>!yq`
+    alacritty.settings.colors = builtins.fromJSON (builtins.readFile ./alacritty-colors.json);
 
     git = {
       enable = true;
