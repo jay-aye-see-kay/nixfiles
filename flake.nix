@@ -123,7 +123,8 @@
           plugins = allPluginsFromInputs ++ (with pkgs.vimPlugins; [
             { plugin = impatient-nvim; config = "lua require('impatient')"; }
 
-            tokyonight-nvim
+            lush-nvim
+            zenbones-nvim
             indent-blankline-nvim
 
             nvim-dap

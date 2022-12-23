@@ -163,31 +163,40 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 -- }}}
 
 -- visuals look nice {{{
+vim.keymap.set("n", "<leader>yd", function()
+	if vim.o.background == "dark" then
+		vim.o.background = "light"
+	else
+		vim.o.background = "dark"
+	end
+end, { desc = "toggle brightness" })
 
---Set colorscheme
-require("tokyonight").setup({
-	sidebars = { "qf", "help", "Outline", "terminal" },
-	terminal_colors = true,
-	on_colors = function(colors)
-		colors.black = "#111111"
-	end,
-	on_highlights = function(hl, colors)
-		hl.WinSeparator = { fg = colors.black, bg = colors.black }
-		hl.ActiveTermBg = { bg = colors.black }
-		hl.InactiveTermBg = { bg = colors.bg_dark }
-		hl.TermCursorNC = { bg = colors.info }
+-- extend color scheme
+vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+	group = vim.api.nvim_create_augroup("ExtendColorScheme", {}),
+	callback = function()
+		local function copy_color(from, to)
+			vim.api.nvim_set_hl(0, to, vim.api.nvim_get_hl_by_name(from, true))
+		end
+		copy_color("DiffAdd", "diffAdded")
+		copy_color("DiffDelete", "diffRemoved")
+		copy_color("DiffChange", "diffChanged")
 	end,
 })
 
-vim.o.termguicolors = true
-vim.o.background = "dark"
-vim.cmd([[colorscheme tokyonight-night]])
 vim.api.nvim_set_var("vim_json_syntax_conceal", 0)
+vim.o.termguicolors = true
+vim.o.background = "light"
+vim.g.zenbones = {
+	darken_noncurrent_window = true,
+	lighten_noncurrent_window = true,
+}
+vim.cmd.colorscheme("zenbones")
 
 local navic = require("nvim-navic")
 require("lualine").setup({
 	options = {
-		theme = "tokyonight",
+		theme = "zenbones",
 		globalstatus = true,
 		disabled_filetypes = {
 			winbar = { "", "neo-tree", "Outline", "fugitive" },
