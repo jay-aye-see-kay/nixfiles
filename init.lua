@@ -258,7 +258,12 @@ for _, lsp in pairs(lsp_servers) do
 		settings.Lua = {
 			runtime = { version = "LuaJIT" },
 			diagnostics = { globals = { "vim" } },
-			workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+			workspace = {
+				library = {
+					vim.api.nvim_get_runtime_file("", true),
+					"${3rd}/luassert/library",
+				},
+			},
 			telemetry = { enable = false },
 		}
 	end
