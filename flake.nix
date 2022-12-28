@@ -182,6 +182,7 @@
             telescope-nvim
             telescope-fzf-native-nvim
             telescope-symbols-nvim
+            telescope-zoxide
             fzf-vim
 
             nvim-colorizer-lua

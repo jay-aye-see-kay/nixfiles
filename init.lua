@@ -809,13 +809,26 @@ telescope.setup({
 		undo = {
 			use_delta = false,
 		},
+		zoxide = {
+			mappings = {
+				default = {
+					action = function(selection)
+						vim.cmd("cd " .. selection.path)
+						require("telescope.builtin").find_files()
+					end,
+				},
+			},
+		},
 	},
 })
 telescope.load_extension("fzf")
 telescope.load_extension("manix")
 telescope.load_extension("undo")
+telescope.load_extension("zoxide")
 
-vim.keymap.set("n", "<leader>fU", require("telescope").extensions.undo.undo, { desc = "search telescope history" })
+vim.keymap.set("n", "<leader>fU", telescope.extensions.undo.undo, { desc = "search telescope history" })
+vim.keymap.set("n", "<leader>fz", telescope.extensions.zoxide.list, { desc = "cd with zoxide" })
+vim.keymap.set("n", ",z", telescope.extensions.zoxide.list, { desc = "cd with zoxide" })
 -- }}}
 
 -- {{{ misc and UI stuff
