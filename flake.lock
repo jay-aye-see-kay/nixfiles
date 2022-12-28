@@ -191,6 +191,22 @@
         "type": "github"
       }
     },
+    "plugin:telescope-undo": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1671733489,
+        "narHash": "sha256-moR2kI2LZkDYXrH8Fc4Mz2Bf8IwfEhdnsRl/Hhn4Z64=",
+        "owner": "debugloop",
+        "repo": "telescope-undo.nvim",
+        "rev": "85b1cac55bbf8ea843f6a64f57d99aacac3ceff3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "debugloop",
+        "repo": "telescope-undo.nvim",
+        "type": "github"
+      }
+    },
     "plugin:vim-just": {
       "flake": false,
       "locked": {
@@ -253,6 +269,7 @@
         "plugin:refactoring-nvim": "plugin:refactoring-nvim",
         "plugin:syntax-tree-surfer": "plugin:syntax-tree-surfer",
         "plugin:telescope-manix": "plugin:telescope-manix",
+        "plugin:telescope-undo": "plugin:telescope-undo",
         "plugin:vim-just": "plugin:vim-just",
         "plugin:vim-resize-mode": "plugin:vim-resize-mode",
         "plugin:vim-symlink": "plugin:vim-symlink"

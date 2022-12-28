@@ -770,7 +770,9 @@ require("nvim-treesitter.configs").setup({
 		},
 	},
 })
+-- }}}
 
+-- {{{ telescope
 local actions = require("telescope.actions")
 local action_layout = require("telescope.actions.layout")
 local telescope = require("telescope")
@@ -804,10 +806,16 @@ telescope.setup({
 			override_generic_sorter = true,
 			override_file_sorter = true,
 		},
+		undo = {
+			use_delta = false,
+		},
 	},
 })
 telescope.load_extension("fzf")
 telescope.load_extension("manix")
+telescope.load_extension("undo")
+
+vim.keymap.set("n", "<leader>fU", require("telescope").extensions.undo.undo, { desc = "search telescope history" })
 -- }}}
 
 -- {{{ misc and UI stuff
