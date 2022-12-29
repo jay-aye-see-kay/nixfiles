@@ -842,6 +842,8 @@ vim.g.mundo_width = 40
 vim.g.mundo_preview_height = 20
 
 require("neodev").setup({})
+
+require("various-textobjs").setup({ useDefaultKeymaps = true })
 -- }}}
 
 -- {{{ git + fugitive

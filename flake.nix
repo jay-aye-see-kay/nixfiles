@@ -62,6 +62,10 @@
       url = "github:debugloop/telescope-undo.nvim";
       flake = false;
     };
+    "plugin:nvim-various-textobjs" = {
+      url = "github:chrisgrieser/nvim-various-textobjs";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
@@ -199,7 +203,11 @@
             vim-repeat
             vim-surround
             vim-unimpaired
-            targets-vim
+            {
+              plugin = targets-vim;
+              # restore `b` to default vim behaviour, see: https://github.com/wellle/targets.vim#targetsmappingsextend
+              config = "autocmd User targets#mappings#user call targets#mappings#extend({ 'b': {'pair': [{'o':'(', 'c':')'}]} })";
+            }
 
             # git
             git-messenger-vim

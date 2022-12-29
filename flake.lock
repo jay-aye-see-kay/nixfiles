@@ -127,6 +127,22 @@
         "type": "github"
       }
     },
+    "plugin:nvim-various-textobjs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1672349664,
+        "narHash": "sha256-QK2CIiop3zhh8a0sMlvCYNUp4EAtQSQw9Yt02PiRwYU=",
+        "owner": "chrisgrieser",
+        "repo": "nvim-various-textobjs",
+        "rev": "e71e5863b2b554d86b72c581ce906077b908b955",
+        "type": "github"
+      },
+      "original": {
+        "owner": "chrisgrieser",
+        "repo": "nvim-various-textobjs",
+        "type": "github"
+      }
+    },
     "plugin:nvim-window-picker": {
       "flake": false,
       "locked": {
@@ -265,6 +281,7 @@
         "plugin:neo-tree": "plugin:neo-tree",
         "plugin:nui": "plugin:nui",
         "plugin:nvim-unception": "plugin:nvim-unception",
+        "plugin:nvim-various-textobjs": "plugin:nvim-various-textobjs",
         "plugin:nvim-window-picker": "plugin:nvim-window-picker",
         "plugin:refactoring-nvim": "plugin:refactoring-nvim",
         "plugin:syntax-tree-surfer": "plugin:syntax-tree-surfer",
