@@ -122,14 +122,10 @@ M.map("v", "<C-c>", '"+y')
 
 -- stuff from https://github.com/mjlbach/defaults.nvim
 
---Remap space as leader key
+-- remap space as leader key
 M.map("", "<Space>", "")
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-
---Set highlight on search
-vim.o.hlsearch = false
-vim.o.incsearch = true
 
 vim.o.inccommand = "nosplit" --Incremental live completion
 vim.wo.number = true --Make line numbers default
@@ -138,9 +134,16 @@ vim.o.mouse = "a" --Enable mouse mode
 vim.o.breakindent = true --Enable break indent
 vim.wo.signcolumn = "yes"
 
---Case insensitive searching UNLESS /C or capital in search
+-- set highlight on search
+vim.o.hlsearch = false
+vim.o.incsearch = true
+
+-- case insensitive searching UNLESS /C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
+
+-- search within selection from visual mode
+vim.keymap.set("x", "/", "<Esc>/\\%V")
 
 vim.opt.scrolloff = 4
 vim.opt.sidescrolloff = 4
