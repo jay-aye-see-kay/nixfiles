@@ -36,6 +36,10 @@ in
     # ./firefox.nix
   ];
 
+  home.sessionVariables = {
+    EDITOR = "nvim";
+  };
+
   home.packages = with pkgs;
     [
       neovim
@@ -124,6 +128,7 @@ in
         push.default = "current";
         init.defaultBranch = "main";
         github.user = "jay-aye-see-kay";
+        delta.light = true;
       };
       aliases = {
         aa = "add .";
