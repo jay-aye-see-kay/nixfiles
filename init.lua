@@ -254,12 +254,7 @@ for _, lsp in pairs(lsp_servers) do
 		settings.Lua = {
 			runtime = { version = "LuaJIT" },
 			diagnostics = { globals = { "vim" } },
-			workspace = {
-				library = {
-					vim.api.nvim_get_runtime_file("", true),
-					"${3rd}/luassert/library",
-				},
-			},
+			workspace = { checkThirdParty = false },
 			telemetry = { enable = false },
 		}
 	end
@@ -283,8 +278,13 @@ vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, { desc =
 vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, { desc = "Find references" })
 vim.keymap.set("n", "gy", require("telescope.builtin").lsp_type_definitions, { desc = "Find type definitions" })
 vim.keymap.set("n", "gh", vim.lsp.buf.hover, { desc = "Hover docs" })
+vim.keymap.set("n", "gI", vim.lsp.buf.implementation, { desc = "Goto implementation" })
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+vim.keymap.set("i", "<C-i>", function()
+	require("cmp").mapping.close()()
+	vim.lsp.buf.signature_help()
+end, { desc = "Signature Documentation" })
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "single",
@@ -746,13 +746,23 @@ require("nvim-treesitter.configs").setup({
 		enable = true,
 		disable = { "bash" },
 	},
-	incremental_selection = { enable = true },
+	indent = { enable = true, disable = { "python" } },
+	incremental_selection = {
+		enable = true,
+		keymaps = {
+			init_selection = "<c-space>",
+			node_incremental = "<c-space>",
+		},
+	},
 	playground = { enable = true },
 	context_commentstring = { enable = true },
 	textobjects = {
 		select = {
 			enable = true,
+			lookahead = true,
 			keymaps = {
+				["aa"] = "@parameter.outer",
+				["ia"] = "@parameter.inner",
 				["af"] = "@function.outer",
 				["if"] = "@function.inner",
 				["ac"] = "@class.outer",
