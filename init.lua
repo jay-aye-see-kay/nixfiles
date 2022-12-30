@@ -573,8 +573,6 @@ local main_keymap = {
 		g = { "<Cmd>Telescope git_commits<CR>", "🔭 commits" },
 		c = { "<Cmd>Telescope git_bcommits<CR>", "🔭 buffer commits" },
 		b = { "<Cmd>Telescope git_branches<CR>", "🔭 branches" },
-		R = { "<Cmd>Gitsigns reset_hunk<CR>", "reset hunk" },
-		p = { "<Cmd>Gitsigns preview_hunk<CR>", "preview hunk" },
 	}),
 	terminal = M.merge(directed_keymaps.new_terminal, {
 		name = "+terminal",
@@ -859,7 +857,43 @@ require("various-textobjs").setup({ useDefaultKeymaps = true })
 
 -- {{{ git + fugitive
 require("octo").setup()
-require("gitsigns").setup()
+
+local gitsigns = require("gitsigns")
+gitsigns.setup({
+	current_line_blame_opts = { delay = 0 },
+})
+
+-- Navigation
+vim.keymap.set("n", "]c", function()
+	if vim.wo.diff then
+		return "]c"
+	end
+	vim.schedule(gitsigns.next_hunk)
+	return "<Ignore>"
+end, { expr = true, desc = "next hunk" })
+vim.keymap.set("n", "[c", function()
+	if vim.wo.diff then
+		return "[c"
+	end
+	vim.schedule(gitsigns.prev_hunk)
+	return "<Ignore>"
+end, { expr = true, desc = "prev hunk" })
+
+-- Actions
+vim.keymap.set({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>", { desc = "stage hunk" })
+vim.keymap.set({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>", { desc = " reset hunk" })
+vim.keymap.set("n", "<leader>hu", gitsigns.undo_stage_hunk, { desc = "undo stage buffer" })
+vim.keymap.set("n", "<leader>hp", gitsigns.preview_hunk, { desc = "preview hunk" })
+vim.keymap.set("n", "<leader>hb", function()
+	gitsigns.blame_line({ full = true })
+end, { desc = "full blame" })
+vim.keymap.set("n", "<leader>hd", gitsigns.diffthis, { desc = "diff this" })
+vim.keymap.set("n", "<leader>gtb", gitsigns.toggle_current_line_blame, { desc = "toggle inline blame" })
+vim.keymap.set("n", "<leader>gtd", gitsigns.toggle_deleted, { desc = "toggle showing deleted virtually" })
+
+-- Text object
+vim.keymap.set({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "a hunk" })
+vim.keymap.set({ "o", "x" }, "ah", ":<C-U>Gitsigns select_hunk<CR>", { desc = "a hunk" })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	group = vim.api.nvim_create_augroup("FugitiveSetup", {}),
