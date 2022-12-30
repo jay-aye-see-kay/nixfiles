@@ -494,6 +494,9 @@ end, { desc = "Pick a window" })
 -- keymaps {{{
 M.map("n", "<c-s>", "<cmd>w<cr>")
 
+-- show the whichkey popup (i.e. which keymaps are available)
+vim.keymap.set({ "n", "v", "i" }, "<F1>", "<cmd>WhichKey<cr>")
+
 local directed_keymaps = {
 	git_status = M.make_directed_maps("Git Status", "Gedit :"),
 	new_terminal = M.make_directed_maps("New terminal", "terminal"),
