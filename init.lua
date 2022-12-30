@@ -895,11 +895,11 @@ end, { expr = true, desc = "prev hunk" })
 -- Actions
 vim.keymap.set({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>", { desc = "stage hunk" })
 vim.keymap.set({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>", { desc = " reset hunk" })
-vim.keymap.set("n", "<leader>hu", gitsigns.undo_stage_hunk, { desc = "undo stage buffer" })
+vim.keymap.set("n", "<leader>hu", gitsigns.undo_stage_hunk, { desc = "undo stage hunk" })
 vim.keymap.set("n", "<leader>hp", gitsigns.preview_hunk, { desc = "preview hunk" })
 vim.keymap.set("n", "<leader>hb", function()
 	gitsigns.blame_line({ full = true })
-end, { desc = "full blame" })
+end, { desc = "blame hunk" })
 vim.keymap.set("n", "<leader>hd", gitsigns.diffthis, { desc = "diff this" })
 vim.keymap.set("n", "<leader>gtb", gitsigns.toggle_current_line_blame, { desc = "toggle inline blame" })
 vim.keymap.set("n", "<leader>gtd", gitsigns.toggle_deleted, { desc = "toggle showing deleted virtually" })
@@ -997,6 +997,9 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 -- }}}
 
 -- {{{ refactoring
+vim.keymap.set("n", "<leader>ms", require("spectre").open, { desc = "open spectre panel" })
+vim.keymap.set("v", "<leader>ms", require("spectre").open_visual)
+
 require("refactoring").setup({})
 
 -- helper fn to make passing these functions to which_key easier

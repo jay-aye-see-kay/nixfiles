@@ -182,6 +182,7 @@
             popup-nvim
             trouble-nvim
             symbols-outline-nvim
+            nvim-spectre
 
             telescope-nvim
             telescope-fzf-native-nvim
