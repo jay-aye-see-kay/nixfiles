@@ -211,7 +211,6 @@
             }
 
             # git
-            git-messenger-vim
             diffview-nvim
             vim-fugitive
             vim-rhubarb
