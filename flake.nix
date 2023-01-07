@@ -202,8 +202,9 @@
             vim-abolish
             vim-commentary
             vim-repeat
-            vim-surround
             vim-unimpaired
+
+            nvim-surround
             {
               plugin = targets-vim;
               # restore `b` to default vim behaviour, see: https://github.com/wellle/targets.vim#targetsmappingsextend

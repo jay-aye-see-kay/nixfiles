@@ -855,8 +855,16 @@ vim.keymap.set("n", ",z", telescope.extensions.zoxide.list, { desc = "cd with zo
 
 -- {{{ misc and UI stuff
 require("hop").setup()
-M.map("n", "s", ":HopChar1<cr>")
-M.map("n", "S", ":HopWordMW<cr>")
+vim.keymap.set("n", "S", "<cmd>HopChar1<cr>", { desc = "hop 1 char" })
+
+require("nvim-surround").setup({
+	keymaps = {
+		normal = "s",
+		normal_cur = "ss",
+		normal_line = "S",
+		normal_cur_line = "SS",
+	},
+})
 
 M.map("n", "<leader>u", "<cmd>MundoToggle<cr>")
 vim.g.mundo_preview_bottom = 1
