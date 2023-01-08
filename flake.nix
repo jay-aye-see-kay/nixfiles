@@ -155,6 +155,7 @@
             nvim-ts-autotag
             playground # tree-sitter playground
 
+            # lsp stuff
             nvim-lspconfig
             nvim-lsp-ts-utils
             SchemaStore-nvim
@@ -168,6 +169,7 @@
             luasnip
             nvim-autopairs
             lsp_lines-nvim
+            { plugin = goto-preview; config = "lua require('goto-preview').setup({ default_mappings = true })"; }
 
             # contain these, maybe remove
             friendly-snippets
