@@ -129,6 +129,7 @@ vim.g.maplocalleader = " "
 
 vim.o.inccommand = "nosplit" --Incremental live completion
 vim.wo.number = true --Make line numbers default
+vim.wo.relativenumber = true --Make line numbers default
 vim.o.hidden = true --Do not save when switching buffers
 vim.o.mouse = "a" --Enable mouse mode
 vim.o.breakindent = true --Enable break indent
@@ -855,7 +856,7 @@ vim.keymap.set("n", ",z", telescope.extensions.zoxide.list, { desc = "cd with zo
 
 -- {{{ misc and UI stuff
 require("hop").setup()
-vim.keymap.set("n", "S", "<cmd>HopChar1<cr>", { desc = "hop 1 char" })
+vim.keymap.set("n", "S", ":HopChar1<cr>", { desc = "hop 1 char" })
 
 require("nvim-surround").setup({
 	keymaps = {
