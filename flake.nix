@@ -66,6 +66,10 @@
       url = "github:chrisgrieser/nvim-various-textobjs";
       flake = false;
     };
+    "plugin:git-conflict-nvim" = {
+      url = "github:akinsho/git-conflict.nvim/v1.0.0";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
@@ -215,7 +219,6 @@
             diffview-nvim
             vim-fugitive
             vim-rhubarb
-            conflict-marker-vim
             octo-nvim
           ]);
         };

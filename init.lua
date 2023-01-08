@@ -879,22 +879,26 @@ require("various-textobjs").setup({ useDefaultKeymaps = true })
 -- {{{ git + fugitive
 require("octo").setup()
 
+require("git-conflict").setup()
+vim.keymap.set("n", "]c", "<Plug>(git-conflict-next-conflict)", { desc = "next conflict marker" })
+vim.keymap.set("n", "[c", "<Plug>(git-conflict-prev-conflict)", { desc = "prev conflict marker" })
+
 local gitsigns = require("gitsigns")
 gitsigns.setup({
 	current_line_blame_opts = { delay = 0 },
 })
 
 -- Navigation
-vim.keymap.set("n", "]c", function()
+vim.keymap.set("n", "]h", function()
 	if vim.wo.diff then
-		return "]c"
+		return "]h"
 	end
 	vim.schedule(gitsigns.next_hunk)
 	return "<Ignore>"
 end, { expr = true, desc = "next hunk" })
-vim.keymap.set("n", "[c", function()
+vim.keymap.set("n", "[h", function()
 	if vim.wo.diff then
-		return "[c"
+		return "[h"
 	end
 	vim.schedule(gitsigns.prev_hunk)
 	return "<Ignore>"
