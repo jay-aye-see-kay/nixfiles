@@ -28,7 +28,6 @@
     };
 
     shellAliases = {
-      rg = "rg --hidden";
       sizes = "du -csh * | sort -h";
       whoslistening = "ss -lntup";
       vwy = "nvim -c LogbookYesterday";

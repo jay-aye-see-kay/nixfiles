@@ -38,7 +38,12 @@ in
 
   home.sessionVariables = {
     EDITOR = "nvim";
+    RIPGREP_CONFIG_PATH = "$HOME/.config/ripgreprc";
   };
+
+  xdg.configFile."ripgreprc".text = ''
+    --hidden
+  '';
 
   home.packages = with pkgs;
     [
