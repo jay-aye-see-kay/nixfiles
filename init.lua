@@ -391,13 +391,9 @@ require("mkdnflow").setup({
 	mappings = {
 		MkdnGoBack = false,
 		MkdnGoForward = false,
-	},
-	perspective = {
-		-- Changes in perspective will be reflected in the nvim working directory.
-		-- (In other words, the working directory will "heel" to the plugin's perspective.)
-		-- This helps ensure (at least) that path completions (if using a completion plugin with support for paths) will be accurate and usable.
-		-- Leaving this note as I don't know if I want this behaviour
-		nvim_wd_heel = true,
+		MkdnYankAnchorLink = false,
+		MkdnFoldSection = false,
+		MkdnUnfoldSection = false,
 	},
 })
 
