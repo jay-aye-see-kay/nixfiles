@@ -567,6 +567,15 @@ local main_keymap = {
 		a = { telescope_fns.live_grep, "🔭 full text search" },
 		u = { telescope_fns.grep_string, "🔭 word under cursor" },
 		n = { grep_notes, "🔭 search all notes" },
+		i = {
+			name = "+in",
+			o = {
+				function()
+					telescope_fns.live_grep({ grep_open_files = true })
+				end,
+				"🔭 in open buffers",
+			},
+		},
 	},
 	git = M.merge(directed_keymaps.git_status, {
 		name = "+git",
