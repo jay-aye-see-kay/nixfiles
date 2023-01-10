@@ -64,6 +64,8 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	pattern = { "*code/neovim-flake/*.lua" },
 	command = "Neoformat stylua",
 })
+
+vim.g.unception_block_while_host_edits = true
 -- }}}
 
 -- basic core stuff {{{
