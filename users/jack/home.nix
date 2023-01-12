@@ -91,6 +91,7 @@ in
       entr
       exercism
       tokei
+      hyperfine
     ]
     ++ (if pkgs.stdenv.isLinux then linuxOnlyPackages else darwinOnlyPackages);
 
