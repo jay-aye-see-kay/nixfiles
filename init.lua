@@ -122,6 +122,9 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 M.map("i", "<C-v>", "<C-r>+")
 M.map("v", "<C-c>", '"+y')
 
+-- spelling
+vim.opt.spellcapcheck = nil -- ignore capitalisation
+
 -- stuff from https://github.com/mjlbach/defaults.nvim
 
 -- remap space as leader key
@@ -935,6 +938,14 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	callback = function()
 		vim.opt_local.foldlevel = 99
 		vim.cmd([[ nnoremap <buffer> <Tab> = ]])
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	group = vim.api.nvim_create_augroup("SpellcheckGitCommits", {}),
+	pattern = "gitcommit",
+	callback = function()
+		vim.opt_local.spell = true
 	end,
 })
 -- }}}
