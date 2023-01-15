@@ -192,6 +192,22 @@
         "type": "github"
       }
     },
+    "plugin:smart-open": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1673798175,
+        "narHash": "sha256-WQlBheLTrK9rqoUdyks552Sq/WenaTLTG3+518PjuOY=",
+        "owner": "danielfalk",
+        "repo": "smart-open.nvim",
+        "rev": "bba5ecfab2e05598aede58e61194c9e37e4b4767",
+        "type": "github"
+      },
+      "original": {
+        "owner": "danielfalk",
+        "repo": "smart-open.nvim",
+        "type": "github"
+      }
+    },
     "plugin:syntax-tree-surfer": {
       "flake": false,
       "locked": {
@@ -302,6 +318,7 @@
         "plugin:nvim-various-textobjs": "plugin:nvim-various-textobjs",
         "plugin:nvim-window-picker": "plugin:nvim-window-picker",
         "plugin:refactoring-nvim": "plugin:refactoring-nvim",
+        "plugin:smart-open": "plugin:smart-open",
         "plugin:syntax-tree-surfer": "plugin:syntax-tree-surfer",
         "plugin:telescope-manix": "plugin:telescope-manix",
         "plugin:telescope-undo": "plugin:telescope-undo",

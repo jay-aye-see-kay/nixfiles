@@ -178,6 +178,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 		local function copy_color(from, to)
 			vim.api.nvim_set_hl(0, to, vim.api.nvim_get_hl_by_name(from, true))
 		end
+
 		copy_color("DiffAdd", "diffAdded")
 		copy_color("DiffDelete", "diffRemoved")
 		copy_color("DiffChange", "diffChanged")
@@ -859,10 +860,12 @@ telescope.load_extension("fzf")
 telescope.load_extension("manix")
 telescope.load_extension("undo")
 telescope.load_extension("zoxide")
+telescope.load_extension("smart_open")
 
 vim.keymap.set("n", "<leader>fU", telescope.extensions.undo.undo, { desc = "search telescope history" })
 vim.keymap.set("n", "<leader>fz", telescope.extensions.zoxide.list, { desc = "cd with zoxide" })
 vim.keymap.set("n", ",z", telescope.extensions.zoxide.list, { desc = "cd with zoxide" })
+vim.keymap.set("n", "<leader><leader>", telescope.extensions.smart_open.smart_open, { desc = "smart open" })
 -- }}}
 
 -- {{{ misc and UI stuff
