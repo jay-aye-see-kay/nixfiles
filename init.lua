@@ -195,16 +195,23 @@ vim.g.zenbones = {
 vim.cmd.colorscheme("zenbones")
 
 local navic = require("nvim-navic")
+
+local lualine_theme = vim.deepcopy(require("lualine.utils.loader").load_theme("zenbones"))
+lualine_theme.insert = nil
+lualine_theme.replace = nil
+lualine_theme.visual = nil
+lualine_theme.command = nil
+
 require("lualine").setup({
 	options = {
-		theme = "zenbones",
+		theme = lualine_theme,
 		globalstatus = true,
 		disabled_filetypes = {
 			winbar = { "", "neo-tree", "Outline", "fugitive" },
 		},
 	},
 	sections = {
-		lualine_a = { "mode" },
+		lualine_a = { "vim.fs.basename(vim.fn.getcwd())" },
 		lualine_b = { "branch", "diff" },
 		lualine_c = { "diagnostics" },
 		lualine_x = { "lsp_progress", "filetype" },
@@ -212,7 +219,6 @@ require("lualine").setup({
 		lualine_z = { "location" },
 	},
 	winbar = {
-		lualine_a = { "vim.fs.basename(vim.fn.getcwd())" },
 		lualine_b = { { "filename", path = 1 } },
 		lualine_c = { { navic.get_location, cond = navic.is_available } },
 	},
