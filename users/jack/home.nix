@@ -43,6 +43,7 @@ in
 
   xdg.configFile."ripgreprc".text = ''
     --hidden
+    --ignore
   '';
 
   home.packages = with pkgs;
