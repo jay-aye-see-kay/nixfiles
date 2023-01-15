@@ -817,12 +817,15 @@ telescope.setup({
 		sorting_strategy = "ascending",
 		layout_strategy = "flex",
 		dynamic_preview_title = true,
+		file_ignore_patterns = { ".git/" },
 		mappings = {
 			i = {
 				["<C-g>"] = action_layout.toggle_preview,
 				["<C-x>"] = false,
 				["<C-s>"] = actions.select_horizontal,
 				["<esc>"] = actions.close,
+				["<Down>"] = actions.cycle_history_next,
+				["<Up>"] = actions.cycle_history_prev,
 			},
 		},
 	},
