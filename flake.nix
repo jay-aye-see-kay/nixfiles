@@ -174,10 +174,8 @@
             nvim-autopairs
             lsp_lines-nvim
             { plugin = goto-preview; config = "lua require('goto-preview').setup({ default_mappings = true })"; }
-
-            # contain these, maybe remove
+            null-ls-nvim
             friendly-snippets
-            neoformat
 
             nvim-web-devicons
             lualine-nvim

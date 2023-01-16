@@ -58,16 +58,6 @@ end
 
 -- }}}
 
--- init file setup {{{
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-	group = vim.api.nvim_create_augroup("InitFilesSetup", {}),
-	pattern = { "*code/neovim-flake/*.lua" },
-	command = "Neoformat stylua",
-})
-
-vim.g.unception_block_while_host_edits = true
--- }}}
-
 -- basic core stuff {{{
 
 -- faster window movements
@@ -106,6 +96,8 @@ vim.api.nvim_create_autocmd({ "WinLeave" }, {
 		end
 	end,
 })
+
+vim.g.unception_block_while_host_edits = true
 
 -- prefer spaces over tabs
 vim.cmd([[ set tabstop=2 ]])
@@ -257,6 +249,7 @@ local lsp_servers = {
 	"yamlls",
 }
 
+local lsp_augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 for _, lsp in pairs(lsp_servers) do
 	local settings = {}
 	if lsp == "jsonls" then
@@ -283,9 +276,27 @@ for _, lsp in pairs(lsp_servers) do
 			if client.server_capabilities.documentSymbolProvider then
 				require("nvim-navic").attach(client, bufnr)
 			end
+			if client.supports_method("textDocument/formatting") then
+				vim.api.nvim_clear_autocmds({ group = lsp_augroup, buffer = bufnr })
+				vim.api.nvim_create_autocmd("BufWritePre", {
+					group = lsp_augroup,
+					buffer = bufnr,
+					callback = function()
+						vim.lsp.buf.format({ bufnr = bufnr })
+					end,
+				})
+			end
 		end,
 	})
 end
+
+local null_ls = require("null-ls")
+null_ls.setup({
+	sources = {
+		null_ls.builtins.formatting.stylua,
+		null_ls.builtins.formatting.prettierd,
+	},
+})
 
 vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "Goto/find definitions" })
 vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, { desc = "Find references" })
@@ -1024,20 +1035,6 @@ vim.keymap.set("n", "<space>dt", require("dap").step_out, { desc = "step out" })
 
 vim.keymap.set("n", "<space>du", require("dapui").toggle, { desc = "toggle" })
 vim.keymap.set("n", "<space>dc", require("dap").run_to_cursor, { desc = "run to cursor" })
--- }}}
-
--- {{{ Formatting
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-	group = vim.api.nvim_create_augroup("FormatJsTs", {}),
-	pattern = { "*.js", "*.jsx", "*.ts", "*.tsx" },
-	command = "Neoformat",
-})
-
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-	group = vim.api.nvim_create_augroup("FormatMyNotes", {}),
-	pattern = "*Documents/notes/**/*.md",
-	command = "Neoformat",
-})
 -- }}}
 
 -- {{{ refactoring
