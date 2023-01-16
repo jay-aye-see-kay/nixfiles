@@ -1089,4 +1089,79 @@ vim.keymap.set("v", "<C-j>", "<cmd>STSSwapNextVisual<cr>")
 vim.keymap.set("v", "<C-k>", "<cmd>STSSwapPrevVisual<cr>")
 -- }}}
 
+-- markdown notes experiment
+H = {
+	indexOf = function(array, value)
+		for idx, v in ipairs(array) do
+			if v == value then
+				return idx
+			end
+		end
+		return nil
+	end,
+	--
+	status_config = {
+		TODO = { icon = " ", color = "info" },
+		IN_PROGRESS = { icon = " ", color = "test" },
+		WAITING = { icon = "⏲ ", color = "warning" },
+		DONE = { icon = " ", color = "test" },
+	},
+	--
+	statuses = { "TODO", "IN_PROGRESS", "WAITING", "DONE" },
+	--
+	advance = function()
+		local line = vim.api.nvim_get_current_line()
+		H.update_status(H.get_next_status(line))()
+	end,
+	--
+	get_next_status = function(line)
+		local heading_status = H.get_heading_status(line)
+		if heading_status ~= nil then
+			local status_idx = H.indexOf(H.statuses, heading_status) or 0
+			return H.statuses[status_idx + 1] or H.statuses[1] -- handles wrap around and unknown statuses
+		else
+			return H.statuses[1]
+		end
+	end,
+	--
+	get_heading_status = function(line)
+		return string.match(line, "^%s*#+%s*([%a-_]+):")
+	end,
+	--
+	is_line_a_heading = function(line)
+		return string.match(line, "^%s*#+") ~= nil
+	end,
+	--
+	update_status = function(new_status)
+		return function()
+			local line = vim.api.nvim_get_current_line()
+			if not H.is_line_a_heading(line) then
+				return
+			end
+			local heading_prefix = string.match(line, "^%s*#+")
+			local heading_status = H.get_heading_status(line)
+			if heading_status ~= nil then
+				local new_line = string.gsub(line, heading_status, new_status)
+				vim.api.nvim_set_current_line(new_line)
+			elseif heading_prefix ~= nil then
+				local new_line = string.gsub(line, heading_prefix, heading_prefix .. " " .. new_status .. ":")
+				vim.api.nvim_set_current_line(new_line)
+			end
+		end
+	end,
+}
+require("todo-comments").setup({
+	signs = false,
+	highlight = { comments_only = false },
+	keywords = H.status_config,
+	merge_keywords = false,
+})
+-- show todos with `:TodoTrouble cwd=~/Documents/notes keywords=TODO,IN_PROGRESS,WAITING`
+vim.keymap.set("n", "<leader><leader>", H.advance, { desc = "advance heading" })
+vim.keymap.set("n", "<leader>xt", H.update_status("TODO"), { desc = "mark todo" })
+vim.keymap.set("n", "<leader>xp", H.update_status("IN_PROGRESS"), { desc = "mark progress" })
+vim.keymap.set("n", "<leader>xw", H.update_status("WAITING"), { desc = "mark waiting" })
+vim.keymap.set("n", "<leader>xx", H.update_status("DONE"), { desc = "mark done" })
+vim.keymap.set("n", "<leader>xn", H.advance, { desc = "advance heading status" })
+
 -- vim:foldmethod=marker
