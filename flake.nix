@@ -127,7 +127,7 @@
           ];
         };
 
-        allPluginsFromInputs = (pkgs.lib.attrsets.mapAttrsToList (name: value: value) pkgs.neovimPlugins);
+        allPluginsFromInputs = pkgs.lib.attrsets.mapAttrsToList (name: value: value) pkgs.neovimPlugins;
 
         customConfig = pkgs.neovimUtils.makeNeovimConfig {
           withNodeJs = true;
@@ -239,9 +239,9 @@
         # Extra packages made available to nvim but not the system
         # system packages take precedence over these
         extraPkgsPath = pkgs.lib.makeBinPath (with pkgs; [
-          stylua
           nodePackages.bash-language-server
           nodePackages.dockerfile-language-server-nodejs
+          nodePackages.eslint_d
           nodePackages.pyright
           nodePackages.typescript
           nodePackages.typescript-language-server
@@ -251,6 +251,9 @@
           rnix-lsp
           rubyPackages.solargraph
           rust-analyzer
+          shellcheck
+          statix
+          stylua
           sumneko-lua-language-server
         ]);
       in

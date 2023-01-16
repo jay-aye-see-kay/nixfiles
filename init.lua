@@ -276,13 +276,19 @@ for _, lsp in pairs(lsp_servers) do
 			if client.server_capabilities.documentSymbolProvider then
 				require("nvim-navic").attach(client, bufnr)
 			end
+			-- autoformat document with null-ls if setup
 			if client.supports_method("textDocument/formatting") then
 				vim.api.nvim_clear_autocmds({ group = lsp_augroup, buffer = bufnr })
 				vim.api.nvim_create_autocmd("BufWritePre", {
 					group = lsp_augroup,
 					buffer = bufnr,
 					callback = function()
-						vim.lsp.buf.format({ bufnr = bufnr })
+						vim.lsp.buf.format({
+							bufnr = bufnr,
+							filter = function(fmt_client)
+								return fmt_client.name == "null-ls"
+							end,
+						})
 					end,
 				})
 			end
@@ -290,11 +296,35 @@ for _, lsp in pairs(lsp_servers) do
 	})
 end
 
+-- @param severity "ERROR"| "WARN"| "INFO"| "HINT"
+local force_diagnostic_severity = function(severity)
+	return function(diagnostic)
+		diagnostic.severity = vim.diagnostic.severity[severity]
+	end
+end
 local null_ls = require("null-ls")
 null_ls.setup({
 	sources = {
+		-- lua
 		null_ls.builtins.formatting.stylua,
+		-- nix
+		null_ls.builtins.code_actions.statix,
+		null_ls.builtins.diagnostics.statix,
+		-- js/ts
 		null_ls.builtins.formatting.prettierd,
+		null_ls.builtins.code_actions.eslint_d,
+		null_ls.builtins.diagnostics.eslint_d.with({
+			method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+			diagnostics_postprocess = force_diagnostic_severity("INFO"),
+		}),
+		-- shell
+		null_ls.builtins.code_actions.shellcheck,
+		null_ls.builtins.diagnostics.shellcheck.with({
+			diagnostics_postprocess = force_diagnostic_severity("INFO"),
+		}),
+		null_ls.builtins.formatting.shfmt.with({
+			extra_args = { "--indent", "2" },
+		}),
 	},
 })
 
@@ -1157,7 +1187,6 @@ require("todo-comments").setup({
 	merge_keywords = false,
 })
 -- show todos with `:TodoTrouble cwd=~/Documents/notes keywords=TODO,IN_PROGRESS,WAITING`
-vim.keymap.set("n", "<leader><leader>", H.advance, { desc = "advance heading" })
 vim.keymap.set("n", "<leader>xt", H.update_status("TODO"), { desc = "mark todo" })
 vim.keymap.set("n", "<leader>xp", H.update_status("IN_PROGRESS"), { desc = "mark progress" })
 vim.keymap.set("n", "<leader>xw", H.update_status("WAITING"), { desc = "mark waiting" })
