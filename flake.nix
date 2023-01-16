@@ -22,7 +22,7 @@
     , neovim-flake
     }:
     let
-      lib = nixpkgs.lib;
+      inherit (nixpkgs) lib;
 
       username = "jack";
       mySystems = [ "x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin" ];
@@ -37,10 +37,10 @@
       #       "aarch64-linux": "__aarch64-linux";
       #       "aarch64-darwin": "__aarch64-darwin";
       #     }
-      eachMySystem = (mkConfig: (lib.lists.fold
+      eachMySystem = mkConfig: (lib.lists.fold
         (system: accum: accum // { ${system} = mkConfig system; })
         { }
-        mySystems));
+        mySystems);
 
       # Build pkgs with all my overlays for a given system
       mkPkgs = system:
@@ -108,13 +108,13 @@
         pkgs = mkPkgs "aarch64-darwin";
         modules = darwinHomeManagerImports
           ++ [ ({ pkgs, ... }: { home.packages = [ pkgs.silk-cli ]; }) ]
-          ++ mkHmConfigMod { username = username; isDarwin = true; };
+          ++ mkHmConfigMod { inherit username; isDarwin = true; };
       };
 
       # work vm
       homeConfigurations."${username}@moa" = mkHmConfig rec {
         pkgs = mkPkgs "aarch64-linux";
-        modules = linuxHomeManagerImports ++ mkHmConfigMod { username = username; };
+        modules = linuxHomeManagerImports ++ mkHmConfigMod { inherit username; };
       };
       nixosConfigurations.moa = let system = "aarch64-linux"; in
         lib.nixosSystem {
@@ -126,7 +126,7 @@
       # home laptop
       homeConfigurations."${username}@tui" = mkHmConfig rec {
         pkgs = mkPkgs "x86_64-linux";
-        modules = linuxHomeManagerImports ++ mkHmConfigMod { username = username; };
+        modules = linuxHomeManagerImports ++ mkHmConfigMod { inherit username; };
       };
       nixosConfigurations.tui = let system = "x86_64-linux"; in
         lib.nixosSystem {
@@ -145,7 +145,7 @@
       # server
       homeConfigurations."${username}@kakapo" = mkHmConfig rec {
         pkgs = mkPkgs "x86_64-linux";
-        modules = linuxHomeManagerImports ++ mkHmConfigMod { username = username; };
+        modules = linuxHomeManagerImports ++ mkHmConfigMod { inherit username; };
       };
       homeConfigurations."hud@kakapo" = mkHmConfig rec {
         pkgs = mkPkgs "x86_64-linux";
