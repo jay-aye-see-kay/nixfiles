@@ -1186,11 +1186,16 @@ require("todo-comments").setup({
 	keywords = H.status_config,
 	merge_keywords = false,
 })
--- show todos with `:TodoTrouble cwd=~/Documents/notes keywords=TODO,IN_PROGRESS,WAITING`
 vim.keymap.set("n", "<leader>xt", H.update_status("TODO"), { desc = "mark todo" })
 vim.keymap.set("n", "<leader>xp", H.update_status("IN_PROGRESS"), { desc = "mark progress" })
 vim.keymap.set("n", "<leader>xw", H.update_status("WAITING"), { desc = "mark waiting" })
 vim.keymap.set("n", "<leader>xx", H.update_status("DONE"), { desc = "mark done" })
 vim.keymap.set("n", "<leader>xn", H.advance, { desc = "advance heading status" })
+vim.keymap.set(
+	"n",
+	"<leader>na",
+	"<CMD>TodoTrouble cwd=~/Documents/notes keywords=TODO,IN_PROGRESS,WAITING<CR>",
+	{ desc = "list incomplete items in notes" }
+)
 
 -- vim:foldmethod=marker
