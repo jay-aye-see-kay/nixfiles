@@ -1131,6 +1131,7 @@ H = {
 	end,
 	--
 	status_config = {
+		IDEA = { icon = " ", color = "hint" },
 		TODO = { icon = " ", color = "info" },
 		IN_PROGRESS = { icon = " ", color = "test" },
 		WAITING = { icon = "⏲ ", color = "warning" },
@@ -1193,9 +1194,15 @@ vim.keymap.set("n", "<leader>xx", H.update_status("DONE"), { desc = "mark done" 
 vim.keymap.set("n", "<leader>xn", H.advance, { desc = "advance heading status" })
 vim.keymap.set(
 	"n",
-	"<leader>na",
+	"<leader>nlt",
 	"<CMD>TodoTrouble cwd=~/Documents/notes keywords=TODO,IN_PROGRESS,WAITING<CR>",
 	{ desc = "list incomplete items in notes" }
+)
+vim.keymap.set(
+	"n",
+	"<leader>nli",
+	"<CMD>TodoTrouble cwd=~/Documents/notes keywords=IDEA<CR>",
+	{ desc = "list *ideas* in notes" }
 )
 
 -- vim:foldmethod=marker
