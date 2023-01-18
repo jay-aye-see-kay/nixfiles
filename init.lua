@@ -188,6 +188,7 @@ vim.cmd.colorscheme("zenbones")
 
 local navic = require("nvim-navic")
 
+-- modify the theme so sections don't change color with mode
 local lualine_theme = vim.deepcopy(require("lualine.utils.loader").load_theme("zenbones"))
 lualine_theme.insert = nil
 lualine_theme.replace = nil
@@ -217,7 +218,24 @@ require("lualine").setup({
 	inactive_winbar = {
 		lualine_b = { { "filename", path = 1 } },
 	},
+	tabline = {
+		lualine_a = {
+			{
+				"tabs",
+				mode = 1,
+				max_length = vim.o.columns,
+				component_separators = { left = "", right = "" },
+				section_separators = { left = "", right = "" },
+				fmt = function(_, context)
+					local winnr = vim.fn.tabpagewinnr(context.tabnr)
+					local tabcwd = vim.fs.basename(vim.fn.getcwd(winnr, context.tabnr))
+					return "[" .. context.tabnr .. ": " .. tabcwd .. "]"
+				end,
+			},
+		},
+	},
 })
+vim.o.showtabline = 1
 
 require("indent_blankline").setup({
 	enabled = false,

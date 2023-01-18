@@ -74,6 +74,10 @@
       url = "github:danielfalk/smart-open.nvim";
       flake = false;
     };
+    "plugin:lualine-nvim" = {
+      url = "github:nvim-lualine/lualine.nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
@@ -179,7 +183,6 @@
             todo-comments-nvim
 
             nvim-web-devicons
-            lualine-nvim
             lualine-lsp-progress
             nvim-navic
 
