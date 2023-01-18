@@ -462,10 +462,9 @@ require("mkdnflow").setup({
 		folds = false,
 	},
 	to_do = {
-		symbols = { " ", "-", "x" },
+		symbols = { " ", "x" },
 		update_parents = false,
 		not_started = " ",
-		in_progress = "-",
 		complete = "x",
 	},
 	mappings = {
