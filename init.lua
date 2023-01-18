@@ -940,14 +940,7 @@ vim.keymap.set("n", "<leader><leader>", telescope.extensions.smart_open.smart_op
 require("hop").setup()
 vim.keymap.set("n", "S", ":HopChar1<cr>", { desc = "hop 1 char" })
 
-require("nvim-surround").setup({
-	keymaps = {
-		normal = "s",
-		normal_cur = "ss",
-		normal_line = "S",
-		normal_cur_line = "SS",
-	},
-})
+require("nvim-surround").setup()
 
 M.map("n", "<leader>u", "<cmd>MundoToggle<cr>")
 vim.g.mundo_preview_bottom = 1
