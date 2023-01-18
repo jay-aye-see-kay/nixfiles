@@ -1205,13 +1205,13 @@ vim.keymap.set("n", "<leader>xx", H.update_status("DONE"), { desc = "mark done" 
 vim.keymap.set("n", "<leader>xn", H.advance, { desc = "advance heading status" })
 vim.keymap.set(
 	"n",
-	"<leader>nlt",
+	"<leader>nT",
 	"<CMD>TodoTrouble cwd=~/Documents/notes keywords=TODO,IN_PROGRESS,WAITING<CR>",
 	{ desc = "list incomplete items in notes" }
 )
 vim.keymap.set(
 	"n",
-	"<leader>nli",
+	"<leader>nI",
 	"<CMD>TodoTrouble cwd=~/Documents/notes keywords=IDEA<CR>",
 	{ desc = "list *ideas* in notes" }
 )
