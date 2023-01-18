@@ -44,6 +44,7 @@
         "plugin:debugprint": "plugin:debugprint",
         "plugin:git-conflict-nvim": "plugin:git-conflict-nvim",
         "plugin:gitsigns": "plugin:gitsigns",
+        "plugin:lualine-nvim": "plugin:lualine-nvim",
         "plugin:mkdnflow": "plugin:mkdnflow",
         "plugin:neo-tree": "plugin:neo-tree",
         "plugin:nui": "plugin:nui",
@@ -60,11 +61,11 @@
         "plugin:vim-symlink": "plugin:vim-symlink"
       },
       "locked": {
-        "lastModified": 1673910829,
-        "narHash": "sha256-MXz39GB97EQztw4erJDMwZ5ysMhJwAMsIBEE+lVkNYM=",
+        "lastModified": 1674029176,
+        "narHash": "sha256-ovuHZhhh9gkKgOgjst6m5dwnCy5VXcN9yCh2DW7Rck0=",
         "owner": "jay-aye-see-kay",
         "repo": "neovim-flake",
-        "rev": "1d1da8f2d5c2c0f4eef82f2a8b97a9c8ad077223",
+        "rev": "9b932b9d53b65dc38ce0ea7ff5bc7d920e50f018",
         "type": "github"
       },
       "original": {
@@ -214,6 +215,22 @@
       "original": {
         "owner": "lewis6991",
         "repo": "gitsigns.nvim",
+        "type": "github"
+      }
+    },
+    "plugin:lualine-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1673418538,
+        "narHash": "sha256-3I9og+/lVRFJSpDVFwp2AM5bMqeP1KF8XB8Nyfpwhok=",
+        "owner": "nvim-lualine",
+        "repo": "lualine.nvim",
+        "rev": "0050b308552e45f7128f399886c86afefc3eb988",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-lualine",
+        "repo": "lualine.nvim",
         "type": "github"
       }
     },
