@@ -142,7 +142,7 @@
           ];
         };
 
-      # server
+      # home server
       homeConfigurations."${username}@kakapo" = mkHmConfig rec {
         pkgs = mkPkgs "x86_64-linux";
         modules = linuxHomeManagerImports ++ mkHmConfigMod { inherit username; };
@@ -159,6 +159,20 @@
             sops-nix.nixosModules.sops
             ./secrets/sops.nix
             ./hosts/kakapo
+          ];
+        };
+
+      # oracle server
+      homeConfigurations."${username}@possum" = mkHmConfig rec {
+        pkgs = mkPkgs "aarch64-linux";
+        modules = linuxHomeManagerImports ++ mkHmConfigMod { inherit username; };
+      };
+      nixosConfigurations.possum = let system = "aarch64-linux"; in
+        lib.nixosSystem {
+          inherit system;
+          pkgs = mkPkgs system;
+          modules = [
+            ./hosts/possum
           ];
         };
 
