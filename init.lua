@@ -267,6 +267,15 @@ local lsp_servers = {
 	"yamlls",
 }
 
+require("neodev").setup({
+	override = function(root_dir, library)
+		if require("neodev.util").has_file(root_dir, "~/code/neovim-flake") then
+			library.enabled = true
+			library.plugins = true
+		end
+	end,
+})
+
 local lsp_augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 for _, lsp in pairs(lsp_servers) do
 	local settings = {}
@@ -946,8 +955,6 @@ M.map("n", "<leader>u", "<cmd>MundoToggle<cr>")
 vim.g.mundo_preview_bottom = 1
 vim.g.mundo_width = 40
 vim.g.mundo_preview_height = 20
-
-require("neodev").setup({})
 
 require("various-textobjs").setup({ useDefaultKeymaps = true })
 -- }}}
