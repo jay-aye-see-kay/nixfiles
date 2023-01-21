@@ -961,6 +961,25 @@ require("various-textobjs").setup({ useDefaultKeymaps = true })
 -- {{{ git + fugitive
 require("octo").setup()
 
+require("which-key").register({
+	p = {
+		name = "+push",
+		p = { "<cmd>G push<CR><ESC>", "push" },
+		f = { "<cmd>G push<CR><ESC>", "push --force-with-lease" },
+	},
+	f = {
+		name = "+fetch",
+		f = { "<cmd>G fetch<CR><ESC>", "fetch" },
+		p = { "<cmd>G pull<CR><ESC>", "pull" },
+		r = { "<cmd>G pull --rebase<CR><ESC>", "pull and rebase" },
+	},
+}, { prefix = "<leader>g" })
+
+-- vim.keymap.set("n", "<leader>gP", "<cmd>G push<CR><ESC>", { desc = "push" })
+-- vim.keymap.set("n", "<leader>gff", "<cmd>G fetch<CR><ESC>", { desc = "fetch" })
+-- vim.keymap.set("n", "<leader>gfp", "<cmd>G pull<CR><ESC>", { desc = "pull" })
+-- vim.keymap.set("n", "<leader>gfr", "<cmd>G pull --rebase<CR><ESC>", { desc = "rebase" })
+
 require("git-conflict").setup()
 vim.keymap.set("n", "]c", "<Plug>(git-conflict-next-conflict)", { desc = "next conflict marker" })
 vim.keymap.set("n", "[c", "<Plug>(git-conflict-prev-conflict)", { desc = "prev conflict marker" })
