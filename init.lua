@@ -363,7 +363,7 @@ vim.keymap.set("n", "gI", vim.lsp.buf.implementation, { desc = "Goto implementat
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
 vim.keymap.set("i", "<C-i>", function()
-	require("cmp").mapping.close()()
+	require("cmp").mapping.close()(function() end) -- requires a fallback() arg or will throw
 	vim.lsp.buf.signature_help()
 end, { desc = "Signature Documentation" })
 
@@ -428,7 +428,7 @@ cmp.setup({
 	},
 	mapping = cmp.mapping.preset.insert({
 		["<C-y>"] = cmp.mapping.confirm({ select = true }),
-		["<C-k>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+		["<C-k>"] = cmp.mapping(cmp.mapping.complete({}), { "i", "c" }),
 		["<C-e>"] = cmp.mapping({
 			i = cmp.mapping.abort(),
 			c = cmp.mapping.close(),
@@ -480,9 +480,9 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	group = vim.api.nvim_create_augroup("MarkdownTsFolding", {}),
 	pattern = { "markdown", "md" },
 	callback = function()
-		vim.opt_local.foldlevel = 99
-		vim.opt_local.foldmethod = "expr"
-		vim.opt_local.foldexpr = "nvim_treesitter#foldexpr()"
+		vim.wo.foldlevel = 99
+		vim.wo.foldmethod = "expr"
+		vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 	end,
 })
 
@@ -1006,8 +1006,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	group = vim.api.nvim_create_augroup("FugitiveSetup", {}),
 	pattern = "fugitive",
 	callback = function()
-		vim.opt_local.foldlevel = 99
-		vim.cmd([[ nnoremap <buffer> <Tab> = ]])
+		vim.keymap.set("n", "<tab>", "=", { buffer = 0, remap = true })
 	end,
 })
 
@@ -1015,7 +1014,7 @@ vim.api.nvim_create_autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("SpellcheckGitCommits", {}),
 	pattern = "gitcommit",
 	callback = function()
-		vim.opt_local.spell = true
+		vim.wo.spell = true
 	end,
 })
 -- }}}
