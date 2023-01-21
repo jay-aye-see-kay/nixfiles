@@ -1021,31 +1021,18 @@ vim.api.nvim_create_autocmd("FileType", {
 -- }}}
 
 -- {{{ terminal
-M.map("t", "<Esc>", [[<C-\><C-n>]])
-
-local terminal_augroup = vim.api.nvim_create_augroup("TerminalSetup", {})
-
--- darken terminal background when in insert mode
-vim.api.nvim_create_autocmd({ "TermEnter" }, {
-	group = terminal_augroup,
-	command = "set winhighlight=Normal:ActiveTermBg",
-})
-vim.api.nvim_create_autocmd({ "TermLeave" }, {
-	group = terminal_augroup,
-	command = "set winhighlight=Normal:InactiveTermBg",
-})
+vim.keymap.set("t", "<ESC>", [[<C-\><C-n>]])
 
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
-	group = terminal_augroup,
+	group = vim.api.nvim_create_augroup("TerminalSetup", {}),
 	callback = function()
 		-- stops terminal side scrolling
 		vim.cmd([[ setlocal nonumber norelativenumber signcolumn=no ]])
-
 		-- ctrl-c, ctrl-p, ctrl-n, enter should all be passed through from normal mode
-		vim.cmd([[ nnoremap <buffer> <C-C> i<C-C><C-\><C-n> ]])
-		vim.cmd([[ nnoremap <buffer> <C-P> i<C-P><C-\><C-n> ]])
-		vim.cmd([[ nnoremap <buffer> <C-N> i<C-N><C-\><C-n> ]])
-		vim.cmd([[ nnoremap <buffer> <CR> i<CR><C-\><C-n> ]])
+		vim.keymap.set("n", "<C-c>", [[ i<C-c><C-\><C-n> ]], { buffer = 0 })
+		vim.keymap.set("n", "<C-n>", [[ i<C-n><C-\><C-n> ]], { buffer = 0 })
+		vim.keymap.set("n", "<C-p>", [[ i<C-p><C-\><C-n> ]], { buffer = 0 })
+		vim.keymap.set("n", "<CR>", [[ i<CR><C-\><C-n> ]], { buffer = 0 })
 	end,
 })
 -- }}}
@@ -1208,6 +1195,7 @@ vim.keymap.set("n", "<leader>xt", H.update_status("TODO"), { desc = "mark todo" 
 vim.keymap.set("n", "<leader>xp", H.update_status("IN_PROGRESS"), { desc = "mark progress" })
 vim.keymap.set("n", "<leader>xw", H.update_status("WAITING"), { desc = "mark waiting" })
 vim.keymap.set("n", "<leader>xx", H.update_status("DONE"), { desc = "mark done" })
+vim.keymap.set("n", "<leader>xd", H.update_status("DONE"), { desc = "mark done" })
 vim.keymap.set("n", "<leader>xn", H.advance, { desc = "advance heading status" })
 vim.keymap.set(
 	"n",
