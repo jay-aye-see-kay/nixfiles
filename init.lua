@@ -568,7 +568,7 @@ end, { desc = "Pick a window" })
 -- }}}
 
 -- keymaps {{{
-M.map("n", "<c-s>", "<cmd>w<cr>")
+vim.keymap.set({ "n", "i" }, "<c-s>", "<cmd>w<cr>")
 
 -- show the whichkey popup (i.e. which keymaps are available)
 vim.keymap.set({ "n", "v", "i" }, "<F1>", "<cmd>WhichKey<cr>")
