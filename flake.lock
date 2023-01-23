@@ -57,15 +57,14 @@
         "plugin:telescope-manix": "plugin:telescope-manix",
         "plugin:telescope-undo": "plugin:telescope-undo",
         "plugin:vim-just": "plugin:vim-just",
-        "plugin:vim-resize-mode": "plugin:vim-resize-mode",
         "plugin:vim-symlink": "plugin:vim-symlink"
       },
       "locked": {
-        "lastModified": 1674262945,
-        "narHash": "sha256-IbqCjHeTWfj4DfLQqqLm2EM8I+ssYABGacb8lvKd9jM=",
+        "lastModified": 1674448134,
+        "narHash": "sha256-Md7He+zuAy8Jm723a7fRazp0JcnO13V3Z4fwjiRBAUg=",
         "owner": "jay-aye-see-kay",
         "repo": "neovim-flake",
-        "rev": "648e4f9c1f018003f22ba0fa4c75c26e32939543",
+        "rev": "8e08438f2ff3c92a41857fda3e3267089c77ec60",
         "type": "github"
       },
       "original": {
@@ -423,22 +422,6 @@
       "original": {
         "owner": "NoahTheDuke",
         "repo": "vim-just",
-        "type": "github"
-      }
-    },
-    "plugin:vim-resize-mode": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1612225355,
-        "narHash": "sha256-drQG1ObxR4HHsNnEEBtvZQVPrsjZuHt57PTHOSkNMSs=",
-        "owner": "sedm0784",
-        "repo": "vim-resize-mode",
-        "rev": "555759fbbd0b7096da1cf6e7bf29acf850423f94",
-        "type": "github"
-      },
-      "original": {
-        "owner": "sedm0784",
-        "repo": "vim-resize-mode",
         "type": "github"
       }
     },
