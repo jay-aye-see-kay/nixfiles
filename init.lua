@@ -1168,6 +1168,27 @@ vim.keymap.set("v", "<C-j>", "<cmd>STSSwapNextVisual<cr>")
 vim.keymap.set("v", "<C-k>", "<cmd>STSSwapPrevVisual<cr>")
 -- }}}
 
+-- {{{ custom operators
+-- sort from https://github.com/zdcthomas/yop.nvim/wiki/Example-mappings#sorting
+require("yop").op_map({ "n", "v" }, ",s", function(lines)
+	local sort_without_leading_space = function(a, b)
+		local pattern = [[^%W*]]
+		return string.gsub(a, pattern, "") < string.gsub(b, pattern, "")
+	end
+	if #lines == 1 then
+		-- If only looking at 1 line, sort that line split by some char gotten from input
+		local delimeter = require("yop.utils").get_input("Delimeter: ")
+		local split = vim.split(lines[1], delimeter, { trimempty = true })
+		table.sort(split, sort_without_leading_space)
+		return { require("yop.utils").join(split, delimeter) }
+	else
+		table.sort(lines, sort_without_leading_space)
+		return lines
+	end
+end)
+
+-- }}}
+
 -- markdown notes experiment
 H = {
 	indexOf = function(array, value)

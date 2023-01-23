@@ -74,6 +74,10 @@
       url = "github:nvim-lualine/lualine.nvim";
       flake = false;
     };
+    "plugin:yop-nvim" = {
+      url = "github:zdcthomas/yop.nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:

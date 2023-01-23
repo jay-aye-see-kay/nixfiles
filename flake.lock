@@ -304,6 +304,22 @@
         "type": "github"
       }
     },
+    "plugin:yop-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1674414451,
+        "narHash": "sha256-5CKcmEACQKLk4FRhi6bOH6WunN1aU43yAQRchEb+Pto=",
+        "owner": "zdcthomas",
+        "repo": "yop.nvim",
+        "rev": "0b335cf2a11b6b9e8e21210982f1a5797105b1df",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zdcthomas",
+        "repo": "yop.nvim",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -324,7 +340,8 @@
         "plugin:telescope-manix": "plugin:telescope-manix",
         "plugin:telescope-undo": "plugin:telescope-undo",
         "plugin:vim-just": "plugin:vim-just",
-        "plugin:vim-symlink": "plugin:vim-symlink"
+        "plugin:vim-symlink": "plugin:vim-symlink",
+        "plugin:yop-nvim": "plugin:yop-nvim"
       }
     }
   },
