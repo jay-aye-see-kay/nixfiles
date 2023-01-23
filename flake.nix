@@ -255,6 +255,8 @@
           statix
           stylua
           sumneko-lua-language-server
+          # nvim-spectre expects a binary "gsed" on macos
+          (pkgs.writeShellScriptBin "gsed" "exec ${pkgs.gnused}/bin/sed")
         ]);
       in
       rec {
