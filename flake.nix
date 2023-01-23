@@ -6,10 +6,6 @@
     flake-utils.url = "github:numtide/flake-utils";
 
     # Plugins direct from their repos
-    "plugin:vim-resize-mode" = {
-      url = "github:sedm0784/vim-resize-mode";
-      flake = false;
-    };
     "plugin:vim-symlink" = {
       url = "github:aymericbeaumet/vim-symlink";
       flake = false;
@@ -186,6 +182,7 @@
             lualine-lsp-progress
             nvim-navic
 
+            hydra-nvim
             markdown-preview-nvim
             tabular
             nvim-ts-context-commentstring

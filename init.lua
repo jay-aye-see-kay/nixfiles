@@ -741,6 +741,33 @@ which_key.register({
 })
 -- }}}
 
+-- {{{ hydra keymaps
+local Hydra = require("hydra")
+Hydra({
+	name = "Side scroll",
+	mode = "n",
+	body = "z",
+	heads = {
+		{ "h", "5zh" },
+		{ "l", "5zl", { desc = "←/→" } },
+		{ "H", "zH" },
+		{ "L", "zL", { desc = "half screen ←/→" } },
+	},
+})
+Hydra({
+	name = "Window resizing",
+	mode = "n",
+	body = "<c-w>",
+	heads = {
+		{ "+", "5<c-w>+" },
+		{ "-", "5<c-w>-" },
+		{ "<", "5<c-w><" },
+		{ ">", "5<c-w>>" },
+		{ "=", "<C-w>=" },
+	},
+})
+-- }}}
+
 -- snippets {{{
 require("luasnip.loaders.from_vscode").lazy_load()
 
