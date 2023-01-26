@@ -491,8 +491,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "text", "markdown", "md" },
 	callback = function()
 		vim.opt_local.wrap = true
-		M.buf_map(0, "n", "j", "v:count ? 'j' : 'gj'", { expr = true })
-		M.buf_map(0, "n", "k", "v:count ? 'k' : 'gk'", { expr = true })
+		vim.keymap.set({ "n", "v" }, "j", "v:count ? 'j' : 'gj'", { expr = true, buffer = true })
+		vim.keymap.set({ "n", "v" }, "k", "v:count ? 'k' : 'gk'", { expr = true, buffer = true })
 	end,
 })
 
