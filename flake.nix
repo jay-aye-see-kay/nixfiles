@@ -113,7 +113,9 @@
           withNodeJs = true;
           customRC = ''
             lua << EOF
-            ${pkgs.lib.readFile ./init.lua}
+              vim.opt.rtp:prepend("${./config}")
+              vim.opt.packpath = vim.opt.rtp:get()
+              require("_cfg")
             EOF
           '';
           plugins = allPluginsFromInputs ++ (with pkgs.vimPlugins; [
