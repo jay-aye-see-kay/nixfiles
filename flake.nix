@@ -158,7 +158,7 @@
             jsonc-vim
             splitjoin-vim
 
-            (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
+            (nvim-treesitter.withPlugins (_: nvim-treesitter.allGrammars))
             nvim-treesitter-textobjects
             nvim-ts-autotag
             playground # tree-sitter playground

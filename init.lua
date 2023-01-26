@@ -847,7 +847,9 @@ ls.add_snippets("markdown", {
 	vsc("cj", "```json\n${1}\n```", {}),
 	vsc("ct", "```typescript\n${1}\n```", {}),
 	vsc("cp", "```python\n${1}\n```", {}),
-	vsc("cs", "```sh\n${1}\n```", {}),
+	vsc("cs", "```bash\n${1}\n```", {}),
+	vsc("cn", "```nix\n${1}\n```", {}),
+	vsc("cc", "```c\n${1}\n```", {}),
 })
 
 ls.add_snippets("javascript", js_snippets)
@@ -860,7 +862,6 @@ ls.add_snippets("typescriptreact", js_snippets)
 require("nvim-treesitter.configs").setup({
 	highlight = {
 		enable = true,
-		disable = { "bash" },
 	},
 	indent = { enable = true, disable = { "python" } },
 	incremental_selection = {
