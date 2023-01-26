@@ -2,7 +2,10 @@
 let publicKeys = import ../../publicKeys.nix;
 in
 {
-  imports = [ ./hardware.nix ];
+  imports = [
+    ./hardware.nix
+    ../../features/firefox.nix
+  ];
 
   nix = {
     package = pkgs.nixFlakes; # or versioned attributes like nix_2_7
@@ -86,7 +89,6 @@ in
     dbeaver
     docker-compose
     fd
-    firefox
     freecad
     git
     hdparm
