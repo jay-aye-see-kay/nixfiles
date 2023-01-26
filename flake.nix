@@ -2,20 +2,12 @@
   description = "A configured Neovim flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
 
     # Plugins direct from their repos
     "plugin:vim-symlink" = {
       url = "github:aymericbeaumet/vim-symlink";
-      flake = false;
-    };
-    "plugin:neo-tree" = {
-      url = "github:nvim-neo-tree/neo-tree.nvim";
-      flake = false;
-    };
-    "plugin:nui" = {
-      url = "github:MunifTanjim/nui.nvim";
       flake = false;
     };
     "plugin:mkdnflow" = {
@@ -30,20 +22,8 @@
       url = "github:s1n7ax/nvim-window-picker";
       flake = false;
     };
-    "plugin:gitsigns" = {
-      url = "github:lewis6991/gitsigns.nvim";
-      flake = false;
-    };
     "plugin:nvim-unception" = {
       url = "github:samjwill/nvim-unception";
-      flake = false;
-    };
-    "plugin:telescope-manix" = {
-      url = "github:MrcJkb/telescope-manix";
-      flake = false;
-    };
-    "plugin:refactoring-nvim" = {
-      url = "github:ThePrimeagen/refactoring.nvim";
       flake = false;
     };
     "plugin:vim-just" = {
@@ -68,10 +48,6 @@
     };
     "plugin:smart-open" = {
       url = "github:danielfalk/smart-open.nvim";
-      flake = false;
-    };
-    "plugin:lualine-nvim" = {
-      url = "github:nvim-lualine/lualine.nvim";
       flake = false;
     };
     "plugin:yop-nvim" = {
@@ -183,8 +159,13 @@
             todo-comments-nvim
 
             nvim-web-devicons
+            lualine-nvim
             lualine-lsp-progress
             nvim-navic
+            neo-tree-nvim
+            nui-nvim
+            gitsigns-nvim
+            refactoring-nvim
 
             hydra-nvim
             markdown-preview-nvim

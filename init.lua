@@ -961,7 +961,6 @@ telescope.setup({
 	},
 })
 telescope.load_extension("fzf")
-telescope.load_extension("manix")
 telescope.load_extension("undo")
 telescope.load_extension("zoxide")
 telescope.load_extension("smart_open")

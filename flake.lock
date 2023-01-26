@@ -17,16 +17,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1674242456,
-        "narHash": "sha256-yBy7rCH7EiBe9+CHZm9YB5ii5GRa+MOxeW0oDEBO8SE=",
+        "lastModified": 1674459583,
+        "narHash": "sha256-L0UZl/u2H3HGsrhN+by42c5kNYeKtdmJiPzIRvEVeiM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "cdead16a444a3e5de7bc9b0af8e198b11bb01804",
+        "rev": "1b1f50645af2a70dc93eae18bfd88d330bfbcf7f",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-22.11",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -64,38 +64,6 @@
         "type": "github"
       }
     },
-    "plugin:gitsigns": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1674230810,
-        "narHash": "sha256-4ntBYDHw5DMAyqb6FIt4LUmlRyCLywO0F939JvNQdqY=",
-        "owner": "lewis6991",
-        "repo": "gitsigns.nvim",
-        "rev": "7b37bd5c2dd4d7abc86f2af096af79120608eeca",
-        "type": "github"
-      },
-      "original": {
-        "owner": "lewis6991",
-        "repo": "gitsigns.nvim",
-        "type": "github"
-      }
-    },
-    "plugin:lualine-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1673418538,
-        "narHash": "sha256-3I9og+/lVRFJSpDVFwp2AM5bMqeP1KF8XB8Nyfpwhok=",
-        "owner": "nvim-lualine",
-        "repo": "lualine.nvim",
-        "rev": "0050b308552e45f7128f399886c86afefc3eb988",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nvim-lualine",
-        "repo": "lualine.nvim",
-        "type": "github"
-      }
-    },
     "plugin:mkdnflow": {
       "flake": false,
       "locked": {
@@ -109,38 +77,6 @@
       "original": {
         "owner": "jakewvincent",
         "repo": "mkdnflow.nvim",
-        "type": "github"
-      }
-    },
-    "plugin:neo-tree": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1673529183,
-        "narHash": "sha256-a0EoEWUKwonL/zy14k0XKkts5RaAwuhltfOpOlBvNqM=",
-        "owner": "nvim-neo-tree",
-        "repo": "neo-tree.nvim",
-        "rev": "8238865e1d9c61f1a260c290653f2c419503e0a9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nvim-neo-tree",
-        "repo": "neo-tree.nvim",
-        "type": "github"
-      }
-    },
-    "plugin:nui": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1673844899,
-        "narHash": "sha256-IbqBbWD1cO/HhU38+CvTpfvf5HD/BmtFpgofPZGJ/Dk=",
-        "owner": "MunifTanjim",
-        "repo": "nui.nvim",
-        "rev": "b99e6cb13dc51768abc1c4c8585045a0c0459ef1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "MunifTanjim",
-        "repo": "nui.nvim",
         "type": "github"
       }
     },
@@ -192,22 +128,6 @@
         "type": "github"
       }
     },
-    "plugin:refactoring-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1674435454,
-        "narHash": "sha256-m/WCIF4GWMXkys4oii4GZ9RCO4cfUD/X6rCRtBLgj3A=",
-        "owner": "ThePrimeagen",
-        "repo": "refactoring.nvim",
-        "rev": "57c32c6b7a211e5a3a5e4ddc4ad2033daff5cf9a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ThePrimeagen",
-        "repo": "refactoring.nvim",
-        "type": "github"
-      }
-    },
     "plugin:smart-open": {
       "flake": false,
       "locked": {
@@ -237,22 +157,6 @@
       "original": {
         "owner": "ziontee113",
         "repo": "syntax-tree-surfer",
-        "type": "github"
-      }
-    },
-    "plugin:telescope-manix": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1673716611,
-        "narHash": "sha256-pDyufPlgeIbkbeFWeyphUAhe2Vz4fi73tJx0kRYe9Mk=",
-        "owner": "MrcJkb",
-        "repo": "telescope-manix",
-        "rev": "55f73d0743d8597ca9c7bfbebe286e0b5bbe6138",
-        "type": "github"
-      },
-      "original": {
-        "owner": "MrcJkb",
-        "repo": "telescope-manix",
         "type": "github"
       }
     },
@@ -326,18 +230,12 @@
         "nixpkgs": "nixpkgs",
         "plugin:debugprint": "plugin:debugprint",
         "plugin:git-conflict-nvim": "plugin:git-conflict-nvim",
-        "plugin:gitsigns": "plugin:gitsigns",
-        "plugin:lualine-nvim": "plugin:lualine-nvim",
         "plugin:mkdnflow": "plugin:mkdnflow",
-        "plugin:neo-tree": "plugin:neo-tree",
-        "plugin:nui": "plugin:nui",
         "plugin:nvim-unception": "plugin:nvim-unception",
         "plugin:nvim-various-textobjs": "plugin:nvim-various-textobjs",
         "plugin:nvim-window-picker": "plugin:nvim-window-picker",
-        "plugin:refactoring-nvim": "plugin:refactoring-nvim",
         "plugin:smart-open": "plugin:smart-open",
         "plugin:syntax-tree-surfer": "plugin:syntax-tree-surfer",
-        "plugin:telescope-manix": "plugin:telescope-manix",
         "plugin:telescope-undo": "plugin:telescope-undo",
         "plugin:vim-just": "plugin:vim-just",
         "plugin:vim-symlink": "plugin:vim-symlink",
