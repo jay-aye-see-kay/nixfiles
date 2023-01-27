@@ -220,4 +220,8 @@ require("yop").op_map({ "n", "v" }, ",s", function(lines)
 	end
 end)
 
+-- source lines (TODO only enable in vim and lua files)
+require("yop").op_map({ "n", "v" }, ",,", function(_, opts)
+	vim.cmd(opts.position.first[1] .. "," .. opts.position.last[1] .. " source")
+end)
 -- }}}
