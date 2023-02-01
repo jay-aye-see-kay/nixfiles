@@ -203,7 +203,7 @@ Hydra({
 
 -- {{{ custom operators
 -- sort from https://github.com/zdcthomas/yop.nvim/wiki/Example-mappings#sorting
-require("yop").op_map({ "n", "v" }, ",s", function(lines)
+require("yop").op_map({ "n", "v" }, "gs", function(lines)
 	local sort_without_leading_space = function(a, b)
 		local pattern = [[^%W*]]
 		return string.gsub(a, pattern, "") < string.gsub(b, pattern, "")
@@ -220,8 +220,20 @@ require("yop").op_map({ "n", "v" }, ",s", function(lines)
 	end
 end)
 
--- source lines (TODO only enable in vim and lua files)
-require("yop").op_map({ "n", "v" }, ",,", function(_, opts)
-	vim.cmd(opts.position.first[1] .. "," .. opts.position.last[1] .. " source")
+-- source lines
+require("yop").op_map({ "n", "v" }, ",s", function(lines, opts)
+	local ft = vim.bo.filetype
+	if ft == "lua" or ft == "vim" then
+		vim.cmd(opts.position.first[1] .. "," .. opts.position.last[1] .. " source")
+		print("Sourced " .. #lines .. " lines")
+	else
+		print("Not a lua or vimL file, sourcing nothing")
+	end
+end)
+
+-- copy to system clipboard
+require("yop").op_map({ "n", "v" }, ",c", function(lines)
+	vim.fn.setreg("+", lines)
+	print("Copied " .. #lines .. " lines to system clipboard")
 end)
 -- }}}
