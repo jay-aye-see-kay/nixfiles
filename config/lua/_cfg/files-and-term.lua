@@ -1,3 +1,5 @@
+local h = require("_cfg.helpers")
+
 -- file tree {{{
 vim.g.neo_tree_remove_legacy_commands = 1
 
@@ -47,8 +49,7 @@ end, { desc = "Pick a window" })
 -- {{{ terminal
 vim.keymap.set("t", "<ESC>", [[<C-\><C-n>]])
 
-vim.api.nvim_create_autocmd({ "TermOpen" }, {
-	group = vim.api.nvim_create_augroup("TerminalSetup", {}),
+h.autocmd({ "TermOpen" }, {
 	callback = function()
 		-- stops terminal side scrolling
 		vim.cmd([[ setlocal nonumber norelativenumber signcolumn=no ]])

@@ -1,3 +1,5 @@
+local h = require("_cfg.helpers")
+
 -- notes/wiki {{{
 require("mkdnflow").setup({
 	modules = {
@@ -19,8 +21,7 @@ require("mkdnflow").setup({
 	},
 })
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
-	group = vim.api.nvim_create_augroup("MarkdownTsFolding", {}),
+h.autocmd({ "FileType" }, {
 	pattern = { "markdown", "md" },
 	callback = function()
 		vim.wo.foldlevel = 99
@@ -29,8 +30,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
-	group = vim.api.nvim_create_augroup("TextWrappingAndMovements", {}),
+h.autocmd({ "FileType" }, {
 	pattern = { "text", "markdown", "md" },
 	callback = function()
 		vim.opt_local.wrap = true

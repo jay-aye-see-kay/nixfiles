@@ -1,3 +1,5 @@
+local h = require("_cfg.helpers")
+
 --[[
 WIP function to highlight codeblocks in markdown, the idea is to run this function on TextChanged or similar autocmd
 
@@ -31,8 +33,7 @@ local hl_codeblocks = function(bufnr)
 	end
 end
 
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPost", "BufEnter", "TextChanged", "TextChangedI" }, {
-	group = vim.api.nvim_create_augroup("hl_codeblocks", {}),
+h.autocmd({ "BufNewFile", "BufReadPost", "BufEnter", "TextChanged", "TextChangedI" }, {
 	pattern = { "*.markdown", "*.md" },
 	callback = function(opts)
 		hl_codeblocks(opts.buf)

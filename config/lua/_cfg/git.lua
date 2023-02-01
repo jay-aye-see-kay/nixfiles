@@ -1,3 +1,5 @@
+local h = require("_cfg.helpers")
+
 require("octo").setup()
 
 require("which-key").register({
@@ -60,16 +62,14 @@ vim.keymap.set("n", "<leader>gtd", gitsigns.toggle_deleted, { desc = "toggle sho
 vim.keymap.set({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "a hunk" })
 vim.keymap.set({ "o", "x" }, "ah", ":<C-U>Gitsigns select_hunk<CR>", { desc = "a hunk" })
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
-	group = vim.api.nvim_create_augroup("FugitiveSetup", {}),
+h.autocmd({ "FileType" }, {
 	pattern = "fugitive",
 	callback = function()
 		vim.keymap.set("n", "<tab>", "=", { buffer = 0, remap = true })
 	end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-	group = vim.api.nvim_create_augroup("SpellcheckGitCommits", {}),
+h.autocmd("FileType", {
 	pattern = "gitcommit",
 	callback = function()
 		vim.wo.spell = true

@@ -25,13 +25,10 @@ vim.cmd([[ set undofile ]])
 -- increase oldfile saved ( default is !,'100,<50,s10,h )
 vim.cmd([[ set shada=!,'1000,<50,s10,h ]])
 
-local cursor_augroup = vim.api.nvim_create_augroup("CursorLineOnlyOnFocusedWindow", {})
-vim.api.nvim_create_autocmd({ "VimEnter", "WinEnter", "BufWinEnter" }, {
-	group = cursor_augroup,
+h.autocmd({ "VimEnter", "WinEnter", "BufWinEnter" }, {
 	command = "setlocal cursorline",
 })
-vim.api.nvim_create_autocmd({ "WinLeave" }, {
-	group = cursor_augroup,
+h.autocmd({ "WinLeave" }, {
 	callback = function()
 		if vim.bo.filetype ~= "neo-tree" then
 			vim.cmd("setlocal nocursorline")
@@ -47,10 +44,7 @@ vim.cmd([[ set softtabstop=2 ]])
 vim.cmd([[ set shiftwidth=2 ]])
 vim.cmd([[ set expandtab ]])
 
-vim.api.nvim_create_autocmd({ "TextYankPost" }, {
-	group = vim.api.nvim_create_augroup("HighlightOnYank", {}),
-	command = "silent! lua vim.highlight.on_yank()",
-})
+h.autocmd({ "TextYankPost" }, { command = "silent! lua vim.highlight.on_yank()" })
 
 -- modern copy paste keymaps
 h.map("i", "<C-v>", "<C-r>+")
@@ -89,8 +83,7 @@ vim.opt.scrolloff = 4
 vim.opt.sidescrolloff = 4
 vim.opt.wrap = false
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
-	group = vim.api.nvim_create_augroup("FzfEscapeBehavior", {}),
+h.autocmd({ "FileType" }, {
 	pattern = "fzf",
 	command = "tnoremap <buffer> <ESC> <ESC>",
 })
@@ -106,13 +99,11 @@ vim.keymap.set("n", "<leader>yd", function()
 end, { desc = "toggle brightness" })
 
 -- extend color scheme
-vim.api.nvim_create_autocmd({ "ColorScheme" }, {
-	group = vim.api.nvim_create_augroup("ExtendColorScheme", {}),
+h.autocmd({ "ColorScheme" }, {
 	callback = function()
 		local function copy_color(from, to)
 			vim.api.nvim_set_hl(0, to, vim.api.nvim_get_hl_by_name(from, true))
 		end
-
 		copy_color("DiffAdd", "diffAdded")
 		copy_color("DiffDelete", "diffRemoved")
 		copy_color("DiffChange", "diffChanged")

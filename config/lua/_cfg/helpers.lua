@@ -55,4 +55,12 @@ function M.buf_map(buffer, mode, lhs, rhs, extraOpts)
 	vim.api.nvim_buf_set_keymap(buffer, mode, lhs, rhs, opts)
 end
 
+M.cfg_augroup = vim.api.nvim_create_augroup("Main augroup for config", { clear = true })
+
+M.autocmd = function(event, _opts)
+	local opts = _opts or {}
+	opts.group = M.cfg_augroup
+	vim.api.nvim_create_autocmd(event, opts)
+end
+
 return M
