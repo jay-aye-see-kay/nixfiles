@@ -199,6 +199,23 @@ Hydra({
 		{ "=", "<C-w>=" },
 	},
 })
+local function tabFunc(cmd, arg)
+	return function()
+		pcall(vim.cmd[cmd], arg)
+		require("lualine").refresh()
+	end
+end
+Hydra({
+	name = "Windows and tabs",
+	mode = "n",
+	body = "<leader>w",
+	heads = {
+		{ "l", tabFunc("tabnext"), { desc = "next tab" } },
+		{ "h", tabFunc("tabprevious"), { desc = "prev tab" } },
+		{ "L", tabFunc("tabmove", "+1"), { desc = "move tab right" } },
+		{ "H", tabFunc("tabmove", "-1"), { desc = "move tab left" } },
+	},
+})
 -- }}}
 
 -- {{{ custom operators
