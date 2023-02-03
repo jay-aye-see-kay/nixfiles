@@ -199,7 +199,7 @@ Hydra({
 		{ "=", "<C-w>=" },
 	},
 })
-local function tabFunc(cmd, arg)
+local function tab_func(cmd, arg)
 	return function()
 		pcall(vim.cmd[cmd], arg)
 		require("lualine").refresh()
@@ -210,10 +210,10 @@ Hydra({
 	mode = "n",
 	body = "<leader>w",
 	heads = {
-		{ "l", tabFunc("tabnext"), { desc = "next tab" } },
-		{ "h", tabFunc("tabprevious"), { desc = "prev tab" } },
-		{ "L", tabFunc("tabmove", "+1"), { desc = "move tab right" } },
-		{ "H", tabFunc("tabmove", "-1"), { desc = "move tab left" } },
+		{ "l", tab_func("tabnext"), { desc = "next tab" } },
+		{ "h", tab_func("tabprevious"), { desc = "prev tab" } },
+		{ "L", tab_func("tabmove", "+1"), { desc = "move tab right" } },
+		{ "H", tab_func("tabmove", "-1"), { desc = "move tab left" } },
 	},
 })
 -- }}}
