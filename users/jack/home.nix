@@ -3,6 +3,9 @@ let
   ifLinux = lib.mkIf pkgs.stdenv.isLinux;
   ifDarwin = lib.mkIf pkgs.stdenv.isDarwin;
   darwinOnlyPackages = with pkgs; [
+    aws-vault
+    istioctl
+    jdk8
     unstable.nodePackages.snyk
   ];
   linuxOnlyPackages = with pkgs; [
@@ -93,6 +96,7 @@ in
       exercism
       tokei
       hyperfine
+      btop
     ]
     ++ (if pkgs.stdenv.isLinux then linuxOnlyPackages else darwinOnlyPackages);
 
