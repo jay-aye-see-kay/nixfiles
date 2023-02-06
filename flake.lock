@@ -15,6 +15,21 @@
         "type": "github"
       }
     },
+    "flake-utils_2": {
+      "locked": {
+        "lastModified": 1667395993,
+        "narHash": "sha256-nuEHfE/LcWyuSWnS8t12N1wc105Qtau+/OdUAjtQ0rA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "5aed5285a952e0b949eb3ba02c12fa4fcfef535f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -154,6 +169,21 @@
       }
     },
     "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1675545634,
+        "narHash": "sha256-TbQeQcM5TA/wIho6xtzG+inUfiGzUXi8ewwttiQWYJE=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "0591d6b57bfeb55dfeec99a671843337bc2c3323",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixos-unstable",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_4": {
       "locked": {
         "lastModified": 1669507072,
         "narHash": "sha256-RQAHgHM7wfgUTWbEjb8Ki43tQUUcwIg1Ra+PNustAVI=",
@@ -465,12 +495,32 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "silverbullet-flake": "silverbullet-flake",
         "sops-nix": "sops-nix"
+      }
+    },
+    "silverbullet-flake": {
+      "inputs": {
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1675660126,
+        "narHash": "sha256-YYpxkRfAt2skP3jIwvt2C0iLQvD7ZbK4HFavqDJbDUQ=",
+        "owner": "jay-aye-see-kay",
+        "repo": "silverbullet-flake",
+        "rev": "432ee01ba46e2f68083ecb557519462592a3a633",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jay-aye-see-kay",
+        "repo": "silverbullet-flake",
+        "type": "github"
       }
     },
     "sops-nix": {
       "inputs": {
-        "nixpkgs": "nixpkgs_3",
+        "nixpkgs": "nixpkgs_4",
         "nixpkgs-22_05": "nixpkgs-22_05"
       },
       "locked": {

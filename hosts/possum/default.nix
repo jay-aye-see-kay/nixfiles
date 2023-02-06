@@ -5,6 +5,7 @@ in
 {
   imports = [
     ./hardware.nix
+    ./services.nix
   ];
 
   nix = {
@@ -34,6 +35,20 @@ in
   };
 
   services.openssh.enable = true;
+
+  networking.firewall = {
+    allowedTCPPorts = [
+      80 # http
+      443 # https
+      22000 # syncthing
+    ];
+    allowedUDPPorts = [
+      80 # http
+      443 # https
+      21027 # syncthing
+      22000 # syncthing
+    ];
+  };
 
   system.stateVersion = "22.05";
 }
