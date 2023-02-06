@@ -74,6 +74,9 @@
                 vendorSha256 = "sha256-/1u/CDc0GNPQqv6gYE9x0Y+ZvtURXgurJssUZiJUlo0=";
               };
           };
+          authelia-overlay = final: prev: {
+            authelia = import ./authelia prev;
+          };
         in
         import nixpkgs {
           inherit system;
@@ -82,6 +85,7 @@
             nixpkgs-unstable-overlay
             node-pkgs-overlay
             cultureamp-overlay
+            authelia-overlay
             neovim-flake.overlays.${system}.default
             silverbullet-flake.overlays.${system}.default
           ];
@@ -175,6 +179,8 @@
           inherit system;
           pkgs = mkPkgs system;
           modules = [
+            sops-nix.nixosModules.sops
+            ./secrets/sops.nix
             ./hosts/possum
           ];
         };

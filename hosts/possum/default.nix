@@ -22,6 +22,7 @@ in
 
   environment.systemPackages = with pkgs; [
     git
+    authelia
   ];
 
   users.users.jack = {
