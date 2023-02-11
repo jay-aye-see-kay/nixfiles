@@ -1,4 +1,8 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+let
+  inherit (pkgs.stdenv) isDarwin;
+in
+{
   programs.fish = {
     enable = true;
 
@@ -29,15 +33,16 @@
 
     shellAliases = {
       sizes = "du -csh * | sort -h";
-      whoslistening = "ss -lntup";
+      whoslistening =
+        if isDarwin then "lsof -P -i TCP -s TCP:LISTEN" else "ss -lntup";
       vwy = "nvim -c LogbookYesterday";
       vwt = "nvim -c LogbookToday";
       journal = "nvim $HOME/Documents/journal-2022.org";
       shopping_list =
         "nvim $HOME/Documents/shopping-lists/(date --iso-8601).md";
       vg = ''nvim -c "Git | wincmd k | q"'';
-      pbc = "wl-copy";
-      pbp = "wl-paste";
+      pbc = if isDarwin then "pbcopy" else "wl-copy";
+      pbp = if isDarwin then "pbpaste" else "wl-paste";
     };
 
     shellInit = ''
@@ -55,14 +60,6 @@
       fish_add_path "$HOME/.yarn/bin" # yarn
       fish_add_path "$HOME/.cargo/bin" # rust
       fish_add_path "$HOME/.emacs.d/bin" # doom/emacs
-
-      set -x ANDROID_HOME "$HOME/Android/Sdk"
-      [ (uname) = "Darwin" ] && set -x ANDROID_HOME "$HOME/Library/Android/Sdk"
-      fish_add_path \
-        "$ANDROID_HOME/emulator" \
-        "$ANDROID_HOME/tools" \
-        "$ANDROID_HOME/tools/bin" \
-        "$ANDROID_HOME/platform-tools"
 
       # TokyoNight Color Palette
       set -l foreground c0caf5
@@ -109,5 +106,16 @@
         sha256 = "00xqlyl3lffc5l0viin1nyp819wf81fncqyz87jx8ljjdhilmgbs";
       };
     }];
+
+    loginShellInit =
+      if isDarwin then ''
+        if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+          fenv source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+        end
+
+        if test -e /nix/var/nix/profiles/default/etc/profile.d/nix.sh
+          fenv source /nix/var/nix/profiles/default/etc/profile.d/nix.sh
+        end
+      '' else "";
   };
 }

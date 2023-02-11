@@ -96,8 +96,7 @@
         ./users/jack/fish.nix
       ];
       linuxHomeManagerImports = commonHomeManagerImports ++ [ ./users/jack/i3 ];
-      darwinHomeManagerImports = commonHomeManagerImports
-        ++ [ ./users/jack/fish-macos-fix.nix ];
+      darwinHomeManagerImports = commonHomeManagerImports;
 
       mkHmConfig = home-manager.lib.homeManagerConfiguration;
 
