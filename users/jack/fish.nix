@@ -32,7 +32,16 @@ in
     };
 
     functions = {
-      take = ''mkdir -p "$argv[1]"; and cd "$argv[1]"'';
+      take = {
+        description = "Make a directory and cd into it";
+        body = ''mkdir -p "$argv[1]"; and cd "$argv[1]"'';
+      };
+      notify = {
+        description = "Pass all args as a system notification";
+        body =
+          if isDarwin then ''osascript -e "display notification \"$argv\" with title \"From terminal\""''
+          else ''notify-send "from terminal" $argv'';
+      };
     };
 
     shellAliases = {
