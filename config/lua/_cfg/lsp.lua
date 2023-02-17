@@ -92,6 +92,13 @@ null_ls.setup({
 		null_ls.builtins.diagnostics.eslint_d.with({
 			method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
 			diagnostics_postprocess = force_diagnostic_severity("INFO"),
+			filter = function(diagnostic)
+				if diagnostic.message then
+					return diagnostic.message:lower():match("no eslint configuration found") == nil
+				else
+					return true
+				end
+			end,
 		}),
 		-- shell
 		null_ls.builtins.code_actions.shellcheck,
