@@ -120,21 +120,12 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "single",
 })
 
-function QuietLsp()
-	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-		signs = false,
-		underline = false,
-		virtual_text = false,
-	})
-end
-
-function LoudenLsp()
-	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-		signs = true,
-		underline = true,
-		virtual_text = true,
-	})
-end
+vim.keymap.set("n", "<leader>lq", function()
+	vim.diagnostic.disable(0)
+end, { desc = "Hide buffer diagnostics" })
+vim.keymap.set("n", "<leader>lQ", function()
+	vim.diagnostic.enable(0)
+end, { desc = "Show buffer diagnostics" })
 
 function DisableAutocomplete()
 	require("cmp").setup.buffer({

@@ -42,10 +42,6 @@ local main_keymap = {
 		i = { "<cmd>LspInfo<cr>", "Info" },
 		f = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format buffer with LSP" },
 
-		-- hack: pop into insert mode after to trigger lsp applying settings
-		q = { "<cmd>call v:lua.QuietLsp()<cr>i <bs><esc>", "Hide lsp diagnostics" },
-		Q = { "<cmd>call v:lua.LoudenLsp()<cr>i <bs><esc>", "Show lsp diagnostics" },
-
 		n = { "<cmd>call v:lua.DisableAutocomplete()<cr>", "Disable autocomplete" },
 		N = { "<cmd>call v:lua.EnableAutocomplete()<cr>", "Enable autocomplete" },
 	},
