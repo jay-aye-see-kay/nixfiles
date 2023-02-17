@@ -138,7 +138,7 @@ function EnableAutocomplete()
 end
 
 require("lsp_lines").setup()
-vim.diagnostic.config({ virtual_lines = false })
+vim.diagnostic.config({ signs = false, virtual_lines = false })
 
 vim.keymap.set("n", "<leader>lm", function()
 	vim.diagnostic.config({ virtual_text = false, virtual_lines = true })
