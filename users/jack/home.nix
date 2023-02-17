@@ -24,6 +24,7 @@ let
     prusa-slicer
     unstable.anki-bin
     syncthing
+    unstable.calibre
 
     clang # comes with xcode, things expect to use that version
 

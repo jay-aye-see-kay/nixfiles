@@ -120,6 +120,11 @@ in
   # to "loose", which might be undesirable for security.
   services.mullvad-vpn.enable = true;
 
+  # auto mount usb drives
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
+  services.devmon.enable = true;
+
   # disable firewall so chromecast can work
   networking.firewall.enable = false;
 
