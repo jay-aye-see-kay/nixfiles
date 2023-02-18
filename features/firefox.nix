@@ -2,7 +2,18 @@
 {
   programs.firefox = {
     enable = true;
-    # these policies are documented https://github.com/mozilla/policy-templates
+    # use autoConfig for policies that can't be touched with policies.Preferences
+    # @see: https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig
+    autoConfig = ''
+      // hide the webcam popup thing when in video calls
+      pref("privacy.webrtc.legacyGlobalIndicator", false);
+      pref("privacy.webrtc.hideGlobalIndicator", true);
+
+      // allow extensions on mozilla sites
+      pref("extensions.webextensions.restrictedDomains", "");
+      pref("privacy.resistFingerprinting.block_mozAddonManager", true);
+    '';
+    # @see: https://github.com/mozilla/policy-templates
     policies = {
       DisableFirefoxStudies = true;
       DisablePocket = true;
@@ -19,7 +30,6 @@
       PictureInPicture.Enabled = false;
       NewTabPage = false;
       Preferences = {
-        "extensions.webextensions.restrictedDomains".Value = "";
         "dom.battery.enabled".Value = false;
       };
       ExtensionSettings = {
