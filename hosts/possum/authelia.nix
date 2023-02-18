@@ -15,7 +15,7 @@ let
     access_control = {
       default_policy = "deny";
       rules = [
-        { domain = "*.p.jackrose.co.nz"; policy = "two_factor"; }
+        { domain = "*.p.jackrose.co.nz"; policy = "one_factor"; }
       ];
     };
     totp.issuer = "p.jackrose.co.nz";
