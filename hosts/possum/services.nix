@@ -1,7 +1,13 @@
 { pkgs, ... }:
 let
+  # Add this string to any host's caddy config to put it behind auth
+  ports = {
+    authelia = "9091";
+    syncthingGui = "8384";
+    silverbullet = "2001";
+  };
   authConfg = ''
-    forward_auth localhost:9091 {
+    forward_auth localhost:${ports.authelia} {
       uri /api/verify?rd=https://auth.p.jackrose.co.nz
       copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
     }
@@ -14,26 +20,27 @@ in
   ];
 
   services.caddy.enable = true;
-  services.caddy.virtualHosts."auth.p.jackrose.co.nz" = {
-    extraConfig = ''
-      reverse_proxy localhost:9091
-    '';
-  };
 
+  # {{{ auth
+  services.caddy.virtualHosts."auth.p.jackrose.co.nz" = {
+    extraConfig = "reverse_proxy localhost:${ports.authelia}";
+  };
+  # }}}
+
+  # {{{ auth
   services.caddy.virtualHosts."syncthing.p.jackrose.co.nz" = {
     extraConfig = authConfg + ''
-      reverse_proxy http://localhost:8384 {
+      reverse_proxy http://localhost:${ports.syncthingGui} {
             header_up Host {upstream_hostport}
       }
     '';
   };
+  # }}}
 
+  # {{{ silverbullet (markdown web viewer)
   services.caddy.virtualHosts."sb.p.jackrose.co.nz" = {
-    extraConfig = authConfg + ''
-      reverse_proxy localhost:2001
-    '';
+    extraConfig = authConfg + "reverse_proxy localhost:${ports.silverbullet}";
   };
-
   systemd.services.silverbullet =
     let
       version = "0.2.11";
@@ -46,16 +53,17 @@ in
     in
     {
       enable = true;
-      description = "silverbullet.md serving my notes on port 2001";
+      description = "silverbullet.md serving my notes on port ${ports.silverbullet}";
       unitConfig = {
         Type = "simple";
       };
       serviceConfig = {
-        ExecStart = "${silverbullet}/bin/silverbullet --port 2001 /home/jack/notes";
+        ExecStart = "${silverbullet}/bin/silverbullet --port ${ports.silverbullet} /home/jack/notes";
         User = "jack";
         Group = "users";
       };
       wantedBy = [ "multi-user.target" ];
     };
+  # }}}
 }
 
