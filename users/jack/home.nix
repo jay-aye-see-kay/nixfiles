@@ -12,7 +12,6 @@ let
     arandr
     beekeeper-studio
     gparted
-    helvum
     easyeffects
     imv
     lsof
