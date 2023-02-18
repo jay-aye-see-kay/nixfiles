@@ -34,16 +34,28 @@ in
     '';
   };
 
-  systemd.services.silverbullet = {
-    enable = true;
-    description = "silverbullet.md serving my notes on port 2001";
-    unitConfig = {
-      Type = "simple";
+  systemd.services.silverbullet =
+    let
+      version = "0.2.11";
+      silverbullet-js-file = pkgs.fetchurl {
+        url = "https://github.com/silverbulletmd/silverbullet/releases/download/${version}/silverbullet.js";
+        sha256 = "sha256-h0lASLNxJ5DZvaJbHpMI2PtRWCty1vPro1n8R5vHQME=";
+      };
+      silverbullet = pkgs.writeShellScriptBin "silverbullet"
+        "${pkgs.deno}/bin/deno run -A --unstable ${silverbullet-js-file} $@";
+    in
+    {
+      enable = true;
+      description = "silverbullet.md serving my notes on port 2001";
+      unitConfig = {
+        Type = "simple";
+      };
+      serviceConfig = {
+        ExecStart = "${silverbullet}/bin/silverbullet --port 2001 /home/jack/notes";
+        User = "jack";
+        Group = "users";
+      };
+      wantedBy = [ "multi-user.target" ];
     };
-    serviceConfig = {
-      ExecStart = "${pkgs.silverbullet}/bin/silverbullet --port 2001 /srv/notes";
-    };
-    wantedBy = [ "multi-user.target" ];
-  };
 }
 

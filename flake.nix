@@ -10,7 +10,6 @@
     sops-nix.url = "github:Mic92/sops-nix";
 
     neovim-flake.url = "github:jay-aye-see-kay/neovim-flake";
-    silverbullet-flake.url = "github:jay-aye-see-kay/silverbullet-flake";
   };
 
   outputs =
@@ -21,7 +20,6 @@
     , home-manager
     , sops-nix
     , neovim-flake
-    , silverbullet-flake
     }:
     let
       inherit (nixpkgs) lib;
@@ -87,7 +85,6 @@
             cultureamp-overlay
             authelia-overlay
             neovim-flake.overlays.${system}.default
-            silverbullet-flake.overlays.${system}.default
           ];
         };
 
