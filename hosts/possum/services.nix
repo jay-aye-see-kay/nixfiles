@@ -8,12 +8,23 @@ let
   '';
 in
 {
-  imports = [ ./authelia.nix ];
+  imports = [
+    ./authelia.nix
+    ../../features/syncthing.nix
+  ];
 
   services.caddy.enable = true;
   services.caddy.virtualHosts."auth.p.jackrose.co.nz" = {
     extraConfig = ''
       reverse_proxy localhost:9091
+    '';
+  };
+
+  services.caddy.virtualHosts."syncthing.p.jackrose.co.nz" = {
+    extraConfig = authConfg + ''
+      reverse_proxy http://localhost:8384 {
+            header_up Host {upstream_hostport}
+      }
     '';
   };
 
