@@ -93,7 +93,7 @@ in
     docker-compose
     smartmontools
     mullvad-vpn
-  ] ++ (import ../../cli-utils.nix { inherit pkgs; });
+  ] ++ (import ../../features/cli-utils.nix { inherit pkgs; });
 
   # hud setup for the tv
   users.users.hud = {

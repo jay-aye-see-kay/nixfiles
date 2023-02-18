@@ -70,7 +70,7 @@
     gcc
     libsForQt5.bismuth
     vim
-  ] ++ (import ../../cli-utils.nix { inherit pkgs; });
+  ] ++ (import ../../features/cli-utils.nix { inherit pkgs; });
 
   services.openssh.enable = true;
   networking.firewall.enable = false;

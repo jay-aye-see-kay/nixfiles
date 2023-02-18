@@ -28,7 +28,7 @@ in
 
   environment.systemPackages = with pkgs; [
     authelia
-  ] ++ (import ../../cli-utils.nix { inherit pkgs; });
+  ] ++ (import ../../features/cli-utils.nix { inherit pkgs; });
 
   users.users.jack = {
     isNormalUser = true;
