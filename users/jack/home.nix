@@ -16,7 +16,6 @@ let
     imv
     mpv
     pdfarranger
-    prismlauncher # minecraft launcher, it probably works on mac, but I don't want it there
     prusa-slicer
     unstable.anki-bin
     syncthing
