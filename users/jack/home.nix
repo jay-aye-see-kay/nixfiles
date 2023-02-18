@@ -35,10 +35,7 @@ let
   ];
 in
 {
-  imports = [
-    # WIP better firefox defaults
-    # ./firefox.nix
-  ];
+  imports = [ ];
 
   home.sessionVariables = {
     EDITOR = "nvim";
