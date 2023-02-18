@@ -14,7 +14,6 @@ set $private_browser firefox --private-window
 
 # start on login
 # exec --no-startup-id dunst
-# exec --no-startup-id nextcloud
 # exec --no-startup-id redshift -l-37:144 -t 6500:4000
 # exec --no-startup-id udiskie
 
@@ -231,7 +230,6 @@ bar {
 # for_window [class="Kmix"] floating enable; border none
 # for_window [class="Klipper"] floating enable; border none
 # for_window [class="Plasmoidviewer"] floating enable; border none
-# for_window [class="(?i)*nextcloud*"] floating disable
 # for_window [title="Desktop — Plasma"] kill;
 
 for_window [class="zoom"] floating enable

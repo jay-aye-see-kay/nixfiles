@@ -17,7 +17,6 @@ let
     imv
     lsof
     mpv
-    nextcloud-client
     pdfarranger
     prismlauncher # minecraft launcher, it probably works on mac, but I don't want it there
     unzip
@@ -100,11 +99,6 @@ in
 
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
-
-  services.nextcloud-client = ifLinux {
-    enable = true;
-    startInBackground = true;
-  };
 
   programs = {
     home-manager.enable = true;
