@@ -16,6 +16,11 @@ in
       keep-outputs = true
       keep-derivations = true
     '';
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
   };
   nixpkgs.config.allowUnfree = true;
 
