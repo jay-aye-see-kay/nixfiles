@@ -6,6 +6,7 @@ in
     ./hardware.nix
     ../../features/firefox.nix
     ../../features/syncthing.nix
+    ../../features/cli-utils.nix
   ];
 
   nix = {
@@ -90,31 +91,17 @@ in
     _1password-gui
     age
     alacritty
-    btop
     chromium
     dbeaver
     docker-compose
-    fd
     freecad
-    git
-    hdparm
     inkscape
     libnotify
     libreoffice
     lm_sensors
     neovim
-    nmap
-    parted
-    pciutils # provides lspci
     slack
-    powertop
-    progress
-    pwgen
-    ripgrep
     sops
-    stress
-    tldr
-    wget
     wireshark
     wireshark-cli
     mullvad-vpn

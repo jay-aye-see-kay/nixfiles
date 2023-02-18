@@ -14,11 +14,9 @@ let
     gparted
     easyeffects
     imv
-    lsof
     mpv
     pdfarranger
     prismlauncher # minecraft launcher, it probably works on mac, but I don't want it there
-    unzip
     prusa-slicer
     unstable.anki-bin
     syncthing
@@ -28,7 +26,6 @@ let
 
     # these are broken on macos, no idea why but I don't really need them
     black
-    yq
     youtube-dl
   ];
 in
@@ -48,7 +45,6 @@ in
   home.packages = with pkgs;
     [
       neovim
-      fzf
       gh
       manix
       trash-cli
@@ -72,27 +68,16 @@ in
 
       just
       shfmt
-      fd
       go
       nodePackages.prettier
       awscli2
-      atool
-      htop
-      jq
-      yq
       ripgrep
-      tldr
-      tree
       rustc
       rustfmt
       cargo-edit
       cargo
       clippy
-      entr
       exercism
-      tokei
-      hyperfine
-      btop
     ]
     ++ (if pkgs.stdenv.isLinux then linuxOnlyPackages else darwinOnlyPackages);
 

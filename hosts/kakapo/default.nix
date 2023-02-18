@@ -3,7 +3,11 @@ let
   publicKeys = import ../../publicKeys.nix;
 in
 {
-  imports = [ ./hardware.nix ./sway.nix ];
+  imports = [
+    ./hardware.nix
+    ./sway.nix
+    ../../features/cli-utils.nix
+  ];
 
   nix = {
     package = pkgs.nixFlakes; # or versioned attributes like nix_2_7
@@ -83,21 +87,8 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     age
-    fd
-    git
     neovim
-    nmap
-    pciutils # provides lspci
-    pwgen
-    ripgrep
     sops
-    tldr
-    btop
-    stress
-    parted
-    progress
-    powertop
-    hdparm
     arion # for running web services
     docker
     docker-compose

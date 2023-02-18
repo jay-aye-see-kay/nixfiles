@@ -6,6 +6,7 @@ in
   imports = [
     ./hardware.nix
     ./services.nix
+    ../../features/cli-utils.nix
   ];
 
   nix = {
