@@ -1,66 +1,58 @@
-{ pkgs, ... }:
-{
-  # WIP: collect all my "core" cli tools, describe then
-  # install them on all hosts from here
-  environment.systemPackages = with pkgs;
-    let
-      linuxOnlyPkgs = [
-        lsof # list open files
-        hdparm # query hard drive info
-        pciutils # provides lspci
-        parted # partition disks
-      ];
-      macOnlyPkgs = [
-      ];
-    in
-    (if pkgs.stdenv.isLinux then linuxOnlyPkgs else macOnlyPkgs)
-    ++ [
-      # shells
-      bash
-      fish
-      nushell
+# WIP: collect all my "core" cli tools, describe then
+# install them on all hosts from here
+{ pkgs, ... }: with pkgs;
 
-      # working with json
-      jq # query json
-      yq # jq for yaml
-      jid # incrementally narrow json
-      jiq # jid with jq syntax
-      jc # parse common cli outputs to json
-      gron # expands out json to make it greppable
+(lib.optional stdenv.isLinux [
+  lsof # list open files
+  hdparm # query hard drive info
+  pciutils # provides lspci
+  parted # partition disks
+  progress # show progress of running processes
+  powertop
+  git # mac+hm doesn't like having this twice?? idk it's fine on linux
+]) ++ [
+  # shells
+  bash
+  fish
+  nushell
 
-      # search
-      fd
-      fzf
-      ripgrep
-      ripgrep-all
+  # working with json
+  jq # query json
+  yq # jq for yaml
+  jid # incrementally narrow json
+  jiq # jid with jq syntax
+  jc # parse common cli outputs to json
+  gron # expands out json to make it greppable
 
-      # unix-y "extensions"
-      progress # show progress of running processes
-      pv # progress of pipes?
-      duf # a "better" df
-      tree # view directory and sub-dirs as tree
-      entr # watch files and re-run a command
-      pwgen
-      nmap
-      wget
+  # search
+  fd
+  fzf
+  ripgrep
+  ripgrep-all
 
-      tldr # sometimes better docs
-      visidata
+  # unix-y "extensions"
+  pv # progress of pipes?
+  duf # a "better" df
+  tree # view directory and sub-dirs as tree
+  entr # watch files and re-run a command
+  pwgen
+  nmap
+  wget
 
-      # tools?
-      just
-      atool # uncompress or compress common formats with a common interface
-      unzip
-      git
+  tldr # sometimes better docs
+  visidata
 
-      # dashboards
-      htop
-      btop
-      powertop
+  # tools?
+  just
+  atool # uncompress or compress common formats with a common interface
+  unzip
 
-      # measuring
-      hyperfine
-      tokei
-      stress
-    ];
-}
+  # dashboards
+  htop
+  btop
+
+  # measuring
+  hyperfine
+  tokei
+  stress
+]

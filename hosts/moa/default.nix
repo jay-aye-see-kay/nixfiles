@@ -8,7 +8,6 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware.nix
-    ../../features/cli-utils.nix
   ];
 
   nix = {
@@ -69,11 +68,9 @@
     docker-compose
     firefox
     gcc
-    git
     libsForQt5.bismuth
     vim
-    wget
-  ];
+  ] ++ (import ../../cli-utils.nix { inherit pkgs; });
 
   services.openssh.enable = true;
   networking.firewall.enable = false;

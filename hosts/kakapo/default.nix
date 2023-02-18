@@ -6,7 +6,6 @@ in
   imports = [
     ./hardware.nix
     ./sway.nix
-    ../../features/cli-utils.nix
   ];
 
   nix = {
@@ -94,7 +93,7 @@ in
     docker-compose
     smartmontools
     mullvad-vpn
-  ];
+  ] ++ (import ../../cli-utils.nix { inherit pkgs; });
 
   # hud setup for the tv
   users.users.hud = {

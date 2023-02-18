@@ -6,7 +6,6 @@ in
   imports = [
     ./hardware.nix
     ./services.nix
-    ../../features/cli-utils.nix
   ];
 
   nix = {
@@ -28,9 +27,8 @@ in
   networking.domain = "";
 
   environment.systemPackages = with pkgs; [
-    git
     authelia
-  ];
+  ] ++ (import ../../cli-utils.nix { inherit pkgs; });
 
   users.users.jack = {
     isNormalUser = true;

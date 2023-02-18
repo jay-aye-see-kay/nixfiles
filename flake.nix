@@ -111,6 +111,7 @@
         pkgs = mkPkgs "aarch64-darwin";
         modules = darwinHomeManagerImports
           ++ [ ({ pkgs, ... }: { home.packages = [ pkgs.silk-cli ]; }) ]
+          ++ [ ({ pkgs, ... }: { home.packages = import ./features/cli-utils.nix { inherit pkgs; }; }) ]
           ++ mkHmConfigMod { inherit username; isDarwin = true; };
       };
 
