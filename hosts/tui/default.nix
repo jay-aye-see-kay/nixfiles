@@ -5,6 +5,7 @@ in
   imports = [
     ./hardware.nix
     ../../features/firefox.nix
+    ../../features/syncthing.nix
   ];
 
   nix = {
