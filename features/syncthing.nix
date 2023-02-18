@@ -1,28 +1,39 @@
 { config, pkgs, ... }:
+let
+  user = "jack";
+  devices = {
+    "possum" = { id = "4L6CALJ-X7QC2TU-GAXT7AD-EG7IDTM-YSBOHHA-WZ576MI-O4SXB5M-ECQTTAL"; };
+    "tui" = { id = "3EEYNSK-IJ4YIX3-PHIEKT7-OECJJ2K-7RZAEZ7-TBY2AGW-HCKNPNH-34QYTQ6"; };
+    "jjack-XMW16X" = { id = "IMQF5KD-ZGCQOZQ-GWPFWSN-2E3FH3O-UFOJL2Z-DBTS2AU-NVVAVYJ-XYNLJAG"; };
+  };
+  allDevices = ["possum" "tui" "jjack-XMW16X"];
+in
 {
-  # this config makes some big assumptions about how a host is setup, but because of how I use syncthing this is probably fine
   services.syncthing = {
+    inherit user devices;
     enable = true;
-    user = "jack";
     group = "users";
-    dataDir = "/home/jack/Sync"; # Default folder for new synced folders
-    configDir = "/home/jack/.config/syncthing"; # Folder for Syncthing's settings and keys
+    dataDir = "/home/${user}/Sync"; # Default folder for new synced folders
+    configDir = "/home/${user}/.config/syncthing"; # Folder for Syncthing's settings and keys
     guiAddress = "localhost:8384";
     overrideDevices = true;
     overrideFolders = true;
-    devices = {
-      "possum" = { id = "4L6CALJ-X7QC2TU-GAXT7AD-EG7IDTM-YSBOHHA-WZ576MI-O4SXB5M-ECQTTAL"; };
-      "tui" = { id = "3EEYNSK-IJ4YIX3-PHIEKT7-OECJJ2K-7RZAEZ7-TBY2AGW-HCKNPNH-34QYTQ6"; };
-    };
     folders = {
-      "/home/jack/Sync" = {
-        # general folder for sync - goes to every device
-        devices = [ "possum" "tui" ];
+      Default = {
+        path = "/home/jack/Sync";
+        devices = allDevices;
       };
-      "/home/jack/notes" = {
-        # my bucket of markdown files
+      Notes = {
         path = "/home/jack/notes";
-        devices = [ "possum" "tui" ];
+        devices = allDevices;
+      };
+      "Documents" = {
+        path = "/home/jack/Documents";
+        devices = allDevices;
+      };
+      "Calibre library" = {
+        path = "/home/jack/Calibre Library";
+        devices = allDevices;
       };
     };
   };
