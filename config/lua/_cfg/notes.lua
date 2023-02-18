@@ -42,7 +42,7 @@ h.autocmd({ "FileType" }, {
 local function open_logbook(days_from_today)
 	local date_offset = (days_from_today or 0) * 24 * 60 * 60
 	local filename = os.date("%Y-%m-%d-%A", os.time() + date_offset) .. ".md"
-	local todays_journal_file = "~/Documents/notes/logbook/" .. filename
+	local todays_journal_file = "~/notes/logbook/" .. filename
 	vim.cmd("edit " .. todays_journal_file)
 end
 
@@ -140,12 +140,7 @@ vim.keymap.set("n", "<leader>xn", H.advance, { desc = "advance heading status" }
 vim.keymap.set(
 	"n",
 	"<leader>nT",
-	"<CMD>TodoTrouble cwd=~/Documents/notes keywords=TODO,IN_PROGRESS,WAITING<CR>",
+	"<CMD>TodoTrouble cwd=~/notes keywords=TODO,IN_PROGRESS,WAITING<CR>",
 	{ desc = "list incomplete items in notes" }
 )
-vim.keymap.set(
-	"n",
-	"<leader>nI",
-	"<CMD>TodoTrouble cwd=~/Documents/notes keywords=IDEA<CR>",
-	{ desc = "list *ideas* in notes" }
-)
+vim.keymap.set("n", "<leader>nI", "<CMD>TodoTrouble cwd=~/notes keywords=IDEA<CR>", { desc = "list *ideas* in notes" })

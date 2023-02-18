@@ -17,7 +17,7 @@ local directed_keymaps = {
 
 --- grep through old markdown notes
 local grep_notes = function()
-	require("telescope.builtin").live_grep({ cwd = "$HOME/Documents/notes" })
+	require("telescope.builtin").live_grep({ cwd = "$HOME/notes" })
 end
 
 --- git files, falling back onto all files in cwd if not in a git repo
