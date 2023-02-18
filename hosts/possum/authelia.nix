@@ -12,7 +12,13 @@ let
     };
     session.domain = "jackrose.co.nz";
     notifier.filesystem.filename = "${dataDir}/notification.txt";
-    access_control.default_policy = "one_factor";
+    access_control = {
+      default_policy = "deny";
+      rules = [
+        { domain = "*.p.jackrose.co.nz"; policy = "two_factor"; }
+      ];
+    };
+    totp.issuer = "p.jackrose.co.nz";
   });
 in
 {
@@ -43,6 +49,7 @@ in
       ExecStart = "${pkgs.authelia}/bin/authelia --config ${autheliaCfg}";
       StateDirectory = [ "authelia" ];
       LogsDirectory = [ "authelia" ];
+      TimeoutStopSec = "5s"; # HACK: setting this to a low value because it doesn't seem to stop?
     };
   };
 }
