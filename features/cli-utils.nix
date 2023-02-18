@@ -1,16 +1,19 @@
 # WIP: collect all my "core" cli tools, describe then
 # install them on all hosts from here
 { pkgs, ... }: with pkgs;
-
-(lib.optional stdenv.isLinux [
-  lsof # list open files
-  hdparm # query hard drive info
-  pciutils # provides lspci
-  parted # partition disks
-  progress # show progress of running processes
-  powertop
-  git # mac+hm doesn't like having this twice?? idk it's fine on linux
-]) ++ [
+let
+  platformSpecificPackages = if stdenv.isLinux then [
+    lsof # list open files
+    hdparm # query hard drive info
+    pciutils # provides lspci
+    parted # partition disks
+    progress # show progress of running processes
+    powertop
+    git # mac+hm doesn't like having this twice?? idk it's fine on linux
+  ] else [
+  ];
+in
+platformSpecificPackages ++ [
   # shells
   bash
   fish
