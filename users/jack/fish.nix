@@ -50,9 +50,6 @@ in
         if isDarwin then "lsof -P -i TCP -s TCP:LISTEN" else "ss -lntup";
       vwy = "nvim -c LogbookYesterday";
       vwt = "nvim -c LogbookToday";
-      journal = "nvim $HOME/Documents/journal-2022.org";
-      shopping_list =
-        "nvim $HOME/Documents/shopping-lists/(date --iso-8601).md";
       vg = ''nvim -c "Git | wincmd k | q"'';
       pbc = if isDarwin then "pbcopy" else "wl-copy";
       pbp = if isDarwin then "pbpaste" else "wl-paste";
