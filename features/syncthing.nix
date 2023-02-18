@@ -7,6 +7,7 @@ let
     "jjack-XMW16X" = { id = "IMQF5KD-ZGCQOZQ-GWPFWSN-2E3FH3O-UFOJL2Z-DBTS2AU-NVVAVYJ-XYNLJAG"; };
   };
   allDevices = ["possum" "tui" "jjack-XMW16X"];
+  personalDevices = ["possum" "tui" ];
 in
 {
   services.syncthing = {
@@ -33,7 +34,7 @@ in
       };
       "Calibre library" = {
         path = "/home/jack/Calibre Library";
-        devices = allDevices;
+        devices = personalDevices;
       };
     };
   };
