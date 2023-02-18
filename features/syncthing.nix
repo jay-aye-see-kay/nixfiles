@@ -6,8 +6,15 @@ let
     "tui" = { id = "3EEYNSK-IJ4YIX3-PHIEKT7-OECJJ2K-7RZAEZ7-TBY2AGW-HCKNPNH-34QYTQ6"; };
     "jjack-XMW16X" = { id = "IMQF5KD-ZGCQOZQ-GWPFWSN-2E3FH3O-UFOJL2Z-DBTS2AU-NVVAVYJ-XYNLJAG"; };
   };
-  allDevices = ["possum" "tui" "jjack-XMW16X"];
-  personalDevices = ["possum" "tui" ];
+  allDevices = [ "possum" "tui" "jjack-XMW16X" ];
+  personalDevices = [ "possum" "tui" ];
+  versioning = {
+    type = "staggered";
+    params = {
+      cleanInterval = "3600";
+      maxAge = "31536000";
+    };
+  };
 in
 {
   services.syncthing = {
@@ -16,23 +23,26 @@ in
     group = "users";
     dataDir = "/home/${user}/Sync"; # Default folder for new synced folders
     configDir = "/home/${user}/.config/syncthing"; # Folder for Syncthing's settings and keys
-    guiAddress = "localhost:8384";
     overrideDevices = true;
     overrideFolders = true;
     folders = {
       Default = {
+        inherit versioning;
         path = "/home/jack/Sync";
         devices = allDevices;
       };
       Notes = {
+        inherit versioning;
         path = "/home/jack/notes";
         devices = allDevices;
       };
       "Documents" = {
+        inherit versioning;
         path = "/home/jack/Documents";
         devices = allDevices;
       };
       "Calibre library" = {
+        inherit versioning;
         path = "/home/jack/Calibre Library";
         devices = personalDevices;
       };
