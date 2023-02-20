@@ -39,10 +39,17 @@ telescope.setup({
 		},
 		zoxide = {
 			mappings = {
+				["<c-b>"] = nil,
 				default = {
 					action = function(selection)
-						vim.cmd("cd " .. selection.path)
-						require("telescope.builtin").find_files()
+						vim.cmd.tabedit(selection.path)
+						vim.cmd.tcd(selection.path)
+					end,
+				},
+				["<c-t>"] = {
+					action = function(selection)
+						vim.cmd.tabedit(selection.path)
+						vim.cmd.tcd(selection.path)
 					end,
 				},
 			},
