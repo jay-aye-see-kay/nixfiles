@@ -30,10 +30,6 @@
       url = "github:NoahTheDuke/vim-just";
       flake = false;
     };
-    "plugin:telescope-undo" = {
-      url = "github:debugloop/telescope-undo.nvim";
-      flake = false;
-    };
     "plugin:nvim-various-textobjs" = {
       url = "github:chrisgrieser/nvim-various-textobjs";
       flake = false;
@@ -188,6 +184,7 @@
             telescope-fzf-native-nvim
             telescope-symbols-nvim
             telescope-zoxide
+            telescope-undo-nvim
             fzf-vim
 
             nvim-colorizer-lua

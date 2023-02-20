@@ -144,22 +144,6 @@
         "type": "github"
       }
     },
-    "plugin:telescope-undo": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1676546922,
-        "narHash": "sha256-pzuQvoZ9mkDkarp+q36YLnKZ58ua0ZKvW2+Z8Dk+M9Y=",
-        "owner": "debugloop",
-        "repo": "telescope-undo.nvim",
-        "rev": "03ff45fab0c4adad4d252e25b5b194e22caf5b4f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "debugloop",
-        "repo": "telescope-undo.nvim",
-        "type": "github"
-      }
-    },
     "plugin:vim-just": {
       "flake": false,
       "locked": {
@@ -219,7 +203,6 @@
         "plugin:nvim-various-textobjs": "plugin:nvim-various-textobjs",
         "plugin:nvim-window-picker": "plugin:nvim-window-picker",
         "plugin:smart-open": "plugin:smart-open",
-        "plugin:telescope-undo": "plugin:telescope-undo",
         "plugin:vim-just": "plugin:vim-just",
         "plugin:vim-symlink": "plugin:vim-symlink",
         "plugin:yop-nvim": "plugin:yop-nvim"
