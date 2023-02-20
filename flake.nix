@@ -30,10 +30,6 @@
       url = "github:NoahTheDuke/vim-just";
       flake = false;
     };
-    "plugin:syntax-tree-surfer" = {
-      url = "github:ziontee113/syntax-tree-surfer";
-      flake = false;
-    };
     "plugin:telescope-undo" = {
       url = "github:debugloop/telescope-undo.nvim";
       flake = false;

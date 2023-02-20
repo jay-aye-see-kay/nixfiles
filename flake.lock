@@ -144,22 +144,6 @@
         "type": "github"
       }
     },
-    "plugin:syntax-tree-surfer": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1663517702,
-        "narHash": "sha256-7EwaAMULt0xABp0reZZIXXI+qde9Bme3g9dCJzc0YMk=",
-        "owner": "ziontee113",
-        "repo": "syntax-tree-surfer",
-        "rev": "d6d518f48dcc4441b11ee3e6cefd48fa1e09568a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ziontee113",
-        "repo": "syntax-tree-surfer",
-        "type": "github"
-      }
-    },
     "plugin:telescope-undo": {
       "flake": false,
       "locked": {
@@ -235,7 +219,6 @@
         "plugin:nvim-various-textobjs": "plugin:nvim-various-textobjs",
         "plugin:nvim-window-picker": "plugin:nvim-window-picker",
         "plugin:smart-open": "plugin:smart-open",
-        "plugin:syntax-tree-surfer": "plugin:syntax-tree-surfer",
         "plugin:telescope-undo": "plugin:telescope-undo",
         "plugin:vim-just": "plugin:vim-just",
         "plugin:vim-symlink": "plugin:vim-symlink",

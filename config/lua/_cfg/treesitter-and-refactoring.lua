@@ -77,23 +77,3 @@ require("which-key").register({
 	mode = "v",
 })
 -- }}}
-
--- {{{ fancy tree sitter stuff
-require("syntax-tree-surfer").setup()
-
--- Visual Selection from Normal Mode
-vim.keymap.set("n", "vx", "<cmd>STSSelectMasterNode<cr>")
-vim.keymap.set("n", "vn", "<cmd>STSSelectCurrentNode<cr>")
-
--- Select Nodes in Visual Mode
-vim.keymap.set("x", "J", "<cmd>STSSelectNextSiblingNode<cr>")
-vim.keymap.set("x", "K", "<cmd>STSSelectPrevSiblingNode<cr>")
-vim.keymap.set("x", "H", "<cmd>STSSelectParentNode<cr>")
-vim.keymap.set("x", "L", "<cmd>STSSelectChildNode<cr>")
-
--- Swapping Nodes in Visual Mode
-vim.keymap.set("x", "<A-j>", "<cmd>STSSwapNextVisual<cr>")
-vim.keymap.set("x", "<A-k>", "<cmd>STSSwapPrevVisual<cr>")
-vim.keymap.set("v", "<C-j>", "<cmd>STSSwapNextVisual<cr>")
-vim.keymap.set("v", "<C-k>", "<cmd>STSSwapPrevVisual<cr>")
--- }}}
