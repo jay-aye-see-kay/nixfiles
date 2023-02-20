@@ -205,6 +205,9 @@
         # Extra packages made available to nvim but not the system
         # system packages take precedence over these
         extraPkgsPath = pkgs.lib.makeBinPath (with pkgs; [
+          # LSPs and linters
+          godef
+          gopls
           nodePackages.bash-language-server
           nodePackages.dockerfile-language-server-nodejs
           nodePackages.eslint_d
@@ -219,8 +222,22 @@
           rust-analyzer
           shellcheck
           statix
-          stylua
           sumneko-lua-language-server
+
+          # Formatters
+          black
+          nodePackages.prettier_d_slim
+          shfmt
+          stylua
+          rustfmt
+
+          # Debuggers
+          delve
+
+          # Dicts
+          aspell
+          aspellDicts.en
+
           # nvim-spectre expects a binary "gsed" on macos
           (pkgs.writeShellScriptBin "gsed" "exec ${pkgs.gnused}/bin/sed")
         ]);

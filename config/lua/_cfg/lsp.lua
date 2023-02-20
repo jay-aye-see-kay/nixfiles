@@ -87,7 +87,7 @@ null_ls.setup({
 		null_ls.builtins.code_actions.statix,
 		null_ls.builtins.diagnostics.statix,
 		-- js/ts
-		null_ls.builtins.formatting.prettierd,
+		null_ls.builtins.formatting.prettier_d_slim,
 		null_ls.builtins.code_actions.eslint_d,
 		null_ls.builtins.diagnostics.eslint_d.with({
 			method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
