@@ -183,9 +183,6 @@ require("symbols-outline").setup({
 -- }}}
 
 -- {{{ misc and UI stuff
-require("hop").setup()
-vim.keymap.set("n", "S", ":HopChar1<cr>", { desc = "hop 1 char" })
-
 require("nvim-surround").setup()
 
 h.map("n", "<leader>u", "<cmd>MundoToggle<cr>")

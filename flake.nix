@@ -176,7 +176,6 @@
             fzf-vim
 
             nvim-colorizer-lua
-            hop-nvim
             vim-mundo
             vim-lastplace
             which-key-nvim
