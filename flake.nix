@@ -199,7 +199,6 @@
             diffview-nvim
             vim-fugitive
             vim-rhubarb
-            octo-nvim
           ]);
         };
 
