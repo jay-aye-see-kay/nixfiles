@@ -24,7 +24,6 @@ let
     clang # comes with xcode, things expect to use that version
 
     # these are broken on macos, no idea why but I don't really need them
-    black
     youtube-dl
   ];
 in
@@ -49,15 +48,7 @@ in
       trash-cli
       (python3.withPackages (ps: [ ps.ipykernel ]))
 
-      # TODO: move neovim flake
-      delve
-      gopls
-      godef
-      aspell
-      aspellDicts.en
-
       customNodePackages."aws-cdk-1.x"
-      customNodePackages."@fsouza/prettierd"
       unstable.nodePackages.cdk8s-cli
       unstable.kubectl
 
@@ -66,13 +57,9 @@ in
       nodePackages_latest.pnpm
 
       just
-      shfmt
       go
-      nodePackages.prettier
       awscli2
-      ripgrep
       rustc
-      rustfmt
       cargo-edit
       cargo
       clippy
