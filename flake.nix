@@ -38,10 +38,6 @@
       url = "github:akinsho/git-conflict.nvim/v1.0.0";
       flake = false;
     };
-    "plugin:smart-open" = {
-      url = "github:danielfalk/smart-open.nvim";
-      flake = false;
-    };
     "plugin:yop-nvim" = {
       url = "github:zdcthomas/yop.nvim";
       flake = false;
@@ -171,14 +167,6 @@
             trouble-nvim
             symbols-outline-nvim
             nvim-spectre
-            {
-              plugin = sqlite-lua;
-              config =
-                let
-                  suffix = if pkgs.stdenv.isDarwin then "dylib" else "so";
-                in
-                "let g:sqlite_clib_path = '${pkgs.sqlite.out}/lib/libsqlite3.${suffix}'";
-            }
 
             telescope-nvim
             telescope-fzf-native-nvim

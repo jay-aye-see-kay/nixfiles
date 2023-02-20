@@ -128,22 +128,6 @@
         "type": "github"
       }
     },
-    "plugin:smart-open": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1676245287,
-        "narHash": "sha256-zNKsUalVLblFnW+D8cRFRO8XB7QGj22JLRUQ3L1+vbc=",
-        "owner": "danielfalk",
-        "repo": "smart-open.nvim",
-        "rev": "7beed563d5c79f9e3b5f3cae95a516609520692d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "danielfalk",
-        "repo": "smart-open.nvim",
-        "type": "github"
-      }
-    },
     "plugin:vim-just": {
       "flake": false,
       "locked": {
@@ -202,7 +186,6 @@
         "plugin:nvim-unception": "plugin:nvim-unception",
         "plugin:nvim-various-textobjs": "plugin:nvim-various-textobjs",
         "plugin:nvim-window-picker": "plugin:nvim-window-picker",
-        "plugin:smart-open": "plugin:smart-open",
         "plugin:vim-just": "plugin:vim-just",
         "plugin:vim-symlink": "plugin:vim-symlink",
         "plugin:yop-nvim": "plugin:yop-nvim"

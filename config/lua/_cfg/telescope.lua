@@ -52,9 +52,7 @@ telescope.setup({
 telescope.load_extension("fzf")
 telescope.load_extension("undo")
 telescope.load_extension("zoxide")
-telescope.load_extension("smart_open")
 
 vim.keymap.set("n", "<leader>fU", telescope.extensions.undo.undo, { desc = "search telescope history" })
 vim.keymap.set("n", "<leader>fz", telescope.extensions.zoxide.list, { desc = "cd with zoxide" })
 vim.keymap.set("n", ",z", telescope.extensions.zoxide.list, { desc = "cd with zoxide" })
-vim.keymap.set("n", "<leader><leader>", telescope.extensions.smart_open.smart_open, { desc = "smart open" })
