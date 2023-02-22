@@ -9,6 +9,7 @@ let
     unstable.nodePackages.snyk
   ];
   linuxOnlyPackages = with pkgs; [
+    awscli2
     arandr
     beekeeper-studio
     gparted
@@ -58,7 +59,7 @@ in
 
       just
       go
-      awscli2
+
       rustc
       cargo-edit
       cargo
