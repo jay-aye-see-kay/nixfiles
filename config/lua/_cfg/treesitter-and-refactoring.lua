@@ -47,9 +47,6 @@ require("nvim-treesitter.configs").setup({
 })
 
 -- {{{ refactoring
-vim.keymap.set("n", "<leader>ms", require("spectre").open, { desc = "open spectre panel" })
-vim.keymap.set("v", "<leader>ms", require("spectre").open_visual)
-
 require("refactoring").setup({})
 
 -- helper fn to make passing these functions to which_key easier

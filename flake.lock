@@ -96,22 +96,6 @@
         "type": "github"
       }
     },
-    "plugin:nvim-various-textobjs": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1677080405,
-        "narHash": "sha256-jivo5U7DhtDbvUGt1Dt6zYEmTYme0d0q9tn35v54i7w=",
-        "owner": "chrisgrieser",
-        "repo": "nvim-various-textobjs",
-        "rev": "8ad95b453c8a5df29792cebd93bb8cc30316ff9e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "chrisgrieser",
-        "repo": "nvim-various-textobjs",
-        "type": "github"
-      }
-    },
     "plugin:nvim-window-picker": {
       "flake": false,
       "locked": {
@@ -184,7 +168,6 @@
         "plugin:git-conflict-nvim": "plugin:git-conflict-nvim",
         "plugin:mkdnflow": "plugin:mkdnflow",
         "plugin:nvim-unception": "plugin:nvim-unception",
-        "plugin:nvim-various-textobjs": "plugin:nvim-various-textobjs",
         "plugin:nvim-window-picker": "plugin:nvim-window-picker",
         "plugin:vim-just": "plugin:vim-just",
         "plugin:vim-symlink": "plugin:vim-symlink",

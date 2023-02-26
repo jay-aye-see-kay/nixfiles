@@ -1,4 +1,5 @@
 local h = require("_cfg.helpers")
+vim.g.unception_block_while_host_edits = true
 
 -- basic core stuff {{{
 
@@ -13,17 +14,8 @@ h.map("n", "Q", "<nop>")
 h.map("n", "gQ", "<nop>")
 
 h.map("i", "<c-a>", "<nop>") -- disable insert repeating
-h.map("n", "Y", "y$") -- make Y behave like C and D
-
-vim.cmd([[ set splitbelow splitright ]]) -- matches i3 behaviour
-vim.cmd([[ set linebreak ]]) -- don't break words when wrapping
 vim.cmd([[ set list listchars=tab:»·,trail:·,nbsp:· ]]) -- Display extra whitespace
-vim.cmd([[ set nojoinspaces ]]) -- Use one space, not two, after punctuation.
-
-vim.cmd([[ set undofile ]])
-
--- increase oldfile saved ( default is !,'100,<50,s10,h )
-vim.cmd([[ set shada=!,'1000,<50,s10,h ]])
+vim.cmd([[ set shada=!,'1000,<50,s10,h ]]) -- increase oldfile saved ( default is !,'100,<50,s10,h )
 
 h.autocmd({ "VimEnter", "WinEnter", "BufWinEnter" }, {
 	command = "setlocal cursorline",
@@ -35,8 +27,6 @@ h.autocmd({ "WinLeave" }, {
 		end
 	end,
 })
-
-vim.g.unception_block_while_host_edits = true
 
 -- prefer spaces over tabs
 vim.cmd([[ set tabstop=2 ]])
@@ -53,51 +43,14 @@ h.map("v", "<C-c>", '"+y')
 -- spelling
 vim.opt.spellcapcheck = nil -- ignore capitalisation
 
--- stuff from https://github.com/mjlbach/defaults.nvim
-
--- remap space as leader key
-h.map("", "<Space>", "")
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
-vim.o.inccommand = "nosplit" --Incremental live completion
-vim.wo.number = true --Make line numbers default
+-- vim.o.inccommand = "nosplit" --Incremental live completion
 vim.wo.relativenumber = true --Make line numbers default
-vim.o.hidden = true --Do not save when switching buffers
-vim.o.mouse = "a" --Enable mouse mode
-vim.o.breakindent = true --Enable break indent
-vim.wo.signcolumn = "yes"
-
--- set highlight on search
-vim.o.hlsearch = false
-vim.o.incsearch = true
-
--- case insensitive searching UNLESS /C or capital in search
-vim.o.ignorecase = true
-vim.o.smartcase = true
-
--- search within selection from visual mode
-vim.keymap.set("x", "/", "<Esc>/\\%V")
 
 vim.opt.scrolloff = 4
 vim.opt.sidescrolloff = 4
-vim.opt.wrap = false
-
-h.autocmd({ "FileType" }, {
-	pattern = "fzf",
-	command = "tnoremap <buffer> <ESC> <ESC>",
-})
 -- }}}
 
 -- visuals look nice {{{
-vim.keymap.set("n", "<leader>yd", function()
-	if vim.o.background == "dark" then
-		vim.o.background = "light"
-	else
-		vim.o.background = "dark"
-	end
-end, { desc = "toggle brightness" })
-
 -- extend color scheme
 h.autocmd({ "ColorScheme" }, {
 	callback = function()
@@ -111,12 +64,7 @@ h.autocmd({ "ColorScheme" }, {
 })
 
 vim.api.nvim_set_var("vim_json_syntax_conceal", 0)
-vim.o.termguicolors = true
 vim.o.background = "light"
-vim.g.zenbones = {
-	darken_noncurrent_window = true,
-	lighten_noncurrent_window = true,
-}
 vim.cmd.colorscheme("zenbones")
 
 local navic = require("nvim-navic")
@@ -175,20 +123,11 @@ require("indent_blankline").setup({
 	show_current_context = true,
 })
 vim.keymap.set("n", "<leader>yb", "<cmd>IndentBlanklineToggle!<cr>")
-
-require("symbols-outline").setup({
-	width = 40,
-	relative_width = false,
-})
 -- }}}
 
 -- {{{ misc and UI stuff
-require("nvim-surround").setup()
-
 h.map("n", "<leader>u", "<cmd>MundoToggle<cr>")
 vim.g.mundo_preview_bottom = 1
 vim.g.mundo_width = 40
 vim.g.mundo_preview_height = 20
-
-require("various-textobjs").setup({ useDefaultKeymaps = true })
 -- }}}

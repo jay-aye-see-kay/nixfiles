@@ -18,20 +18,12 @@
       url = "github:andrewferrier/debugprint.nvim";
       flake = false;
     };
-    "plugin:nvim-window-picker" = {
-      url = "github:s1n7ax/nvim-window-picker";
-      flake = false;
-    };
     "plugin:nvim-unception" = {
       url = "github:samjwill/nvim-unception";
       flake = false;
     };
     "plugin:vim-just" = {
       url = "github:NoahTheDuke/vim-just";
-      flake = false;
-    };
-    "plugin:nvim-various-textobjs" = {
-      url = "github:chrisgrieser/nvim-various-textobjs";
       flake = false;
     };
     "plugin:git-conflict-nvim" = {
@@ -109,29 +101,41 @@
           plugins = allPluginsFromInputs ++ (with pkgs.vimPlugins; [
             { plugin = impatient-nvim; config = "lua require('impatient')"; }
 
+            # dependencies
+            plenary-nvim
+            popup-nvim
+            nui-nvim
+            nvim-web-devicons
+            dressing-nvim
+            vim-repeat
+
+            # colourscheme
             lush-nvim
             zenbones-nvim
             indent-blankline-nvim
 
             nvim-dap
-            nvim-dap-go
             nvim-dap-ui
             nvim-dap-virtual-text
+            nvim-dap-go
 
             # langs
             vim-nix
             vim-json
             jsonc-vim
-            splitjoin-vim
 
             (nvim-treesitter.withPlugins (_: nvim-treesitter.allGrammars))
             nvim-treesitter-textobjects
             nvim-ts-autotag
             playground # tree-sitter playground
 
+            # comments
+            { plugin = comment-nvim; config = "lua require('Comment').setup({ pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook() })"; }
+            nvim-ts-context-commentstring
+
             # lsp stuff
             nvim-lspconfig
-            nvim-lsp-ts-utils
+            nvim-lsp-ts-utils # TODO replace with https://github.com/leafgarland/typescript-vim
             SchemaStore-nvim
             nvim-cmp
             cmp-buffer
@@ -142,63 +146,42 @@
             lspkind-nvim
             luasnip
             nvim-autopairs
-            lsp_lines-nvim
             { plugin = goto-preview; config = "lua require('goto-preview').setup({ default_mappings = true })"; }
             null-ls-nvim
             friendly-snippets
             todo-comments-nvim
 
-            nvim-web-devicons
             lualine-nvim
-            lualine-lsp-progress
+            lualine-lsp-progress # switch back to fidget?
             nvim-navic
             neo-tree-nvim
-            nui-nvim
-            gitsigns-nvim
             refactoring-nvim
 
             hydra-nvim
             markdown-preview-nvim
-            tabular
-            nvim-ts-context-commentstring
             vim-bbye
-            plenary-nvim
-            popup-nvim
             trouble-nvim
-            symbols-outline-nvim
-            nvim-spectre
 
             telescope-nvim
             telescope-fzf-native-nvim
-            telescope-symbols-nvim
             telescope-zoxide
             telescope-undo-nvim
-            fzf-vim
 
             nvim-colorizer-lua
             vim-mundo
             vim-lastplace
             which-key-nvim
             neodev-nvim
-            dressing-nvim
 
-            # tpope
-            vim-abolish
-            vim-commentary
-            vim-repeat
-            vim-unimpaired
-
-            nvim-surround
-            {
-              plugin = targets-vim;
-              # restore `b` to default vim behaviour, see: https://github.com/wellle/targets.vim#targetsmappingsextend
-              config = "autocmd User targets#mappings#user call targets#mappings#extend({ 'b': {'pair': [{'o':'(', 'c':')'}]} })";
-            }
+            { plugin = nvim-surround; config = "lua require('nvim-surround').setup()"; }
+            mini-nvim
+            text-case-nvim
 
             # git
             diffview-nvim
             vim-fugitive
             vim-rhubarb
+            gitsigns-nvim
           ]);
         };
 

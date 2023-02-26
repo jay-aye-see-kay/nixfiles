@@ -34,8 +34,6 @@ h.autocmd({ "FileType" }, {
 	pattern = { "text", "markdown", "md" },
 	callback = function()
 		vim.opt_local.wrap = true
-		vim.keymap.set({ "n", "v" }, "j", "v:count ? 'j' : 'gj'", { expr = true, buffer = true })
-		vim.keymap.set({ "n", "v" }, "k", "v:count ? 'k' : 'gk'", { expr = true, buffer = true })
 	end,
 })
 

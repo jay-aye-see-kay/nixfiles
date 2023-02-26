@@ -1,4 +1,7 @@
+-- must be first as these setup leader keys
+require("_cfg.mini")
 require("_cfg.core")
+
 require("_cfg.debugging")
 require("_cfg.files-and-term")
 require("_cfg.git")

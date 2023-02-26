@@ -33,7 +33,6 @@ local telescope_fns = require("telescope.builtin")
 local main_keymap = {
 	lsp = {
 		name = "+lsp",
-		s = { "<cmd>SymbolsOutline<cr>", "Symbols outline" },
 		a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code action" },
 		r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename symbol" },
 		d = { "<cmd>Telescope lsp_document_diagnostics<cr>", "Show document diagnostics" },
@@ -41,9 +40,6 @@ local main_keymap = {
 		t = { "<cmd>TroubleToggle<cr>", "Show workspace diagnostics" },
 		i = { "<cmd>LspInfo<cr>", "Info" },
 		f = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format buffer with LSP" },
-
-		n = { "<cmd>call v:lua.DisableAutocomplete()<cr>", "Disable autocomplete" },
-		N = { "<cmd>call v:lua.EnableAutocomplete()<cr>", "Enable autocomplete" },
 	},
 	finder = {
 		name = "+find",
@@ -71,7 +67,6 @@ local main_keymap = {
 		o = { telescope_fns.oldfiles, "🔭 oldfiles" },
 		l = { telescope_fns.current_buffer_fuzzy_find, "🔭 buffer lines" },
 		w = { telescope_fns.spell_suggest, "🔭 spelling suggestions" },
-		s = { telescope_fns.symbols, "🔭 unicode and emoji symbols" },
 		a = { telescope_fns.live_grep, "🔭 full text search" },
 		u = { telescope_fns.grep_string, "🔭 word under cursor" },
 		n = { grep_notes, "🔭 search all notes" },
@@ -254,4 +249,23 @@ local function lines_to_clipboard(lines)
 end
 require("yop").op_map({ "n", "v" }, ",c", lines_to_clipboard)
 require("yop").op_map({ "n", "v" }, ",cc", lines_to_clipboard, { linewise = true })
+-- }}}
+
+-- {{{ switching text-case (replaced abolish)
+local textcase = require("textcase")
+local prefix = "ga"
+textcase.setup({ prefix = prefix })
+-- required until this PR merged https://github.com/johmsalas/text-case.nvim/pull/31
+textcase.register_keybindings(prefix, textcase.api.to_snake_case, {
+	prefix = prefix,
+	quick_replace = "s",
+	operator = "os",
+	lsp_rename = "S",
+})
+textcase.register_keybindings(prefix, textcase.api.to_dash_case, {
+	prefix = prefix,
+	quick_replace = "k",
+	operator = "ok",
+	lsp_rename = "K",
+})
 -- }}}

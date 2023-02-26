@@ -113,7 +113,6 @@ null_ls.setup({
 
 vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "Goto/find definitions" })
 vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, { desc = "Find references" })
-vim.keymap.set("n", "gy", require("telescope.builtin").lsp_type_definitions, { desc = "Find type definitions" })
 vim.keymap.set("n", "gh", vim.lsp.buf.hover, { desc = "Hover docs" })
 vim.keymap.set("n", "gI", vim.lsp.buf.implementation, { desc = "Goto implementation" })
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
@@ -123,43 +122,21 @@ vim.keymap.set("i", "<C-i>", function()
 	vim.lsp.buf.signature_help()
 end, { desc = "Signature Documentation" })
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-	border = "single",
-})
+vim.keymap.set("n", [[\a]], function()
+	if vim.b._autocomplete_disabled then
+		require("cmp").setup.buffer({})
+		print("autocomplete enabled in buffer")
+	else
+		require("cmp").setup.buffer({ completion = { autocomplete = false } })
+		print("autocomplete disabled in buffer")
+	end
+	vim.b._autocomplete_disabled = not vim.b._autocomplete_disabled
+end, { desc = "Toggle buffer autocomplete" })
 
-vim.keymap.set("n", "<leader>lq", function()
-	vim.diagnostic.disable(0)
-end, { desc = "Hide buffer diagnostics" })
-vim.keymap.set("n", "<leader>lQ", function()
-	vim.diagnostic.enable(0)
-end, { desc = "Show buffer diagnostics" })
-
-function DisableAutocomplete()
-	require("cmp").setup.buffer({
-		completion = { autocomplete = false },
-	})
-end
-
-function EnableAutocomplete()
-	require("cmp").setup.buffer({})
-end
-
-require("lsp_lines").setup()
-vim.diagnostic.config({ signs = false, virtual_lines = false })
-
-vim.keymap.set("n", "<leader>lm", function()
-	vim.diagnostic.config({ virtual_text = false, virtual_lines = true })
-end, { desc = "Enable multiline diagnotics" })
-
-vim.keymap.set("n", "<leader>lM", function()
-	vim.diagnostic.config({ virtual_text = true, virtual_lines = false })
-end, { desc = "Disable multiline diagnotics" })
-
+vim.diagnostic.config({ signs = false })
 -- }}}
 
 -- completions {{{
-vim.cmd([[ set completeopt=menu,menuone,noselect ]])
-
 require("nvim-autopairs").setup()
 
 local cmp = require("cmp")
