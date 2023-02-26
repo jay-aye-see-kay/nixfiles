@@ -30,3 +30,9 @@ require("mini.misc").setup_restore_cursor()
 
 vim.keymap.set("n", "<c-w>z", require("mini.misc").zoom)
 vim.keymap.set("n", "<c-w><c-z>", require("mini.misc").zoom)
+
+vim.g.miniindentscope_disable = true
+vim.keymap.set("n", "\\I", function()
+	vim.g.miniindentscope_disable = not vim.g.miniindentscope_disable
+end, { desc = "toggle indentscope" })
+require("mini.indentscope").setup()

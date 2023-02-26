@@ -110,12 +110,6 @@ require("lualine").setup({
 	},
 })
 vim.o.showtabline = 1
-
-require("indent_blankline").setup({
-	enabled = false,
-	show_current_context = true,
-})
-vim.keymap.set("n", "<leader>yb", "<cmd>IndentBlanklineToggle!<cr>")
 -- }}}
 
 -- {{{ misc and UI stuff

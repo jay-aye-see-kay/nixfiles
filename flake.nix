@@ -116,7 +116,6 @@
             # colourscheme
             lush-nvim
             zenbones-nvim
-            indent-blankline-nvim
 
             nvim-dap
             nvim-dap-ui
