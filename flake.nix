@@ -169,7 +169,6 @@
 
             nvim-colorizer-lua
             vim-mundo
-            vim-lastplace
             which-key-nvim
             neodev-nvim
 

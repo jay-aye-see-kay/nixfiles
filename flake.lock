@@ -96,22 +96,6 @@
         "type": "github"
       }
     },
-    "plugin:nvim-window-picker": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1670764501,
-        "narHash": "sha256-1UbT/W1ngDnxX03aOk2V8VTOlXWyq/LjCfOl5MUOfsI=",
-        "owner": "s1n7ax",
-        "repo": "nvim-window-picker",
-        "rev": "5902827d0e338890a22849e2f18dc80d1cc1a8db",
-        "type": "github"
-      },
-      "original": {
-        "owner": "s1n7ax",
-        "repo": "nvim-window-picker",
-        "type": "github"
-      }
-    },
     "plugin:vim-just": {
       "flake": false,
       "locked": {
@@ -168,7 +152,6 @@
         "plugin:git-conflict-nvim": "plugin:git-conflict-nvim",
         "plugin:mkdnflow": "plugin:mkdnflow",
         "plugin:nvim-unception": "plugin:nvim-unception",
-        "plugin:nvim-window-picker": "plugin:nvim-window-picker",
         "plugin:vim-just": "plugin:vim-just",
         "plugin:vim-symlink": "plugin:vim-symlink",
         "plugin:yop-nvim": "plugin:yop-nvim"

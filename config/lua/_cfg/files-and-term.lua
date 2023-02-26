@@ -35,17 +35,8 @@ require("neo-tree").setup({
 		},
 	},
 })
-
-require("window-picker").setup()
-
--- window jumper/picker, used by neotree, but might be cool on it's own?
-vim.keymap.set("n", "<leader>j", function()
-	local picked_window_id = require("window-picker").pick_window()
-	if picked_window_id then
-		vim.api.nvim_set_current_win(picked_window_id)
-	end
-end, { desc = "Pick a window" })
 -- }}}
+
 -- {{{ terminal
 vim.keymap.set("t", "<ESC>", [[<C-\><C-n>]])
 
