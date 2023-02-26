@@ -159,7 +159,6 @@ which_key.register({
 	b = main_keymap.finder.b, -- buffers
 	B = main_keymap.finder.B, -- buffers (cwd only)
 	l = main_keymap.finder.l, -- buffer lines
-	g = main_keymap.finder.g, -- git_files
 	f = main_keymap.finder.f, -- find_files
 	o = main_keymap.finder.o, -- old_files
 	a = main_keymap.finder.a, -- Rg
