@@ -36,3 +36,16 @@ vim.keymap.set("n", "\\I", function()
 	vim.g.miniindentscope_disable = not vim.g.miniindentscope_disable
 end, { desc = "toggle indentscope" })
 require("mini.indentscope").setup()
+
+require("mini.move").setup({
+	mappings = {
+		left = "",
+		right = "",
+		line_left = "",
+		line_right = "",
+		down = "]e",
+		up = "[e",
+		line_down = "]e",
+		line_up = "[e",
+	},
+})
