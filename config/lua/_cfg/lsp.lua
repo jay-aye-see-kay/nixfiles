@@ -11,7 +11,6 @@ local lsp_servers = {
 	"rnix",
 	"rust_analyzer",
 	"solargraph",
-	"tsserver",
 	"vimls",
 	"yamlls",
 }
@@ -26,6 +25,32 @@ require("neodev").setup({
 })
 
 local lsp_augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+local function on_attach(client, bufnr)
+	if client.server_capabilities.documentSymbolProvider then
+		require("nvim-navic").attach(client, bufnr)
+	end
+	-- autoformat document with null-ls if setup
+	if client.supports_method("textDocument/formatting") then
+		vim.api.nvim_clear_autocmds({ group = lsp_augroup, buffer = bufnr })
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			group = lsp_augroup,
+			buffer = bufnr,
+			callback = function()
+				vim.lsp.buf.format({
+					bufnr = bufnr,
+					filter = function(fmt_client)
+						return fmt_client.name == "null-ls"
+					end,
+				})
+			end,
+		})
+	end
+end
+
+require("typescript").setup({
+	server = { on_attach = on_attach },
+})
+
 for _, lsp in pairs(lsp_servers) do
 	local settings = {}
 	if lsp == "jsonls" then
@@ -43,32 +68,7 @@ for _, lsp in pairs(lsp_servers) do
 
 	require("lspconfig")[lsp].setup({
 		settings = settings,
-		on_attach = function(client, bufnr)
-			if lsp == "tsserver" then
-				local ts_utils = require("nvim-lsp-ts-utils")
-				ts_utils.setup({})
-				ts_utils.setup_client(client)
-			end
-			if client.server_capabilities.documentSymbolProvider then
-				require("nvim-navic").attach(client, bufnr)
-			end
-			-- autoformat document with null-ls if setup
-			if client.supports_method("textDocument/formatting") then
-				vim.api.nvim_clear_autocmds({ group = lsp_augroup, buffer = bufnr })
-				vim.api.nvim_create_autocmd("BufWritePre", {
-					group = lsp_augroup,
-					buffer = bufnr,
-					callback = function()
-						vim.lsp.buf.format({
-							bufnr = bufnr,
-							filter = function(fmt_client)
-								return fmt_client.name == "null-ls"
-							end,
-						})
-					end,
-				})
-			end
-		end,
+		on_attach = on_attach,
 	})
 end
 

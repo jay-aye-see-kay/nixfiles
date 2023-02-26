@@ -34,6 +34,10 @@
       url = "github:zdcthomas/yop.nvim";
       flake = false;
     };
+    "plugin:typescript-nvim" = {
+      url = "github:jose-elias-alvarez/typescript.nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
@@ -146,7 +150,6 @@
 
             # lsp stuff
             nvim-lspconfig
-            nvim-lsp-ts-utils # TODO replace with https://github.com/leafgarland/typescript-vim
             SchemaStore-nvim
             nvim-cmp
             cmp-buffer
