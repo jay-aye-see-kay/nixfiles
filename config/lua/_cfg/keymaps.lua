@@ -215,7 +215,7 @@ Hydra({
 
 -- {{{ custom operators
 -- sort from https://github.com/zdcthomas/yop.nvim/wiki/Example-mappings#sorting
-require("yop").op_map({ "n", "v" }, "gs", function(lines)
+local function yop_sort(lines)
 	local sort_without_leading_space = function(a, b)
 		local pattern = [[^%W*]]
 		return string.gsub(a, pattern, "") < string.gsub(b, pattern, "")
@@ -230,10 +230,12 @@ require("yop").op_map({ "n", "v" }, "gs", function(lines)
 		table.sort(lines, sort_without_leading_space)
 		return lines
 	end
-end)
+end
+require("yop").op_map({ "n", "v" }, "gs", yop_sort)
+require("yop").op_map({ "n", "v" }, "gss", yop_sort, { linewise = true })
 
 -- source lines
-require("yop").op_map({ "n", "v" }, ",s", function(lines, opts)
+local function source_lines(lines, opts)
 	local ft = vim.bo.filetype
 	if ft == "lua" or ft == "vim" then
 		vim.cmd(opts.position.first[1] .. "," .. opts.position.last[1] .. " source")
@@ -241,11 +243,15 @@ require("yop").op_map({ "n", "v" }, ",s", function(lines, opts)
 	else
 		print("Not a lua or vimL file, sourcing nothing")
 	end
-end)
+end
+require("yop").op_map({ "n", "v" }, ",s", source_lines)
+require("yop").op_map({ "n", "v" }, ",ss", source_lines, { linewise = true })
 
 -- copy to system clipboard
-require("yop").op_map({ "n", "v" }, ",c", function(lines)
+local function lines_to_clipboard(lines)
 	vim.fn.setreg("+", lines)
 	print("Copied " .. #lines .. " lines to system clipboard")
-end)
+end
+require("yop").op_map({ "n", "v" }, ",c", lines_to_clipboard)
+require("yop").op_map({ "n", "v" }, ",cc", lines_to_clipboard, { linewise = true })
 -- }}}
