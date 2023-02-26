@@ -2,13 +2,6 @@ local h = require("_cfg.helpers")
 vim.g.unception_block_while_host_edits = true
 
 -- basic core stuff {{{
-
--- faster window movements
-h.map("n", "<c-h>", "<c-w>h")
-h.map("n", "<c-j>", "<c-w>j")
-h.map("n", "<c-k>", "<c-w>k")
-h.map("n", "<c-l>", "<c-w>l")
-
 -- disable ex mode
 h.map("n", "Q", "<nop>")
 h.map("n", "gQ", "<nop>")

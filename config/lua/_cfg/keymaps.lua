@@ -1,8 +1,6 @@
 local h = require("_cfg.helpers")
 
 -- keymaps {{{
-vim.keymap.set({ "n", "i" }, "<c-s>", "<cmd>w<cr>")
-
 -- show the whichkey popup (i.e. which keymaps are available)
 vim.keymap.set({ "n", "v", "i" }, "<F1>", "<cmd>WhichKey<cr>")
 
