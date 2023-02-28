@@ -18,6 +18,16 @@ require("mini.basics").setup({
 })
 vim.keymap.del("t", "<C-w>") -- mini.basics sets this to Focus other window, leave default
 
+-- change mini.basics new blank line keymaps to match unimpaired's
+vim.keymap.del("n", "go")
+vim.keymap.del("n", "gO")
+local empty_line = {
+	above = "<Cmd>call append(line('.') - 1, repeat([''], v:count1))<CR>",
+	below = "<Cmd>call append(line('.'),     repeat([''], v:count1))<CR>",
+}
+vim.keymap.set("n", "] ", empty_line.below, { desc = "Put empty line below" })
+vim.keymap.set("n", "[ ", empty_line.above, { desc = "Put empty line above" })
+
 require("mini.ai").setup()
 require("mini.starter").setup()
 require("mini.align").setup({
