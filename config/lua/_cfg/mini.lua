@@ -16,6 +16,7 @@ require("mini.basics").setup({
 		relnum_in_visual_mode = false,
 	},
 })
+vim.keymap.del("t", "<C-w>") -- mini.basics sets this to Focus other window, leave default
 
 require("mini.ai").setup()
 require("mini.starter").setup()
