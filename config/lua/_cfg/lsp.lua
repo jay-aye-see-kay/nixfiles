@@ -115,8 +115,6 @@ vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, { desc =
 vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, { desc = "Find references" })
 vim.keymap.set("n", "gh", vim.lsp.buf.hover, { desc = "Hover docs" })
 vim.keymap.set("n", "gI", vim.lsp.buf.implementation, { desc = "Goto implementation" })
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
 vim.keymap.set("i", "<C-i>", function()
 	require("cmp").mapping.close()(function() end) -- requires a fallback() arg or will throw
 	vim.lsp.buf.signature_help()

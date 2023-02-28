@@ -64,6 +64,22 @@
         "type": "github"
       }
     },
+    "plugin:mini-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1677406495,
+        "narHash": "sha256-I0snJiaUkpOYayuDyuXlPBEVI+FcyYRf0fudUiQGQ9g=",
+        "owner": "echasnovski",
+        "repo": "mini.nvim",
+        "rev": "50533ab8adc951515541ec10a6fa6ddfdde9adaf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "echasnovski",
+        "repo": "mini.nvim",
+        "type": "github"
+      }
+    },
     "plugin:mkdnflow": {
       "flake": false,
       "locked": {
@@ -182,6 +198,7 @@
         "nixpkgs": "nixpkgs",
         "plugin:debugprint": "plugin:debugprint",
         "plugin:git-conflict-nvim": "plugin:git-conflict-nvim",
+        "plugin:mini-nvim": "plugin:mini-nvim",
         "plugin:mkdnflow": "plugin:mkdnflow",
         "plugin:nvim-unception": "plugin:nvim-unception",
         "plugin:tsnode-marker-nvim": "plugin:tsnode-marker-nvim",

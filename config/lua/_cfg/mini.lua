@@ -49,3 +49,21 @@ require("mini.move").setup({
 		line_up = "[e",
 	},
 })
+
+require("mini.bracketed").setup({
+	comment = { suffix = "c" },
+	diagnostic = { suffix = "d" },
+	file = { suffix = "f" },
+	quickfix = { suffix = "q" },
+	-- disabled keymaps
+	buffer = { suffix = "" },
+	conflict = { suffix = "" },
+	indent = { suffix = "" },
+	jump = { suffix = "" },
+	location = { suffix = "" },
+	oldfile = { suffix = "" },
+	treesitter = { suffix = "" },
+	undo = { suffix = "" },
+	window = { suffix = "" },
+	yank = { suffix = "" },
+})

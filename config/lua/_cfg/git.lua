@@ -15,8 +15,8 @@ require("which-key").register({
 }, { prefix = "<leader>g" })
 
 require("git-conflict").setup()
-vim.keymap.set("n", "]c", "<Plug>(git-conflict-next-conflict)", { desc = "next conflict marker" })
-vim.keymap.set("n", "[c", "<Plug>(git-conflict-prev-conflict)", { desc = "prev conflict marker" })
+vim.keymap.set("n", "]x", "<Plug>(git-conflict-next-conflict)", { desc = "next conflict marker" })
+vim.keymap.set("n", "[x", "<Plug>(git-conflict-prev-conflict)", { desc = "prev conflict marker" })
 
 local gitsigns = require("gitsigns")
 gitsigns.setup({

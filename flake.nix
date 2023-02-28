@@ -42,6 +42,10 @@
       url = "github:atusy/tsnode-marker.nvim";
       flake = false;
     };
+    "plugin:mini-nvim" = {
+      url = "github:echasnovski/mini.nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
@@ -190,7 +194,6 @@
             neodev-nvim
 
             { plugin = nvim-surround; config = "lua require('nvim-surround').setup()"; }
-            mini-nvim
             text-case-nvim
 
             # git
