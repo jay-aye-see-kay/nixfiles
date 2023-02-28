@@ -43,19 +43,21 @@
         "nixpkgs": "nixpkgs",
         "plugin:debugprint": "plugin:debugprint",
         "plugin:git-conflict-nvim": "plugin:git-conflict-nvim",
+        "plugin:mini-nvim": "plugin:mini-nvim",
         "plugin:mkdnflow": "plugin:mkdnflow",
         "plugin:nvim-unception": "plugin:nvim-unception",
+        "plugin:tsnode-marker-nvim": "plugin:tsnode-marker-nvim",
         "plugin:typescript-nvim": "plugin:typescript-nvim",
         "plugin:vim-just": "plugin:vim-just",
         "plugin:vim-symlink": "plugin:vim-symlink",
         "plugin:yop-nvim": "plugin:yop-nvim"
       },
       "locked": {
-        "lastModified": 1677425332,
-        "narHash": "sha256-eKGDHOrUbA1GZCdp+MSyt9srUB7HBpdgEwynNML7TQg=",
+        "lastModified": 1677564861,
+        "narHash": "sha256-U1aDX3Zh3p6hnzl9v4HXf38C4WVjiVJ71FOaaymRx0Q=",
         "owner": "jay-aye-see-kay",
         "repo": "neovim-flake",
-        "rev": "13e0bd793a5d24815b82db436e9cdfb4cff00184",
+        "rev": "e322d187f1a0e8e9af18ec9f796003dff8b48db1",
         "type": "github"
       },
       "original": {
@@ -192,6 +194,22 @@
         "type": "github"
       }
     },
+    "plugin:mini-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1677406495,
+        "narHash": "sha256-I0snJiaUkpOYayuDyuXlPBEVI+FcyYRf0fudUiQGQ9g=",
+        "owner": "echasnovski",
+        "repo": "mini.nvim",
+        "rev": "50533ab8adc951515541ec10a6fa6ddfdde9adaf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "echasnovski",
+        "repo": "mini.nvim",
+        "type": "github"
+      }
+    },
     "plugin:mkdnflow": {
       "flake": false,
       "locked": {
@@ -221,6 +239,22 @@
       "original": {
         "owner": "samjwill",
         "repo": "nvim-unception",
+        "type": "github"
+      }
+    },
+    "plugin:tsnode-marker-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1677253233,
+        "narHash": "sha256-ODW8D1CNrpFbN29vue9yoAZAjtQ1kQNJERbBGfRbI28=",
+        "owner": "atusy",
+        "repo": "tsnode-marker.nvim",
+        "rev": "62c42a1cc41ecda5a4b18ba1326f126dd51bdbf5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "atusy",
+        "repo": "tsnode-marker.nvim",
         "type": "github"
       }
     },
