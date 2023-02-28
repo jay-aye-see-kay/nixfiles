@@ -28,7 +28,7 @@ h.autocmd({ "FileType" }, {
 		vim.wo.foldmethod = "expr"
 		vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 		require("tsnode-marker").set_automark(ctx.buf, {
-			target = { "code_fence_content" },
+			target = { "code_fence_content", "indented_code_block" },
 			hl_group = "CodeBlockBackground",
 		})
 	end,
