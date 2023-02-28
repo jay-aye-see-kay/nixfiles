@@ -38,6 +38,10 @@
       url = "github:jose-elias-alvarez/typescript.nvim";
       flake = false;
     };
+    "plugin:tsnode-marker-nvim" = {
+      url = "github:atusy/tsnode-marker.nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:

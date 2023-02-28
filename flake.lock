@@ -96,6 +96,22 @@
         "type": "github"
       }
     },
+    "plugin:tsnode-marker-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1677253233,
+        "narHash": "sha256-ODW8D1CNrpFbN29vue9yoAZAjtQ1kQNJERbBGfRbI28=",
+        "owner": "atusy",
+        "repo": "tsnode-marker.nvim",
+        "rev": "62c42a1cc41ecda5a4b18ba1326f126dd51bdbf5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "atusy",
+        "repo": "tsnode-marker.nvim",
+        "type": "github"
+      }
+    },
     "plugin:typescript-nvim": {
       "flake": false,
       "locked": {
@@ -168,6 +184,7 @@
         "plugin:git-conflict-nvim": "plugin:git-conflict-nvim",
         "plugin:mkdnflow": "plugin:mkdnflow",
         "plugin:nvim-unception": "plugin:nvim-unception",
+        "plugin:tsnode-marker-nvim": "plugin:tsnode-marker-nvim",
         "plugin:typescript-nvim": "plugin:typescript-nvim",
         "plugin:vim-just": "plugin:vim-just",
         "plugin:vim-symlink": "plugin:vim-symlink",
