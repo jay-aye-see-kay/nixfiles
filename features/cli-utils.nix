@@ -36,6 +36,7 @@ platformSpecificPackages ++ [
   # unix-y "extensions"
   pv # progress of pipes?
   duf # a "better" df
+  du-dust # a "better" du
   tree # view directory and sub-dirs as tree
   entr # watch files and re-run a command
   pwgen
