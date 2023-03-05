@@ -73,6 +73,10 @@ for _, lsp in pairs(lsp_servers) do
 	})
 end
 
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+	border = "rounded",
+})
+
 -- @param severity "ERROR"| "WARN"| "INFO"| "HINT"
 local force_diagnostic_severity = function(severity)
 	return function(diagnostic)

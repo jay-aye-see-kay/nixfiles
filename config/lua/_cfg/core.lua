@@ -57,6 +57,8 @@ h.autocmd({ "ColorScheme" }, {
 		vim.api.nvim_set_hl(0, "CodeBlockBackground", { bg = require("zenbones").Normal.bg.li(70).hex })
 		-- darken cursorline so it's more visible
 		vim.api.nvim_set_hl(0, "CursorLine", { bg = require("zenbones").CursorLine.bg.darken(7).hex })
+		-- floating window background to match body
+		vim.api.nvim_set_hl(0, "FloatBorder", { bg = require("zenbones").NormalFloat.bg.hex })
 	end,
 })
 
