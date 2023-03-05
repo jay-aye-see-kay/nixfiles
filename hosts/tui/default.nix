@@ -106,6 +106,7 @@ in
     mullvad-vpn
     pulsemixer
     qbittorrent
+    flyctl
   ] ++ (import ../../features/cli-utils.nix { inherit pkgs; });
 
   # This option enables Mullvad VPN daemon. This sets networking.firewall.checkReversePath
