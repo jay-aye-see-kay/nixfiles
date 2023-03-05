@@ -229,7 +229,6 @@
 
           # Formatters
           black
-          nodePackages.prettier_d_slim
           shfmt
           stylua
           rustfmt
