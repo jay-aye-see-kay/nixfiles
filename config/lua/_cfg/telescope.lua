@@ -40,13 +40,8 @@ telescope.setup({
 		zoxide = {
 			mappings = {
 				["<c-b>"] = nil,
+				["<c-t>"] = nil,
 				default = {
-					action = function(selection)
-						vim.cmd.tabedit(selection.path)
-						vim.cmd.tcd(selection.path)
-					end,
-				},
-				["<c-t>"] = {
 					action = function(selection)
 						vim.cmd.tabedit(selection.path)
 						vim.cmd.tcd(selection.path)
