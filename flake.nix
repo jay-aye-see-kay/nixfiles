@@ -210,6 +210,7 @@
           # LSPs and linters
           godef
           gopls
+          nodePackages."@tailwindcss/language-server"
           nodePackages.bash-language-server
           nodePackages.dockerfile-language-server-nodejs
           nodePackages.eslint_d

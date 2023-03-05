@@ -11,6 +11,7 @@ local lsp_servers = {
 	"rnix",
 	"rust_analyzer",
 	"solargraph",
+	"tailwindcss",
 	"vimls",
 	"yamlls",
 }
