@@ -46,6 +46,10 @@
       url = "github:echasnovski/mini.nvim";
       flake = false;
     };
+    "plugin:codegpt-nvim" = {
+      url = "github:dpayne/CodeGPT.nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:

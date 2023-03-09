@@ -74,3 +74,18 @@ require("which-key").register({
 	mode = "v",
 })
 -- }}}
+
+-- {{{ openapi / other ai code stuff
+-- read openai key if it's set in ~/.config/nvim/openapi_key
+local openai_key = (function()
+	local file = io.open(vim.fn.stdpath("config") .. "/openapi_key")
+	if file then
+		for line in file:lines() do
+			return line
+		end
+	end
+end)()
+if openai_key then
+	vim.g.codegpt_openai_api_key = openai_key
+end
+-- }}}

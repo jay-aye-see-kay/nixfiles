@@ -31,6 +31,22 @@
         "type": "github"
       }
     },
+    "plugin:codegpt-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1678355374,
+        "narHash": "sha256-boegd5ypU7k7tn3y78XguIV1ri4XyY9zfewQ9nLavfs=",
+        "owner": "dpayne",
+        "repo": "CodeGPT.nvim",
+        "rev": "53b3e75af4ddd281d09fcd9574f8cebdf3198010",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dpayne",
+        "repo": "CodeGPT.nvim",
+        "type": "github"
+      }
+    },
     "plugin:debugprint": {
       "flake": false,
       "locked": {
@@ -196,6 +212,7 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
+        "plugin:codegpt-nvim": "plugin:codegpt-nvim",
         "plugin:debugprint": "plugin:debugprint",
         "plugin:git-conflict-nvim": "plugin:git-conflict-nvim",
         "plugin:mini-nvim": "plugin:mini-nvim",
