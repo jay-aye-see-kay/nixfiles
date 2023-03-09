@@ -50,6 +50,10 @@
       url = "github:dpayne/CodeGPT.nvim";
       flake = false;
     };
+    "plugin:chatgpt-nvim" = {
+      url = "github:jackMort/ChatGPT.nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:

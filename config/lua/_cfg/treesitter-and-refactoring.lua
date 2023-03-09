@@ -76,16 +76,19 @@ require("which-key").register({
 -- }}}
 
 -- {{{ openapi / other ai code stuff
--- read openai key if it's set in ~/.config/nvim/openapi_key
-local openai_key = (function()
-	local file = io.open(vim.fn.stdpath("config") .. "/openapi_key")
+-- read openai key if it's set in ~/.config/nvim/openai_api_key
+local openai_api_key = (function()
+	local file = io.open(vim.fn.stdpath("config") .. "/openai_api_key")
 	if file then
 		for line in file:lines() do
 			return line
 		end
 	end
 end)()
-if openai_key then
-	vim.g.codegpt_openai_api_key = openai_key
+if openai_api_key then
+	-- currently used by github.com/dpayne/CodeGPT.nvim and github.com/jackMort/ChatGPT.nvim
+	vim.env.OPENAI_API_KEY = openai_api_key
 end
+
+require("chatgpt").setup({})
 -- }}}
