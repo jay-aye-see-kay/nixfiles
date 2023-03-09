@@ -41,6 +41,8 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
+        "plugin:chatgpt-nvim": "plugin:chatgpt-nvim",
+        "plugin:codegpt-nvim": "plugin:codegpt-nvim",
         "plugin:debugprint": "plugin:debugprint",
         "plugin:git-conflict-nvim": "plugin:git-conflict-nvim",
         "plugin:mini-nvim": "plugin:mini-nvim",
@@ -53,11 +55,11 @@
         "plugin:yop-nvim": "plugin:yop-nvim"
       },
       "locked": {
-        "lastModified": 1678056568,
-        "narHash": "sha256-PHHlhrdwTDROngetX9eeg5DL63WpCX7cP0f8+T97sak=",
+        "lastModified": 1678403187,
+        "narHash": "sha256-S2Dt1OY/BpJv9yLq1ou7jwnovrw9BOlhwJU7GjPOUz0=",
         "owner": "jay-aye-see-kay",
         "repo": "neovim-flake",
-        "rev": "878b13904db9c3feb2f1a8f31cbe3254006a4942",
+        "rev": "77118ac15495798106871c5b684eee6b0d51240f",
         "type": "github"
       },
       "original": {
@@ -158,6 +160,38 @@
         "owner": "NixOS",
         "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "plugin:chatgpt-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1678109133,
+        "narHash": "sha256-X61+mLDM8QgjHwdiVhxqn5VG3Cjp2FnigPqBYqUzXZI=",
+        "owner": "jackMort",
+        "repo": "ChatGPT.nvim",
+        "rev": "8820b99ca1f2cd229578d104ea57aa3a8029113d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jackMort",
+        "repo": "ChatGPT.nvim",
+        "type": "github"
+      }
+    },
+    "plugin:codegpt-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1678355374,
+        "narHash": "sha256-boegd5ypU7k7tn3y78XguIV1ri4XyY9zfewQ9nLavfs=",
+        "owner": "dpayne",
+        "repo": "CodeGPT.nvim",
+        "rev": "53b3e75af4ddd281d09fcd9574f8cebdf3198010",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dpayne",
+        "repo": "CodeGPT.nvim",
         "type": "github"
       }
     },
