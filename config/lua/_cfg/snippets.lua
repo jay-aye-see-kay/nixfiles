@@ -1,6 +1,5 @@
 local h = require("_cfg.helpers")
 
--- snippets {{{
 require("luasnip.loaders.from_vscode").lazy_load()
 
 -- these need to work in insert and select mode for some reason
@@ -58,6 +57,12 @@ local js_snippets = {
 	-- verbose undefined checks
 	vsc("=u", "=== undefined", {}),
 	vsc("!u", "!== undefined", {}),
+	vsc("delay", "await new Promise((resolve) => setTimeout(resolve, ${0:1000}))", {}),
+}
+
+local html_snippets = {
+	vsc("t", "<${1}>${0}</${1}>", {}),
+	vsc("cn", [[className="${0}"]], {}),
 }
 
 ls.add_snippets("all", {
@@ -88,4 +93,7 @@ ls.add_snippets("javascript", js_snippets)
 ls.add_snippets("typescript", js_snippets)
 ls.add_snippets("javascriptreact", js_snippets)
 ls.add_snippets("typescriptreact", js_snippets)
--- }}}
+
+ls.add_snippets("html", html_snippets)
+ls.add_snippets("javascriptreact", html_snippets)
+ls.add_snippets("typescriptreact", html_snippets)
