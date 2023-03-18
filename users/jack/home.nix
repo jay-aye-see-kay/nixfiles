@@ -24,8 +24,6 @@ let
 
     clang # comes with xcode, things expect to use that version
 
-    # these are broken on macos, no idea why but I don't really need them
-    youtube-dl
   ];
 in
 {
@@ -66,6 +64,7 @@ in
       cargo
       clippy
       exercism
+      unstable.yt-dlp
     ]
     ++ (if pkgs.stdenv.isLinux then linuxOnlyPackages else darwinOnlyPackages);
 
