@@ -9,6 +9,7 @@ require("neo-tree").setup({
 		width = 30,
 		mappings = {
 			["<space>"] = false,
+			["z"] = false,
 			["l"] = "open",
 			["h"] = "close_node",
 		},
@@ -31,6 +32,9 @@ require("neo-tree").setup({
 				["<c-x>"] = "clear_filter",
 				["[g"] = "prev_git_modified",
 				["]g"] = "next_git_modified",
+				["a"] = { "add", config = { show_path = "relative" } },
+				["c"] = { "copy", config = { show_path = "relative" } },
+				["m"] = { "move", config = { show_path = "relative" } },
 			},
 		},
 	},
