@@ -26,7 +26,7 @@ require("neo-tree").setup({
 				["H"] = "navigate_up",
 				["L"] = "set_root",
 				["."] = "toggle_hidden",
-				["/"] = "fuzzy_finder",
+				["/"] = false,
 				["D"] = "fuzzy_finder_directory",
 				["<c-x>"] = "clear_filter",
 				["[g"] = "prev_git_modified",
