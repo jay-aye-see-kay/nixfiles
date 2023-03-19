@@ -65,6 +65,10 @@ in
       clippy
       exercism
       unstable.yt-dlp
+
+      (writeShellScriptBin
+        "git-guess-default-branch"
+        (builtins.readFile ../../scripts/guess-default-branch.sh))
     ]
     ++ (if pkgs.stdenv.isLinux then linuxOnlyPackages else darwinOnlyPackages);
 
@@ -115,7 +119,8 @@ in
         co = "checkout";
         cob = "checkout -b";
         cod = "checkout develop";
-        com = "checkout master";
+        com = ''!git checkout "$(git guess-default-branch)"'';
+        gdb = "guess-default-branch";
         df = "diff";
         dfs = "diff --staged";
         st = "status";
