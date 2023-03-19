@@ -29,7 +29,6 @@ vim.keymap.set("n", "] ", empty_line.below, { desc = "Put empty line below" })
 vim.keymap.set("n", "[ ", empty_line.above, { desc = "Put empty line above" })
 
 require("mini.ai").setup()
-require("mini.starter").setup()
 require("mini.align").setup({
 	mappings = {
 		start = "gl",
