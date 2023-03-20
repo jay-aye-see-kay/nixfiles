@@ -91,9 +91,15 @@ in
     alacritty.settings.font.size = if pkgs.stdenv.isLinux then 8 else 14;
     alacritty.settings.font.normal.family = ifDarwin "FuraMono Nerd Font Mono";
 
-    # Don't quit on Cmd-W it's annoying
-    # Unfortunately it will still quit on Cmd-Q and this can't be disabled, see https://github.com/alacritty/alacritty/issues/6136
-    alacritty.settings.key_bindings = [{ key = "W"; mods = "Command"; action = "None"; }];
+    alacritty.settings.key_bindings = [
+      # Don't quit on Cmd-W it's annoying
+      # Unfortunately it will still quit on Cmd-Q and this can't be disabled, see https://github.com/alacritty/alacritty/issues/6136
+      { key = "W"; mods = "Command"; action = "None"; }
+
+      # https://stackoverflow.com/a/42461580
+      { key = "Return"; mods = "Shift"; chars = ''\x1b[13;2u''; }
+      { key = "Return"; mods = "Control"; chars = ''\x1b[13;5u''; }
+    ];
 
     # from: https://github.com/mcchrish/zenbones.nvim/blob/main/extras/alacritty/zenbones_light.yml
     # converted to json in vim with `:'<,'>!yq`
