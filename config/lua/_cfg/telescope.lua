@@ -1,6 +1,7 @@
 local actions = require("telescope.actions")
 local action_layout = require("telescope.actions.layout")
 local telescope = require("telescope")
+local lga_actions = require("telescope-live-grep-args.actions")
 telescope.setup({
 	defaults = {
 		layout_config = { prompt_position = "top" },
@@ -49,12 +50,36 @@ telescope.setup({
 				},
 			},
 		},
+		live_grep_args = {
+			auto_quoting = true,
+			mappings = {
+				i = {
+					["<C-k>"] = lga_actions.quote_prompt(),
+					["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+				},
+			},
+		},
 	},
 })
 telescope.load_extension("fzf")
 telescope.load_extension("undo")
 telescope.load_extension("zoxide")
+telescope.load_extension("live_grep_args")
+telescope.load_extension("advanced_git_search")
 
 vim.keymap.set("n", "<leader>fU", telescope.extensions.undo.undo, { desc = "search telescope history" })
 vim.keymap.set("n", "<leader>fz", telescope.extensions.zoxide.list, { desc = "cd with zoxide" })
 vim.keymap.set("n", ",z", telescope.extensions.zoxide.list, { desc = "cd with zoxide" })
+
+vim.keymap.set(
+	"n",
+	"<leader>fa",
+	telescope.extensions.live_grep_args.live_grep_args,
+	{ desc = "🔭 full text search" }
+)
+vim.keymap.set(
+	"n",
+	"<leader>fG",
+	telescope.extensions.advanced_git_search.search_log_content,
+	{ desc = "🔭 search git commit lines" }
+)

@@ -54,6 +54,10 @@
       url = "github:jackMort/ChatGPT.nvim";
       flake = false;
     };
+    "plugin:advanced-git-search-nvim" = {
+      url = "github:aaronhallaert/advanced-git-search.nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
@@ -195,6 +199,7 @@
             telescope-fzf-native-nvim
             telescope-zoxide
             telescope-undo-nvim
+            telescope-live-grep-args-nvim
 
             nvim-colorizer-lua
             vim-mundo

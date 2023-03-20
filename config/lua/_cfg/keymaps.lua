@@ -65,7 +65,6 @@ local main_keymap = {
 		o = { telescope_fns.oldfiles, "🔭 oldfiles" },
 		l = { telescope_fns.current_buffer_fuzzy_find, "🔭 buffer lines" },
 		w = { telescope_fns.spell_suggest, "🔭 spelling suggestions" },
-		a = { telescope_fns.live_grep, "🔭 full text search" },
 		u = { telescope_fns.grep_string, "🔭 word under cursor" },
 		n = { grep_notes, "🔭 search all notes" },
 		i = {

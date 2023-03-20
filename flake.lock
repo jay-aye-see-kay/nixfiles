@@ -31,6 +31,22 @@
         "type": "github"
       }
     },
+    "plugin:advanced-git-search-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1677794481,
+        "narHash": "sha256-7G0WNcaIH1/4Zs4282UdWfRExdlAz6AHzqBlSu/qioQ=",
+        "owner": "aaronhallaert",
+        "repo": "advanced-git-search.nvim",
+        "rev": "e36797ade1af3d0404e14db83fd09db4e619e8dc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aaronhallaert",
+        "repo": "advanced-git-search.nvim",
+        "type": "github"
+      }
+    },
     "plugin:chatgpt-nvim": {
       "flake": false,
       "locked": {
@@ -228,6 +244,7 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
+        "plugin:advanced-git-search-nvim": "plugin:advanced-git-search-nvim",
         "plugin:chatgpt-nvim": "plugin:chatgpt-nvim",
         "plugin:codegpt-nvim": "plugin:codegpt-nvim",
         "plugin:debugprint": "plugin:debugprint",
