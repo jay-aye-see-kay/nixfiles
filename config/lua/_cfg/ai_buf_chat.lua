@@ -209,7 +209,7 @@ end
 M.open_last_chat = function()
 	local filename = M.get_last_chat_filename()
 	if filename then
-		filename = vim.fs.normalize(filename)
+		filename = vim.fs.normalize(M.config.chats_dir .. "/" .. filename)
 		vim.cmd("edit " .. filename)
 	end
 end
@@ -217,7 +217,7 @@ end
 M.open_new_chat = function()
 	local filename = M.get_new_chat_filename()
 	if filename then
-		filename = vim.fs.normalize(filename)
+		filename = vim.fs.normalize(M.config.chats_dir .. "/" .. filename)
 		vim.cmd("edit " .. filename)
 		M.write_initial_text()
 	end
