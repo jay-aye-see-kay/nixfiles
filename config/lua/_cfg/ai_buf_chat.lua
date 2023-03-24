@@ -30,6 +30,7 @@ M.marker_lines = {
 M.config = {
 	chats_dir = "~/notes/ai-chats",
 	initial_text = initial_text,
+	url = "https://api.openai.com/v1/chat/completions",
 	default_settings = {
 		model = "gpt-3.5-turbo",
 	},
@@ -125,19 +126,14 @@ M.buffer_to_api = function(bufnr)
 	return M.sections_to_api_format(sections)
 end
 
--- TODO pass callback, non-blocking
--- TODO set loading/readonly state
-M.send_api = function(bufnr)
-	bufnr = bufnr or vim.api.nvim_get_current_buf()
-	local url = "https://api.openai.com/v1/chat/completions"
-	local key = vim.env.OPENAI_API_KEY
+M.send_api = function(bufnr, key)
 	M.append_line_to_buffer(bufnr, "")
 	M.append_line_to_buffer(bufnr, "Loading...")
 	require("plenary.job")
 		:new({
 			command = "curl",
 			args = {
-				url,
+				M.config.url,
 				"-H",
 				"Content-Type: application/json",
 				"-H",
@@ -235,8 +231,35 @@ M.write_initial_text = function(bufnr)
 	end
 end
 
+M.is_prefix = function(str1, str2)
+	local shorter, longer
+	if #str1 <= #str2 then
+		shorter, longer = str1, str2
+	else
+		shorter, longer = str2, str1
+	end
+	return longer:sub(1, #shorter) == shorter
+end
+
+-- do some sensible checks before trying to call ai on the buffer
+M.execute_on_current_buffer = function()
+	local key = vim.env.OPENAI_API_KEY
+	if key == nil then
+		print("could not find $OPENAI_API_KEY")
+		return
+	end
+	local current_path = vim.fs.normalize(vim.fn.expand("%:p"))
+	local config_path = vim.fs.normalize(M.config.chats_dir)
+	if not M.is_prefix(current_path, config_path) then
+		print("not in " .. config_path .. " doing nothing")
+		return
+	end
+	local bufnr = vim.api.nvim_get_current_buf()
+	M.send_api(bufnr, key)
+end
+
 M.setup = function()
-	vim.keymap.set("n", "<leader>cc", M.send_api, { desc = "send buffer to openai" })
+	vim.keymap.set("n", "<leader>cc", M.execute_on_current_buffer, { desc = "send buffer to openai" })
 	vim.keymap.set("n", "<leader>cn", M.open_new_chat, { desc = "open new ai-chat buffer" })
 	vim.keymap.set("n", "<leader>cl", M.open_last_chat, { desc = "open last ai-chat buffer" })
 end
