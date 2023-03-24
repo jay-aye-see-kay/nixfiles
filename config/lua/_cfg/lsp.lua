@@ -56,9 +56,16 @@ for _, lsp in pairs(lsp_servers) do
 	local settings = {}
 	if lsp == "jsonls" then
 		settings.json = {
+			validate = { enable = true },
 			schemas = require("schemastore").json.schemas(),
 		}
-	elseif lsp == "sumneko_lua" then
+	elseif lsp == "yamlls" then
+		settings = {
+			yaml = {
+				schemas = require("schemastore").yaml.schemas(),
+			},
+		}
+	elseif lsp == "lua_ls" then
 		settings.Lua = {
 			runtime = { version = "LuaJIT" },
 			diagnostics = { globals = { "vim" } },
