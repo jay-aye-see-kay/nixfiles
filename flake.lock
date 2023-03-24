@@ -56,11 +56,11 @@
         "plugin:yop-nvim": "plugin:yop-nvim"
       },
       "locked": {
-        "lastModified": 1679628917,
-        "narHash": "sha256-sJGpajJ4Nj4IrsBoXix8QTQ94MBQH3tkgkB3djrgBxI=",
+        "lastModified": 1679679401,
+        "narHash": "sha256-oCaMFt+UeoHFxKWqD/uS6O84u603JhhE1ubRvmhOM/c=",
         "owner": "jay-aye-see-kay",
         "repo": "neovim-flake",
-        "rev": "5c9a63952fb0effaf72a30b3bc98e46f9a3b5614",
+        "rev": "a9e368cbcd19ca776c46fbc0894a39d7e31597c5",
         "type": "github"
       },
       "original": {
