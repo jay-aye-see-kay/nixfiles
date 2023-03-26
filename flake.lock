@@ -42,6 +42,7 @@
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
         "plugin:advanced-git-search-nvim": "plugin:advanced-git-search-nvim",
+        "plugin:chatbot-buffer-nvim": "plugin:chatbot-buffer-nvim",
         "plugin:chatgpt-nvim": "plugin:chatgpt-nvim",
         "plugin:codegpt-nvim": "plugin:codegpt-nvim",
         "plugin:debugprint": "plugin:debugprint",
@@ -56,11 +57,11 @@
         "plugin:yop-nvim": "plugin:yop-nvim"
       },
       "locked": {
-        "lastModified": 1679679401,
-        "narHash": "sha256-oCaMFt+UeoHFxKWqD/uS6O84u603JhhE1ubRvmhOM/c=",
+        "lastModified": 1679867724,
+        "narHash": "sha256-xyBVcaX71vv+YKk0EvuIyyuWawT55sDpq+27yLlJMVE=",
         "owner": "jay-aye-see-kay",
         "repo": "neovim-flake",
-        "rev": "a9e368cbcd19ca776c46fbc0894a39d7e31597c5",
+        "rev": "b2316163692b87951b1b80b675bfb881299ca387",
         "type": "github"
       },
       "original": {
@@ -177,6 +178,22 @@
       "original": {
         "owner": "aaronhallaert",
         "repo": "advanced-git-search.nvim",
+        "type": "github"
+      }
+    },
+    "plugin:chatbot-buffer-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1679867655,
+        "narHash": "sha256-wzbdBiviieD1ZfohgoyK8kuOxKVo2TGnYfHLuxf0keg=",
+        "owner": "jay-aye-see-kay",
+        "repo": "chatbot-buffer.nvim",
+        "rev": "9980ad7cf6cb24fcb587deed38c81970c5abdbcc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jay-aye-see-kay",
+        "repo": "chatbot-buffer.nvim",
         "type": "github"
       }
     },
