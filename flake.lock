@@ -47,6 +47,22 @@
         "type": "github"
       }
     },
+    "plugin:chatbot-buffer-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1679867655,
+        "narHash": "sha256-wzbdBiviieD1ZfohgoyK8kuOxKVo2TGnYfHLuxf0keg=",
+        "owner": "jay-aye-see-kay",
+        "repo": "chatbot-buffer.nvim",
+        "rev": "9980ad7cf6cb24fcb587deed38c81970c5abdbcc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jay-aye-see-kay",
+        "repo": "chatbot-buffer.nvim",
+        "type": "github"
+      }
+    },
     "plugin:chatgpt-nvim": {
       "flake": false,
       "locked": {
@@ -245,6 +261,7 @@
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
         "plugin:advanced-git-search-nvim": "plugin:advanced-git-search-nvim",
+        "plugin:chatbot-buffer-nvim": "plugin:chatbot-buffer-nvim",
         "plugin:chatgpt-nvim": "plugin:chatgpt-nvim",
         "plugin:codegpt-nvim": "plugin:codegpt-nvim",
         "plugin:debugprint": "plugin:debugprint",
