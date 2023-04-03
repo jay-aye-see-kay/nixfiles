@@ -90,6 +90,12 @@ in
     alacritty.enable = true;
     alacritty.settings.font.size = if pkgs.stdenv.isLinux then 8 else 14;
     alacritty.settings.font.normal.family = ifDarwin "FuraMono Nerd Font Mono";
+    # Spread additional padding evenly around the terminal content.
+    alacritty.settings.window.dynamic_padding = true;
+    # Window decorations -> none: Neither borders nor title bar
+    alacritty.settings.window.decorations = "none";
+    # Make `Option` key behave as `Alt` (macOS only):
+    alacritty.settings.window.option_as_alt = "OnlyRight";
 
     alacritty.settings.key_bindings = [
       # Don't quit on Cmd-W it's annoying
