@@ -50,11 +50,11 @@
     "plugin:chatbot-buffer-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1679867655,
-        "narHash": "sha256-wzbdBiviieD1ZfohgoyK8kuOxKVo2TGnYfHLuxf0keg=",
+        "lastModified": 1680480271,
+        "narHash": "sha256-mlGQI7LrZclX25T5Yr8PXCm2EtmkrTMU1siNs8L3E0c=",
         "owner": "jay-aye-see-kay",
         "repo": "chatbot-buffer.nvim",
-        "rev": "9980ad7cf6cb24fcb587deed38c81970c5abdbcc",
+        "rev": "b3093154971da48aaadbdae627c05c8ccfab5054",
         "type": "github"
       },
       "original": {

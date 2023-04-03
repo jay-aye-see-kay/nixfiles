@@ -59,7 +59,7 @@
       flake = false;
     };
     "plugin:chatbot-buffer-nvim" = {
-      # url = "git+file:../vim/chatbot-buffer.nvim";
+      # url = "git+file:../chatbot-buffer.nvim";
       url = "github:jay-aye-see-kay/chatbot-buffer.nvim";
       flake = false;
     };
