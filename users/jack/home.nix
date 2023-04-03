@@ -65,6 +65,7 @@ in
       clippy
       exercism
       unstable.yt-dlp
+      ffmpeg
 
       (writeShellScriptBin
         "git-guess-default-branch"
