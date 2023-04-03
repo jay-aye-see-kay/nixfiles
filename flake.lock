@@ -57,11 +57,11 @@
         "plugin:yop-nvim": "plugin:yop-nvim"
       },
       "locked": {
-        "lastModified": 1679867724,
-        "narHash": "sha256-xyBVcaX71vv+YKk0EvuIyyuWawT55sDpq+27yLlJMVE=",
+        "lastModified": 1680480465,
+        "narHash": "sha256-9Y908aYn+1QpmkhSd97vhjvkfZq4XXdD3RFusozKWmE=",
         "owner": "jay-aye-see-kay",
         "repo": "neovim-flake",
-        "rev": "b2316163692b87951b1b80b675bfb881299ca387",
+        "rev": "ddd1495be667763d13c3fd1b8632484790ed2818",
         "type": "github"
       },
       "original": {
@@ -184,11 +184,11 @@
     "plugin:chatbot-buffer-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1679867655,
-        "narHash": "sha256-wzbdBiviieD1ZfohgoyK8kuOxKVo2TGnYfHLuxf0keg=",
+        "lastModified": 1680480271,
+        "narHash": "sha256-mlGQI7LrZclX25T5Yr8PXCm2EtmkrTMU1siNs8L3E0c=",
         "owner": "jay-aye-see-kay",
         "repo": "chatbot-buffer.nvim",
-        "rev": "9980ad7cf6cb24fcb587deed38c81970c5abdbcc",
+        "rev": "b3093154971da48aaadbdae627c05c8ccfab5054",
         "type": "github"
       },
       "original": {
