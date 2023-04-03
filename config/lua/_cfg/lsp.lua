@@ -48,8 +48,13 @@ local function on_attach(client, bufnr)
 	end
 end
 
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
 require("typescript").setup({
-	server = { on_attach = on_attach },
+	server = {
+		on_attach = on_attach,
+		capabilities = capabilities,
+	},
 })
 
 for _, lsp in pairs(lsp_servers) do
@@ -77,6 +82,7 @@ for _, lsp in pairs(lsp_servers) do
 	require("lspconfig")[lsp].setup({
 		settings = settings,
 		on_attach = on_attach,
+		capabilities = capabilities,
 	})
 end
 
