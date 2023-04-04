@@ -59,10 +59,11 @@ in
       just
       go
 
-      rustc
-      cargo-edit
-      cargo
-      clippy
+      unstable.rustc
+      unstable.cargo-edit
+      unstable.cargo
+      unstable.clippy
+
       exercism
       unstable.yt-dlp
       ffmpeg
