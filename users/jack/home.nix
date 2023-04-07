@@ -95,7 +95,7 @@ in
     # Spread additional padding evenly around the terminal content.
     alacritty.settings.window.dynamic_padding = true;
     # Window decorations -> none: Neither borders nor title bar
-    alacritty.settings.window.decorations = "none";
+    alacritty.settings.window.decorations = lib.mkIf pkgs.stdenv.isDarwin "none";
     # Make `Option` key behave as `Alt` (macOS only):
     alacritty.settings.window.option_as_alt = "OnlyRight";
 
