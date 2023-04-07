@@ -182,5 +182,16 @@
           ];
         };
 
+      nixosConfigurations.neopossum = let system = "aarch64-linux"; in
+        lib.nixosSystem {
+          inherit system;
+          pkgs = mkPkgs system;
+          modules = [
+            sops-nix.nixosModules.sops
+            ./secrets/sops.nix
+            ./hosts/neopossum
+          ];
+        };
+
     };
 }
