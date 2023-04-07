@@ -7,6 +7,7 @@ let
       local.path = "${dataDir}/db.sqlite3";
     };
     authentication_backend.file = {
+      # generate password hash with: authelia crypto hash generate argon2 --password '<password>'
       path = "${dataDir}/users.yaml";
       watch = true;
     };
@@ -22,13 +23,6 @@ let
   });
 in
 {
-  sops.secrets = let autheliaUser = config.users.users.authelia.name; in
-    {
-      autheliaJwtSecret.owner = autheliaUser;
-      autheliaSessionSecret.owner = autheliaUser;
-      autheliaStorageEncryptionKey.owner = autheliaUser;
-    };
-
   users.users.authelia = {
     isSystemUser = true;
     group = "authelia";
@@ -38,10 +32,10 @@ in
   systemd.services.authelia = {
     description = "Authelia authentication and authorization server";
     wantedBy = [ "multi-user.target" ];
-    environment = with config.sops.secrets; {
-      AUTHELIA_JWT_SECRET_FILE = "${autheliaJwtSecret.path}";
-      AUTHELIA_SESSION_SECRET_FILE = "${autheliaSessionSecret.path}";
-      AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE = "${autheliaStorageEncryptionKey.path}";
+    environment = {
+      AUTHELIA_JWT_SECRET_FILE = "/var/authelia/jwt_secret";
+      AUTHELIA_SESSION_SECRET_FILE = "/var/authelia/session_secret";
+      AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE = "/var/authelia/storage_key";
     };
     serviceConfig = {
       User = "authelia";

@@ -187,8 +187,6 @@
           inherit system;
           pkgs = mkPkgs system;
           modules = [
-            sops-nix.nixosModules.sops
-            ./secrets/sops.nix
             ./hosts/neopossum
           ];
         };

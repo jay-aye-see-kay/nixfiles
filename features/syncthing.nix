@@ -2,12 +2,12 @@
 let
   user = "jack";
   devices = {
-    "possum" = { id = "4L6CALJ-X7QC2TU-GAXT7AD-EG7IDTM-YSBOHHA-WZ576MI-O4SXB5M-ECQTTAL"; };
+    "neopossum" = { id = "BVAQSV5-2LYW3VG-AS24HPV-ZG55NXM-2SMEHB5-3UZ7ZOJ-QLFLBTK-LP4BNQE"; };
     "tui" = { id = "3EEYNSK-IJ4YIX3-PHIEKT7-OECJJ2K-7RZAEZ7-TBY2AGW-HCKNPNH-34QYTQ6"; };
     "jjack-XMW16X" = { id = "IMQF5KD-ZGCQOZQ-GWPFWSN-2E3FH3O-UFOJL2Z-DBTS2AU-NVVAVYJ-XYNLJAG"; };
   };
-  allDevices = [ "possum" "tui" "jjack-XMW16X" ];
-  personalDevices = [ "possum" "tui" ];
+  allDevices = [ "neopossum" "tui" "jjack-XMW16X" ];
+  personalDevices = [ "neopossum" "tui" ];
   versioning = {
     type = "staggered";
     params = {

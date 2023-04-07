@@ -4,9 +4,14 @@ let
 in
 {
   imports = [
-    ./services.nix
     "${modulesPath}/virtualisation/amazon-image.nix"
+    ./services.nix
   ];
+
+  swapDevices = [{
+    device = "/var/lib/swapfile";
+    size = 2048; # MB
+  }];
 
   nix = {
     package = pkgs.nixFlakes;
