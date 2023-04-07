@@ -1,8 +1,6 @@
 keys:
   - &kakapo-jack age1dfy7vjkxzkuufg89jljnp6kqc59ywvhh9zyyf2l9qha05xdnq5ss4r2nuv
   - &kakapo-host age1zjl9mflz3gsd0t48k4lkvayqc22p9htp9mp6wz0er79w5ne2pygqj3el7t
-  - &possum-jack age1usjhnrztc4g0l485eahewezqkemvu79x997k74wgvgjrw7hcac5qk47cty
-  - &possum-host age1yadualhdqadhf3hkhesuaxfk7pvw4ed2k25krzc67p3vgjkrm5uqsjdxh9
   - &neopossum-host age1nzrkvkytneenpauufxd4kssmlxgt3tnqvaw329kcedr2dw3tru7qq3ntvd
   - &backup age103vasuevd6756az2rgmahjeu5ljs8zkmyfgjqw9vmzd9vqde9qgqthmd3v
 creation_rules:
@@ -11,7 +9,5 @@ creation_rules:
       - age:
           - *kakapo-jack
           - *kakapo-host
-          - *possum-jack
-          - *possum-host
           - *neopossum-host
           - *backup

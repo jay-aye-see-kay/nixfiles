@@ -166,22 +166,7 @@
           ];
         };
 
-      # oracle server
-      homeConfigurations."${username}@possum" = mkHmConfig rec {
-        pkgs = mkPkgs "aarch64-linux";
-        modules = linuxHomeManagerImports ++ mkHmConfigMod { inherit username; };
-      };
-      nixosConfigurations.possum = let system = "aarch64-linux"; in
-        lib.nixosSystem {
-          inherit system;
-          pkgs = mkPkgs system;
-          modules = [
-            sops-nix.nixosModules.sops
-            ./secrets/sops.nix
-            ./hosts/possum
-          ];
-        };
-
+      # small arm server on aws for file sync
       nixosConfigurations.neopossum = let system = "aarch64-linux"; in
         lib.nixosSystem {
           inherit system;
