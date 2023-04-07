@@ -27,7 +27,7 @@ in
   };
   # }}}
 
-  # {{{ auth
+  # {{{ syncthing
   services.caddy.virtualHosts."syncthing.p.jackrose.co.nz" = {
     extraConfig = authConfg + ''
       reverse_proxy http://localhost:${ports.syncthingGui} {
@@ -43,7 +43,7 @@ in
   };
   systemd.services.silverbullet =
     let
-      version = "0.2.11";
+      version = "0.2.12";
       silverbullet-js-file = pkgs.fetchurl {
         url = "https://github.com/silverbulletmd/silverbullet/releases/download/${version}/silverbullet.js";
         sha256 = "sha256-h0lASLNxJ5DZvaJbHpMI2PtRWCty1vPro1n8R5vHQME=";
