@@ -38,10 +38,6 @@
       url = "github:jose-elias-alvarez/typescript.nvim";
       flake = false;
     };
-    "plugin:tsnode-marker-nvim" = {
-      url = "github:atusy/tsnode-marker.nvim";
-      flake = false;
-    };
     "plugin:mini-nvim" = {
       url = "github:echasnovski/mini.nvim";
       flake = false;
@@ -56,6 +52,10 @@
     };
     "plugin:advanced-git-search-nvim" = {
       url = "github:aaronhallaert/advanced-git-search.nvim";
+      flake = false;
+    };
+    "plugin:headlines-nvim" = {
+      url = "github:lukas-reineke/headlines.nvim";
       flake = false;
     };
     "plugin:chatbot-buffer-nvim" = {
@@ -129,6 +129,7 @@
           '';
           plugins = allPluginsFromInputs ++ (with pkgs.vimPlugins; [
             { plugin = impatient-nvim; config = "lua require('impatient')"; }
+            nord-nvim
 
             # dependencies
             plenary-nvim
@@ -191,7 +192,6 @@
 
             lualine-nvim
             lualine-lsp-progress # switch back to fidget?
-            nvim-navic
             neo-tree-nvim
             refactoring-nvim
 

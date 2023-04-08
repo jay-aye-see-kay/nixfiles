@@ -23,14 +23,10 @@ require("mkdnflow").setup({
 
 h.autocmd({ "FileType" }, {
 	pattern = { "markdown", "md" },
-	callback = function(ctx)
+	callback = function()
 		vim.wo.foldlevel = 99
 		vim.wo.foldmethod = "expr"
 		vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
-		require("tsnode-marker").set_automark(ctx.buf, {
-			target = { "code_fence_content", "indented_code_block" },
-			hl_group = "CodeBlockBackground",
-		})
 	end,
 })
 

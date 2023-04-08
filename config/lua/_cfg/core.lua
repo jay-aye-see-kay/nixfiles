@@ -36,7 +36,6 @@ h.map("v", "<C-c>", '"+y')
 -- spelling
 vim.opt.spellcapcheck = nil -- ignore capitalisation
 
--- vim.o.inccommand = "nosplit" --Incremental live completion
 vim.wo.relativenumber = true --Make line numbers default
 
 vim.opt.scrolloff = 4
@@ -44,32 +43,44 @@ vim.opt.sidescrolloff = 4
 -- }}}
 
 -- visuals look nice {{{
+
 -- extend color scheme
 h.autocmd({ "ColorScheme" }, {
 	callback = function()
-		local function copy_color(from, to)
+		local copy_color = function(from, to)
 			vim.api.nvim_set_hl(0, to, vim.api.nvim_get_hl_by_name(from, true))
 		end
 		copy_color("DiffAdd", "diffAdded")
 		copy_color("DiffDelete", "diffRemoved")
 		copy_color("DiffChange", "diffChanged")
-		-- add hl group for markdown codeblock backgrounds
-		vim.api.nvim_set_hl(0, "CodeBlockBackground", { bg = require("zenbones").Normal.bg.li(70).hex })
-		-- darken cursorline so it's more visible
-		vim.api.nvim_set_hl(0, "CursorLine", { bg = require("zenbones").CursorLine.bg.darken(7).hex })
-		-- floating window background to match body
-		vim.api.nvim_set_hl(0, "FloatBorder", { bg = require("zenbones").NormalFloat.bg.hex })
 	end,
 })
 
 vim.api.nvim_set_var("vim_json_syntax_conceal", 0)
-vim.o.background = "light"
-vim.cmd.colorscheme("zenbones")
+vim.g.nord_borders = true
+vim.o.background = "dark"
+require("nord").set()
+vim.cmd.colorscheme("nord")
 
-local navic = require("nvim-navic")
+require("headlines").setup({
+	markdown = {
+		fat_headlines = false,
+		headline_highlights = {
+			"Headline1",
+			"Headline2",
+			"Headline3",
+			"Headline4",
+			"Headline5",
+			"Headline6",
+		},
+		codeblock_highlight = "CodeBlock",
+		dash_highlight = "Dash",
+		quote_highlight = "Quote",
+	},
+})
 
 -- modify the theme so sections don't change color with mode
-local lualine_theme = vim.deepcopy(require("lualine.utils.loader").load_theme("zenbones"))
+local lualine_theme = vim.deepcopy(require("lualine.utils.loader").load_theme("auto"))
 lualine_theme.insert = nil
 lualine_theme.replace = nil
 lualine_theme.visual = nil
@@ -79,24 +90,13 @@ require("lualine").setup({
 	options = {
 		theme = lualine_theme,
 		globalstatus = true,
-		disabled_filetypes = {
-			winbar = { "", "neo-tree", "Outline", "fugitive" },
-		},
 	},
 	sections = {
 		lualine_a = { "vim.fs.basename(vim.fn.getcwd())" },
-		lualine_b = { "branch", "diff" },
+		lualine_b = { { "filename", path = 1 } },
 		lualine_c = { "diagnostics" },
 		lualine_x = { "lsp_progress", "filetype" },
-		lualine_y = { "progress" },
-		lualine_z = { "location" },
-	},
-	winbar = {
-		lualine_b = { { "filename", path = 1 } },
-		lualine_c = { { navic.get_location, cond = navic.is_available } },
-	},
-	inactive_winbar = {
-		lualine_b = { { "filename", path = 1 } },
+		lualine_y = { "branch" },
 	},
 	tabline = {
 		lualine_a = {

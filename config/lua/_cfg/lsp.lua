@@ -27,9 +27,6 @@ require("neodev").setup({
 
 local lsp_augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local function on_attach(client, bufnr)
-	if client.server_capabilities.documentSymbolProvider then
-		require("nvim-navic").attach(client, bufnr)
-	end
 	-- autoformat document with null-ls if setup
 	if client.supports_method("textDocument/formatting") then
 		vim.api.nvim_clear_autocmds({ group = lsp_augroup, buffer = bufnr })

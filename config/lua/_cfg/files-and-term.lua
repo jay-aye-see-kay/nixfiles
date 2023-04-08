@@ -44,10 +44,21 @@ require("neo-tree").setup({
 -- {{{ terminal
 vim.keymap.set("t", "<ESC>", [[<C-\><C-n>]])
 
+h.autocmd({ "TermEnter" }, {
+	command = "setlocal winhighlight=Normal:ActiveTerm",
+})
+h.autocmd({ "TermLeave" }, {
+	command = "setlocal winhighlight=Normal:NC",
+})
+vim.cmd("highlight ActiveTerm guibg=#22262E")
+
 h.autocmd({ "TermOpen" }, {
 	callback = function()
 		-- stops terminal side scrolling
 		vim.cmd([[ setlocal nonumber norelativenumber signcolumn=no ]])
+		-- put this back to default
+		vim.opt.scrolloff = 0
+		vim.opt.sidescrolloff = 0
 		-- ctrl-c, ctrl-p, ctrl-n, enter should all be passed through from normal mode
 		vim.keymap.set("n", "<C-c>", [[ i<C-c><C-\><C-n> ]], { buffer = 0 })
 		vim.keymap.set("n", "<C-n>", [[ i<C-n><C-\><C-n> ]], { buffer = 0 })
