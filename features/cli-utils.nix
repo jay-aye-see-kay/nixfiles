@@ -26,6 +26,7 @@ platformSpecificPackages ++ [
   jiq # jid with jq syntax
   jc # parse common cli outputs to json
   gron # expands out json to make it greppable
+  fx # interactive json viewer
 
   # search
   fd
