@@ -47,21 +47,21 @@
         "plugin:codegpt-nvim": "plugin:codegpt-nvim",
         "plugin:debugprint": "plugin:debugprint",
         "plugin:git-conflict-nvim": "plugin:git-conflict-nvim",
+        "plugin:headlines-nvim": "plugin:headlines-nvim",
         "plugin:mini-nvim": "plugin:mini-nvim",
         "plugin:mkdnflow": "plugin:mkdnflow",
         "plugin:nvim-unception": "plugin:nvim-unception",
-        "plugin:tsnode-marker-nvim": "plugin:tsnode-marker-nvim",
         "plugin:typescript-nvim": "plugin:typescript-nvim",
         "plugin:vim-just": "plugin:vim-just",
         "plugin:vim-symlink": "plugin:vim-symlink",
         "plugin:yop-nvim": "plugin:yop-nvim"
       },
       "locked": {
-        "lastModified": 1680685339,
-        "narHash": "sha256-3VB0aVKx1jICIwJeWYn+zvg+htyNuiKe7VpluhIl+as=",
+        "lastModified": 1680943271,
+        "narHash": "sha256-PD0e068JiXAoeN9YWZAuS0xnCDAY19W9exYSVA4p2JE=",
         "owner": "jay-aye-see-kay",
         "repo": "neovim-flake",
-        "rev": "fac392492bcf26d11fe4e53963df1610415762ea",
+        "rev": "bc1ff45b1e05b06ce4f8d20e8222328c4ef14a8a",
         "type": "github"
       },
       "original": {
@@ -262,6 +262,22 @@
         "type": "github"
       }
     },
+    "plugin:headlines-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1680058105,
+        "narHash": "sha256-1V/8FOfxRGMKcfsu1aBFUaYYjrODUmrxIbvLX/eI+Qs=",
+        "owner": "lukas-reineke",
+        "repo": "headlines.nvim",
+        "rev": "ddef41b2664f0ce25fe76520d708e2dc9dfebd70",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lukas-reineke",
+        "repo": "headlines.nvim",
+        "type": "github"
+      }
+    },
     "plugin:mini-nvim": {
       "flake": false,
       "locked": {
@@ -307,22 +323,6 @@
       "original": {
         "owner": "samjwill",
         "repo": "nvim-unception",
-        "type": "github"
-      }
-    },
-    "plugin:tsnode-marker-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1678200693,
-        "narHash": "sha256-T8QIX5mrkgOgyVP+8yboy4RpgSJgpBHSNoONaF8EbH8=",
-        "owner": "atusy",
-        "repo": "tsnode-marker.nvim",
-        "rev": "f60632a5a785b5bafa589b759a6986c2832aed5e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "atusy",
-        "repo": "tsnode-marker.nvim",
         "type": "github"
       }
     },
