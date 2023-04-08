@@ -34,6 +34,12 @@ in
     authelia
   ] ++ (import ../../features/cli-utils.nix { inherit pkgs; });
 
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    defaultEditor = true;
+  };
+
   users.users.jack = {
     isNormalUser = true;
     shell = pkgs.fish;
