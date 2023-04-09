@@ -8,6 +8,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     sops-nix.url = "github:Mic92/sops-nix";
+    filestash-nix.url = "github:matthewcroughan/filestash-nix";
 
     neovim-flake.url = "github:jay-aye-see-kay/neovim-flake";
   };
@@ -20,6 +21,7 @@
     , home-manager
     , sops-nix
     , neovim-flake
+    , filestash-nix
     }:
     let
       inherit (nixpkgs) lib;
@@ -85,6 +87,7 @@
             cultureamp-overlay
             authelia-overlay
             neovim-flake.overlays.${system}.default
+            filestash-nix.overlay
           ];
         };
 
@@ -172,6 +175,7 @@
           inherit system;
           pkgs = mkPkgs system;
           modules = [
+            filestash-nix.nixosModule
             ./hosts/neopossum
           ];
         };

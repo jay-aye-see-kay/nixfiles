@@ -5,6 +5,7 @@ let
     authelia = "9091";
     syncthingGui = "8384";
     silverbullet = "2001";
+    filestash = "8334";
   };
   authConfg = ''
     forward_auth localhost:${ports.authelia} {
@@ -26,6 +27,13 @@ in
     extraConfig = "reverse_proxy localhost:${ports.authelia}";
   };
   # }}}
+
+  # {{{ filestash
+  services.filestash.enable = true;
+  services.caddy.virtualHosts."files.p.jackrose.co.nz" = {
+    extraConfig = authConfg + "reverse_proxy http://localhost:${ports.filestash}";
+  };
+  # }}
 
   # {{{ syncthing
   services.caddy.virtualHosts."syncthing.p.jackrose.co.nz" = {
