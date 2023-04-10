@@ -27,7 +27,9 @@ let
   ];
 in
 {
-  imports = [ ];
+  imports = [
+    ./fish.nix
+  ];
 
   home.sessionVariables = {
     EDITOR = "nvim";

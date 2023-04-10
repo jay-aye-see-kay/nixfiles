@@ -13,16 +13,8 @@
     let
       inherit (nixpkgs) lib;
       inherit ((import ./utils.nix inputs)) mkPkgs eachMySystem mkHmConfigMod;
-
       username = "jack";
-
       mkHmConfig = home-manager.lib.homeManagerConfiguration;
-      commonHomeManagerImports = [
-        ./users/jack/home.nix
-        ./users/jack/fish.nix
-      ];
-      linuxHomeManagerImports = commonHomeManagerImports ++ [ ./users/jack/i3 ];
-      darwinHomeManagerImports = commonHomeManagerImports;
     in
     {
       formatter = eachMySystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
@@ -30,18 +22,20 @@
       # work laptop
       homeConfigurations."${username}@jjack-XMW16X" = mkHmConfig rec {
         pkgs = mkPkgs "aarch64-darwin";
-        modules = darwinHomeManagerImports
+        modules =
+          (mkHmConfigMod { inherit username; isDarwin = true; })
           ++ [ ({ pkgs, ... }: { home.packages = [ pkgs.silk-cli ]; }) ]
-          ++ [ ({ pkgs, ... }: { home.packages = import ./features/cli-utils.nix { inherit pkgs; }; }) ]
-          ++ mkHmConfigMod { inherit username; isDarwin = true; };
+          ++ [ ({ pkgs, ... }: { home.packages = import ./features/cli-utils.nix { inherit pkgs; }; }) ];
       };
 
       # work vm
       homeConfigurations."${username}@moa" = mkHmConfig rec {
         pkgs = mkPkgs "aarch64-linux";
-        modules = linuxHomeManagerImports ++ mkHmConfigMod { inherit username; };
+        modules =
+          (mkHmConfigMod { inherit username; })
+          ++ [ ./users/jack/i3 ];
       };
-      nixosConfigurations.moa = let system = "aarch64-linux"; in
+      nixosCofigurations.moa = let system = "aarch64-linux"; in
         lib.nixosSystem {
           inherit system;
           pkgs = mkPkgs system;
@@ -51,7 +45,9 @@
       # home laptop
       homeConfigurations."${username}@tui" = mkHmConfig rec {
         pkgs = mkPkgs "x86_64-linux";
-        modules = linuxHomeManagerImports ++ mkHmConfigMod { inherit username; };
+        modules =
+          (mkHmConfigMod { inherit username; })
+          ++ [ ./users/jack/i3 ];
       };
       nixosConfigurations.tui = let system = "x86_64-linux"; in
         lib.nixosSystem {
@@ -70,11 +66,11 @@
       # home server
       homeConfigurations."${username}@kakapo" = mkHmConfig rec {
         pkgs = mkPkgs "x86_64-linux";
-        modules = linuxHomeManagerImports ++ mkHmConfigMod { inherit username; };
+        modules = mkHmConfigMod { inherit username; };
       };
       homeConfigurations."hud@kakapo" = mkHmConfig rec {
         pkgs = mkPkgs "x86_64-linux";
-        modules = [ ./users/hud/home.nix ] ++ mkHmConfigMod { username = "hud"; };
+        modules = mkHmConfigMod { username = "hud"; };
       };
       nixosConfigurations.kakapo = let system = "x86_64-linux"; in
         lib.nixosSystem {

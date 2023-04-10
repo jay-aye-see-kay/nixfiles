@@ -28,11 +28,14 @@
   #
   # boilerplate for home manager config
   #
-  mkHmConfigMod = { username, isDarwin ? false, stateVersion ? "22.05" }: [{
-    home.username = username;
-    home.homeDirectory = "/${if isDarwin then "Users" else "home"}/${username}";
-    home.stateVersion = stateVersion;
-  }];
+  mkHmConfigMod = { username, isDarwin ? false, stateVersion ? "22.05" }: [
+    ./users/${username}/home.nix
+    {
+      home.username = username;
+      home.homeDirectory = "/${if isDarwin then "Users" else "home"}/${username}";
+      home.stateVersion = stateVersion;
+    }
+  ];
 
   #
   # adding stuff that's not in nixpkgs
