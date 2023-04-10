@@ -27,7 +27,7 @@ in
   };
 
   boot.cleanTmpDir = true;
-  networking.hostName = "neopossum";
+  networking.hostName = "pukeko";
   networking.domain = "";
 
   environment.systemPackages = with pkgs; [

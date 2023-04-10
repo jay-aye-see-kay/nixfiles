@@ -167,12 +167,12 @@
         };
 
       # small arm server on aws for file sync
-      nixosConfigurations.neopossum = let system = "aarch64-linux"; in
+      nixosConfigurations.pukeko = let system = "aarch64-linux"; in
         lib.nixosSystem {
           inherit system;
           pkgs = mkPkgs system;
           modules = [
-            ./hosts/neopossum
+            ./hosts/pukeko
           ];
         };
 

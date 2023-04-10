@@ -28,9 +28,9 @@ home-switch:
 host-switch:
   [ "$(uname)" != "Darwin" ] && nixos-rebuild --use-remote-sudo switch --flake .#
 
-neopossum-switch:
+pukeko-switch:
   nixos-rebuild switch \
-    --flake '.#neopossum' \
-    --target-host root@neopossum
+    --flake '.#pukeko' \
+    --target-host root@pukeko
 
 switch: host-switch home-switch

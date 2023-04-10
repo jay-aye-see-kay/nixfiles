@@ -1,7 +1,7 @@
 keys:
   - &kakapo-jack age1dfy7vjkxzkuufg89jljnp6kqc59ywvhh9zyyf2l9qha05xdnq5ss4r2nuv
   - &kakapo-host age1zjl9mflz3gsd0t48k4lkvayqc22p9htp9mp6wz0er79w5ne2pygqj3el7t
-  - &neopossum-host age1nzrkvkytneenpauufxd4kssmlxgt3tnqvaw329kcedr2dw3tru7qq3ntvd
+  - &pukeko-host age1nzrkvkytneenpauufxd4kssmlxgt3tnqvaw329kcedr2dw3tru7qq3ntvd
   - &backup age103vasuevd6756az2rgmahjeu5ljs8zkmyfgjqw9vmzd9vqde9qgqthmd3v
 creation_rules:
   - path_regex: secrets/[^/]+\.yaml$
@@ -9,5 +9,5 @@ creation_rules:
       - age:
           - *kakapo-jack
           - *kakapo-host
-          - *neopossum-host
+          - *pukeko-host
           - *backup
