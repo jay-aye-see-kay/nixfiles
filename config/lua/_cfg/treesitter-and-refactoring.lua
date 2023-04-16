@@ -87,12 +87,8 @@ local openai_api_key = (function()
 	end
 end)()
 if openai_api_key then
-	-- currently used by github.com/dpayne/CodeGPT.nvim and github.com/jackMort/ChatGPT.nvim
+	-- currently used by github.com/dpayne/CodeGPT.nvim and chatbot-buffer
 	vim.env.OPENAI_API_KEY = openai_api_key
-
-	require("chatgpt").setup({})
-	vim.keymap.set("v", "<leader>a", require("chatgpt").edit_with_instructions)
-	vim.keymap.set("n", "<leader>a", require("chatgpt").openChat)
 end
 
 -- }}}

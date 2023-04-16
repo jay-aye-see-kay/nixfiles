@@ -66,22 +66,6 @@
         "type": "github"
       }
     },
-    "plugin:chatgpt-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1681466108,
-        "narHash": "sha256-oam0nCdtB+iaGQ4QAaUtxlTuOXpnd1U27sakh5HCFlg=",
-        "owner": "jackMort",
-        "repo": "ChatGPT.nvim",
-        "rev": "7a65824f99597a13871d9c773c85f7a4b784f8c5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jackMort",
-        "repo": "ChatGPT.nvim",
-        "type": "github"
-      }
-    },
     "plugin:codegpt-nvim": {
       "flake": false,
       "locked": {
@@ -265,7 +249,6 @@
         "nixpkgs": "nixpkgs",
         "plugin:advanced-git-search-nvim": "plugin:advanced-git-search-nvim",
         "plugin:chatbot-buffer-nvim": "plugin:chatbot-buffer-nvim",
-        "plugin:chatgpt-nvim": "plugin:chatgpt-nvim",
         "plugin:codegpt-nvim": "plugin:codegpt-nvim",
         "plugin:debugprint": "plugin:debugprint",
         "plugin:git-conflict-nvim": "plugin:git-conflict-nvim",

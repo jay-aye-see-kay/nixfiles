@@ -46,10 +46,6 @@
       url = "github:dpayne/CodeGPT.nvim";
       flake = false;
     };
-    "plugin:chatgpt-nvim" = {
-      url = "github:jackMort/ChatGPT.nvim";
-      flake = false;
-    };
     "plugin:advanced-git-search-nvim" = {
       url = "github:aaronhallaert/advanced-git-search.nvim";
       flake = false;
