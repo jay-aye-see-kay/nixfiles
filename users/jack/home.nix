@@ -24,6 +24,8 @@ let
 
     clang # comes with xcode, things expect to use that version
 
+    # use yarn installed pnpm on work laptop
+    nodePackages_latest.pnpm
   ];
 in
 {
@@ -55,7 +57,6 @@ in
 
       nodejs-16_x
       (yarn.override { nodejs = nodejs-16_x; })
-      nodePackages_latest.pnpm
       customNodePackages."@fsouza/prettierd"
 
       just
