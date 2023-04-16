@@ -57,10 +57,6 @@ h.autocmd({ "ColorScheme" }, {
 })
 
 vim.api.nvim_set_var("vim_json_syntax_conceal", 0)
-vim.g.nord_borders = true
-vim.o.background = "dark"
-require("nord").set()
-vim.cmd.colorscheme("nord")
 
 require("headlines").setup({
 	markdown = {
@@ -79,8 +75,29 @@ require("headlines").setup({
 	},
 })
 
+vim.o.background = "dark"
+require("catppuccin").setup({
+	flavour = "mocha", -- latte, frappe, macchiato, mocha
+	show_end_of_buffer = true,
+	term_colors = true,
+	integrations = {
+		cmp = true,
+		gitsigns = true,
+		markdown = true,
+		mini = true,
+		neotree = true,
+		noice = true,
+		notify = true,
+		semantic_tokens = true,
+		telescope = true,
+		which_key = true,
+		-- For more integrations https://github.com/catppuccin/nvim#integrations
+	},
+})
+vim.cmd.colorscheme("catppuccin")
+
 -- modify the theme so sections don't change color with mode
-local lualine_theme = vim.deepcopy(require("lualine.utils.loader").load_theme("auto"))
+local lualine_theme = vim.deepcopy(require("lualine.utils.loader").load_theme("catppuccin"))
 lualine_theme.insert = nil
 lualine_theme.replace = nil
 lualine_theme.visual = nil

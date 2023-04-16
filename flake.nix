@@ -129,7 +129,7 @@
           '';
           plugins = allPluginsFromInputs ++ (with pkgs.vimPlugins; [
             { plugin = impatient-nvim; config = "lua require('impatient')"; }
-            nord-nvim
+            catppuccin-nvim
 
             # dependencies
             plenary-nvim
