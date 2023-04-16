@@ -58,27 +58,9 @@ h.autocmd({ "ColorScheme" }, {
 
 vim.api.nvim_set_var("vim_json_syntax_conceal", 0)
 
-require("headlines").setup({
-	markdown = {
-		fat_headlines = false,
-		headline_highlights = {
-			"Headline1",
-			"Headline2",
-			"Headline3",
-			"Headline4",
-			"Headline5",
-			"Headline6",
-		},
-		codeblock_highlight = "CodeBlock",
-		dash_highlight = "Dash",
-		quote_highlight = "Quote",
-	},
-})
-
 vim.o.background = "dark"
 require("catppuccin").setup({
-	flavour = "mocha", -- latte, frappe, macchiato, mocha
-	show_end_of_buffer = true,
+	flavour = "macchiato", -- latte, frappe, macchiato, mocha
 	term_colors = true,
 	integrations = {
 		cmp = true,
@@ -93,6 +75,11 @@ require("catppuccin").setup({
 		which_key = true,
 		-- For more integrations https://github.com/catppuccin/nvim#integrations
 	},
+	custom_highlights = function(colors)
+		return {
+			CodeBlockBackground = { bg = colors.surface0 },
+		}
+	end,
 })
 vim.cmd.colorscheme("catppuccin")
 

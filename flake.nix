@@ -50,8 +50,8 @@
       url = "github:aaronhallaert/advanced-git-search.nvim";
       flake = false;
     };
-    "plugin:headlines-nvim" = {
-      url = "github:lukas-reineke/headlines.nvim";
+    "plugin:tsnode-marker-nvim" = {
+      url = "github:atusy/tsnode-marker.nvim";
       flake = false;
     };
     "plugin:chatbot-buffer-nvim" = {
