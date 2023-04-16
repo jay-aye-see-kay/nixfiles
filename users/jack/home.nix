@@ -111,7 +111,7 @@ in
       { key = "Return"; mods = "Control"; chars = ''\x1b[13;5u''; }
     ];
 
-    # from: https://github.com/mcchrish/zenbones.nvim/blob/main/extras/alacritty/zenbones_light.yml
+    # from: https://github.com/catppuccin/alacritty/blob/main/catppuccin-mocha.yml
     # converted to json in vim with `:'<,'>!yq`
     alacritty.settings.colors = builtins.fromJSON (builtins.readFile ./alacritty-colors.json);
 
