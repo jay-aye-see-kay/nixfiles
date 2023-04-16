@@ -188,6 +188,7 @@
 
             lualine-nvim
             lualine-lsp-progress # switch back to fidget?
+            nvim-navic
             neo-tree-nvim
             refactoring-nvim
 

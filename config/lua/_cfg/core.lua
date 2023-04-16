@@ -90,17 +90,38 @@ lualine_theme.replace = nil
 lualine_theme.visual = nil
 lualine_theme.command = nil
 
+local navic = require("nvim-navic")
 require("lualine").setup({
 	options = {
 		theme = lualine_theme,
 		globalstatus = true,
+		disabled_filetypes = {
+			winbar = { "", "neo-tree", "Outline", "fugitive" },
+		},
 	},
 	sections = {
-		lualine_a = { "vim.fs.basename(vim.fn.getcwd())" },
+		lualine_a = {},
+		lualine_b = {},
+		lualine_c = { "lsp_progress" },
+		lualine_x = { "diagnostics" },
+		lualine_y = { "branch", "diff" },
+		lualine_z = { "vim.fs.basename(vim.fn.getcwd())" },
+	},
+	winbar = {
 		lualine_b = { { "filename", path = 1 } },
-		lualine_c = { "diagnostics" },
-		lualine_x = { "lsp_progress", "filetype" },
-		lualine_y = { "branch" },
+		lualine_c = {
+			{
+				function()
+					return navic.get_location()
+				end,
+				cond = function()
+					return navic.is_available()
+				end,
+			},
+		},
+	},
+	inactive_winbar = {
+		lualine_b = { { "filename", path = 1 } },
 	},
 	tabline = {
 		lualine_a = {
