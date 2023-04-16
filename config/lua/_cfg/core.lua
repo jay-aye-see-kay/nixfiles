@@ -60,7 +60,6 @@ vim.api.nvim_set_var("vim_json_syntax_conceal", 0)
 
 vim.o.background = "dark"
 require("catppuccin").setup({
-	flavour = "macchiato", -- latte, frappe, macchiato, mocha
 	term_colors = true,
 	integrations = {
 		cmp = true,
@@ -78,10 +77,11 @@ require("catppuccin").setup({
 	custom_highlights = function(colors)
 		return {
 			CodeBlockBackground = { bg = colors.surface0 },
+			ActiveTerm = { bg = colors.crust },
 		}
 	end,
 })
-vim.cmd.colorscheme("catppuccin")
+vim.cmd.colorscheme("catppuccin-macchiato") -- latte, frappe, macchiato, mocha
 
 -- modify the theme so sections don't change color with mode
 local lualine_theme = vim.deepcopy(require("lualine.utils.loader").load_theme("catppuccin"))

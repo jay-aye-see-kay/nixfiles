@@ -50,7 +50,6 @@ h.autocmd({ "TermEnter" }, {
 h.autocmd({ "TermLeave" }, {
 	command = "setlocal winhighlight=Normal:NC",
 })
-vim.cmd("highlight ActiveTerm guibg=#22262E")
 
 h.autocmd({ "TermOpen" }, {
 	callback = function()
