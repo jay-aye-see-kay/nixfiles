@@ -43,6 +43,7 @@ platformSpecificPackages ++ [
   pwgen
   nmap
   wget
+  curl
 
   tldr # sometimes better docs
   visidata
