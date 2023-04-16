@@ -17,6 +17,7 @@ require("mini.basics").setup({
 	},
 })
 vim.keymap.del("t", "<C-w>") -- mini.basics sets this to Focus other window, leave default
+vim.keymap.del({ "n", "i" }, "<C-z>") -- mini.basics sets this correct last mispelled word, leave default
 
 -- change mini.basics new blank line keymaps to match unimpaired's
 vim.keymap.del("n", "go")
