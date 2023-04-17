@@ -7,6 +7,12 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     sops-nix.url = "github:Mic92/sops-nix";
     neovim-flake.url = "github:jay-aye-see-kay/neovim-flake";
+    flake-utils.url = "github:numtide/flake-utils";
+    rtx-flake = {
+      url = "github:jdxcode/rtx";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.flake-utils.follows = "flake-utils";
+    };
   };
 
   outputs = { self, nixpkgs, nixos-hardware, home-manager, sops-nix, ... }@inputs:

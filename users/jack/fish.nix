@@ -62,6 +62,8 @@ in
       # use bash default to edit line in vim
       bind \cx\ce edit_command_buffer
 
+      ${pkgs.rtx}/bin/rtx activate fish | source
+
       # language env set up
       fish_add_path "$HOME/.local/bin" # pip
       fish_add_path "$HOME/.poetry/bin" # poetry

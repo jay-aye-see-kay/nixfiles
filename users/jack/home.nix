@@ -50,6 +50,8 @@ in
       manix
       trash-cli
       (python3.withPackages (ps: [ ps.ipykernel ]))
+      rtx
+      gnupg
 
       customNodePackages."aws-cdk-1.x"
       unstable.nodePackages.cdk8s-cli
