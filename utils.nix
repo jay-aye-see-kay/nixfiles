@@ -44,9 +44,6 @@
     # stuff from npm
     customNodePackages = import ./node-packages/default.nix { pkgs = prev; };
 
-    # authelia (only used on pukeko)
-    authelia = import ./authelia prev;
-
     # silk-cli (only used on cultureamp laptop)
     silk-cli =
       let

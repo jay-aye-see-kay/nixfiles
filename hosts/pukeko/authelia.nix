@@ -40,7 +40,7 @@ in
     serviceConfig = {
       User = "authelia";
       Group = "authelia";
-      ExecStart = "${pkgs.authelia}/bin/authelia --config ${autheliaCfg}";
+      ExecStart = "${pkgs.unstable.authelia}/bin/authelia --config ${autheliaCfg}";
       StateDirectory = [ "authelia" ];
       LogsDirectory = [ "authelia" ];
       TimeoutStopSec = "5s"; # HACK: setting this to a low value because it doesn't seem to stop?

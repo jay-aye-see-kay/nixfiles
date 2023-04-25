@@ -31,7 +31,7 @@ in
   networking.domain = "";
 
   environment.systemPackages = with pkgs; [
-    authelia
+    unstable.authelia
   ] ++ (import ../../features/cli-utils.nix { inherit pkgs; });
 
   programs.neovim = {
