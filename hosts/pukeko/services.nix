@@ -1,15 +1,16 @@
-{ pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   # Add this string to any host's caddy config to put it behind auth
   ports = {
     authelia = "9091";
     syncthingGui = "8384";
     silverbullet = "2001";
+    freshrss = "2002";
   };
   authConfg = ''
     forward_auth localhost:${ports.authelia} {
-      uri /api/verify?rd=https://auth.p.jackrose.co.nz
-      copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+        uri /api/verify?rd=https://auth.p.jackrose.co.nz
+        copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
     }
   '';
 in
@@ -31,15 +32,42 @@ in
   services.caddy.virtualHosts."syncthing.p.jackrose.co.nz" = {
     extraConfig = authConfg + ''
       reverse_proxy http://localhost:${ports.syncthingGui} {
-            header_up Host {upstream_hostport}
+          header_up Host {upstream_hostport}
       }
     '';
   };
   # }}}
 
+  # {{{ freshrss
+  services.caddy.virtualHosts."freshrss.p.jackrose.co.nz" = {
+    extraConfig = authConfg + ''
+      root * ${pkgs.freshrss}/p
+      php_fastcgi unix/${config.services.phpfpm.pools.freshrss.socket} {
+          env FRESHRSS_DATA_PATH ${config.services.freshrss.dataDir}
+      }
+      file_server
+    '';
+  };
+  services.freshrss = {
+    enable = true;
+    package = pkgs.unstable.freshrss;
+    passwordFile = "/var/lib/freshrss/adminPassword";
+    baseUrl = "https://freshrss.p.jackrose.co.nz";
+    virtualHost = null;
+  };
+  services.phpfpm.pools.freshrss.settings = {
+    # use the provided phpfpm pool, but override permissions for caddy
+    "listen.owner" = lib.mkForce "caddy";
+    "listen.group" = lib.mkForce "caddy";
+  };
+  # }}}
+
   # {{{ silverbullet (markdown web viewer)
-  services.caddy.virtualHosts."sb.p.jackrose.co.nz" = {
-    extraConfig = authConfg + "reverse_proxy localhost:${ports.silverbullet}";
+  services.caddy.virtualHosts."silverbullet.p.jackrose.co.nz" = {
+    extraConfig = authConfg + ''
+      reverse_proxy localhost:${ports.silverbullet}
+      file_server
+    '';
   };
   systemd.services.silverbullet =
     let
@@ -66,4 +94,3 @@ in
     };
   # }}}
 }
-
