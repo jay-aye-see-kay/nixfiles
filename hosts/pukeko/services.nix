@@ -5,7 +5,7 @@ let
     authelia = "9091";
     syncthingGui = "8384";
     silverbullet = "2001";
-    freshrss = "2002";
+    gossa = "2002";
   };
   authConfg = ''
     forward_auth localhost:${ports.authelia} {
@@ -35,6 +35,25 @@ in
           header_up Host {upstream_hostport}
       }
     '';
+  };
+  # }}}
+
+  # {{{ gossa (file ui)
+  services.caddy.virtualHosts."files.p.jackrose.co.nz" = {
+    extraConfig = authConfg + "reverse_proxy http://localhost:${ports.gossa}";
+  };
+  systemd.services.gossa = {
+    enable = true;
+    description = "serve files in homedir on port ${ports.gossa}";
+    unitConfig = {
+      Type = "simple";
+    };
+    serviceConfig = {
+      ExecStart = "${pkgs.unstable.gossa}/bin/gossa -p=${ports.gossa} /home/jack";
+      User = "jack";
+      Group = "users";
+    };
+    wantedBy = [ "multi-user.target" ];
   };
   # }}}
 
