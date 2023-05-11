@@ -95,6 +95,9 @@ in
     starship.enable = true;
     starship.enableFishIntegration = true;
 
+    navi.enable = true;
+    navi.enableFishIntegration = true;
+
     alacritty.enable = true;
     alacritty.settings.font.size = if pkgs.stdenv.isLinux then 8 else 14;
     alacritty.settings.font.normal.family = ifDarwin "FuraMono Nerd Font Mono";
