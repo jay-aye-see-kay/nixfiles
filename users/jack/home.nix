@@ -52,6 +52,7 @@ in
       (python3.withPackages (ps: [ ps.ipykernel ]))
       rtx
       gnupg
+      unstable.openai-full
 
       customNodePackages."aws-cdk-1.x"
       unstable.nodePackages.cdk8s-cli
