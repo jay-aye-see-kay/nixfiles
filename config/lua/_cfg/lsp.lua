@@ -8,7 +8,7 @@ local lsp_servers = {
 	"jsonls",
 	"lua_ls",
 	"pyright",
-	"rnix",
+	"nil_ls",
 	"rust_analyzer",
 	"solargraph",
 	"tailwindcss",

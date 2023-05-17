@@ -93,6 +93,7 @@
               pname = plugName name;
               version = "master";
               src = builtins.getAttr name inputs;
+
             };
           in
           {
@@ -235,7 +236,7 @@
           nodePackages.vim-language-server
           nodePackages.vscode-langservers-extracted
           nodePackages.yaml-language-server
-          rnix-lsp
+          nil # nix lsp
           rubyPackages.solargraph
           rust-analyzer
           shellcheck
