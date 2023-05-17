@@ -149,6 +149,7 @@
             vim-nix
             vim-json
             jsonc-vim
+            vim-caddyfile
 
             (nvim-treesitter.withPlugins (_: nvim-treesitter.allGrammars ++ [
               (pkgs.tree-sitter.buildGrammar {
