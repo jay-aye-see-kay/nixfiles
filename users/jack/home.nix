@@ -100,7 +100,7 @@ in
 
     alacritty.enable = true;
     alacritty.settings.font.size = if pkgs.stdenv.isLinux then 8 else 14;
-    alacritty.settings.font.normal.family = ifDarwin "FuraMono Nerd Font Mono";
+    alacritty.settings.font.normal.family = ifDarwin "FiraMono Nerd Font Mono";
     # Spread additional padding evenly around the terminal content.
     alacritty.settings.window.dynamic_padding = true;
     # Window decorations -> none: Neither borders nor title bar
