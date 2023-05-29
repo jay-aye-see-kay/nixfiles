@@ -61,4 +61,5 @@ platformSpecificPackages ++ [
   hyperfine
   tokei
   stress
+  unstable.ast-grep
 ]
