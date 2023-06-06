@@ -62,7 +62,6 @@ in
       # use bash default to edit line in vim
       bind \cx\ce edit_command_buffer
 
-      ${pkgs.rtx}/bin/rtx activate fish | source
 
       # language env set up
       fish_add_path "$HOME/.local/bin" # pip
@@ -72,7 +71,9 @@ in
       fish_add_path "$HOME/.yarn/bin" # yarn
       fish_add_path "$HOME/.cargo/bin" # rust
       fish_add_path "$HOME/.emacs.d/bin" # doom/emacs
-    '';
+      '' + (if isDarwin then ''
+        ${pkgs.rtx}/bin/rtx activate fish | source
+      '' else "");
 
     plugins = [{
       name = "foreign-env";

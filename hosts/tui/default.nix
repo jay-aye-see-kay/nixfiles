@@ -76,6 +76,7 @@ in
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
   programs.nm-applet.enable = true;
+  programs.fish.enable = true;
 
   users.users.jack = {
     isNormalUser = true;

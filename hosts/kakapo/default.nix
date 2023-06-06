@@ -66,6 +66,8 @@ in
   networking.useDHCP = false;
   networking.interfaces.enp7s0.useDHCP = true;
 
+  programs.fish.enable = true;
+
   users.users.jack = {
     isNormalUser = true;
     shell = pkgs.fish;

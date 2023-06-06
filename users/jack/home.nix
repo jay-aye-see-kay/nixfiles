@@ -7,6 +7,7 @@ let
     istioctl
     jdk8
     unstable.nodePackages.snyk
+    rtx
   ];
   linuxOnlyPackages = with pkgs; [
     awscli2
@@ -50,17 +51,14 @@ in
       manix
       trash-cli
       (python3.withPackages (ps: [ ps.ipykernel ]))
-      rtx
       gnupg
       unstable.openai-full
 
-      customNodePackages."aws-cdk-1.x"
       unstable.nodePackages.cdk8s-cli
       unstable.kubectl
 
-      nodejs-16_x
-      (yarn.override { nodejs = nodejs-16_x; })
-      customNodePackages."@fsouza/prettierd"
+      nodejs
+      yarn
 
       just
       go

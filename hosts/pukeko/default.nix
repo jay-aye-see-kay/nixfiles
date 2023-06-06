@@ -40,6 +40,8 @@ in
     defaultEditor = true;
   };
 
+  programs.fish.enable = true;
+
   users.users.jack = {
     isNormalUser = true;
     shell = pkgs.fish;
