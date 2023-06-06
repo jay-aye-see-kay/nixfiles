@@ -1,3 +1,4 @@
+[icons]
 icons = "material-nf"
 
 [theme]
@@ -8,9 +9,6 @@ block = "sound"
 
 [[block]]
 block = "cpu"
-interval = 1
 
 [[block]]
 block = "time"
-interval = 60
-format = "%a %d/%m %R"
