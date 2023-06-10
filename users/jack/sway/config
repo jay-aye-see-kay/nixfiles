@@ -1,8 +1,6 @@
 # Logo key. Use Mod4 for Logo.
 set $mod Mod4
 
-set $menu bemenu-run
-
 exec dbus-sway-environment
 exec configure-gtk
 
@@ -14,18 +12,17 @@ set $right l
 set $term alacritty
 set $lock swaylock --screenshots --clock --indicator --grace 5 --effect-pixelate 50
 
-set $menu exec $term \
-    --class=launcher \
-    --option=font.size=24 \
-    --command sway-launcher-desktop
-for_window [app_id="^launcher$"] \
-    floating enable, sticky enable, resize set 60 ppt 60 ppt, border pixel 4
+set $menu $term --class=launcher --command env "FZF_DEFAULT_OPTS='--reverse'" sway-launcher-desktop
+for_window [app_id="^launcher$"] floating enable, sticky enable
+
+default_border pixel 4
 
 # Start things
 bindsym $mod+d exec $menu
 bindsym $mod+Return exec $term
 bindsym $mod+b exec firefox
-bindsym $mod+Shift+b exec firefox --private
+bindsym $mod+Shift+b exec firefox --private-window
+bindsym $mod+Alt+b exec chromium
 
 # Kill focused window
 bindsym $mod+Shift+q kill
@@ -57,6 +54,7 @@ exec swayidle -w \
          before-sleep $lock
 
 bindsym $mod+Ctrl+l exec $lock
+bindsym $mod+Alt+l exec $lock
 
 #
 #
