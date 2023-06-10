@@ -9,6 +9,11 @@
       (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
+  hardware.opengl.extraPackages = [
+    pkgs.intel-compute-runtime # intel opencl support
+    pkgs.intel-media-driver # intel vaapi support
+  ];
+
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" "uinput" ];
