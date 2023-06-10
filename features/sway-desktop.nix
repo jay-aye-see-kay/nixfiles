@@ -60,6 +60,9 @@ in
     wdisplays # tool to configure displays
     i3status-rust
     sway-launcher-desktop
+    brightnessctl
+    pulseaudio # we just need the cli
+    playerctl
   ];
 
   services.pipewire = {
