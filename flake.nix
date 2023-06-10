@@ -53,7 +53,8 @@
         pkgs = mkPkgs "x86_64-linux";
         modules =
           (mkHmConfigMod { inherit username; })
-          ++ [ ./users/jack/i3 ];
+          ++ [ ./users/jack/sway ]
+          ;
       };
       nixosConfigurations.tui = let system = "x86_64-linux"; in
         lib.nixosSystem {
@@ -64,7 +65,6 @@
             ./hosts/tui
             ./features/fonts.nix
             ./features/games.nix
-            ./features/i3-desktop.nix
             ./features/key-remapping.nix
           ];
         };
