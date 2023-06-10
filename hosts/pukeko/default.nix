@@ -26,7 +26,7 @@ in
     settings.auto-optimise-store = true;
   };
 
-  boot.cleanTmpDir = true;
+  boot.tmp.cleanOnBoot = true;
   networking.hostName = "pukeko";
   networking.domain = "";
 
