@@ -32,8 +32,8 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r reload
 
 # screenshots
-bindsym Print exec grim -g "$(slurp)" - | wl-copy
-bindsym Shift+Print exec grim -g "$(slurp)" $HOME/$(date +'%Y-%m-%d-%H%M%S_screen.png')
+bindsym $mod+Shift+s exec swappy-pick-window
+bindsym Print exec swappy-pick-window
 
 # Exit sway (logs you out of your Wayland session)
 bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
