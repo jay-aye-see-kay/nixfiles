@@ -13,6 +13,7 @@ let
     libva-utils # provides vainfo
     clinfo # provides clinfo (opencl)
     vulkan-tools # provides vulkaninfo
+    curl # use macos' built in
   ] else [
   ];
 in
@@ -46,7 +47,6 @@ platformSpecificPackages ++ [
   pwgen
   nmap
   wget
-  curl
 
   tldr # sometimes better docs
   visidata
