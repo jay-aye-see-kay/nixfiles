@@ -6,23 +6,6 @@ in
     ./hardware.nix
   ];
 
-  nix = {
-    package = pkgs.nixFlakes; # or versioned attributes like nix_2_7
-    # second two for nix-direnv
-    extraOptions = ''
-      experimental-features = nix-command flakes
-      keep-outputs = true
-      keep-derivations = true
-    '';
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 30d";
-    };
-    settings.auto-optimise-store = true;
-  };
-  nixpkgs.config.allowUnfree = true;
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -98,7 +81,7 @@ in
     pulsemixer
     qbittorrent
     flyctl
-  ] ++ (import ../../features/cli-utils.nix { inherit pkgs; });
+  ];
 
   # This option enables Mullvad VPN daemon. This sets networking.firewall.checkReversePath
   # to "loose", which might be undesirable for security.

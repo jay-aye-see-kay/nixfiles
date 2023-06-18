@@ -7,19 +7,6 @@ in
     ./hardware.nix
   ];
 
-  nix = {
-    package = pkgs.nixFlakes; # or versioned attributes like nix_2_7
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 30d";
-    };
-    settings.auto-optimise-store = true;
-  };
-
   powerManagement = {
     cpuFreqGovernor = "ondemand";
     powertop.enable = true;
@@ -96,7 +83,7 @@ in
     docker-compose
     smartmontools
     mullvad-vpn
-  ] ++ (import ../../features/cli-utils.nix { inherit pkgs; });
+  ];
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;

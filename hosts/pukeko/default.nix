@@ -13,26 +13,13 @@ in
     size = 2048; # MB
   }];
 
-  nix = {
-    package = pkgs.nixFlakes;
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 30d";
-    };
-    settings.auto-optimise-store = true;
-  };
-
   boot.tmp.cleanOnBoot = true;
   networking.hostName = "pukeko";
   networking.domain = "";
 
   environment.systemPackages = with pkgs; [
     unstable.authelia
-  ] ++ (import ../../features/cli-utils.nix { inherit pkgs; });
+  ];
 
   programs.neovim = {
     enable = true;

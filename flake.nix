@@ -44,7 +44,11 @@
         lib.nixosSystem {
           inherit system;
           pkgs = mkPkgs system;
-          modules = [ ./hosts/moa ./features/fonts.nix ];
+          modules = [
+            ./hosts/moa
+            ./features/common.nix
+            ./features/fonts.nix
+          ];
         };
 
       # home laptop
@@ -62,6 +66,7 @@
           modules = [
             nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
             ./hosts/tui
+            ./features/common.nix
             ./features/firefox.nix
             ./features/fonts.nix
             ./features/games.nix
@@ -83,6 +88,7 @@
           pkgs = mkPkgs system;
           modules = [
             ./hosts/kakapo
+            ./features/common.nix
             ./features/key-remapping.nix
             ./features/syncthing.nix
           ];
@@ -95,6 +101,7 @@
           pkgs = mkPkgs system;
           modules = [
             ./hosts/pukeko
+            ./features/common.nix
           ];
         };
 

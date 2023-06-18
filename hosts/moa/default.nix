@@ -10,19 +10,6 @@
     ./hardware.nix
   ];
 
-  nix = {
-    package = pkgs.nixFlakes;
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 30d";
-    };
-    settings.auto-optimise-store = true;
-  };
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -72,7 +59,7 @@
     gcc
     libsForQt5.bismuth
     vim
-  ] ++ (import ../../features/cli-utils.nix { inherit pkgs; });
+  ];
 
   services.openssh.enable = true;
   networking.firewall.enable = false;
