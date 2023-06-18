@@ -65,6 +65,7 @@
             ./features/firefox.nix
             ./features/fonts.nix
             ./features/games.nix
+            ./features/gui-utils.nix
             ./features/key-remapping.nix
             ./features/sway-desktop.nix
             ./features/syncthing.nix

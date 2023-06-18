@@ -10,9 +10,6 @@ let
     progress # show progress of running processes
     powertop
     git # mac+hm doesn't like having this twice?? idk it's fine on linux
-    libva-utils # provides vainfo
-    clinfo # provides clinfo (opencl)
-    vulkan-tools # provides vulkaninfo
     curl # use macos' built in
   ] else [
   ];
