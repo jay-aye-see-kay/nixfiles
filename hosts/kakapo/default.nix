@@ -88,7 +88,6 @@ in
   environment.systemPackages = with pkgs; [
     age
     neovim
-    sops
     arion # for running web services
     docker
     docker-compose

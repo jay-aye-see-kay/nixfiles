@@ -92,7 +92,6 @@ in
     lm_sensors
     neovim
     slack
-    sops
     wireshark
     wireshark-cli
     mullvad-vpn

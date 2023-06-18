@@ -5,7 +5,6 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager.url = "github:nix-community/home-manager/release-23.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    sops-nix.url = "github:Mic92/sops-nix";
     neovim-flake.url = "github:jay-aye-see-kay/neovim-flake";
     flake-utils.url = "github:numtide/flake-utils";
     rtx-flake = {
@@ -15,7 +14,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, home-manager, sops-nix, ... }@inputs:
+  outputs = { self, nixpkgs, nixos-hardware, home-manager, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       inherit ((import ./utils.nix inputs)) mkPkgs eachMySystem mkHmConfigMod;
@@ -86,9 +85,7 @@
           inherit system;
           pkgs = mkPkgs system;
           modules = [
-            sops-nix.nixosModules.sops
             ./hosts/kakapo
-            ./secrets/sops.nix
             ./features/firefox.nix
             ./features/fonts.nix
             ./features/key-remapping.nix
