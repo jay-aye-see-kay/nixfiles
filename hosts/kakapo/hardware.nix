@@ -36,12 +36,10 @@
 
   fileSystems."/home" = { device = "rpool/user/home"; fsType = "zfs"; };
 
-  # swapDevices = [
-  #   {
-  #     device = "/dev/disk/by-id/wwn-0x5001b448ba0c2403-part2";
-  #     randomEncryption = true;
-  #   }
-  # ];
+  swapDevices = [{
+    device = "/dev/disk/by-id/nvme-WD_Red_SN700_250GB_214912800092-part2";
+    randomEncryption = true;
+  }];
 
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
