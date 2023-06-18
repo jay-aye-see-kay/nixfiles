@@ -108,6 +108,7 @@
         # Apply the overlay and load nixpkgs as `pkgs`
         pkgs = import nixpkgs {
           inherit system;
+          config.allowUnfree = true;
           overlays = [
             pluginOverlay
           ];
