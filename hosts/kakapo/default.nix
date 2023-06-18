@@ -28,6 +28,9 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # allow this machine to build for arm using qemu
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   # ZFS boot settings.
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.devNodes = "/dev/";
