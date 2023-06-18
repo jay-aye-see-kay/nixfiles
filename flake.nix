@@ -76,20 +76,13 @@
         pkgs = mkPkgs "x86_64-linux";
         modules = mkHmConfigMod { inherit username; };
       };
-      homeConfigurations."hud@kakapo" = mkHmConfig rec {
-        pkgs = mkPkgs "x86_64-linux";
-        modules = mkHmConfigMod { username = "hud"; };
-      };
       nixosConfigurations.kakapo = let system = "x86_64-linux"; in
         lib.nixosSystem {
           inherit system;
           pkgs = mkPkgs system;
           modules = [
             ./hosts/kakapo
-            ./features/firefox.nix
-            ./features/fonts.nix
             ./features/key-remapping.nix
-            ./features/sway-desktop.nix
             ./features/syncthing.nix
           ];
         };

@@ -95,19 +95,6 @@ in
     mullvad-vpn
   ] ++ (import ../../features/cli-utils.nix { inherit pkgs; });
 
-  # hud setup for the tv
-  users.users.hud = {
-    isNormalUser = true;
-    extraGroups = [ ];
-  };
-  services.xserver.enable = true;
-  services.xserver.displayManager = {
-    lightdm.enable = true;
-    autoLogin.enable = true;
-    autoLogin.user = "hud";
-  };
-  services.mullvad-vpn.enable = true;
-
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 

@@ -23,7 +23,7 @@ update-one:
   nix flake lock --update-input $CHOSEN
 
 home-switch:
-  ./scripts/home-switch.sh
+  home-manager switch --flake ".#$(whoami)@$(hostname)"
 
 host-switch:
   [ "$(uname)" != "Darwin" ] && nixos-rebuild --use-remote-sudo switch --flake .#
