@@ -60,6 +60,8 @@ in
   # services.printing.enable = true;
 
   services.gnome.gnome-keyring.enable = true;
+  programs._1password.enable = true;
+  programs._1password-gui.enable = true;
 
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
@@ -78,8 +80,6 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    _1password
-    _1password-gui
     age
     alacritty
     chromium
