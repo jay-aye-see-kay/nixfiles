@@ -63,9 +63,12 @@
           modules = [
             nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
             ./hosts/tui
+            ./features/firefox.nix
             ./features/fonts.nix
             ./features/games.nix
             ./features/key-remapping.nix
+            ./features/sway-desktop.nix
+            ./features/syncthing.nix
           ];
         };
 
@@ -84,8 +87,13 @@
           pkgs = mkPkgs system;
           modules = [
             sops-nix.nixosModules.sops
-            ./secrets/sops.nix
             ./hosts/kakapo
+            ./secrets/sops.nix
+            ./features/firefox.nix
+            ./features/fonts.nix
+            ./features/key-remapping.nix
+            ./features/sway-desktop.nix
+            ./features/syncthing.nix
           ];
         };
 

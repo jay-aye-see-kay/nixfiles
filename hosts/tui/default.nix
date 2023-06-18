@@ -4,9 +4,6 @@ in
 {
   imports = [
     ./hardware.nix
-    ../../features/sway-desktop.nix
-    ../../features/firefox.nix
-    ../../features/syncthing.nix
   ];
 
   nix = {

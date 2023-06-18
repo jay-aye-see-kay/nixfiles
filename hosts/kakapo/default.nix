@@ -5,7 +5,6 @@ in
 {
   imports = [
     ./hardware.nix
-    ./sway.nix
   ];
 
   nix = {
@@ -108,31 +107,7 @@ in
     autoLogin.enable = true;
     autoLogin.user = "hud";
   };
-
   services.mullvad-vpn.enable = true;
-
-  services.borgbackup.jobs.home-server-volumes = {
-    paths = "/hs";
-    repo = "q276grru@q276grru.repo.borgbase.com:repo";
-    startAt = "*-*-* 04:00:00"; # daily @ 4am
-    compression = "auto,zstd";
-    encryption = {
-      mode = "repokey-blake2";
-      passCommand = "cat ${config.sops.secrets.borgPassword.path}";
-    };
-    # stop all containers so we don't get corrupt databases
-    preHook = ''
-      cd /home/jack/home-server-dc
-      ${pkgs.docker-compose}/bin/docker-compose stop
-    '';
-    # update images and start containers
-    postHook = ''
-      cd /home/jack/home-server-dc
-      ${pkgs.docker-compose}/bin/docker-compose pull
-      ${pkgs.docker-compose}/bin/docker-compose up -d --remove-orphans
-      ${pkgs.docker}/bin/docker stop $(${pkgs.docker}/bin/docker ps --filter="label=startstopped" --quiet)
-    '';
-  };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
@@ -156,6 +131,21 @@ in
       8443 # matrix-synapse
     ];
   };
+
+  # ignore power key (it's a server, it should be hard to shutdown/sleep)
+  services.logind.extraConfig = ''
+    HandlePowerKey=ignore
+    HandlePowerKeyLongPress=ignore
+    HandleRebootKey=ignore
+    HandleRebootKeyLongPress=ignore
+    HandleSuspendKey=ignore
+    HandleSuspendKeyLongPress=ignore
+    HandleHibernateKey=ignore
+    HandleHibernateKeyLongPress=ignore
+    HandleLidSwitch=ignore
+    HandleLidSwitchExternalPower=ignore
+    HandleLidSwitchDocked=ignore
+  '';
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
