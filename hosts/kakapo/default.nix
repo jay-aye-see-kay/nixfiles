@@ -8,7 +8,6 @@ in
   ];
 
   powerManagement = {
-    cpuFreqGovernor = "ondemand";
     powertop.enable = true;
   };
 
