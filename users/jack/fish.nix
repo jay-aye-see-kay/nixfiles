@@ -75,15 +75,12 @@ in
         ${pkgs.rtx}/bin/rtx activate fish | source
       '' else "");
 
-    plugins = [{
-      name = "foreign-env";
-      src = pkgs.fetchFromGitHub {
-        owner = "oh-my-fish";
-        repo = "plugin-foreign-env";
-        rev = "dddd9213272a0ab848d474d0cbde12ad034e65bc";
-        sha256 = "00xqlyl3lffc5l0viin1nyp819wf81fncqyz87jx8ljjdhilmgbs";
-      };
-    }];
+      plugins = [
+        # weird syntax required to use nixpkgs plugins in HM
+        # see: https://nixos.wiki/wiki/Fish#Home_Manager
+        { inherit (pkgs.fishPlugins.done) name src; }
+        { inherit (pkgs.fishPlugins.foreign-env) name src; }
+      ];
 
     loginShellInit =
       if isDarwin then ''
