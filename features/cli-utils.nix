@@ -1,4 +1,4 @@
-# WIP: collect all my "core" cli tools, describe then
+# collect all my "core" cli tools, describe then
 # install them on all hosts from here
 { pkgs, ... }: with pkgs;
 let
@@ -12,6 +12,7 @@ let
     git # mac+hm doesn't like having this twice?? idk it's fine on linux
     curl # use macos' built in
   ] else [
+    terminal-notifier # user generated macos notifiations (used by fishPlugins.done)
   ];
 in
 platformSpecificPackages ++ [
