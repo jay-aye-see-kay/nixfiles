@@ -63,4 +63,7 @@ platformSpecificPackages ++ [
   tokei
   stress
   unstable.ast-grep
+
+  # nix stuff
+  nix-tree # show dependencies and sizes of installed nixpkgs
 ]
