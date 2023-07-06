@@ -28,8 +28,12 @@ if [ ! -e .git/refs/remotes ]; then
   exit 0
 fi
 
-REMOTE_HEADS=$(cat .git/refs/remotes/*/HEAD | sed 's%^ref: refs/remotes/%%')
-REMOTE_HEADS_COUNT=$(echo "$REMOTE_HEADS" | wc -l)
+if [ -e .git/refs/remotes ]; then
+  REMOTE_HEADS=$(cat .git/refs/remotes/*/HEAD | sed 's%^ref: refs/remotes/%%')
+  REMOTE_HEADS_COUNT=$(echo "$REMOTE_HEADS" | wc -l)
+else
+  REMOTE_HEADS_COUNT="0"
+fi
 
 if [ "$REMOTE_HEADS_COUNT" = "0" ]; then
   echo "$LOCAL_FALLBACK"
