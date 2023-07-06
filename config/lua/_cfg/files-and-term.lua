@@ -73,7 +73,6 @@ require("neo-tree").setup({
 		},
 	},
 	source_selector = {
-		winbar = true,
 		sources = {
 			{ source = "filesystem", display_name = " 󰉓 Files " },
 			{ source = "git_status", display_name = " 󰊢 Git " },
