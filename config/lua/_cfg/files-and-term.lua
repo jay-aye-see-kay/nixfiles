@@ -81,6 +81,27 @@ require("neo-tree").setup({
 })
 -- }}}
 
+--- Opens neotree git_status, showing changes since branch off default
+local function neotree_merge_base(prefix)
+	return function()
+		local cmd_output = vim.fn.systemlist("git guess-default-branch")
+		if #cmd_output ~= 1 then
+			print("git guess-default-branch failed")
+			return
+		end
+		local default_branch = cmd_output[1]
+		local merge_base = vim.fn.systemlist("git merge-base " .. default_branch .. " HEAD")[1]
+		print("merge base with '" .. default_branch .. "' is '" .. merge_base .. "'")
+		vim.cmd(prefix .. " | Neotree current source=git_status git_base=" .. merge_base)
+	end
+end
+vim.keymap.set("n", "<leader>egh", neotree_merge_base("aboveleft vsplit"), { desc = "neotree merge_base to left" })
+vim.keymap.set("n", "<leader>egl", neotree_merge_base("belowright vsplit"), { desc = "neotree merge_base to right" })
+vim.keymap.set("n", "<leader>egk", neotree_merge_base("aboveleft split"), { desc = "neotree merge_base above" })
+vim.keymap.set("n", "<leader>egj", neotree_merge_base("belowright split"), { desc = "neotree merge_base below" })
+vim.keymap.set("n", "<leader>eg.", neotree_merge_base("echo"), { desc = "neotree merge_base in place" })
+vim.keymap.set("n", "<leader>eg,", neotree_merge_base("tabnew"), { desc = "neotree merge_base in new tab" })
+
 -- {{{ terminal
 vim.keymap.set("t", "<ESC>", [[<C-\><C-n>]])
 
