@@ -12,14 +12,12 @@ let
   linuxOnlyPackages = with pkgs; [
     awscli2
     arandr
-    beekeeper-studio
     gparted
     easyeffects
     imv
     mpv
     pdfarranger
     prusa-slicer
-    unstable.anki-bin
     syncthing
     unstable.calibre
 
@@ -52,9 +50,7 @@ in
       trash-cli
       (python3.withPackages (ps: [ ps.ipykernel ]))
       gnupg
-      unstable.openai-full
 
-      unstable.nodePackages.cdk8s-cli
       unstable.kubectl
 
       nodejs
@@ -64,6 +60,7 @@ in
       go
 
       unstable.rustc
+      unstable.rustfmt
       unstable.cargo-edit
       unstable.cargo
       unstable.clippy

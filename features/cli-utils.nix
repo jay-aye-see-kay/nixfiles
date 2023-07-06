@@ -47,7 +47,6 @@ platformSpecificPackages ++ [
   wget
 
   tldr # sometimes better docs
-  visidata
 
   # tools?
   just
