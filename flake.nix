@@ -249,7 +249,6 @@
           black
           shfmt
           stylua
-          rustfmt
 
           # Debuggers
           delve
