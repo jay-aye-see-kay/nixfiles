@@ -81,6 +81,7 @@ in
     pulsemixer
     qbittorrent
     flyctl
+    zathura
   ];
 
   # This option enables Mullvad VPN daemon. This sets networking.firewall.checkReversePath

@@ -82,6 +82,10 @@ bindsym $mod+w layout tabbed
 bindsym $mod+f fullscreen toggle
 bindsym $mod+e layout toggle split
 
+# keep screen awake while fullscreen
+for_window [class="^.*"] inhibit_idle fullscreen
+for_window [app_id="^.*"] inhibit_idle fullscreen
+
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
