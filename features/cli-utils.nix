@@ -11,6 +11,7 @@ let
     powertop
     git # mac+hm doesn't like having this twice?? idk it's fine on linux
     curl # use macos' built in
+    ltunify # manage logitech unifying receiver dongle (linux only)
   ] else [
     terminal-notifier # user generated macos notifiations (used by fishPlugins.done)
   ];
