@@ -82,3 +82,16 @@ local function copy_link_to_github(_, opts)
 end
 require("yop").op_map({ "n", "v" }, ",gy", copy_link_to_github)
 require("yop").op_map({ "n", "v" }, ",gyy", copy_link_to_github, { linewise = true })
+
+-- trying out neogit
+local neogit = require("neogit")
+
+neogit.setup({
+	kind = "auto",
+	disable_commit_confirmation = true,
+	integrations = {
+		diffview = false,
+	},
+})
+
+vim.keymap.set("n", "<leader>G", neogit.open)

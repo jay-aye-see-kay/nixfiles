@@ -147,6 +147,22 @@
         "type": "github"
       }
     },
+    "plugin:neogit": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1689276893,
+        "narHash": "sha256-Z1LVUkxta364qC/e8LqTmBU3sqRSctEnzM00/WE9qoM=",
+        "owner": "NeogitOrg",
+        "repo": "neogit",
+        "rev": "75467a89c3fcd005bd421fd229c79d98f7e2c2ef",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NeogitOrg",
+        "repo": "neogit",
+        "type": "github"
+      }
+    },
     "plugin:nvim-unception": {
       "flake": false,
       "locked": {
@@ -254,6 +270,7 @@
         "plugin:git-conflict-nvim": "plugin:git-conflict-nvim",
         "plugin:mini-nvim": "plugin:mini-nvim",
         "plugin:mkdnflow": "plugin:mkdnflow",
+        "plugin:neogit": "plugin:neogit",
         "plugin:nvim-unception": "plugin:nvim-unception",
         "plugin:tsnode-marker-nvim": "plugin:tsnode-marker-nvim",
         "plugin:typescript-nvim": "plugin:typescript-nvim",

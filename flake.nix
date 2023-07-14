@@ -59,6 +59,10 @@
       url = "github:jay-aye-see-kay/chatbot-buffer.nvim";
       flake = false;
     };
+    "plugin:neogit" = {
+      url = "github:NeogitOrg/neogit";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
