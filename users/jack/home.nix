@@ -8,6 +8,7 @@ let
     jdk8
     unstable.nodePackages.snyk
     rtx
+    devbox
   ];
   linuxOnlyPackages = with pkgs; [
     awscli2
