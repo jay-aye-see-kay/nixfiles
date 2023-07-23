@@ -90,7 +90,8 @@ neogit.setup({
 	kind = "auto",
 	disable_commit_confirmation = true,
 	integrations = {
-		diffview = false,
+		diffview = {},
+		telescope = {},
 	},
 })
 
