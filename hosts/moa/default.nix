@@ -18,23 +18,17 @@
 
   # Set your time zone.
   time.timeZone = "Australia/Melbourne";
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_AU.UTF-8";
 
   # SPICE!
   services.spice-vdagentd.enable = true;
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.windowManager.i3.enable = true;
 
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
-
+  services.gnome.gnome-keyring.enable = true;
   programs.fish.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -54,11 +48,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    alacritty
     docker-compose
     firefox
-    gcc
-    libsForQt5.bismuth
-    vim
+    neovim
+    zathura
   ];
 
   services.openssh.enable = true;
@@ -70,6 +64,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.05"; # Did you read the comment?
+  system.stateVersion = "23.05"; # Did you read the comment?
 }
 

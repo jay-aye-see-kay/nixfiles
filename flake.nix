@@ -38,7 +38,7 @@
         pkgs = mkPkgs "aarch64-linux";
         modules =
           (mkHmConfigMod { inherit username; })
-          ++ [ ./users/jack/i3 ];
+          ++ [ ./users/jack/sway ];
       };
       nixosCofigurations.moa = let system = "aarch64-linux"; in
         lib.nixosSystem {
@@ -48,6 +48,8 @@
             ./hosts/moa
             ./features/common.nix
             ./features/fonts.nix
+            ./features/sway-desktop.nix
+            ./features/syncthing.nix
           ];
         };
 
