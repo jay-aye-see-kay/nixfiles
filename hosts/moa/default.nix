@@ -24,12 +24,9 @@
   # SPICE!
   services.spice-vdagentd.enable = true;
 
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
   services.gnome.gnome-keyring.enable = true;
   programs.fish.enable = true;
+  programs.plotinus.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jack = {
@@ -41,6 +38,8 @@
   environment.variables = {
     # Because we're a VM, we don't have a GPU which messes with alacritty, this resolves that
     LIBGL_ALWAYS_SOFTWARE = "1";
+    # otherwise cursors are upside down
+    WLR_NO_HARDWARE_CURSORS = "1";
   };
 
   virtualisation.docker.enable = true;
@@ -51,8 +50,11 @@
     alacritty
     docker-compose
     firefox
+    home-manager
     neovim
     zathura
+    valgrind
+    massif-visualizer
   ];
 
   services.openssh.enable = true;
