@@ -40,7 +40,7 @@
           (mkHmConfigMod { inherit username; })
           ++ [ ./users/jack/sway ];
       };
-      nixosCofigurations.moa = let system = "aarch64-linux"; in
+      nixosConfigurations.moa = let system = "aarch64-linux"; in
         lib.nixosSystem {
           inherit system;
           pkgs = mkPkgs system;
