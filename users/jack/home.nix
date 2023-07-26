@@ -149,6 +149,7 @@ in
           "!git for-each-ref refs/heads --color=always --sort -committerdate --format='%(HEAD)%(color:reset) %(color:yellow)%(refname:short)%(color:reset) %(contents:subject) %(color:green)(%(committerdate:relative))%(color:blue) <%(authorname)>'";
         uncommit = "reset --soft HEAD~1";
         recommit = "commit --amend --no-edit";
+        changeset-recommit-branch = "git fetch && git checkout changeset-release/master && git reset --hard origin/changeset-release/master && git commit --amend --no-edit && git push --force-with-lease";
       };
       ignores = [
         ".vim"
