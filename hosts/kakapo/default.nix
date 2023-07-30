@@ -69,6 +69,7 @@ in
   # OCI container setup for Arion (should work for most docker [compose] stuff too)
   virtualisation = {
     docker.enable = true;
+    docker.package = pkgs.unstable.docker;
     oci-containers.backend = "docker";
   };
 
@@ -78,8 +79,8 @@ in
     age
     neovim
     arion # for running web services
-    docker
-    docker-compose
+    unstable.docker
+    unstable.docker-compose
     smartmontools
     mullvad-vpn
   ];
