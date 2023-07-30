@@ -90,6 +90,8 @@ in
   networking.firewall = {
     allowedUDPPorts = [
       53 # dns
+      80 # http
+      443 # https
       465 # smtp
       25565 # minecraft
       51820 # wireguard
