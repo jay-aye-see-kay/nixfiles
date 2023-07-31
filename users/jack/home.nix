@@ -9,6 +9,7 @@ let
     unstable.nodePackages.snyk
     rtx
     devbox
+    jira-cli-go
   ];
   linuxOnlyPackages = with pkgs; [
     awscli2
