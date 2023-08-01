@@ -63,6 +63,10 @@
       url = "github:NeogitOrg/neogit";
       flake = false;
     };
+    "plugin:hover-nvim" = {
+      url = "github:lewis6991/hover.nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
