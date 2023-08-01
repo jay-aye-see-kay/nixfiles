@@ -66,6 +66,7 @@
         "plugin:codegpt-nvim": "plugin:codegpt-nvim",
         "plugin:debugprint": "plugin:debugprint",
         "plugin:git-conflict-nvim": "plugin:git-conflict-nvim",
+        "plugin:hover-nvim": "plugin:hover-nvim",
         "plugin:mini-nvim": "plugin:mini-nvim",
         "plugin:mkdnflow": "plugin:mkdnflow",
         "plugin:neogit": "plugin:neogit",
@@ -77,11 +78,11 @@
         "plugin:yop-nvim": "plugin:yop-nvim"
       },
       "locked": {
-        "lastModified": 1690112403,
-        "narHash": "sha256-CQWQQw1KoM5B63ZZl8W38lTOoL61cON04MIC4hAwxN0=",
+        "lastModified": 1690861908,
+        "narHash": "sha256-Nh9nFrT7uMacVBlbmjniSfJTJS2U7mqrWlKifQimqCA=",
         "owner": "jay-aye-see-kay",
         "repo": "neovim-flake",
-        "rev": "fec26a9c2e0f763370f26138f51d992a2a36ea53",
+        "rev": "68f358fa14492a1fe846c6194e17bb18862d1137",
         "type": "github"
       },
       "original": {
@@ -231,6 +232,22 @@
         "owner": "akinsho",
         "ref": "v1.0.0",
         "repo": "git-conflict.nvim",
+        "type": "github"
+      }
+    },
+    "plugin:hover-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1689006872,
+        "narHash": "sha256-uYc6yGmHWmfsnFF8XRR3JG2nYwHSoB0t7IRzbZMqGW4=",
+        "owner": "lewis6991",
+        "repo": "hover.nvim",
+        "rev": "c366d1b0f9d6612d25681d3fea0f9ea46fa54f4d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lewis6991",
+        "repo": "hover.nvim",
         "type": "github"
       }
     },
