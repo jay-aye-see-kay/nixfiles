@@ -25,6 +25,13 @@ let
 
     clang # comes with xcode, things expect to use that version
 
+    # use rustup on mac (because netskope)
+    unstable.rustc
+    unstable.rustfmt
+    unstable.cargo-edit
+    unstable.cargo
+    unstable.clippy
+
     # use yarn installed pnpm on work laptop
     nodePackages_latest.pnpm
   ];
@@ -60,12 +67,6 @@ in
 
       just
       go
-
-      unstable.rustc
-      unstable.rustfmt
-      unstable.cargo-edit
-      unstable.cargo
-      unstable.clippy
 
       exercism
       unstable.yt-dlp
