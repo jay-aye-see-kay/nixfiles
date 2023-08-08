@@ -53,6 +53,8 @@ in
       vg = ''nvim -c "Git | wincmd k | q"'';
       pbc = if isDarwin then "pbcopy" else "wl-copy";
       pbp = if isDarwin then "pbpaste" else "wl-paste";
+      # decompress using deflate algo, used in the Building Git book
+      inflate = "${pkgs.pigz}/bin/pigz --decompress --zlib --stdout";
     };
 
     shellInit = ''
