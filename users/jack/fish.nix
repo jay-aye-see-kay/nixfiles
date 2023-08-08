@@ -29,6 +29,7 @@ in
       "..." = "cd ../..";
       "...." = "cd ../../..";
       "....." = "cd ../../../..";
+      ni = "nix profile install nixpkgs#";
     };
 
     functions = {
