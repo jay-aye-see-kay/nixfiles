@@ -64,15 +64,12 @@ in
       # use bash default to edit line in vim
       bind \cx\ce edit_command_buffer
 
-
       # language env set up
       fish_add_path "$HOME/.local/bin" # pip
       fish_add_path "$HOME/.poetry/bin" # poetry
-      fish_add_path "(ruby -e 'puts Gem.user_dir')/bin" # ruby
       fish_add_path "$HOME/.npm_global/bin" # npm
       fish_add_path "$HOME/.yarn/bin" # yarn
       fish_add_path "$HOME/.cargo/bin" # rust
-      fish_add_path "$HOME/.emacs.d/bin" # doom/emacs
       '' + (if isDarwin then ''
         ${pkgs.rtx}/bin/rtx activate fish | source
       '' else "");
