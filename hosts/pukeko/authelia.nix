@@ -16,6 +16,15 @@ let
     access_control = {
       default_policy = "deny";
       rules = [
+        {
+          domain = "silverbullet.p.jackrose.co.nz";
+          resources = [
+            "/.client/manifest.json$"
+            "/.client/[a-zA-Z0-9_-]+.png$"
+            "/service_worker.js$"
+          ];
+          policy = "bypass";
+        }
         { domain = "*.p.jackrose.co.nz"; policy = "one_factor"; }
       ];
     };
