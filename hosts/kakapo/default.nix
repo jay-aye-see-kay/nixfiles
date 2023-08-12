@@ -98,6 +98,10 @@ in
       51820 # wireguard
       8080 # kodi
       8443 # matrix-synapse
+      32410 # plex network discovery
+      32412 # plex network discovery
+      32413 # plex network discovery
+      32414 # plex network discovery
     ];
     allowedTCPPorts = [
       53 # dns
@@ -107,6 +111,7 @@ in
       25565 # minecraft
       8080 # kodi
       8443 # matrix-synapse
+      32400 # plex
     ];
   };
 
