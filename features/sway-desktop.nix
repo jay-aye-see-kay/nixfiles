@@ -66,6 +66,9 @@ in
     playerctl
   ];
 
+  # enable ozone in pkgs that support it (i.e. slack + chrome)
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
