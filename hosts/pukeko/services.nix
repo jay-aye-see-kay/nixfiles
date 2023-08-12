@@ -85,7 +85,6 @@ in
   services.caddy.virtualHosts."silverbullet.p.jackrose.co.nz" = {
     extraConfig = authConfg + ''
       reverse_proxy localhost:${ports.silverbullet}
-      file_server
     '';
   };
   systemd.services.silverbullet =
