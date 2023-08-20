@@ -62,6 +62,7 @@
         "flake-utils": "flake-utils_2",
         "nixpkgs": "nixpkgs",
         "plugin:advanced-git-search-nvim": "plugin:advanced-git-search-nvim",
+        "plugin:bats-nvim": "plugin:bats-nvim",
         "plugin:chatbot-buffer-nvim": "plugin:chatbot-buffer-nvim",
         "plugin:codegpt-nvim": "plugin:codegpt-nvim",
         "plugin:debugprint": "plugin:debugprint",
@@ -78,11 +79,11 @@
         "plugin:yop-nvim": "plugin:yop-nvim"
       },
       "locked": {
-        "lastModified": 1690861908,
-        "narHash": "sha256-Nh9nFrT7uMacVBlbmjniSfJTJS2U7mqrWlKifQimqCA=",
+        "lastModified": 1692541699,
+        "narHash": "sha256-VR2SLB+ThxqzwIL3bT54ImAOjj6EjIzLYOzo/fYydlI=",
         "owner": "jay-aye-see-kay",
         "repo": "neovim-flake",
-        "rev": "68f358fa14492a1fe846c6194e17bb18862d1137",
+        "rev": "db5bb15fd2c0b56e9750f876d6e7c7f26525c525",
         "type": "github"
       },
       "original": {
@@ -167,6 +168,22 @@
       "original": {
         "owner": "aaronhallaert",
         "repo": "advanced-git-search.nvim",
+        "type": "github"
+      }
+    },
+    "plugin:bats-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1681058501,
+        "narHash": "sha256-oKdnWciaKyI7iaBSQ0DeG7ZQWmi9NlSVVZyeGCpAW84=",
+        "owner": "aliou",
+        "repo": "bats.vim",
+        "rev": "19eb3c5a05aaa889647af8107a4518b3fb4a4711",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aliou",
+        "repo": "bats.vim",
         "type": "github"
       }
     },
