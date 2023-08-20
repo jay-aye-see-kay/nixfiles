@@ -67,6 +67,10 @@
       url = "github:lewis6991/hover.nvim";
       flake = false;
     };
+    "plugin:bats-nvim" = {
+      url = "github:aliou/bats.vim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:

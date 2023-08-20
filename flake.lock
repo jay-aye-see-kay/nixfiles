@@ -50,6 +50,22 @@
         "type": "github"
       }
     },
+    "plugin:bats-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1681058501,
+        "narHash": "sha256-oKdnWciaKyI7iaBSQ0DeG7ZQWmi9NlSVVZyeGCpAW84=",
+        "owner": "aliou",
+        "repo": "bats.vim",
+        "rev": "19eb3c5a05aaa889647af8107a4518b3fb4a4711",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aliou",
+        "repo": "bats.vim",
+        "type": "github"
+      }
+    },
     "plugin:chatbot-buffer-nvim": {
       "flake": false,
       "locked": {
@@ -280,6 +296,7 @@
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
         "plugin:advanced-git-search-nvim": "plugin:advanced-git-search-nvim",
+        "plugin:bats-nvim": "plugin:bats-nvim",
         "plugin:chatbot-buffer-nvim": "plugin:chatbot-buffer-nvim",
         "plugin:codegpt-nvim": "plugin:codegpt-nvim",
         "plugin:debugprint": "plugin:debugprint",
