@@ -88,6 +88,12 @@ in
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
+  # https://nixos.wiki/wiki/Binary_Cache
+  services.nix-serve = {
+    enable = true;
+    secretKeyFile = "/var/cache-priv-key.pem";
+  };
+
   networking.firewall = {
     allowedUDPPorts = [
       53 # dns
