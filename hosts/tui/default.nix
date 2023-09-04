@@ -6,6 +6,16 @@ in
     ./hardware.nix
   ];
 
+  # nix.settings = {
+  #   substituters = [
+  #     "https://binarycache.h.jackrose.co.nz"
+  #     "https://cache.nixos.org/"
+  #   ];
+  #   trusted-public-keys = [
+  #     "binarycache.h.jackrose.co.nz:KT2tuYE2It+AcPlh0uUT8MoNafGJuRpAdvsMEteUsMU="
+  #   ];
+  # };
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
