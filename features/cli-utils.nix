@@ -53,6 +53,7 @@ platformSpecificPackages ++ [
   just
   atool # uncompress or compress common formats with a common interface
   unzip
+  pigz
 
   # dashboards
   htop
