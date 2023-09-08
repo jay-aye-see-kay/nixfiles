@@ -39,6 +39,7 @@ in
 {
   imports = [
     ./fish.nix
+    ./nix-conf.nix
   ];
 
   home.sessionVariables = {
