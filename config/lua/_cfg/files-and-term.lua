@@ -126,4 +126,8 @@ h.autocmd({ "TermOpen" }, {
 		vim.keymap.set("n", "<CR>", [[ i<CR><C-\><C-n> ]], { buffer = 0 })
 	end,
 })
+
+require("term-edit").setup({
+	prompt_end = "❯ ",
+})
 -- }}}
