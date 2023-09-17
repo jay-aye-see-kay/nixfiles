@@ -8,7 +8,6 @@ let
     jdk8
     unstable.nodePackages.snyk
     rtx
-    devbox
     jira-cli-go
   ];
   linuxOnlyPackages = with pkgs; [
@@ -62,6 +61,7 @@ in
       gnupg
 
       unstable.kubectl
+      devbox
 
       nodejs
       yarn
