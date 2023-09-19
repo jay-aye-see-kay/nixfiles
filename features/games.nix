@@ -2,6 +2,7 @@
 {
   environment.systemPackages = with pkgs; [
     prismlauncher # minecraft launcher
+    unstable.openra
   ];
 
   programs.steam = {
