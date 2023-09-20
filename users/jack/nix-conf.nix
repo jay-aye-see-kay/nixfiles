@@ -38,6 +38,10 @@ in
 {
   home.packages = ifDarwin [ nixPackage ];
 
+  home.sessionVariables = ifDarwin {
+    NIX_SSL_CERT_FILE = "${cacertPackage}/etc/ssl/certs/ca-bundle.crt";
+  };
+
   nix = ifDarwin {
     package = nixPackage;
     settings = {
