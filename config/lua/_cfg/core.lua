@@ -40,6 +40,8 @@ vim.wo.relativenumber = true --Make line numbers default
 
 vim.opt.scrolloff = 4
 vim.opt.sidescrolloff = 4
+
+vim.opt.jumpoptions = "stack"
 -- }}}
 
 -- visuals look nice {{{
