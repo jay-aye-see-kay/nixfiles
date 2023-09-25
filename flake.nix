@@ -264,6 +264,7 @@
           isort
           shfmt
           stylua
+          nixpkgs-fmt
 
           # Debuggers
           delve
