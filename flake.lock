@@ -419,31 +419,7 @@
         "neovim-flake": "neovim-flake",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
-        "nixpkgs-unstable": "nixpkgs-unstable",
-        "rtx-flake": "rtx-flake"
-      }
-    },
-    "rtx-flake": {
-      "inputs": {
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ]
-      },
-      "locked": {
-        "lastModified": 1694728149,
-        "narHash": "sha256-cdEGQ7JEuw9DKPfHJBgCNc+gcg1NY/fY3hcrNAG9H8w=",
-        "owner": "jdxcode",
-        "repo": "rtx",
-        "rev": "2545f4555afa5bc6fd8f7756f08008318318bf5f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jdxcode",
-        "repo": "rtx",
-        "type": "github"
+        "nixpkgs-unstable": "nixpkgs-unstable"
       }
     },
     "systems": {

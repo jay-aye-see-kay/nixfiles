@@ -7,11 +7,6 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     neovim-flake.url = "github:jay-aye-see-kay/neovim-flake";
     flake-utils.url = "github:numtide/flake-utils";
-    rtx-flake = {
-      url = "github:jdxcode/rtx";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-      inputs.flake-utils.follows = "flake-utils";
-    };
   };
 
   outputs = { self, nixpkgs, nixos-hardware, home-manager, ... }@inputs:
@@ -59,7 +54,7 @@
         modules =
           (mkHmConfigMod { inherit username; })
           ++ [ ./users/jack/sway ]
-          ;
+        ;
       };
       nixosConfigurations.tui = let system = "x86_64-linux"; in
         lib.nixosSystem {
