@@ -257,9 +257,11 @@
           shellcheck
           statix
           sumneko-lua-language-server
+          ruff
 
           # Formatters
           black
+          isort
           shfmt
           stylua
 

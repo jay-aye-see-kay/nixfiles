@@ -126,6 +126,10 @@ null_ls.setup({
 		null_ls.builtins.formatting.shfmt.with({
 			extra_args = { "--indent", "2" },
 		}),
+		-- python
+		null_ls.builtins.diagnostics.ruff,
+		null_ls.builtins.formatting.black,
+		null_ls.builtins.formatting.isort,
 	},
 })
 
