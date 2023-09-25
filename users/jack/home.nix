@@ -6,7 +6,6 @@ let
     aws-vault
     istioctl
     jdk8
-    unstable.nodePackages.snyk
     rtx
     jira-cli-go
   ];
