@@ -31,9 +31,10 @@
   mkHmConfigMod = { username, isDarwin ? false, stateVersion ? "22.05" }: [
     ./users/${username}/home.nix
     {
-      home.username = username;
-      home.homeDirectory = "/${if isDarwin then "Users" else "home"}/${username}";
-      home.stateVersion = stateVersion;
+      home = {
+        inherit username stateVersion;
+        homeDirectory = "/${if isDarwin then "Users" else "home"}/${username}";
+      };
     }
   ];
 
