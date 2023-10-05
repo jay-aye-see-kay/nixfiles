@@ -32,6 +32,9 @@ let
 
     # use yarn installed pnpm on work laptop
     nodePackages_latest.pnpm
+
+    # use the script installed version on mac (to keep in sync others at work)
+    unstable.devbox
   ];
 in
 {
@@ -60,7 +63,6 @@ in
       gnupg
 
       unstable.kubectl
-      devbox
 
       nodejs
       yarn
