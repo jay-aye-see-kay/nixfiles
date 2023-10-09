@@ -92,7 +92,7 @@
         # ```
         pluginOverlay = final: prev:
           let
-            inherit (prev.vimUtils) buildVimPluginFrom2Nix;
+            inherit (prev.vimUtils) buildVimPlugin;
             plugins = builtins.filter
               (s: (builtins.match "plugin:.*" s) != null)
               (builtins.attrNames inputs);
@@ -101,7 +101,7 @@
                 (builtins.stringLength "plugin:")
                 (builtins.stringLength input)
                 input;
-            buildPlug = name: buildVimPluginFrom2Nix {
+            buildPlug = name: buildVimPlugin {
               pname = plugName name;
               version = "master";
               src = builtins.getAttr name inputs;
