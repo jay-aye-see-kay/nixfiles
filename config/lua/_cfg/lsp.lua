@@ -7,11 +7,12 @@ local lsp_servers = {
 	"html",
 	"jsonls",
 	"lua_ls",
-	"pyright",
 	"nil_ls",
+	"pyright",
 	"rust_analyzer",
 	"solargraph",
 	"tailwindcss",
+	"terraformls",
 	"vimls",
 	"yamlls",
 }

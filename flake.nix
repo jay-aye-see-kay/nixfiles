@@ -258,6 +258,7 @@
           statix
           sumneko-lua-language-server
           ruff
+          terraform-ls
 
           # Formatters
           black
