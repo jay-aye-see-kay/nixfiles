@@ -71,6 +71,10 @@
       url = "github:aliou/bats.vim";
       flake = false;
     };
+    "plugin:vim-jinja2-syntax" = {
+      url = "github:Glench/Vim-Jinja2-Syntax";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
