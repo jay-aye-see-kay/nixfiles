@@ -74,16 +74,17 @@
         "plugin:nvim-unception": "plugin:nvim-unception",
         "plugin:tsnode-marker-nvim": "plugin:tsnode-marker-nvim",
         "plugin:typescript-nvim": "plugin:typescript-nvim",
+        "plugin:vim-jinja2-syntax": "plugin:vim-jinja2-syntax",
         "plugin:vim-just": "plugin:vim-just",
         "plugin:vim-symlink": "plugin:vim-symlink",
         "plugin:yop-nvim": "plugin:yop-nvim"
       },
       "locked": {
-        "lastModified": 1697109010,
-        "narHash": "sha256-R7c+zf/QQhPN8H0DFgYWsmhj0dABXHCMOO7LlkqEYKg=",
+        "lastModified": 1697284859,
+        "narHash": "sha256-whHyGOL9zW0L1M9rSjJXkREDkf6Gj2dHiA9lcWtnkXs=",
         "owner": "jay-aye-see-kay",
         "repo": "neovim-flake",
-        "rev": "a6a86ad8494bf114bae225fc59b2e0bdf5887cd3",
+        "rev": "56ed8576898c01028735f1cb6c13d9d78d472663",
         "type": "github"
       },
       "original": {
@@ -361,6 +362,22 @@
       "original": {
         "owner": "jose-elias-alvarez",
         "repo": "typescript.nvim",
+        "type": "github"
+      }
+    },
+    "plugin:vim-jinja2-syntax": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1624372005,
+        "narHash": "sha256-57kZn10XBpCRRXsFSSEIUngdIJSj3cmNQHnkObj+ro4=",
+        "owner": "Glench",
+        "repo": "Vim-Jinja2-Syntax",
+        "rev": "2c17843b074b06a835f88587e1023ceff7e2c7d1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Glench",
+        "repo": "Vim-Jinja2-Syntax",
         "type": "github"
       }
     },
