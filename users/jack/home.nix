@@ -46,6 +46,7 @@ in
   home.sessionVariables = {
     EDITOR = "nvim";
     RIPGREP_CONFIG_PATH = "$HOME/.config/ripgreprc";
+    DIRENV_LOG_FORMAT = "";
   };
 
   xdg.configFile."ripgreprc".text = ''
