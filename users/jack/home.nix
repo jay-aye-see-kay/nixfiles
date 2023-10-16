@@ -1,6 +1,5 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 let
-  ifLinux = lib.mkIf pkgs.stdenv.isLinux;
   ifDarwin = lib.mkIf pkgs.stdenv.isDarwin;
   darwinOnlyPackages = with pkgs; [
     aws-vault
@@ -81,11 +80,11 @@ in
     ]
     ++ (if pkgs.stdenv.isLinux then linuxOnlyPackages else darwinOnlyPackages);
 
-  programs.direnv.enable = true;
-  programs.direnv.nix-direnv.enable = true;
-
   programs = {
     home-manager.enable = true;
+
+    direnv.enable = true;
+    direnv.nix-direnv.enable = true;
 
     zoxide.enable = true;
     zoxide.enableFishIntegration = true;
@@ -99,27 +98,31 @@ in
     navi.enable = true;
     navi.enableFishIntegration = true;
 
-    alacritty.enable = true;
-    alacritty.settings.font.size = if pkgs.stdenv.isLinux then 12 else 14;
-    alacritty.settings.font.normal.family = ifDarwin "FiraMono Nerd Font Mono";
-    # Spread additional padding evenly around the terminal content.
-    alacritty.settings.window.dynamic_padding = true;
-    # Make `Option` key behave as `Alt` (macOS only):
-    alacritty.settings.window.option_as_alt = "OnlyRight";
+    alacritty = {
+      enable = true;
+      settings = {
+        font.size = if pkgs.stdenv.isLinux then 12 else 14;
+        font.normal.family = ifDarwin "FiraMono Nerd Font Mono";
+        # Spread additional padding evenly around the terminal content.
+        window.dynamic_padding = true;
+        # Make `Option` key behave as `Alt` (macOS only):
+        window.option_as_alt = "OnlyRight";
 
-    alacritty.settings.key_bindings = [
-      # Don't quit on Cmd-W it's annoying
-      # Unfortunately it will still quit on Cmd-Q and this can't be disabled, see https://github.com/alacritty/alacritty/issues/6136
-      { key = "W"; mods = "Command"; action = "None"; }
+        key_bindings = [
+          # Don't quit on Cmd-W it's annoying
+          # Unfortunately it will still quit on Cmd-Q and this can't be disabled, see https://github.com/alacritty/alacritty/issues/6136
+          { key = "W"; mods = "Command"; action = "None"; }
 
-      # https://stackoverflow.com/a/42461580
-      { key = "Return"; mods = "Shift"; chars = ''\x1b[13;2u''; }
-      { key = "Return"; mods = "Control"; chars = ''\x1b[13;5u''; }
-    ];
+          # https://stackoverflow.com/a/42461580
+          { key = "Return"; mods = "Shift"; chars = ''\x1b[13;2u''; }
+          { key = "Return"; mods = "Control"; chars = ''\x1b[13;5u''; }
+        ];
 
-    # from: https://github.com/catppuccin/alacritty/blob/main/catppuccin-mocha.yml
-    # converted to json in vim with `:'<,'>!yq`
-    alacritty.settings.colors = builtins.fromJSON (builtins.readFile ./alacritty-colors.json);
+        # from: https://github.com/catppuccin/alacritty/blob/main/catppuccin-mocha.yml
+        # converted to json in vim with `:'<,'>!yq`
+        colors = builtins.fromJSON (builtins.readFile ./alacritty-colors.json);
+      };
+    };
 
     git = {
       enable = true;
