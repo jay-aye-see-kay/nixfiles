@@ -30,6 +30,7 @@ in
       "...." = "cd ../../..";
       "....." = "cd ../../../..";
       ni = "nix profile install nixpkgs#";
+      ns = "nix shell nixpkgs#";
     };
 
     functions = {
@@ -56,6 +57,8 @@ in
       pbp = if isDarwin then "pbpaste" else "wl-paste";
       # decompress using deflate algo, used in the Building Git book
       inflate = "${pkgs.pigz}/bin/pigz --decompress --zlib --stdout";
+      nix-env = "echo use `nix profile install nixpkgs#` instead";
+      nix-shell = "echo use `nix shell nixpkgs#` instead";
     };
 
     shellInit = ''
@@ -71,16 +74,16 @@ in
       fish_add_path "$HOME/.npm_global/bin" # npm
       fish_add_path "$HOME/.yarn/bin" # yarn
       fish_add_path "$HOME/.cargo/bin" # rust
-      '' + (if isDarwin then ''
-        ${pkgs.rtx}/bin/rtx activate fish | source
-      '' else "");
+    '' + (if isDarwin then ''
+      ${pkgs.rtx}/bin/rtx activate fish | source
+    '' else "");
 
-      plugins = [
-        # weird syntax required to use nixpkgs plugins in HM
-        # see: https://nixos.wiki/wiki/Fish#Home_Manager
-        { inherit (pkgs.fishPlugins.done) name src; }
-        { inherit (pkgs.fishPlugins.foreign-env) name src; }
-      ];
+    plugins = [
+      # weird syntax required to use nixpkgs plugins in HM
+      # see: https://nixos.wiki/wiki/Fish#Home_Manager
+      { inherit (pkgs.fishPlugins.done) name src; }
+      { inherit (pkgs.fishPlugins.foreign-env) name src; }
+    ];
 
     loginShellInit =
       if isDarwin then ''
