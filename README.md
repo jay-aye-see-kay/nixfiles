@@ -6,6 +6,8 @@ This repo is my nix/nixos configurations for a few systems. It's quite disorgani
 
 ### macOS
 
+If you have Netskope (corpo MitM software) set that up [https://jackrose.co.nz/til/reliable-nix-netskope-install/](https://jackrose.co.nz/til/reliable-nix-netskope-install/)
+
 ```bash
 # install nix with nice defaults (enables flakes, allows user to set substituters)
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --extra-conf "trusted-users = root $(whoami)"
