@@ -82,22 +82,6 @@
         "type": "github"
       }
     },
-    "plugin:codegpt-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1682976709,
-        "narHash": "sha256-JpZJz4ZmbL+tfYUSOQ9K7YUld7zTzAI11fw9sRaJzPA=",
-        "owner": "dpayne",
-        "repo": "CodeGPT.nvim",
-        "rev": "6e3714e8d336aea4a205081d44ed8b2e3505dee2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "dpayne",
-        "repo": "CodeGPT.nvim",
-        "type": "github"
-      }
-    },
     "plugin:debugprint": {
       "flake": false,
       "locked": {
@@ -131,22 +115,6 @@
         "type": "github"
       }
     },
-    "plugin:hover-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1696579722,
-        "narHash": "sha256-8ZzOGUC5EcmIt9xcqawxmk2Y5c5IQgKJs4IvCfhvN+s=",
-        "owner": "lewis6991",
-        "repo": "hover.nvim",
-        "rev": "a173256a9dba938e876ceb4bb5d2742f8866e349",
-        "type": "github"
-      },
-      "original": {
-        "owner": "lewis6991",
-        "repo": "hover.nvim",
-        "type": "github"
-      }
-    },
     "plugin:mini-nvim": {
       "flake": false,
       "locked": {
@@ -160,54 +128,6 @@
       "original": {
         "owner": "echasnovski",
         "repo": "mini.nvim",
-        "type": "github"
-      }
-    },
-    "plugin:mkdnflow": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1688525273,
-        "narHash": "sha256-U6YiUxt1TikKCD2YKLzcG9KR0c5p716xRFmNk2Tk/6M=",
-        "owner": "jakewvincent",
-        "repo": "mkdnflow.nvim",
-        "rev": "a728a3533bb57502fdfd6fdb4e5839fc87430edc",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jakewvincent",
-        "repo": "mkdnflow.nvim",
-        "type": "github"
-      }
-    },
-    "plugin:neogit": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1696785266,
-        "narHash": "sha256-xianJujy2zMwfOZN+HHcgx+Wn7DqGzfwSKwAS6yxIsw=",
-        "owner": "NeogitOrg",
-        "repo": "neogit",
-        "rev": "5b109bf06bbfbf1b02cd8e715dc96455a86b4691",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NeogitOrg",
-        "repo": "neogit",
-        "type": "github"
-      }
-    },
-    "plugin:nvim-unception": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1681229927,
-        "narHash": "sha256-DLRiD+N+RqE1ig/Tysfpe0/UqyrVhwm9R/y8BZkd3ok=",
-        "owner": "samjwill",
-        "repo": "nvim-unception",
-        "rev": "0cbf11a6c5c4314e88245b69d460f85f30885d2e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "samjwill",
-        "repo": "nvim-unception",
         "type": "github"
       }
     },
@@ -259,22 +179,6 @@
         "type": "github"
       }
     },
-    "plugin:vim-just": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1696562727,
-        "narHash": "sha256-gCljLZcSbN738bNMQDFF+N5kVC7+Q3tsB5FlozFbiqs=",
-        "owner": "NoahTheDuke",
-        "repo": "vim-just",
-        "rev": "fbcfcf96cf7c67cf0d4ad15b7af5069f65440c4f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NoahTheDuke",
-        "repo": "vim-just",
-        "type": "github"
-      }
-    },
     "plugin:vim-symlink": {
       "flake": false,
       "locked": {
@@ -314,18 +218,12 @@
         "plugin:advanced-git-search-nvim": "plugin:advanced-git-search-nvim",
         "plugin:bats-nvim": "plugin:bats-nvim",
         "plugin:chatbot-buffer-nvim": "plugin:chatbot-buffer-nvim",
-        "plugin:codegpt-nvim": "plugin:codegpt-nvim",
         "plugin:debugprint": "plugin:debugprint",
         "plugin:git-conflict-nvim": "plugin:git-conflict-nvim",
-        "plugin:hover-nvim": "plugin:hover-nvim",
         "plugin:mini-nvim": "plugin:mini-nvim",
-        "plugin:mkdnflow": "plugin:mkdnflow",
-        "plugin:neogit": "plugin:neogit",
-        "plugin:nvim-unception": "plugin:nvim-unception",
         "plugin:tsnode-marker-nvim": "plugin:tsnode-marker-nvim",
         "plugin:typescript-nvim": "plugin:typescript-nvim",
         "plugin:vim-jinja2-syntax": "plugin:vim-jinja2-syntax",
-        "plugin:vim-just": "plugin:vim-just",
         "plugin:vim-symlink": "plugin:vim-symlink",
         "plugin:yop-nvim": "plugin:yop-nvim"
       }

@@ -10,20 +10,8 @@
       url = "github:aymericbeaumet/vim-symlink";
       flake = false;
     };
-    "plugin:mkdnflow" = {
-      url = "github:jakewvincent/mkdnflow.nvim";
-      flake = false;
-    };
     "plugin:debugprint" = {
       url = "github:andrewferrier/debugprint.nvim";
-      flake = false;
-    };
-    "plugin:nvim-unception" = {
-      url = "github:samjwill/nvim-unception";
-      flake = false;
-    };
-    "plugin:vim-just" = {
-      url = "github:NoahTheDuke/vim-just";
       flake = false;
     };
     "plugin:git-conflict-nvim" = {
@@ -42,10 +30,6 @@
       url = "github:echasnovski/mini.nvim";
       flake = false;
     };
-    "plugin:codegpt-nvim" = {
-      url = "github:dpayne/CodeGPT.nvim";
-      flake = false;
-    };
     "plugin:advanced-git-search-nvim" = {
       url = "github:aaronhallaert/advanced-git-search.nvim";
       flake = false;
@@ -57,14 +41,6 @@
     "plugin:chatbot-buffer-nvim" = {
       # url = "git+file:../chatbot-buffer.nvim";
       url = "github:jay-aye-see-kay/chatbot-buffer.nvim";
-      flake = false;
-    };
-    "plugin:neogit" = {
-      url = "github:NeogitOrg/neogit";
-      flake = false;
-    };
-    "plugin:hover-nvim" = {
-      url = "github:lewis6991/hover.nvim";
       flake = false;
     };
     "plugin:bats-nvim" = {
@@ -144,6 +120,7 @@
           plugins = allPluginsFromInputs ++ (with pkgs.vimPlugins; [
             { plugin = impatient-nvim; config = "lua require('impatient')"; }
             catppuccin-nvim
+            nvim-unception
 
             # dependencies
             plenary-nvim
@@ -152,10 +129,6 @@
             nvim-web-devicons
             dressing-nvim
             vim-repeat
-
-            # colourscheme
-            lush-nvim
-            zenbones-nvim
 
             nvim-dap
             nvim-dap-ui
@@ -167,6 +140,7 @@
             vim-json
             jsonc-vim
             vim-caddyfile
+            vim-just
 
             (nvim-treesitter.withPlugins (_: nvim-treesitter.allGrammars ++ [
               (pkgs.tree-sitter.buildGrammar {
@@ -204,6 +178,8 @@
             null-ls-nvim
             friendly-snippets
             todo-comments-nvim
+            mkdnflow-nvim
+            hover-nvim
 
             lualine-nvim
             lualine-lsp-progress # switch back to fidget?
@@ -236,6 +212,7 @@
             vim-fugitive
             vim-rhubarb
             gitsigns-nvim
+            neogit
           ]);
         };
 
