@@ -92,6 +92,8 @@ in
     qbittorrent
     flyctl
     zathura
+    vimiv-qt
+    imagemagick
   ];
 
   # This option enables Mullvad VPN daemon. This sets networking.firewall.checkReversePath
