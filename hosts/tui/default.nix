@@ -76,6 +76,13 @@ in
     openssh.authorizedKeys.keys = [ publicKeys.deskJack ];
   };
 
+  systemd.services.trash-cli-empty =
+    let days-to-keep = "60"; in {
+      script = "${pkgs.trash-cli}/bin/trash-empty ${days-to-keep}";
+      serviceConfig.User = config.users.users.jack.name;
+      startAt = "daily";
+    };
+
   virtualisation.docker.enable = true;
 
   # List packages installed in system profile. To search, run:
