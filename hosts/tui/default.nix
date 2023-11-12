@@ -33,6 +33,14 @@ in
   services.zfs.autoScrub.enable = true;
   services.zfs.autoScrub.pools = [ "rpool" ];
 
+  # ZFS auto snapshot
+  services.sanoid = {
+    enable = true;
+    datasets."rpool/user" = {
+      recursive = "zfs";
+    };
+  };
+
   networking.hostName = "tui"; # Define your hostname.
   networking.hostId = "90cabfac"; # for zfs; 'hostname | md5sum | head -c 8'
   networking.networkmanager.enable = true;
