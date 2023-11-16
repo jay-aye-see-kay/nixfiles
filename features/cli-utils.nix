@@ -2,19 +2,21 @@
 # install them on all hosts from here
 { pkgs, ... }: with pkgs;
 let
-  platformSpecificPackages = if stdenv.isLinux then [
-    lsof # list open files
-    hdparm # query hard drive info
-    pciutils # provides lspci
-    parted # partition disks
-    progress # show progress of running processes
-    powertop
-    git # mac+hm doesn't like having this twice?? idk it's fine on linux
-    curl # use macos' built in
-    ltunify # manage logitech unifying receiver dongle (linux only)
-  ] else [
-    terminal-notifier # user generated macos notifiations (used by fishPlugins.done)
-  ];
+  platformSpecificPackages =
+    if stdenv.isLinux then [
+      lsof # list open files
+      hdparm # query hard drive info
+      pciutils # provides lspci
+      parted # partition disks
+      progress # show progress of running processes
+      powertop
+      git # mac+hm doesn't like having this twice?? idk it's fine on linux
+      curl # use macos' built in
+      ltunify # manage logitech unifying receiver dongle (linux only)
+      httm # TUI for zfs snapshots
+    ] else [
+      terminal-notifier # user generated macos notifiations (used by fishPlugins.done)
+    ];
 in
 platformSpecificPackages ++ [
   # shells
