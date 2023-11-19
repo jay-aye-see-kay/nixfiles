@@ -37,7 +37,6 @@ platformSpecificPackages ++ [
   fd
   fzf
   ripgrep
-  ripgrep-all
 
   # unix-y "extensions"
   pv # progress of pipes?
