@@ -62,7 +62,7 @@ bindsym $mod+Alt+l exec swaylock
 # Laptop
 output eDP-1 pos 0 300 res 2560x1440 scale 1.5
 # Main desktop screen
-output "Dell Inc. DELL S2721QS 7FFC513" pos 1706 0 res 3840x2160 scale 1.5
+output "Dell Inc. DELL S2721QS 722DM43" pos 1706 0 res 3840x2160 scale 1.5
 
 #
 #
