@@ -31,6 +31,14 @@ in
       "....." = "cd ../../../..";
       ni = "nix profile install nixpkgs#";
       ns = "nix shell nixpkgs#";
+      ",z" = "zi";
+      db = "devbox";
+      dba = "devbox add";
+      dbr = "devbox rm";
+      dbs = "devbox services";
+      dbu = "devbox services up -b";
+      dbd = "devbox services down";
+      dbl = "devbox services ls";
     };
 
     functions = {
