@@ -16,7 +16,6 @@ require("mini.basics").setup({
 		relnum_in_visual_mode = false,
 	},
 })
-vim.keymap.del({ "n", "i" }, "<C-z>") -- mini.basics sets this correct last mispelled word, leave default
 
 -- change mini.basics new blank line keymaps to match unimpaired's
 vim.keymap.del("n", "go")
