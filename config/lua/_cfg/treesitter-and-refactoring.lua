@@ -11,7 +11,6 @@ require("nvim-treesitter.configs").setup({
 		},
 	},
 	playground = { enable = true },
-	context_commentstring = { enable = true },
 	textobjects = {
 		select = {
 			enable = true,
