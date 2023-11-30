@@ -69,6 +69,7 @@ in
   # OCI container setup for Arion (should work for most docker [compose] stuff too)
   virtualisation = {
     docker.enable = true;
+    docker.storageDriver = "zfs";
     oci-containers.backend = "docker";
   };
 
