@@ -89,11 +89,11 @@ in
   };
   systemd.services.silverbullet =
     let
-      version = "0.3.9";
+      version = "0.5.7";
       silverbullet-js-file = pkgs.fetchurl {
         url = "https://github.com/silverbulletmd/silverbullet/releases/download/${version}/silverbullet.js";
         # sha256 = lib.fakeSha256; # to get new hash
-        sha256 = "sha256-n8BQCq2vLWAx0rq2Kw8MZGQNPu457oUuROCUnMcXjkU=";
+        sha256 = "sha256-aNJx8cCTEUjxXzdA/qsVntenkdXJ1pluZoqWq7vP4P0=";
       };
       silverbullet = pkgs.writeShellScriptBin "silverbullet"
         "${pkgs.deno}/bin/deno run -A --unstable ${silverbullet-js-file} $@";

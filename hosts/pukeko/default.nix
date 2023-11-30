@@ -14,11 +14,27 @@ in
   }];
 
   boot.tmp.cleanOnBoot = true;
-  networking.hostName = "pukeko";
-  networking.domain = "";
+
+  networking = {
+    hostName = "pukeko";
+    domain = "";
+    firewall = {
+      allowedTCPPorts = [
+        80 # http
+        443 # https
+        22000 # syncthing
+      ];
+      allowedUDPPorts = [
+        80 # http
+        443 # https
+        21027 # syncthing
+        22000 # syncthing
+      ];
+    };
+  };
 
   environment.systemPackages = with pkgs; [
-    unstable.authelia
+    authelia
   ];
 
   programs.neovim = {
@@ -40,20 +56,6 @@ in
   };
 
   services.openssh.enable = true;
-
-  networking.firewall = {
-    allowedTCPPorts = [
-      80 # http
-      443 # https
-      22000 # syncthing
-    ];
-    allowedUDPPorts = [
-      80 # http
-      443 # https
-      21027 # syncthing
-      22000 # syncthing
-    ];
-  };
 
   system.stateVersion = "22.11";
 }
