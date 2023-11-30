@@ -3,9 +3,9 @@
   fonts = {
     # Enable a basic set of fonts providing several font styles and families
     # and reasonable coverage of Unicode.
-    enableDefaultFonts = true;
+    enableDefaultPackages = true;
 
-    fonts = with pkgs; [
+    packages = with pkgs; [
       awesome
       cantarell-fonts
       corefonts

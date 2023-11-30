@@ -86,4 +86,26 @@
       ];
     };
 
+  #
+  # pkg config and overlays for a given system
+  #
+  mkPkgCfg = system:
+    let
+      nixpkgs-unstable-overlay = final: prev: {
+        unstable = import nixpkgs-unstable {
+          inherit system;
+          config.allowUnfree = true;
+        };
+      };
+    in
+    {
+      nixpkgs = {
+        config.allowUnfree = true;
+        overlays = [
+          nixpkgs-unstable-overlay
+          myPkgsOverlay
+          neovim-flake.overlays.${system}.default
+        ];
+      };
+    };
 }

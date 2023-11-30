@@ -19,33 +19,36 @@ let
 in
 {
   services.syncthing = {
-    inherit user devices;
+    inherit user;
     enable = true;
     group = "users";
     dataDir = "/home/${user}/Sync"; # Default folder for new synced folders
     configDir = "/home/${user}/.config/syncthing"; # Folder for Syncthing's settings and keys
     overrideDevices = true;
     overrideFolders = true;
-    folders = {
-      Default = {
-        inherit versioning;
-        path = "/home/jack/Sync";
-        devices = allDevices;
-      };
-      Notes = {
-        inherit versioning;
-        path = "/home/jack/notes";
-        devices = allDevices;
-      };
-      "Documents" = {
-        inherit versioning;
-        path = "/home/jack/Documents";
-        devices = allDevices;
-      };
-      "Calibre library" = {
-        inherit versioning;
-        path = "/home/jack/Calibre Library";
-        devices = personalDevices;
+    settings = {
+      inherit devices;
+      folders = {
+        Default = {
+          inherit versioning;
+          path = "/home/jack/Sync";
+          devices = allDevices;
+        };
+        Notes = {
+          inherit versioning;
+          path = "/home/jack/notes";
+          devices = allDevices;
+        };
+        "Documents" = {
+          inherit versioning;
+          path = "/home/jack/Documents";
+          devices = allDevices;
+        };
+        "Calibre library" = {
+          inherit versioning;
+          path = "/home/jack/Calibre Library";
+          devices = personalDevices;
+        };
       };
     };
   };
