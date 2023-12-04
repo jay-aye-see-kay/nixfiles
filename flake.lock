@@ -74,11 +74,11 @@
         "plugin:yop-nvim": "plugin:yop-nvim"
       },
       "locked": {
-        "lastModified": 1701039782,
-        "narHash": "sha256-+A3QH6hRiutgmBD5IoFLpOwqLot36Y7hJaH2X8vzWJs=",
+        "lastModified": 1701686049,
+        "narHash": "sha256-BsWT16Ai7En+ZJEgn7A/IVj24H0u/RZ0mO88S3X9fY8=",
         "owner": "jay-aye-see-kay",
         "repo": "neovim-flake",
-        "rev": "6cef1af313cfc64892d3e22ae12dc636605cd0d6",
+        "rev": "02890092b460642aa965ecb428841b9566ce55e5",
         "type": "github"
       },
       "original": {
@@ -201,11 +201,11 @@
     "plugin:debugprint": {
       "flake": false,
       "locked": {
-        "lastModified": 1701008432,
-        "narHash": "sha256-huL49P2UHwmWjqzrriYbZv9LNTA/lY7L9mdlKK/1+zs=",
+        "lastModified": 1701212878,
+        "narHash": "sha256-dctYG+ECPuYYNupwycwaE3sdJFi1UK8E+i5057RsfXo=",
         "owner": "andrewferrier",
         "repo": "debugprint.nvim",
-        "rev": "dafd4db801174cc9544715cdcb3b72fd8f65ce2d",
+        "rev": "8a6d66bd6162e9c49804e9286a7d4ceba60355d5",
         "type": "github"
       },
       "original": {
