@@ -85,11 +85,11 @@
     "plugin:debugprint": {
       "flake": false,
       "locked": {
-        "lastModified": 1701008432,
-        "narHash": "sha256-huL49P2UHwmWjqzrriYbZv9LNTA/lY7L9mdlKK/1+zs=",
+        "lastModified": 1701212878,
+        "narHash": "sha256-dctYG+ECPuYYNupwycwaE3sdJFi1UK8E+i5057RsfXo=",
         "owner": "andrewferrier",
         "repo": "debugprint.nvim",
-        "rev": "dafd4db801174cc9544715cdcb3b72fd8f65ce2d",
+        "rev": "8a6d66bd6162e9c49804e9286a7d4ceba60355d5",
         "type": "github"
       },
       "original": {
