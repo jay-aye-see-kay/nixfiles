@@ -109,6 +109,8 @@
         allPluginsFromInputs = pkgs.lib.attrsets.mapAttrsToList (name: value: value) pkgs.neovimPlugins;
 
         customConfig = pkgs.neovimUtils.makeNeovimConfig {
+          withPython3 = true;
+          extraPython3Packages = p: [ p.debugpy ];
           withNodeJs = true;
           customRC = ''
             lua << EOF
@@ -134,6 +136,7 @@
             nvim-dap-ui
             nvim-dap-virtual-text
             nvim-dap-go
+            nvim-dap-python
 
             # langs
             vim-nix

@@ -19,6 +19,7 @@ require("which-key").register({
 require("dapui").setup({})
 require("dap-go").setup()
 require("nvim-dap-virtual-text").setup({})
+require("dap-python").setup(vim.g.python3_host_prog)
 
 vim.keymap.set("n", "<space>dR", require("dap").clear_breakpoints, { desc = "clear breakpoints" })
 vim.keymap.set("n", "<space>db", require("dap").toggle_breakpoint, { desc = "toggle breakpoint" })
@@ -29,5 +30,5 @@ vim.keymap.set("n", "<space>do", require("dap").step_over, { desc = "step over" 
 vim.keymap.set("n", "<space>dt", require("dap").step_out, { desc = "step out" })
 
 vim.keymap.set("n", "<space>du", require("dapui").toggle, { desc = "toggle" })
-vim.keymap.set("n", "<space>dc", require("dap").run_to_cursor, { desc = "run to cursor" })
+vim.keymap.set("n", "<space>dC", require("dap").run_to_cursor, { desc = "run to cursor" })
 -- }}}
