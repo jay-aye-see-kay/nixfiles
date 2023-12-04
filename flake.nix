@@ -159,7 +159,7 @@
             playground # tree-sitter playground
 
             # comments
-            comment-nvim
+            { plugin = comment-nvim; config = "lua require('Comment').setup()"; }
             { plugin = nvim-ts-context-commentstring; config = "lua vim.g.skip_ts_context_commentstring_module = true"; }
 
             # lsp stuff
