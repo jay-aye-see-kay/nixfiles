@@ -7,9 +7,10 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     neovim-flake.url = "github:jay-aye-see-kay/neovim-flake";
     flake-utils.url = "github:numtide/flake-utils";
+    arion.url = "github:hercules-ci/arion";
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, nixos-hardware, home-manager, arion, ... }@inputs:
     let
       inherit (nixpkgs) lib;
       inherit ((import ./utils.nix inputs)) mkPkgs mkPkgCfg eachMySystem mkHmConfigMod;
@@ -81,6 +82,7 @@
         system = "x86_64-linux";
         modules = [
           (mkPkgCfg system)
+          arion.nixosModules.arion
           ./hosts/kakapo
           ./features/common.nix
           ./features/key-remapping.nix

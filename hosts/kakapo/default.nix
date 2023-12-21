@@ -73,6 +73,11 @@ in
     oci-containers.backend = "docker";
   };
 
+  virtualisation.arion = {
+    backend = "docker";
+    projects.main.settings.imports = [ ./services.nix ];
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
