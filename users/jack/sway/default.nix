@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   home.pointerCursor = {
     name = "Adwaita";
@@ -41,8 +41,10 @@
       '')
   ];
 
-  xdg.configFile."sway/config".source = ./config;
-  xdg.configFile."swaylock/config".source = ./swaylock-config;
-  xdg.configFile."swappy/config".source = ./swappy-config;
-  xdg.configFile."i3status-rust/config.toml".source = ./i3status-rust-config.toml;
+  xdg.configFile = {
+    "sway/config".source = ./config;
+    "swaylock/config".source = ./swaylock-config;
+    "swappy/config".source = ./swappy-config;
+    "i3status-rust/config.toml".source = ./i3status-rust-config.toml;
+  };
 }

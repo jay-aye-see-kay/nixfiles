@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+_:
 let
   user = "jack";
   devices = {
