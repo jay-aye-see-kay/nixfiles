@@ -3,6 +3,8 @@ set $mod Mod4
 
 exec_always dbus-sway-environment
 exec_always configure-gtk
+exec_always nm-applet --indicator
+
 exec polkit-gnome-auth-agent
 exec 1password --silent
 exec syncthingtray
