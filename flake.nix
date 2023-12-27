@@ -48,13 +48,6 @@
       };
 
       # home laptop
-      homeConfigurations."${username}@tui" = mkHmConfig rec {
-        pkgs = mkPkgs "x86_64-linux";
-        modules =
-          (mkHmConfigMod { inherit username; })
-          ++ [ ./users/jack/sway ]
-        ;
-      };
       nixosConfigurations.tui = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         modules = [
@@ -69,6 +62,22 @@
           ./features/key-remapping.nix
           ./features/sway-desktop.nix
           ./features/syncthing.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.jack = {
+                imports = [
+                  ./users/jack/home.nix
+                  ./users/jack/sway
+                ];
+                home.username = "jack";
+                home.stateVersion = "22.05";
+                home.homeDirectory = "/home/jack";
+              };
+            };
+          }
         ];
       };
 
