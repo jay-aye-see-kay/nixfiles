@@ -82,10 +82,6 @@
       };
 
       # home server
-      homeConfigurations."${username}@kakapo" = mkHmConfig rec {
-        pkgs = mkPkgs "x86_64-linux";
-        modules = mkHmConfigMod { inherit username; };
-      };
       nixosConfigurations.kakapo = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         modules = [
@@ -94,6 +90,21 @@
           ./features/common.nix
           ./features/key-remapping.nix
           ./features/syncthing.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.jack = {
+                imports = [
+                  ./users/jack/home.nix
+                ];
+                home.username = "jack";
+                home.stateVersion = "22.05";
+                home.homeDirectory = "/home/jack";
+              };
+            };
+          }
         ];
       };
 
