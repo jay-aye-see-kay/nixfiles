@@ -110,8 +110,6 @@ in
     zathura
     vimiv-qt
     imagemagick
-    unstable.anytype
-    cinnamon.nemo-with-extensions
   ];
 
   # This option enables Mullvad VPN daemon. This sets networking.firewall.checkReversePath

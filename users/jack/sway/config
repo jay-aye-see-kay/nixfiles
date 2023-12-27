@@ -3,6 +3,7 @@ set $mod Mod4
 
 exec dbus-sway-environment
 exec configure-gtk
+exec polkit-gnome-auth-agent
 
 # Home row direction keys, like vim
 set $left h

@@ -13,10 +13,10 @@ let
     executable = true;
 
     text = ''
-  dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-  systemctl --user stop pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-wlr
-  systemctl --user start pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-wlr
-      '';
+      dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+      systemctl --user stop pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-wlr
+      systemctl --user start pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-wlr
+    '';
   };
 
   # currently, there is some friction between sway and gtk:
@@ -26,17 +26,19 @@ let
   # using the XDG_DATA_DIR environment variable
   # run at the end of sway config
   configure-gtk = pkgs.writeTextFile {
-      name = "configure-gtk";
-      destination = "/bin/configure-gtk";
-      executable = true;
-      text = let
+    name = "configure-gtk";
+    destination = "/bin/configure-gtk";
+    executable = true;
+    text =
+      let
         schema = pkgs.gsettings-desktop-schemas;
         datadir = "${schema}/share/gsettings-schemas/${schema.name}";
-      in ''
+      in
+      ''
         export XDG_DATA_DIRS=${datadir}:$XDG_DATA_DIRS
         gnome_schema=org.gnome.desktop.interface
         gsettings set $gnome_schema gtk-theme 'Dracula'
-        '';
+      '';
   };
 
 
@@ -50,7 +52,6 @@ in
     xdg-utils # for opening default programs when clicking links
     glib # gsettings
     dracula-theme # gtk theme
-    gnome3.adwaita-icon-theme  # default gnome cursors
     swaylock-effects
     swayidle
     grim # screenshot functionality
@@ -64,7 +65,15 @@ in
     brightnessctl
     pulseaudio # we just need the cli
     playerctl
+    (writeShellScriptBin
+      "polkit-gnome-auth-agent"
+      "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1")
   ];
+
+  security.polkit.enable = true;
+
+  # kde partition-manager
+  programs.partition-manager.enable = true;
 
   # enable ozone in pkgs that support it (i.e. slack + chrome)
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
