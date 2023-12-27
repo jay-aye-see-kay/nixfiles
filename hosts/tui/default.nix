@@ -6,44 +6,25 @@ in
     ./hardware.nix
   ];
 
-  # nix.settings = {
-  #   substituters = [
-  #     "https://binarycache.h.jackrose.co.nz"
-  #     "https://cache.nixos.org/"
-  #   ];
-  #   trusted-public-keys = [
-  #     "binarycache.h.jackrose.co.nz:KT2tuYE2It+AcPlh0uUT8MoNafGJuRpAdvsMEteUsMU="
-  #   ];
-  # };
+  boot = {
+    # Use the systemd-boot EFI boot loader.
+    loader.systemd-boot.enable = true;
+    loader.efi.canTouchEfiVariables = true;
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+    # allow this machine to build for arm using qemu
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  # allow this machine to build for arm using qemu
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-
-  # ZFS boot settings.
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.zfs.devNodes = "/dev/";
-  boot.zfs.requestEncryptionCredentials = true;
-
-  # ZFS maintenance settings.
-  services.zfs.trim.enable = true;
-  services.zfs.autoScrub.enable = true;
-  services.zfs.autoScrub.pools = [ "rpool" ];
-
-  # ZFS auto snapshot
-  services.sanoid = {
-    enable = true;
-    datasets."rpool/user" = {
-      recursive = "zfs";
-    };
+    # ZFS boot settings.
+    supportedFilesystems = [ "zfs" ];
+    zfs.devNodes = "/dev/";
+    zfs.requestEncryptionCredentials = true;
   };
 
-  networking.hostName = "tui"; # Define your hostname.
-  networking.hostId = "90cabfac"; # for zfs; 'hostname | md5sum | head -c 8'
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "tui"; # Define your hostname.
+    hostId = "90cabfac"; # for zfs; 'hostname | md5sum | head -c 8'
+    networkmanager.enable = true;
+  };
 
   # Set your time zone.
   time.timeZone = "Australia/Melbourne";
@@ -57,17 +38,45 @@ in
   networking.interfaces.enp0s31f6.useDHCP = true;
   networking.interfaces.wlp2s0.useDHCP = true;
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
+  services = {
+    # ZFS maintenance settings.
+    zfs = {
+      trim.enable = true;
+      autoScrub.enable = true;
+      autoScrub.pools = [ "rpool" ];
+    };
 
-  services.gnome.gnome-keyring.enable = true;
-  programs._1password.enable = true;
-  programs._1password-gui.enable = true;
+    # ZFS auto snapshot
+    sanoid = {
+      enable = true;
+      datasets."rpool/user" = {
+        recursive = "zfs";
+      };
+    };
+
+    # Enable CUPS to print documents.
+    # services.printing.enable = true;
+
+    gnome.gnome-keyring.enable = true;
+    blueman.enable = true;
+
+    # This option enables Mullvad VPN daemon. This sets networking.firewall.checkReversePath
+    # to "loose", which might be undesirable for security.
+    mullvad-vpn.enable = true;
+
+    # auto mount usb drives
+    gvfs.enable = true;
+    udisks2.enable = true;
+    devmon.enable = true;
+  };
+
+  programs = {
+    _1password.enable = true;
+    _1password-gui.enable = true;
+    fish.enable = true;
+  };
 
   hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
-  programs.nm-applet.enable = true;
-  programs.fish.enable = true;
 
   users.users.jack = {
     isNormalUser = true;
@@ -111,15 +120,6 @@ in
     vimiv-qt
     imagemagick
   ];
-
-  # This option enables Mullvad VPN daemon. This sets networking.firewall.checkReversePath
-  # to "loose", which might be undesirable for security.
-  services.mullvad-vpn.enable = true;
-
-  # auto mount usb drives
-  services.gvfs.enable = true;
-  services.udisks2.enable = true;
-  services.devmon.enable = true;
 
   # disable firewall so chromecast can work
   networking.firewall.enable = false;
