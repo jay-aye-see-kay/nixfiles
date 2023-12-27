@@ -65,6 +65,7 @@ in
     brightnessctl
     pulseaudio # we just need the cli
     playerctl
+    syncthingtray
     (writeShellScriptBin
       "polkit-gnome-auth-agent"
       "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1")
