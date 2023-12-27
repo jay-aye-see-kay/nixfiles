@@ -101,7 +101,6 @@ in
     age
     alacritty
     chromium
-    dbeaver
     docker-compose
     freecad
     inkscape
@@ -119,6 +118,15 @@ in
     zathura
     vimiv-qt
     imagemagick
+
+    (pkgs.symlinkJoin {
+      name = "dbeaver";
+      paths = [ pkgs.dbeaver ];
+      buildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        wrapProgram $out/bin/dbeaver --unset WAYLAND_DISPLAY
+      '';
+    })
   ];
 
   # disable firewall so chromecast can work
