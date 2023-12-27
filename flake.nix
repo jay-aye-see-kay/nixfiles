@@ -29,12 +29,6 @@
       };
 
       # work vm
-      homeConfigurations."${username}@moa" = mkHmConfig rec {
-        pkgs = mkPkgs "aarch64-linux";
-        modules =
-          (mkHmConfigMod { inherit username; })
-          ++ [ ./users/jack/sway ];
-      };
       nixosConfigurations.moa = nixpkgs.lib.nixosSystem rec {
         system = "aarch64-linux";
         modules = [
@@ -44,6 +38,22 @@
           ./features/fonts.nix
           ./features/sway-desktop.nix
           ./features/syncthing.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.jack = {
+                imports = [
+                  ./users/jack/home.nix
+                  ./users/jack/sway
+                ];
+                home.username = "jack";
+                home.stateVersion = "22.05";
+                home.homeDirectory = "/home/jack";
+              };
+            };
+          }
         ];
       };
 
