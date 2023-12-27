@@ -3,8 +3,8 @@
 set -eu
 
 if [ "$(hostname)" != "tui" ]; then
-	echo "This script should only be run on tui. Exiting."
-	exit 1
+  echo "This script should only be run on tui. Exiting."
+  exit 1
 fi
 
 MOUNT_POINT="/boot"
@@ -31,7 +31,7 @@ fi
 echo "Unmounting"
 sudo umount $MOUNT_POINT
 
-echo "Deleting a recreating partition"
+echo "Deleting and recreating partition"
 sudo parted /dev/nvme0n1 -- rm 3
 sudo parted /dev/nvme0n1 -- mkpart BOOT fat32 1MB 512MB
 sudo parted /dev/nvme0n1 -- set 3 esp on
