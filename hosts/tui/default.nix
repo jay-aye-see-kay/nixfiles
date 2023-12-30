@@ -118,6 +118,7 @@ in
     zathura
     vimiv-qt
     imagemagick
+    telegram-desktop
 
     (pkgs.symlinkJoin {
       name = "dbeaver";
