@@ -9,9 +9,12 @@ This repo is my nix/nixos configurations for a few systems. It's quite disorgani
 If you have Netskope (corpo MitM software) set that up [https://jackrose.co.nz/til/reliable-nix-netskope-install/](https://jackrose.co.nz/til/reliable-nix-netskope-install/)
 
 ```bash
-# install nix with nice defaults (enables flakes, allows user to set substituters)
-curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --extra-conf "trusted-users = root $(whoami)"
-nix shell nixpkgs#home-manager nixpkgs#just --command just home-switch # install and setup everything
+# install nix with nice defaults
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+
+# install and setup this config
+sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
+nix run nix-darwin --extra-experimental-features nix-command --extra-experimental-features flakes -- switch --flake .#(hostname)
 ```
 
 ### NixOS

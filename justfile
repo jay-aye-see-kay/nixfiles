@@ -25,12 +25,15 @@ update-one:
 home-switch:
   home-manager switch --flake ".#$(whoami)@$(hostname)"
 
-host-switch:
-  [ "$(uname)" != "Darwin" ] && nixos-rebuild --use-remote-sudo switch --flake .#
-
 pukeko-switch:
   nixos-rebuild switch \
     --flake '.#pukeko' \
     --target-host root@pukeko
 
-switch: host-switch home-switch
+switch:
+  #!/bin/sh
+  if [ "$(uname)" = "Darwin" ]; then
+    darwin-rebuild switch --flake .#$(hostname)
+  else
+    nixos-rebuild --use-remote-sudo switch --flake .#
+  fi
