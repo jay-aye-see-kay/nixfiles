@@ -130,6 +130,8 @@ in
     })
   ];
 
+  programs.gnupg.agent.enable = true;
+
   # disable firewall so chromecast can work
   networking.firewall.enable = false;
 
