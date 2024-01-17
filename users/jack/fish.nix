@@ -91,6 +91,15 @@ in
       # see: https://nixos.wiki/wiki/Fish#Home_Manager
       { inherit (pkgs.fishPlugins.done) name src; }
       { inherit (pkgs.fishPlugins.foreign-env) name src; }
+      {
+        name = "pnpm-shell-completion";
+        src = pkgs.fetchFromGitHub {
+          owner = "g-plane";
+          repo = "pnpm-shell-completion";
+          rev = "v0.5.2";
+          sha256 = "sha256-VCIT1HobLXWRe3yK2F3NPIuWkyCgckytLPi6yQEsSIE=";
+        };
+      }
     ];
 
     loginShellInit =
