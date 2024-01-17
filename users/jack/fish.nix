@@ -86,21 +86,39 @@ in
       ${pkgs.rtx}/bin/rtx activate fish | source
     '' else "");
 
-    plugins = [
-      # weird syntax required to use nixpkgs plugins in HM
-      # see: https://nixos.wiki/wiki/Fish#Home_Manager
-      { inherit (pkgs.fishPlugins.done) name src; }
-      { inherit (pkgs.fishPlugins.foreign-env) name src; }
-      {
-        name = "pnpm-shell-completion";
-        src = pkgs.fetchFromGitHub {
-          owner = "g-plane";
-          repo = "pnpm-shell-completion";
-          rev = "v0.5.2";
-          sha256 = "sha256-VCIT1HobLXWRe3yK2F3NPIuWkyCgckytLPi6yQEsSIE=";
+    plugins =
+      let
+        pnpm-shell-completion = pkgs.fishPlugins.buildFishPlugin rec {
+          pname = "pnpm-shell-completion";
+          version = "0.5.2";
+          src = pkgs.fetchFromGitHub {
+            owner = "g-plane";
+            repo = pname;
+            rev = version;
+            sha256 = "sha256-VCIT1HobLXWRe3yK2F3NPIuWkyCgckytLPi6yQEsSIE=";
+          };
+          preInstall = ''
+            mkdir -p $src/completions
+            cp pnpm-shell-completion.fish $src/completions/
+          '';
         };
-      }
-    ];
+      in
+      [
+        # weird syntax required to use nixpkgs plugins in HM
+        # see: https://nixos.wiki/wiki/Fish#Home_Manager
+        { inherit (pkgs.fishPlugins.done) name src; }
+        { inherit (pkgs.fishPlugins.foreign-env) name src; }
+        { inherit (pnpm-shell-completion) name src; }
+        # {
+        #   name = "pnpm-shell-completion";
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "g-plane";
+        #     repo = "pnpm-shell-completion";
+        #     rev = "v0.5.2";
+        #     sha256 = "sha256-VCIT1HobLXWRe3yK2F3NPIuWkyCgckytLPi6yQEsSIE=";
+        #   };
+        # }
+      ];
 
     loginShellInit =
       if isDarwin then ''

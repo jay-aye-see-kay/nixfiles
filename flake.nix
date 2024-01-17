@@ -19,13 +19,23 @@
     {
       formatter = eachMySystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
+      packages = eachMySystem
+        (system:
+          import ./pkgs/default.nix { pkgs = mkPkgs system; });
+
       # work laptop
       homeConfigurations."${username}@jjack-XMW16X" = mkHmConfig rec {
         pkgs = mkPkgs "aarch64-darwin";
         modules =
           (mkHmConfigMod { inherit username; isDarwin = true; })
           ++ [ ({ pkgs, ... }: { home.packages = [ pkgs.silk-cli ]; }) ]
-          ++ [ ({ pkgs, ... }: { home.packages = import ./features/cli-utils.nix { inherit pkgs; }; }) ];
+          ++ [
+            ({ pkgs, ... }: {
+              home.packages = import ./features/cli-utils.nix {
+                inherit pkgs;
+              };
+            })
+          ];
       };
 
       # work vm
