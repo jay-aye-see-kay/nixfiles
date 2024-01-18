@@ -45,6 +45,8 @@
     # stuff from npm
     customNodePackages = import ./node-packages/default.nix { pkgs = prev; };
 
+    grantedWithFish = prev.unstable.granted.override { withFish = true; };
+
     # silk-cli (only used on cultureamp laptop)
     silk-cli =
       let

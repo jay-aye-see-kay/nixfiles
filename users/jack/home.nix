@@ -3,6 +3,7 @@ let
   ifDarwin = lib.mkIf pkgs.stdenv.isDarwin;
   darwinOnlyPackages = with pkgs; [
     aws-vault
+    grantedWithFish
     istioctl
     jdk8
     rtx

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
   inherit (pkgs.stdenv) isDarwin;
 in
@@ -67,6 +67,11 @@ in
       inflate = "${pkgs.pigz}/bin/pigz --decompress --zlib --stdout";
       nix-env = "echo use `nix profile install nixpkgs#` instead";
       nix-shell = "echo use `nix shell nixpkgs#` instead";
+
+      assume = lib.mkIf isDarwin
+        "source ${pkgs.grantedWithFish}/share/assume.fish";
+      granted-refresh = lib.mkIf isDarwin
+        "granted sso populate --sso-region us-west-2 https://cultureamp.awsapps.com/start";
     };
 
     shellInit = ''
@@ -82,6 +87,13 @@ in
       fish_add_path "$HOME/.npm_global/bin" # npm
       fish_add_path "$HOME/.yarn/bin" # yarn
       fish_add_path "$HOME/.cargo/bin" # rust
+
+      # source granted completions if they exist `granted completion --shell fish` to put them there
+      # bit of a hack; would be nicer if we could do this the nix way
+      if test -f $HOME/.config/fish/completions/granted_completer_fish.fish
+          source $HOME/.config/fish/completions/granted_completer_fish.fish
+      end
+      set -x GRANTED_ALIAS_CONFIGURED true
     '' + (if isDarwin then ''
       ${pkgs.rtx}/bin/rtx activate fish | source
     '' else "");
