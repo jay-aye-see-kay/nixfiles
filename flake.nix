@@ -38,9 +38,8 @@
       url = "github:atusy/tsnode-marker.nvim";
       flake = false;
     };
-    "plugin:chatbot-buffer-nvim" = {
-      # url = "git+file:../chatbot-buffer.nvim";
-      url = "github:jay-aye-see-kay/chatbot-buffer.nvim";
+    "plugin:gp-nvim" = {
+      url = "github:Robitx/gp.nvim";
       flake = false;
     };
     "plugin:bats-nvim" = {
@@ -260,6 +259,7 @@
 
           # nvim-spectre expects a binary "gsed" on macos
           (pkgs.writeShellScriptBin "gsed" "exec ${pkgs.gnused}/bin/sed")
+          sox # audio handling for gp.nvim
         ]);
       in
       rec {
