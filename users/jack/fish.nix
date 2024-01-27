@@ -65,8 +65,6 @@ in
       pbp = if isDarwin then "pbpaste" else "wl-paste";
       # decompress using deflate algo, used in the Building Git book
       inflate = "${pkgs.pigz}/bin/pigz --decompress --zlib --stdout";
-      nix-env = "echo use `nix profile install nixpkgs#` instead";
-      nix-shell = "echo use `nix shell nixpkgs#` instead";
 
       assume = lib.mkIf isDarwin
         "source ${pkgs.grantedWithFish}/share/assume.fish";

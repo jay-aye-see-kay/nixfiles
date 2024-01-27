@@ -60,6 +60,7 @@
       # home laptop
       nixosConfigurations.tui = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           (mkPkgCfg system)
           nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
