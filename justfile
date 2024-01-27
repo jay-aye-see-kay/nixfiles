@@ -1,5 +1,5 @@
 alias s := switch
-alias hs := home-switch
+alias b := build
 
 default:
   just --list
@@ -22,15 +22,23 @@ update-one:
   echo "---"
   nix flake lock --update-input $CHOSEN
 
-home-switch:
-  home-manager switch --flake ".#$(whoami)@$(hostname)"
-
-host-switch:
-  [ "$(uname)" != "Darwin" ] && nixos-rebuild --use-remote-sudo switch --flake .#
-
 pukeko-switch:
   nixos-rebuild switch \
     --flake '.#pukeko' \
     --target-host root@pukeko
 
-switch: host-switch home-switch
+switch:
+  #!/bin/sh
+  if [ "$(uname)" = "Darwin" ]; then
+    home-manager switch --flake ".#$(whoami)@$(hostname)"
+  else
+    nixos-rebuild --use-remote-sudo switch --flake .#
+  fi
+
+build:
+  #!/bin/sh
+  if [ "$(uname)" = "Darwin" ]; then
+    home-manager build --flake ".#$(whoami)@$(hostname)"
+  else
+    nixos-rebuild --use-remote-sudo build --flake .#
+  fi
