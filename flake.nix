@@ -24,8 +24,12 @@
         pkgs = mkPkgs "aarch64-darwin";
         modules =
           (mkHmConfigMod { inherit username; isDarwin = true; })
-          ++ [ ({ pkgs, ... }: { home.packages = [ pkgs.silk-cli ]; }) ]
-          ++ [ ({ pkgs, ... }: { home.packages = import ./features/cli-utils.nix { inherit pkgs; }; }) ];
+          ++ [
+            ({ pkgs, ... }: {
+              home.packages = [ pkgs.silk-cli ] ++ (import ./features/cli-utils.nix { inherit pkgs; });
+              nix.registry.nixpkgs.flake = inputs.nixpkgs;
+            })
+          ];
       };
 
       # work vm
