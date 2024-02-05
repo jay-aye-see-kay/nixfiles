@@ -12,7 +12,7 @@
   outputs = { self, nixpkgs, nixos-hardware, home-manager, ... }@inputs:
     let
       inherit (nixpkgs) lib;
-      inherit ((import ./utils.nix inputs)) mkPkgs mkPkgCfg eachMySystem mkHmConfigMod;
+      inherit ((import ./utils.nix inputs)) mkPkgs mkPkgCfg eachMySystem;
       username = "jack";
       mkHmConfig = home-manager.lib.homeManagerConfiguration;
     in
@@ -20,16 +20,22 @@
       formatter = eachMySystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
       # work laptop
-      homeConfigurations."${username}@jjack-XMW16X" = mkHmConfig rec {
+      homeConfigurations."${username}@jjack-XMW16X" = mkHmConfig {
         pkgs = mkPkgs "aarch64-darwin";
-        modules =
-          (mkHmConfigMod { inherit username; isDarwin = true; })
-          ++ [
-            ({ pkgs, ... }: {
-              home.packages = [ pkgs.silk-cli ] ++ (import ./features/cli-utils.nix { inherit pkgs; });
-              nix.registry.nixpkgs.flake = inputs.nixpkgs;
-            })
-          ];
+        modules = [
+          ./users/jack/home.nix
+          ({ pkgs, ... }: {
+            nix.registry.nixpkgs.flake = inputs.nixpkgs;
+            home = {
+              username = "jack";
+              stateVersion = "22.05";
+              homeDirectory = "/Users/jack";
+              packages = (import ./features/cli-utils.nix { inherit pkgs; }) ++ [
+                pkgs.silk-cli
+              ];
+            };
+          })
+        ];
       };
 
       # work vm

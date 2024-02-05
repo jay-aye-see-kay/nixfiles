@@ -26,19 +26,6 @@
     mySystems);
 
   #
-  # boilerplate for home manager config
-  #
-  mkHmConfigMod = { username, isDarwin ? false, stateVersion ? "22.05" }: [
-    ./users/${username}/home.nix
-    {
-      home = {
-        inherit username stateVersion;
-        homeDirectory = "/${if isDarwin then "Users" else "home"}/${username}";
-      };
-    }
-  ];
-
-  #
   # adding stuff that's not in nixpkgs
   #
   myPkgsOverlay = final: prev: {
