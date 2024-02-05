@@ -35,6 +35,7 @@
       # work vm
       nixosConfigurations.moa = nixpkgs.lib.nixosSystem rec {
         system = "aarch64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           (mkPkgCfg system)
           ./hosts/moa
@@ -99,6 +100,7 @@
       # home server
       nixosConfigurations.kakapo = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           (mkPkgCfg system)
           ./hosts/kakapo
@@ -126,6 +128,7 @@
       # small arm server on aws for file sync
       nixosConfigurations.pukeko = nixpkgs.lib.nixosSystem rec {
         system = "aarch64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           (mkPkgCfg system)
           ./hosts/pukeko
