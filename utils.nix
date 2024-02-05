@@ -61,8 +61,8 @@
           url = "ssh://git@github.com/cultureamp/silk.git";
         };
         ldflags = [ "-s" "-w" "-X main.version=${version}" "-X main.commit=${rev}" "-X main.builtBy=nix" ];
-        # To get a new sha: `vendorSha256 = prev.lib.fakeSha256`
-        vendorSha256 = "sha256-/1u/CDc0GNPQqv6gYE9x0Y+ZvtURXgurJssUZiJUlo0=";
+        # To get a new sha: `vendorHash = prev.lib.fakeSha256`
+        vendorHash = "sha256-/1u/CDc0GNPQqv6gYE9x0Y+ZvtURXgurJssUZiJUlo0=";
       };
   };
 
