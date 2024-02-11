@@ -11,7 +11,6 @@
 
   outputs = { self, nixpkgs, nixos-hardware, home-manager, ... }@inputs:
     let
-      inherit (nixpkgs) lib;
       inherit ((import ./utils.nix inputs)) mkPkgs mkPkgCfg eachMySystem;
       username = "jack";
       mkHmConfig = home-manager.lib.homeManagerConfiguration;
