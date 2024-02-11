@@ -207,7 +207,6 @@
 
             { plugin = nvim-surround; config = "lua require('nvim-surround').setup()"; }
             text-case-nvim
-            term-edit-nvim
 
             # git
             diffview-nvim
