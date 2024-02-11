@@ -22,11 +22,6 @@ update-one:
   echo "---"
   nix flake lock --update-input $CHOSEN
 
-pukeko-switch:
-  nixos-rebuild switch \
-    --flake '.#pukeko' \
-    --target-host root@pukeko
-
 switch:
   #!/bin/sh
   if [ "$(uname)" = "Darwin" ]; then

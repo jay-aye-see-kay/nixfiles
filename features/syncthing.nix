@@ -3,12 +3,11 @@ let
   user = "jack";
   devices = {
     "kakapo" = { id = "DGIBTJA-T3EI2NO-N324PUS-KSIKCWF-FDQXM64-TVOIFN2-W5KDAQB-Z3FNBQG"; };
-    "pukeko" = { id = "BVAQSV5-2LYW3VG-AS24HPV-ZG55NXM-2SMEHB5-3UZ7ZOJ-QLFLBTK-LP4BNQE"; };
     "tui" = { id = "3EEYNSK-IJ4YIX3-PHIEKT7-OECJJ2K-7RZAEZ7-TBY2AGW-HCKNPNH-34QYTQ6"; };
     "jjack-XMW16X" = { id = "IMQF5KD-ZGCQOZQ-GWPFWSN-2E3FH3O-UFOJL2Z-DBTS2AU-NVVAVYJ-XYNLJAG"; };
   };
-  allDevices = [ "kakapo" "pukeko" "tui" "jjack-XMW16X" ];
-  personalDevices = [ "kakapo" "pukeko" "tui" ];
+  allDevices = [ "kakapo" "tui" "jjack-XMW16X" ];
+  personalDevices = [ "kakapo" "tui" ];
   versioning = {
     type = "staggered";
     params = {

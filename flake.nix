@@ -130,16 +130,5 @@
         ];
       };
 
-      # small arm server on aws for file sync
-      nixosConfigurations.pukeko = nixpkgs.lib.nixosSystem rec {
-        system = "aarch64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          (mkPkgCfg system)
-          ./hosts/pukeko
-          ./features/common.nix
-        ];
-      };
-
     };
 }

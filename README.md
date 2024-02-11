@@ -40,7 +40,3 @@ Work laptop M1, just using home-manager as a brew replacement and config manager
 ### Moa
 
 A VM on my work laptop, work in progress, not currently used.
-
-### Pukeko
-
-A small ARM box on AWS, only has 500MB ram so I build locally with a `just` script.
