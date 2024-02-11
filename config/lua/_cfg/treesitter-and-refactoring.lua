@@ -79,6 +79,7 @@ require("which-key").register({
 require("gp").setup({
 	openai_api_key = { "cat", vim.fn.stdpath("config") .. "/openai_api_key" },
 	chat_dir = os.getenv("HOME") .. "/Documents/gp-chats",
+	chat_conceal_model_params = false,
 })
 
 local function keymapOptions(desc)
