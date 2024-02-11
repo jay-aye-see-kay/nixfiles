@@ -32,7 +32,7 @@ in
         Default = {
           inherit versioning;
           path = "/home/jack/Sync";
-          devices = allDevices;
+          devices = personalDevices;
         };
         Notes = {
           inherit versioning;
