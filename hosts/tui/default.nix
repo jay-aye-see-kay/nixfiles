@@ -119,6 +119,7 @@ in
     vimiv-qt
     imagemagick
     telegram-desktop
+    localsend
 
     (pkgs.symlinkJoin {
       name = "dbeaver";

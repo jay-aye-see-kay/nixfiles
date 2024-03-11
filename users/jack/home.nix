@@ -8,6 +8,7 @@ let
     jdk8
     rtx
     jira-cli-go
+    localsend
   ];
   linuxOnlyPackages = with pkgs; [
     awscli2
