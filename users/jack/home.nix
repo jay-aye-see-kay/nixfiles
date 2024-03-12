@@ -5,7 +5,6 @@ let
     aws-vault
     grantedWithFish
     istioctl
-    jdk8
     rtx
     jira-cli-go
     unstable.localsend
