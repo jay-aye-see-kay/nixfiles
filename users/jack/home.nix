@@ -8,6 +8,7 @@ let
     rtx
     jira-cli-go
     unstable.localsend
+    unstable.aerospace
   ];
   linuxOnlyPackages = with pkgs; [
     awscli2
@@ -40,6 +41,7 @@ in
 {
   imports = [
     ./fish.nix
+    ./launchd.nix
   ];
 
   home.sessionVariables = {
