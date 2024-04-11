@@ -121,11 +121,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1711607294,
-        "narHash": "sha256-ncWQAqp1LB0/RX48T7MNpSguRIeMl5tz3iHKFzf4BQs=",
+        "lastModified": 1712796157,
+        "narHash": "sha256-Onh8Omhb5aFkPx4PdQi6+iopNC63FFoElGihA/dpSvs=",
         "owner": "jay-aye-see-kay",
         "repo": "nixpkgs",
-        "rev": "8d15d0f0c61417343dde9947ffc113e2bb9b264b",
+        "rev": "a0f8a9fee8100710c64824d2a024b33759e2de5d",
         "type": "github"
       },
       "original": {
