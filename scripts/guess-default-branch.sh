@@ -22,8 +22,20 @@ if git show-ref --quiet refs/heads/main; then
   LOCAL_FALLBACK="main"
 fi
 
+# workaround for when you've created a repo and pushed it, you'll have a remote
+# but no `.git/refs/remotes/.../HEAD` file
+#
+# only known other option is `git remote show origin | grep 'HEAD branch' | cut -d' ' -f5`
+# which makes network request, so over 2 secs
+NO_REMOTE_HEADS=false
+for remote in .git/refs/remotes/*; do
+  if [ ! -f "$remote/HEAD" ]; then
+    NO_REMOTE_HEADS=true
+  fi
+done
+
 # Use the fallback if no remotes folder
-if [ ! -e .git/refs/remotes ]; then
+if [ "$NO_REMOTE_HEADS" = "true" ] || [ ! -e .git/refs/remotes ]; then
   echo "$LOCAL_FALLBACK"
   exit 0
 fi
