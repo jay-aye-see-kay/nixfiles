@@ -1,5 +1,5 @@
 # Logo key. Use Mod4 for Logo.
-set $mod Mod4
+set $mod Mod1
 
 exec_always dbus-sway-environment
 exec_always configure-gtk
@@ -26,7 +26,7 @@ bindsym $mod+d exec $menu
 bindsym $mod+Return exec $term
 bindsym $mod+b exec firefox
 bindsym $mod+Shift+b exec firefox --private-window
-bindsym $mod+Alt+b exec chromium
+# bindsym $mod+Alt+b exec chromium # not working now mod is alt, don't use it much anyway
 
 # Kill focused window
 bindsym $mod+Shift+q kill
@@ -58,7 +58,7 @@ exec swayidle -w \
          before-sleep 'swaylock -f'
 
 bindsym $mod+Ctrl+l exec swaylock
-bindsym $mod+Alt+l exec swaylock
+# bindsym $mod+Alt+l exec swaylock
 
 #
 #
@@ -160,6 +160,9 @@ bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
+
+# move workspace to next output (not implemented in swaywm https://github.com/swaywm/sway/issues/4346)
+bindsym $mod+Equal exec "swaymsg -t get_outputs |jq '[.[] | select(.active == true)] | .[(map(.focused) | index(true) + 1) % length].name' |xargs swaymsg move workspace to"
 
 # move workspace between screens
 bindsym $mod+Control+Shift+$up move workspace to output up
