@@ -125,6 +125,7 @@ in
     imagemagick
     telegram-desktop
     unstable.localsend
+    unstable.obsidian
 
     (pkgs.symlinkJoin {
       name = "dbeaver";
