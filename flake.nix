@@ -156,7 +156,6 @@
             lspkind-nvim
             luasnip
             nvim-autopairs
-            { plugin = goto-preview; config = "lua require('goto-preview').setup({ default_mappings = true })"; }
             null-ls-nvim
             friendly-snippets
             todo-comments-nvim
