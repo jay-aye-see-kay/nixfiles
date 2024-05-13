@@ -75,16 +75,21 @@ require("which-key").register({
 -- }}}
 
 -- {{{ openapi / other ai code stuff
-
+local gp_chat_dir = os.getenv("HOME") .. "/Documents/gp-chats"
 require("gp").setup({
 	openai_api_key = { "cat", vim.fn.stdpath("config") .. "/openai_api_key" },
-	chat_dir = os.getenv("HOME") .. "/Documents/gp-chats",
+	chat_dir = gp_chat_dir,
 	chat_conceal_model_params = false,
 })
 
 local function keymapOptions(desc)
 	return { noremap = true, silent = true, nowait = true, desc = "GPT prompt " .. desc }
 end
+
+local grep_gp_chats = function()
+	require("telescope.builtin").live_grep({ cwd = gp_chat_dir })
+end
+vim.keymap.set("n", "<C-g>g", grep_gp_chats, keymapOptions("Grep through old chats"))
 
 -- gp.nvim (ChatGPT) commands
 vim.keymap.set({ "n", "i" }, "<C-g>c", "<cmd>GpChatNew vsplit<cr>", keymapOptions("New Chat"))
