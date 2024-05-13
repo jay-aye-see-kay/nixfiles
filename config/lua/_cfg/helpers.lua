@@ -63,4 +63,28 @@ M.autocmd = function(event, _opts)
 	vim.api.nvim_create_autocmd(event, opts)
 end
 
+M.toggle_executable_bit = function(file_path)
+	assert(type(file_path) == "string", "A valid file path must be provided.")
+	vim.loop.fs_stat(file_path, function(err, stat)
+		if err ~= nil or stat == nil then
+			print(string.format("Error accessing %s: %s", file_path, err))
+			return
+		end
+		local is_executable = bit.band(stat.mode, 0x48) ~= 0 -- 0x49 corresponds to 001 001 001 in binary
+
+		local new_mode
+		if is_executable then
+			new_mode = bit.band(stat.mode, bit.bnot(0x48))
+		else
+			new_mode = bit.bor(stat.mode, 0x48)
+		end
+
+		vim.loop.fs_chmod(file_path, new_mode, function(chmod_err)
+			if chmod_err then
+				print(string.format("Error changing permissions of %s: %s", file_path, chmod_err))
+			end
+		end)
+	end)
+end
+
 return M

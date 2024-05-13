@@ -35,6 +35,13 @@ require("neo-tree").setup({
 				["a"] = { "add", config = { show_path = "relative" } },
 				["c"] = { "copy", config = { show_path = "relative" } },
 				["m"] = { "move", config = { show_path = "relative" } },
+				["X"] = {
+					function(state)
+						local node = state.tree:get_node()
+						h.toggle_executable_bit(node.path)
+					end,
+					desc = "toggle exec",
+				},
 			},
 		},
 	},
@@ -101,6 +108,47 @@ vim.keymap.set("n", "<leader>egk", neotree_merge_base("aboveleft split"), { desc
 vim.keymap.set("n", "<leader>egj", neotree_merge_base("belowright split"), { desc = "neotree merge_base below" })
 vim.keymap.set("n", "<leader>eg.", neotree_merge_base("echo"), { desc = "neotree merge_base in place" })
 vim.keymap.set("n", "<leader>eg,", neotree_merge_base("tabnew"), { desc = "neotree merge_base in new tab" })
+
+-- {{{ oil file manager
+local oil = require("oil")
+
+oil.setup({
+	default_file_explorer = false,
+	use_default_keymaps = false,
+	columns = {
+		"icon",
+		"permissions",
+		"size",
+	},
+	experimental_watch_for_changes = true,
+	keymaps = {
+		["?"] = "actions.show_help",
+		["<CR>"] = "actions.select",
+		["L"] = "actions.select",
+		["s"] = "actions.select_vsplit",
+		["<C-t>"] = "actions.select_tab",
+		["<C-p>"] = "actions.preview",
+		["<C-c>"] = "actions.close",
+		["<C-r>"] = "actions.refresh",
+		["-"] = "actions.parent",
+		["H"] = "actions.parent",
+		["_"] = "actions.open_cwd",
+		["`"] = "actions.cd",
+		["~"] = "actions.tcd",
+		["gs"] = "actions.change_sort",
+		["gx"] = "actions.open_external",
+		["."] = "actions.toggle_hidden",
+		["X"] = {
+			callback = function()
+				h.toggle_executable_bit(oil.get_current_dir() .. oil.get_cursor_entry().name)
+			end,
+			desc = "toggle exec",
+			mode = "n",
+		},
+	},
+})
+vim.keymap.set("n", ",,", "<CMD>Oil<CR>", { desc = "Oil: Open file dir" })
+-- }}}
 
 -- {{{ terminal
 vim.keymap.set("t", "<ESC>", [[<C-\><C-n>]])
