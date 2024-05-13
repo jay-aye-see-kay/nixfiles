@@ -137,7 +137,7 @@
 
             (nvim-treesitter.withPlugins (_: nvim-treesitter.allGrammars))
             nvim-treesitter-textobjects
-            nvim-ts-autotag
+            { plugin = nvim-ts-autotag; config = "lua require('nvim-ts-autotag').setup()"; }
             playground # tree-sitter playground
 
             # comments
