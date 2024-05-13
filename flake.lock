@@ -66,22 +66,6 @@
         "type": "github"
       }
     },
-    "plugin:debugprint": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1715109091,
-        "narHash": "sha256-PeF7SdfRDY37Z2QPM4YFFHqZWlaXA3Ce9XQehhpYfls=",
-        "owner": "andrewferrier",
-        "repo": "debugprint.nvim",
-        "rev": "94d7d988c1d7dcb2f4c55d01d54bdb95c597639c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "andrewferrier",
-        "repo": "debugprint.nvim",
-        "type": "github"
-      }
-    },
     "plugin:git-conflict-nvim": {
       "flake": false,
       "locked": {
@@ -115,22 +99,6 @@
         "type": "github"
       }
     },
-    "plugin:mini-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1715523348,
-        "narHash": "sha256-mf2RAD7my85oB/8j7+0U675/FCO/qB/YAFmpg/1WuNU=",
-        "owner": "echasnovski",
-        "repo": "mini.nvim",
-        "rev": "c333187fcc76d7e772dac32c2a440a949fe34be4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "echasnovski",
-        "repo": "mini.nvim",
-        "type": "github"
-      }
-    },
     "plugin:tsnode-marker-nvim": {
       "flake": false,
       "locked": {
@@ -144,22 +112,6 @@
       "original": {
         "owner": "atusy",
         "repo": "tsnode-marker.nvim",
-        "type": "github"
-      }
-    },
-    "plugin:typescript-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1691810579,
-        "narHash": "sha256-tStomym4qd7IXj/ohYAc3akImNsOJdC7nQL+CkdMomc=",
-        "owner": "jose-elias-alvarez",
-        "repo": "typescript.nvim",
-        "rev": "4de85ef699d7e6010528dcfbddc2ed4c2c421467",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jose-elias-alvarez",
-        "repo": "typescript.nvim",
         "type": "github"
       }
     },
@@ -217,12 +169,9 @@
         "nixpkgs": "nixpkgs",
         "plugin:advanced-git-search-nvim": "plugin:advanced-git-search-nvim",
         "plugin:bats-nvim": "plugin:bats-nvim",
-        "plugin:debugprint": "plugin:debugprint",
         "plugin:git-conflict-nvim": "plugin:git-conflict-nvim",
         "plugin:gp-nvim": "plugin:gp-nvim",
-        "plugin:mini-nvim": "plugin:mini-nvim",
         "plugin:tsnode-marker-nvim": "plugin:tsnode-marker-nvim",
-        "plugin:typescript-nvim": "plugin:typescript-nvim",
         "plugin:vim-jinja2-syntax": "plugin:vim-jinja2-syntax",
         "plugin:vim-symlink": "plugin:vim-symlink",
         "plugin:yop-nvim": "plugin:yop-nvim"

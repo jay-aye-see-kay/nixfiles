@@ -10,24 +10,12 @@
       url = "github:aymericbeaumet/vim-symlink";
       flake = false;
     };
-    "plugin:debugprint" = {
-      url = "github:andrewferrier/debugprint.nvim";
-      flake = false;
-    };
     "plugin:git-conflict-nvim" = {
       url = "github:akinsho/git-conflict.nvim/v1.0.0";
       flake = false;
     };
     "plugin:yop-nvim" = {
       url = "github:zdcthomas/yop.nvim";
-      flake = false;
-    };
-    "plugin:typescript-nvim" = {
-      url = "github:jose-elias-alvarez/typescript.nvim";
-      flake = false;
-    };
-    "plugin:mini-nvim" = {
-      url = "github:echasnovski/mini.nvim";
       flake = false;
     };
     "plugin:advanced-git-search-nvim" = {
@@ -122,6 +110,7 @@
             { plugin = impatient-nvim; config = "lua require('impatient')"; }
             catppuccin-nvim
             nvim-unception
+            mini-nvim
 
             # dependencies
             plenary-nvim
@@ -136,6 +125,7 @@
             nvim-dap-virtual-text
             nvim-dap-go
             nvim-dap-python
+            debugprint-nvim
 
             # langs
             vim-nix
@@ -143,6 +133,7 @@
             jsonc-vim
             vim-caddyfile
             vim-just
+            typescript-nvim
 
             (nvim-treesitter.withPlugins (_: nvim-treesitter.allGrammars ++ [
               (pkgs.tree-sitter.buildGrammar {
