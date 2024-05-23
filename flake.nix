@@ -3,10 +3,14 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "github:jay-aye-see-kay/nixpkgs/add-aerospace";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
     home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    neovim-flake.url = "github:jay-aye-see-kay/neovim-flake";
+
     flake-utils.url = "github:numtide/flake-utils";
+
+    neovim-flake.url = "github:jay-aye-see-kay/neovim-flake";
+    neovim-flake.inputs.flake-utils.follows = "flake-utils";
   };
 
   outputs = { self, nixpkgs, nixos-hardware, home-manager, ... }@inputs:
