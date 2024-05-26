@@ -19,7 +19,7 @@ local lsp_servers = {
 
 require("neodev").setup({
 	override = function(root_dir, library)
-		if require("neodev.util").has_file(root_dir, "~/code/neovim-flake") then
+		if require("neodev.util").has_file(root_dir, "~/nixfiles/neovim") then
 			library.enabled = true
 			library.plugins = true
 		end
