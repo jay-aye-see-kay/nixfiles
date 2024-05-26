@@ -97,164 +97,153 @@
 
         allPluginsFromInputs = pkgs.lib.attrsets.mapAttrsToList (name: value: value) pkgs.neovimPlugins;
 
-        extraPython3Packages = p: [ p.debugpy ];
+        mainNeovimArgs = {
+          extraPython3Packages = p: [ p.debugpy ];
 
-        lazyPlugins = [ ];
+          lazyPlugins = [ ];
 
-        startPlugins = allPluginsFromInputs ++ (with pkgs.vimPlugins; [
-          catppuccin-nvim
-          nvim-unception
-          mini-nvim
+          startPlugins = allPluginsFromInputs ++ (with pkgs.vimPlugins; [
+            catppuccin-nvim
+            nvim-unception
+            mini-nvim
 
-          # dependencies
-          plenary-nvim
-          popup-nvim
-          nui-nvim
-          nvim-web-devicons
-          dressing-nvim
-          vim-repeat
+            # dependencies
+            plenary-nvim
+            popup-nvim
+            nui-nvim
+            nvim-web-devicons
+            dressing-nvim
+            vim-repeat
 
-          nvim-dap
-          nvim-dap-ui
-          nvim-nio
-          nvim-dap-virtual-text
-          nvim-dap-go
-          nvim-dap-python
-          debugprint-nvim
+            nvim-dap
+            nvim-dap-ui
+            nvim-nio
+            nvim-dap-virtual-text
+            nvim-dap-go
+            nvim-dap-python
+            debugprint-nvim
 
-          # langs
-          vim-nix
-          vim-json
-          jsonc-vim
-          vim-caddyfile
-          vim-just
-          typescript-nvim
+            # langs
+            vim-nix
+            vim-json
+            jsonc-vim
+            vim-caddyfile
+            vim-just
+            typescript-nvim
 
-          (nvim-treesitter.withPlugins (_: nvim-treesitter.allGrammars))
-          nvim-treesitter-textobjects
-          nvim-ts-autotag
-          playground # tree-sitter playground
+            (nvim-treesitter.withPlugins (_: nvim-treesitter.allGrammars))
+            nvim-treesitter-textobjects
+            nvim-ts-autotag
+            playground # tree-sitter playground
 
-          # comments
-          comment-nvim
-          nvim-ts-context-commentstring
+            # comments
+            comment-nvim
+            nvim-ts-context-commentstring
 
-          # lsp stuff
-          nvim-lspconfig
-          SchemaStore-nvim
-          nvim-cmp
-          cmp-buffer
-          cmp-path
-          cmp-nvim-lua
-          cmp-nvim-lsp
-          cmp_luasnip
-          lspkind-nvim
-          luasnip
-          nvim-autopairs
-          null-ls-nvim
-          friendly-snippets
-          todo-comments-nvim
-          mkdnflow-nvim
-          hover-nvim
+            # lsp stuff
+            nvim-lspconfig
+            SchemaStore-nvim
+            nvim-cmp
+            cmp-buffer
+            cmp-path
+            cmp-nvim-lua
+            cmp-nvim-lsp
+            cmp_luasnip
+            lspkind-nvim
+            luasnip
+            nvim-autopairs
+            null-ls-nvim
+            friendly-snippets
+            todo-comments-nvim
+            mkdnflow-nvim
+            hover-nvim
 
-          lualine-nvim
-          lualine-lsp-progress # switch back to fidget?
-          nvim-navic
-          neo-tree-nvim
-          oil-nvim
-          refactoring-nvim
+            lualine-nvim
+            lualine-lsp-progress # switch back to fidget?
+            nvim-navic
+            neo-tree-nvim
+            oil-nvim
+            refactoring-nvim
 
-          hydra-nvim
-          markdown-preview-nvim
-          vim-bbye
-          trouble-nvim
+            hydra-nvim
+            markdown-preview-nvim
+            vim-bbye
+            trouble-nvim
 
-          telescope-nvim
-          telescope-fzf-native-nvim
-          telescope-zoxide
-          telescope-undo-nvim
-          telescope-live-grep-args-nvim
+            telescope-nvim
+            telescope-fzf-native-nvim
+            telescope-zoxide
+            telescope-undo-nvim
+            telescope-live-grep-args-nvim
 
-          nvim-colorizer-lua
-          vim-mundo
-          which-key-nvim
-          neodev-nvim
+            nvim-colorizer-lua
+            vim-mundo
+            which-key-nvim
+            neodev-nvim
 
-          nvim-surround
-          text-case-nvim
+            nvim-surround
+            text-case-nvim
 
-          # git
-          diffview-nvim
-          vim-fugitive
-          vim-rhubarb
-          gitsigns-nvim
-          neogit
-        ]);
+            # git
+            diffview-nvim
+            vim-fugitive
+            vim-rhubarb
+            gitsigns-nvim
+            neogit
+          ]);
 
-        extraPackages = with pkgs; [
-          # LSPs and linters
-          godef
-          gopls
-          nodePackages."@tailwindcss/language-server"
-          nodePackages.bash-language-server
-          nodePackages.dockerfile-language-server-nodejs
-          nodePackages.eslint_d
-          nodePackages.pyright
-          nodePackages.typescript
-          nodePackages.typescript-language-server
-          nodePackages.vim-language-server
-          nodePackages.vscode-langservers-extracted
-          nodePackages.yaml-language-server
-          nil # nix lsp
-          rubyPackages.solargraph
-          rust-analyzer
-          shellcheck
-          statix
-          sumneko-lua-language-server
-          ruff
-          terraform-ls
+          extraPackages = with pkgs; [
+            # LSPs and linters
+            godef
+            gopls
+            nodePackages."@tailwindcss/language-server"
+            nodePackages.bash-language-server
+            nodePackages.dockerfile-language-server-nodejs
+            nodePackages.eslint_d
+            nodePackages.pyright
+            nodePackages.typescript
+            nodePackages.typescript-language-server
+            nodePackages.vim-language-server
+            nodePackages.vscode-langservers-extracted
+            nodePackages.yaml-language-server
+            nil # nix lsp
+            rubyPackages.solargraph
+            rust-analyzer
+            shellcheck
+            statix
+            sumneko-lua-language-server
+            ruff
+            terraform-ls
 
-          # Formatters
-          black
-          isort
-          shfmt
-          stylua
-          nixpkgs-fmt
+            # Formatters
+            black
+            isort
+            shfmt
+            stylua
+            nixpkgs-fmt
 
-          # Debuggers
-          delve
+            # Debuggers
+            delve
 
-          # Dicts
-          aspell
-          aspellDicts.en
+            # Dicts
+            aspell
+            aspellDicts.en
 
-          # nvim-spectre expects a binary "gsed" on macos
-          (pkgs.writeShellScriptBin "gsed" "exec ${pkgs.gnused}/bin/sed")
-          sox # audio handling for gp.nvim
-        ];
+            # nvim-spectre expects a binary "gsed" on macos
+            (pkgs.writeShellScriptBin "gsed" "exec ${pkgs.gnused}/bin/sed")
+            sox # audio handling for gp.nvim
+          ];
+        };
 
         #
         # the actual neovim packages
         #
+        mainNeovim = makeNeovim mainNeovimArgs;
+        smallNeovim = makeNeovim mainNeovimArgs; # TODO: a smaller build for servers, take out LSPs and debuggers
 
-        smallNeovim = makeNeovim {
-          # TODO: a smaller build for servers, take out LSPs and debuggers
-          inherit extraPython3Packages lazyPlugins startPlugins extraPackages;
-        };
-        mainNeovim = makeNeovim {
-          inherit extraPython3Packages lazyPlugins startPlugins extraPackages;
-        };
-
-        smallNeovimDev = makeNeovim {
-          # identical to smallNeovim pkg, but with NVIM_APPNAME set so cache/state files are isolated
-          nvimAppName = "nvim-dev-small";
-          inherit extraPython3Packages lazyPlugins startPlugins extraPackages;
-        };
-        mainNeovimDev = makeNeovim {
-          # identical to mainNeovim pkg, but with NVIM_APPNAME set so cache/state files are isolated
-          nvimAppName = "nvim-dev";
-          inherit extraPython3Packages lazyPlugins startPlugins extraPackages;
-        };
+        # identical to above pkgs, but with NVIM_APPNAME set so cache/state files are isolated
+        mainNeovimDev = makeNeovim (mainNeovimArgs // { nvimAppName = "nvim-dev"; });
+        smallNeovimDev = makeNeovim (mainNeovimArgs // { nvimAppName = "nvim-dev-small"; });
       in
       {
         packages = {
@@ -265,6 +254,7 @@
           inherit mainNeovim smallNeovim;
         };
 
+        packages.default = mainNeovimDev; # I only ever run `nix build. #` when trying new things
         apps.smallNeovim = { type = "app"; program = "${smallNeovimDev}/bin/nvim"; };
         apps.default = { type = "app"; program = "${mainNeovimDev}/bin/nvim"; };
       }
