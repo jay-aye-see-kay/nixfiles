@@ -112,7 +112,7 @@ in
     libnotify
     libreoffice
     lm_sensors
-    neovim
+    mainNeovim
     slack
     wireshark
     wireshark-cli
