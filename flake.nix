@@ -9,7 +9,7 @@
 
     flake-utils.url = "github:numtide/flake-utils";
 
-    neovim-flake.url = "github:jay-aye-see-kay/neovim-flake";
+    neovim-flake.url = "path:./neovim";
     neovim-flake.inputs.flake-utils.follows = "flake-utils";
   };
 

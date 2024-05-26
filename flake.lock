@@ -55,17 +55,14 @@
         "plugin:yop-nvim": "plugin:yop-nvim"
       },
       "locked": {
-        "lastModified": 1716435784,
+        "lastModified": 1,
         "narHash": "sha256-wLcidLRT89BxZLPIsVCp154wuQvLpyXtEONLoJ9bceg=",
-        "owner": "jay-aye-see-kay",
-        "repo": "neovim-flake",
-        "rev": "ac1073145c7b9a9fc354b4b7a2e62c3236befa3f",
-        "type": "github"
+        "path": "./neovim",
+        "type": "path"
       },
       "original": {
-        "owner": "jay-aye-see-kay",
-        "repo": "neovim-flake",
-        "type": "github"
+        "path": "./neovim",
+        "type": "path"
       }
     },
     "nixos-hardware": {
