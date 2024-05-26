@@ -186,7 +186,6 @@
             vim-fugitive
             vim-rhubarb
             gitsigns-nvim
-            neogit
           ]) ++
             # loading each grammar a plugin, works but slow, not sure why
             (builtins.attrValues pkgs.vimPlugins.nvim-treesitter.grammarPlugins);
