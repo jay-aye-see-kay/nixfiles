@@ -132,7 +132,6 @@
 
             nvim-treesitter-textobjects
             nvim-ts-autotag
-            playground # tree-sitter playground
 
             # comments
             comment-nvim

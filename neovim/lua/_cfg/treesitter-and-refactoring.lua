@@ -10,7 +10,6 @@ require("nvim-treesitter.configs").setup({
 			node_incremental = "<c-space>",
 		},
 	},
-	playground = { enable = true },
 	textobjects = {
 		select = {
 			enable = true,
