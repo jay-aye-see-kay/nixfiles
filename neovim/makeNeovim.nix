@@ -28,13 +28,14 @@ let
   # convert a list of plugins into a dict we can modify, then pass to lazy.nvim
   #
   pluginsForConfig = builtins.foldl'
-    (acc: elem: { "${elem.pname}" = { }; } // acc)
+    (acc: p: { "${pkgs.lib.getName p.pname}" = { }; } // acc)
     { }
     lazyPlugins;
-  pluginDirs = builtins.foldl'
-    (acc: elem: { "${elem.pname}" = "${elem}"; } // acc)
-    { }
-    lazyPlugins;
+
+  processPlugin = p: { name = "${pkgs.lib.getName p}"; path = p; };
+  processedPlugins = builtins.map processPlugin lazyPlugins;
+
+  lazyPath = pkgs.linkFarm "lazy-plugins" processedPlugins;
 
   #
   # this file is how we pass build info (like paths) to lua config
@@ -42,8 +43,8 @@ let
   generatedLuaFile = pkgs.writeText "generated.lua" /* lua */ ''
     -- DO NOT EDIT: this file was generated and will be overwritted
     local M = {}
-    -- keep private so can't be modified, map pnames to store path
-    pluginDirs = ${luaTablePrinter pluginDirs}
+    -- dir in /nix/store/ with all lazyPlugins
+    M.lazyPath = "${lazyPath}"
     -- mutable list of plugins to collect config
     M.plugins = ${luaTablePrinter pluginsForConfig}
     -- method to call after configuring to convert to list for lazy.nvim
@@ -51,7 +52,7 @@ let
       local result = {}
       for p_name, p_cfg in pairs(self) do
         if type(p_cfg) ~= "function" then
-          local lazy_spec = vim.tbl_extend("force", p_cfg, { dir = pluginDirs[p_name], name = p_name })
+          local lazy_spec = vim.tbl_extend("force", p_cfg, { dir = "${lazyPath}/" .. p_name })
           table.insert(result, lazy_spec)
         end
       end

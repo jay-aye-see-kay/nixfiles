@@ -26,6 +26,11 @@ require("nvim-ts-autotag").setup()
 --
 
 require("lazy").setup(plugins:for_lazy(), {
+	dev = {
+		path = require("nln").lazyPath,
+		patterns = { "." },
+		fallback = false,
+	},
 	performance = {
 		reset_packpath = false,
 		rtp = {
