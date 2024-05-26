@@ -43,6 +43,8 @@
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
     flake-utils.lib.eachDefaultSystem (system:
       let
+        makeNeovim = import ./makeNeovim.nix { inherit pkgs; };
+
         # Once we add this overlay to our nixpkgs, we are able to
         # use `pkgs.neovimPlugins`, which is a map of our plugins.
         # Each input in the format:
@@ -95,19 +97,14 @@
 
         allPluginsFromInputs = pkgs.lib.attrsets.mapAttrsToList (name: value: value) pkgs.neovimPlugins;
 
-        customConfig = pkgs.neovimUtils.makeNeovimConfig {
-          withPython3 = true;
+        mainNeovim = makeNeovim {
+          nvimAppName = "test-nvim";
+
           extraPython3Packages = p: [ p.debugpy ];
-          withNodeJs = true;
-          customRC = ''
-            lua << EOF
-              vim.opt.rtp:prepend("${./config}")
-              vim.opt.packpath = vim.opt.rtp:get()
-              require("_cfg")
-            EOF
-          '';
-          plugins = allPluginsFromInputs ++ (with pkgs.vimPlugins; [
-            { plugin = impatient-nvim; config = "lua require('impatient')"; }
+
+          lazyPlugins = with pkgs.vimPlugins; [ ];
+
+          startPlugins = allPluginsFromInputs ++ (with pkgs.vimPlugins; [
             catppuccin-nvim
             nvim-unception
             mini-nvim
@@ -122,6 +119,7 @@
 
             nvim-dap
             nvim-dap-ui
+            nvim-nio
             nvim-dap-virtual-text
             nvim-dap-go
             nvim-dap-python
@@ -137,12 +135,12 @@
 
             (nvim-treesitter.withPlugins (_: nvim-treesitter.allGrammars))
             nvim-treesitter-textobjects
-            { plugin = nvim-ts-autotag; config = "lua require('nvim-ts-autotag').setup()"; }
+            nvim-ts-autotag
             playground # tree-sitter playground
 
             # comments
-            { plugin = comment-nvim; config = "lua require('Comment').setup()"; }
-            { plugin = nvim-ts-context-commentstring; config = "lua vim.g.skip_ts_context_commentstring_module = true"; }
+            comment-nvim
+            nvim-ts-context-commentstring
 
             # lsp stuff
             nvim-lspconfig
@@ -185,7 +183,7 @@
             which-key-nvim
             neodev-nvim
 
-            { plugin = nvim-surround; config = "lua require('nvim-surround').setup()"; }
+            nvim-surround
             text-case-nvim
 
             # git
@@ -195,56 +193,52 @@
             gitsigns-nvim
             neogit
           ]);
+
+          extraPackages = with pkgs; [
+            # LSPs and linters
+            godef
+            gopls
+            nodePackages."@tailwindcss/language-server"
+            nodePackages.bash-language-server
+            nodePackages.dockerfile-language-server-nodejs
+            nodePackages.eslint_d
+            nodePackages.pyright
+            nodePackages.typescript
+            nodePackages.typescript-language-server
+            nodePackages.vim-language-server
+            nodePackages.vscode-langservers-extracted
+            nodePackages.yaml-language-server
+            nil # nix lsp
+            rubyPackages.solargraph
+            rust-analyzer
+            shellcheck
+            statix
+            sumneko-lua-language-server
+            ruff
+            terraform-ls
+
+            # Formatters
+            black
+            isort
+            shfmt
+            stylua
+            nixpkgs-fmt
+
+            # Debuggers
+            delve
+
+            # Dicts
+            aspell
+            aspellDicts.en
+
+            # nvim-spectre expects a binary "gsed" on macos
+            (pkgs.writeShellScriptBin "gsed" "exec ${pkgs.gnused}/bin/sed")
+            sox # audio handling for gp.nvim
+          ];
         };
-
-        # Extra packages made available to nvim but not the system
-        # system packages take precedence over these
-        extraPkgsPath = pkgs.lib.makeBinPath (with pkgs; [
-          # LSPs and linters
-          godef
-          gopls
-          nodePackages."@tailwindcss/language-server"
-          nodePackages.bash-language-server
-          nodePackages.dockerfile-language-server-nodejs
-          nodePackages.eslint_d
-          nodePackages.pyright
-          nodePackages.typescript
-          nodePackages.typescript-language-server
-          nodePackages.vim-language-server
-          nodePackages.vscode-langservers-extracted
-          nodePackages.yaml-language-server
-          nil # nix lsp
-          rubyPackages.solargraph
-          rust-analyzer
-          shellcheck
-          statix
-          sumneko-lua-language-server
-          ruff
-          terraform-ls
-
-          # Formatters
-          black
-          isort
-          shfmt
-          stylua
-          nixpkgs-fmt
-
-          # Debuggers
-          delve
-
-          # Dicts
-          aspell
-          aspellDicts.en
-
-          # nvim-spectre expects a binary "gsed" on macos
-          (pkgs.writeShellScriptBin "gsed" "exec ${pkgs.gnused}/bin/sed")
-          sox # audio handling for gp.nvim
-        ]);
       in
       rec {
-        packages.nvim = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped (customConfig // {
-          wrapperArgs = customConfig.wrapperArgs ++ [ "--suffix" "PATH" ":" extraPkgsPath ];
-        });
+        packages.nvim = mainNeovim;
         defaultPackage = packages.nvim;
         apps.nvim = { type = "app"; program = "${defaultPackage}/bin/nvim"; };
         apps.default = apps.nvim;
