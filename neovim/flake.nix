@@ -152,7 +152,6 @@
             nvim-autopairs
             null-ls-nvim
             friendly-snippets
-            todo-comments-nvim
             mkdnflow-nvim
             hover-nvim
 

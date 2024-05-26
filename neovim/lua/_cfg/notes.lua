@@ -132,30 +132,3 @@ H = {
 		end
 	end,
 }
-
-h.autocmd({ "FileType" }, {
-	pattern = { "markdown", "md" },
-	callback = function(ctx)
-		require("todo-comments").setup({
-			signs = false,
-			highlight = { comments_only = false },
-			keywords = H.status_config,
-			merge_keywords = false,
-		})
-
-		vim.keymap.set("n", "<leader>xt", H.update_status("TODO"), { desc = "mark todo" })
-		vim.keymap.set("n", "<leader>xp", H.update_status("IN_PROGRESS"), { desc = "mark progress" })
-		vim.keymap.set("n", "<leader>xw", H.update_status("WAITING"), { desc = "mark waiting" })
-		vim.keymap.set("n", "<leader>xx", H.update_status("DONE"), { desc = "mark done" })
-		vim.keymap.set("n", "<leader>xd", H.update_status("DONE"), { desc = "mark done" })
-		vim.keymap.set("n", "<leader>xn", H.advance, { desc = "advance heading status" })
-	end,
-})
-
-vim.keymap.set(
-	"n",
-	"<leader>nT",
-	"<CMD>TodoTrouble cwd=~/notes keywords=TODO,IN_PROGRESS,WAITING<CR>",
-	{ desc = "list incomplete items in notes" }
-)
-vim.keymap.set("n", "<leader>nI", "<CMD>TodoTrouble cwd=~/notes keywords=IDEA<CR>", { desc = "list *ideas* in notes" })
