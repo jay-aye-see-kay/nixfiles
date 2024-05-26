@@ -20,16 +20,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1716330097,
-        "narHash": "sha256-8BO3B7e3BiyIDsaKA0tY8O88rClYRTjvAp66y+VBUeU=",
-        "owner": "NixOS",
+        "lastModified": 1716725825,
+        "narHash": "sha256-w67M5DyggF9iX60vSYVvqfPaIP6ndpgaX1jnv2krkjI=",
+        "owner": "jay-aye-see-kay",
         "repo": "nixpkgs",
-        "rev": "5710852ba686cc1fd0d3b8e22b3117d43ba374c2",
+        "rev": "3ecc55dd7fbcf596ee62e7f3188b37c194f7b26b",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
+        "owner": "jay-aye-see-kay",
+        "ref": "add-aerospace",
         "repo": "nixpkgs",
         "type": "github"
       }
