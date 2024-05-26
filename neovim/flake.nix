@@ -191,7 +191,88 @@
 
           startPlugins = with pkgs.vimPlugins; [
             # can't put this in lazy plugins yet, we lose all the parsers
-            (nvim-treesitter.withPlugins (_: nvim-treesitter.allGrammars))
+            # also really slow at the moment, so disabling ones I'm not using
+            # when alls done it can be `nvim-treesitter.withAllGrammars`
+            (nvim-treesitter.withPlugins (p: [
+              p.bash
+              p.c
+              p.comment
+              p.cpp
+              p.css
+              p.csv
+              p.diff
+              p.dockerfile
+              p.elixir
+              p.elm
+              p.erlang
+              p.fish
+              p.git_config
+              p.git_rebase
+              p.gitattributes
+              p.gitcommit
+              p.gitignore
+              p.go
+              p.gomod
+              p.gosum
+              p.gotmpl
+              p.gowork
+              p.graphql
+              p.groovy
+              p.hcl
+              p.helm
+              p.hjson
+              p.html
+              p.htmldjango
+              p.http
+              p.hurl
+              p.ini
+              p.java
+              p.javascript
+              p.jq
+              p.jsdoc
+              p.json
+              p.json5
+              p.jsonc
+              p.just
+              p.lua
+              p.luadoc
+              p.make
+              p.markdown
+              p.markdown_inline
+              p.mermaid
+              p.meson
+              p.nickel
+              p.ninja
+              p.nix
+              p.objc
+              p.org
+              p.perl
+              p.php
+              p.php_only
+              p.phpdoc
+              p.properties
+              p.proto
+              p.python
+              p.regex
+              p.ron
+              p.rst
+              p.ruby
+              p.rust
+              p.scss
+              p.sql
+              p.ssh_config
+              p.templ
+              p.terraform
+              p.toml
+              p.tsv
+              p.tsx
+              p.typescript
+              p.typst
+              p.udev
+              p.vimdoc
+              p.xml
+              p.yaml
+            ]))
           ];
 
           extraPackages = with pkgs; [
