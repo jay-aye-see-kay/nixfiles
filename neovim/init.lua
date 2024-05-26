@@ -25,10 +25,11 @@ require("nvim-ts-autotag").setup()
 -- slowly migrating to lazy an package manager
 --
 
--- require("lazy").setup(plugins:for_lazy(), {
---   performance = {
---     rtp = {
---       reset = false,
---     },
---   },
--- })
+require("lazy").setup(plugins:for_lazy(), {
+	performance = {
+		reset_packpath = false,
+		rtp = {
+			reset = false,
+		},
+	},
+})
