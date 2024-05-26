@@ -100,11 +100,10 @@
         mainNeovimArgs = {
           extraPython3Packages = p: [ p.debugpy ];
 
-          lazyPlugins = [ ];
-
-          startPlugins = allPluginsFromInputs ++ (with pkgs.vimPlugins; [
+          lazyPlugins = allPluginsFromInputs ++ (with pkgs.vimPlugins; [
             catppuccin-nvim
             nvim-unception
+
             mini-nvim
 
             # dependencies
@@ -131,7 +130,6 @@
             vim-just
             typescript-nvim
 
-            (nvim-treesitter.withPlugins (_: nvim-treesitter.allGrammars))
             nvim-treesitter-textobjects
             nvim-ts-autotag
             playground # tree-sitter playground
@@ -191,6 +189,11 @@
             gitsigns-nvim
             neogit
           ]);
+
+          startPlugins = with pkgs.vimPlugins; [
+            # can't put this in lazy plugins yet, we lose all the parsers
+            (nvim-treesitter.withPlugins (_: nvim-treesitter.allGrammars))
+          ];
 
           extraPackages = with pkgs; [
             # LSPs and linters

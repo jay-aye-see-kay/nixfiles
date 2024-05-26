@@ -1,5 +1,27 @@
 local plugins = require("nln").plugins
 
+--
+-- TODO put lazy config above here, must setup plugin spec before calling lazy.setup
+--
+
+require("lazy").setup(plugins:for_lazy(), {
+	dev = {
+		path = require("nln").lazyPath,
+		patterns = { "." },
+		fallback = false,
+	},
+	performance = {
+		reset_packpath = false,
+		rtp = {
+			reset = false,
+		},
+	},
+})
+
+--
+-- old config below lazy
+--
+
 -- must be first as these setup leader keys
 require("_cfg.mini")
 require("_cfg.core")
@@ -19,22 +41,3 @@ require("nvim-surround").setup()
 require("Comment").setup()
 vim.g.skip_ts_context_commentstring_module = true
 require("nvim-ts-autotag").setup()
-
---
--- old config above this, new below
--- slowly migrating to lazy an package manager
---
-
-require("lazy").setup(plugins:for_lazy(), {
-	dev = {
-		path = require("nln").lazyPath,
-		patterns = { "." },
-		fallback = false,
-	},
-	performance = {
-		reset_packpath = false,
-		rtp = {
-			reset = false,
-		},
-	},
-})
