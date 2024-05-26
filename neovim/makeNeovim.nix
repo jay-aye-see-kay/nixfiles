@@ -28,7 +28,7 @@ let
   # convert a list of plugins into a dict we can modify, then pass to lazy.nvim
   #
   pluginsForConfig = builtins.foldl'
-    (acc: p: { "${pkgs.lib.getName p.pname}" = { }; } // acc)
+    (acc: p: { "${pkgs.lib.getName p}" = { }; } // acc)
     { }
     lazyPlugins;
 
