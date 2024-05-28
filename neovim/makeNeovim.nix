@@ -10,7 +10,7 @@
 , nvimAppName ? ""
 }:
 let
-  inherit (import ./fromNixCats.nix { inherit pkgs; }) luaTablePrinter;
+  inherit (import ./fromNixCats.nix { inherit pkgs; }) luaTablePrinter allTreesitterGrammars;
 
   #
   # user config as a plugin
@@ -78,7 +78,7 @@ let
   #
   cfg = pkgs.neovimUtils.makeNeovimConfig {
     inherit extraPython3Packages withNodeJs withPython3;
-    plugins = [ pkgs.vimPlugins.lazy-nvim ] ++ startPlugins;
+    plugins = [ pkgs.vimPlugins.lazy-nvim allTreesitterGrammars ] ++ startPlugins;
     customRC = /* vim */ ''
       lua << EOF
         -- Ignore the user lua configuration

@@ -1,17 +1,5 @@
 local plugins = require("nln").plugins
 
--- janky hack to get treesitter working with lazy at a reasonable speed
--- suspect I'm loading these wrong, maybe should be with rtp addition, not 300 plugins
-local function startsWith(str, start)
-	return str:sub(1, #start) == start
-end
-for plugin_name, plugin_spec in pairs(plugins) do
-	if startsWith(plugin_name, "vimplugin-treesitter-grammar-") then
-		plugin_spec.lazy = true
-		plugin_spec.event = "VeryLazy"
-	end
-end
-
 --
 -- TODO put lazy config above here, must setup plugin spec before calling lazy.setup
 --

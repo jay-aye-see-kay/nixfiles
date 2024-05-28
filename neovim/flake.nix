@@ -186,11 +186,7 @@
             vim-fugitive
             vim-rhubarb
             gitsigns-nvim
-          ]) ++
-            # loading each grammar a plugin, works but slow, not sure why
-            (builtins.attrValues pkgs.vimPlugins.nvim-treesitter.grammarPlugins);
-
-          startPlugins = with pkgs.vimPlugins; [ ];
+          ]);
 
           extraPackages = with pkgs; [
             # LSPs and linters
