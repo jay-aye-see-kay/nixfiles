@@ -132,3 +132,15 @@ H = {
 		end
 	end,
 }
+
+h.autocmd({ "FileType" }, {
+	pattern = { "markdown", "md" },
+	callback = function(ctx)
+		vim.keymap.set("n", "<leader>xt", H.update_status("TODO"), { desc = "mark todo", buffer = true })
+		vim.keymap.set("n", "<leader>xp", H.update_status("IN_PROGRESS"), { desc = "mark progress", buffer = true })
+		vim.keymap.set("n", "<leader>xw", H.update_status("WAITING"), { desc = "mark waiting", buffer = true })
+		vim.keymap.set("n", "<leader>xx", H.update_status("DONE"), { desc = "mark done", buffer = true })
+		vim.keymap.set("n", "<leader>xd", H.update_status("DONE"), { desc = "mark done", buffer = true })
+		vim.keymap.set("n", "<leader>xn", H.advance, { desc = "advance heading status", buffer = true })
+	end,
+})
