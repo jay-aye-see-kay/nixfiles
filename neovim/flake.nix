@@ -154,6 +154,7 @@
             friendly-snippets
             mkdnflow-nvim
             hover-nvim
+            outline-nvim
 
             lualine-nvim
             lualine-lsp-progress # switch back to fidget?

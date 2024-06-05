@@ -1,5 +1,11 @@
 local plugins = require("nln").plugins
 
+plugins["outline.nvim"] = {
+	lazy = true,
+	cmd = { "Outline", "OutlineOpen" },
+	opts = {},
+}
+
 --
 -- TODO put lazy config above here, must setup plugin spec before calling lazy.setup
 --
