@@ -6,6 +6,12 @@ plugins["outline.nvim"] = {
 	opts = {},
 }
 
+plugins["leap.nvim"] = {
+	config = function()
+		require("leap").create_default_mappings()
+	end,
+}
+
 --
 -- TODO put lazy config above here, must setup plugin spec before calling lazy.setup
 --
