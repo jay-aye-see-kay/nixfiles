@@ -68,17 +68,3 @@ h.autocmd("FileType", {
 		vim.wo.spell = true
 	end,
 })
-
--- show selection in browser on github
-local function open_on_github(_, opts)
-	vim.cmd(opts.position.first[1] .. "," .. opts.position.last[1] .. "GBrowse")
-end
-require("yop").op_map({ "n", "v" }, ",gb", open_on_github)
-require("yop").op_map({ "n", "v" }, ",gbb", open_on_github, { linewise = true })
-
--- copy link to selection on github
-local function copy_link_to_github(_, opts)
-	vim.cmd(opts.position.first[1] .. "," .. opts.position.last[1] .. "GBrowse!")
-end
-require("yop").op_map({ "n", "v" }, ",gy", copy_link_to_github)
-require("yop").op_map({ "n", "v" }, ",gyy", copy_link_to_github, { linewise = true })

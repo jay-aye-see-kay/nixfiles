@@ -205,49 +205,6 @@ Hydra({
 })
 -- }}}
 
--- {{{ custom operators
--- sort from https://github.com/zdcthomas/yop.nvim/wiki/Example-mappings#sorting
-local function yop_sort(lines)
-	local sort_without_leading_space = function(a, b)
-		local pattern = [[^%W*]]
-		return string.gsub(a, pattern, "") < string.gsub(b, pattern, "")
-	end
-	if #lines == 1 then
-		-- If only looking at 1 line, sort that line split by some char gotten from input
-		local delimeter = require("yop.utils").get_input("Delimeter: ")
-		local split = vim.split(lines[1], delimeter, { trimempty = true })
-		table.sort(split, sort_without_leading_space)
-		return { require("yop.utils").join(split, delimeter) }
-	else
-		table.sort(lines, sort_without_leading_space)
-		return lines
-	end
-end
-require("yop").op_map({ "n", "v" }, "gs", yop_sort)
-require("yop").op_map({ "n", "v" }, "gss", yop_sort, { linewise = true })
-
--- source lines
-local function source_lines(lines, opts)
-	local ft = vim.bo.filetype
-	if ft == "lua" or ft == "vim" then
-		vim.cmd(opts.position.first[1] .. "," .. opts.position.last[1] .. " source")
-		print("Sourced " .. #lines .. " lines")
-	else
-		print("Not a lua or vimL file, sourcing nothing")
-	end
-end
-require("yop").op_map({ "n", "v" }, ",s", source_lines)
-require("yop").op_map({ "n", "v" }, ",ss", source_lines, { linewise = true })
-
--- copy to system clipboard
-local function lines_to_clipboard(lines)
-	vim.fn.setreg("+", lines)
-	print("Copied " .. #lines .. " lines to system clipboard")
-end
-require("yop").op_map({ "n", "v" }, ",c", lines_to_clipboard)
-require("yop").op_map({ "n", "v" }, ",cc", lines_to_clipboard, { linewise = true })
--- }}}
-
 -- {{{ switching text-case (replaced abolish)
 local textcase = require("textcase")
 local prefix = "ga"

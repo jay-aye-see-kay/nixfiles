@@ -147,22 +147,6 @@
         "type": "github"
       }
     },
-    "plugin:yop-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1685330605,
-        "narHash": "sha256-DMsrHINiW4Ga3K7JuG3s84KJl2ufkLtRJrM8C1NmbHM=",
-        "owner": "zdcthomas",
-        "repo": "yop.nvim",
-        "rev": "ec26d86cfa96783f6894babcc509e5287aef9a25",
-        "type": "github"
-      },
-      "original": {
-        "owner": "zdcthomas",
-        "repo": "yop.nvim",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -173,8 +157,7 @@
         "plugin:gp-nvim": "plugin:gp-nvim",
         "plugin:tsnode-marker-nvim": "plugin:tsnode-marker-nvim",
         "plugin:vim-jinja2-syntax": "plugin:vim-jinja2-syntax",
-        "plugin:vim-symlink": "plugin:vim-symlink",
-        "plugin:yop-nvim": "plugin:yop-nvim"
+        "plugin:vim-symlink": "plugin:vim-symlink"
       }
     },
     "systems": {

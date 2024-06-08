@@ -14,10 +14,6 @@
       url = "github:akinsho/git-conflict.nvim/v1.0.0";
       flake = false;
     };
-    "plugin:yop-nvim" = {
-      url = "github:zdcthomas/yop.nvim";
-      flake = false;
-    };
     "plugin:advanced-git-search-nvim" = {
       url = "github:aaronhallaert/advanced-git-search.nvim";
       flake = false;
