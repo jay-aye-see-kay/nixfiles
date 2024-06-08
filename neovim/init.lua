@@ -1,5 +1,7 @@
 local plugins = require("nln").plugins
 
+require("_cfg.filetype")
+
 plugins["outline.nvim"] = {
 	lazy = true,
 	cmd = { "Outline", "OutlineOpen" },
