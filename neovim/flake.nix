@@ -123,11 +123,7 @@
             debugprint-nvim
 
             # langs
-            vim-nix
-            vim-json
-            jsonc-vim
             vim-caddyfile
-            vim-just
             typescript-nvim
 
             nvim-treesitter

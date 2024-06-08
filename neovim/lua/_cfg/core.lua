@@ -58,8 +58,6 @@ h.autocmd({ "ColorScheme" }, {
 	end,
 })
 
-vim.api.nvim_set_var("vim_json_syntax_conceal", 0)
-
 vim.o.background = "dark"
 require("catppuccin").setup({
 	term_colors = true,
