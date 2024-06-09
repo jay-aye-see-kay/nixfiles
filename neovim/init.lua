@@ -23,6 +23,26 @@ plugins["leap.nvim"] = {
 	end,
 }
 
+plugins["nvim-ts-autotag"] = {
+	event = "VeryLazy",
+	opts = {},
+}
+
+plugins["nvim-ts-context-commentstring"] = {
+	init = function()
+		vim.g.skip_ts_context_commentstring_module = true
+	end,
+}
+plugins["comment.nvim"] = {
+	config = function()
+		require("Comment").setup({
+			pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+		})
+	end,
+}
+
+plugins["nvim-surround"] = { event = "VeryLazy", opts = {} }
+
 --
 -- TODO put lazy config above here, must setup plugin spec before calling lazy.setup
 --
@@ -55,9 +75,3 @@ require("_cfg.notes")
 require("_cfg.snippets")
 require("_cfg.telescope")
 require("_cfg.treesitter-and-refactoring")
-
--- temp: moved these here from flake.nix as not supported there anymore
-require("nvim-surround").setup()
-require("Comment").setup()
-vim.g.skip_ts_context_commentstring_module = true
-require("nvim-ts-autotag").setup()
