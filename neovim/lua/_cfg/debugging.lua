@@ -1,34 +1,61 @@
--- {{{ pro debugging
-require("debugprint").setup()
+local plugins = require("nln").plugins
 
-require("which-key").register({
-	name = "debugprint",
-	p = "plain below",
-	P = "plain above",
-	v = "variable below",
-	V = "variable above",
-	o = "variable below [motion]",
-	O = "variable above [motion]",
-	x = { require("debugprint").deleteprints, "clear debug prints" },
-}, {
-	prefix = "g?",
-})
--- }}}
+-- pro debugging
+plugins["debugprint.nvim"] = {
+	lazy = true,
+	event = "VeryLazy",
+	opts = {},
+}
 
 -- {{{ regular debugging
-require("dapui").setup({})
-require("dap-go").setup()
-require("nvim-dap-virtual-text").setup({})
-require("dap-python").setup(vim.g.python3_host_prog)
+plugins["nvim-dap-ui"] = { lazy = true, opts = {} }
+plugins["nvim-dap-virtual-text"] = {
+	lazy = true,
+	opts = { virt_text_pos = "eol" },
+}
 
-vim.keymap.set("n", "<space>dR", require("dap").clear_breakpoints, { desc = "clear breakpoints" })
-vim.keymap.set("n", "<space>db", require("dap").toggle_breakpoint, { desc = "toggle breakpoint" })
-vim.keymap.set("n", "<space>dc", require("dap").continue, { desc = "continue" })
-vim.keymap.set("n", "<space>dr", require("dap").repl.open, { desc = "repl" })
-vim.keymap.set("n", "<space>di", require("dap").step_into, { desc = "step into" })
-vim.keymap.set("n", "<space>do", require("dap").step_over, { desc = "step over" })
-vim.keymap.set("n", "<space>dt", require("dap").step_out, { desc = "step out" })
+plugins["nvim-dap-go"] = { lazy = true, opts = {} }
+plugins["nvim-dap-python"] = {
+	lazy = true,
+	config = function()
+		require("dap-python").setup(vim.g.python3_host_prog)
+	end,
+}
 
-vim.keymap.set("n", "<space>du", require("dapui").toggle, { desc = "toggle" })
-vim.keymap.set("n", "<space>dC", require("dap").run_to_cursor, { desc = "run to cursor" })
--- }}}
+plugins["nvim-dap"] = {
+	lazy = true,
+	dependencies = {
+		"nvim-dap-ui",
+		"nvim-dap-virtual-text",
+		"nvim-dap-go",
+		"nvim-dap-python",
+	},
+}
+
+vim.keymap.set("n", "<space>dR", function()
+	require("dap").clear_breakpoints()
+end, { desc = "clear breakpoints" })
+vim.keymap.set("n", "<space>db", function()
+	require("dap").toggle_breakpoint()
+end, { desc = "toggle breakpoint" })
+vim.keymap.set("n", "<space>dc", function()
+	require("dap").continue()
+end, { desc = "continue" })
+vim.keymap.set("n", "<space>dr", function()
+	require("dap").repl.open()
+end, { desc = "repl" })
+vim.keymap.set("n", "<space>di", function()
+	require("dap").step_into()
+end, { desc = "step into" })
+vim.keymap.set("n", "<space>do", function()
+	require("dap").step_over()
+end, { desc = "step over" })
+vim.keymap.set("n", "<space>dt", function()
+	require("dap").step_out()
+end, { desc = "step out" })
+vim.keymap.set("n", "<space>du", function()
+	require("dapui").toggle()
+end, { desc = "toggle" })
+vim.keymap.set("n", "<space>dC", function()
+	require("dap").run_to_cursor()
+end, { desc = "run to cursor" })
