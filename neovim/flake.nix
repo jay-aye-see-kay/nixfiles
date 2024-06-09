@@ -6,10 +6,6 @@
     flake-utils.url = "github:numtide/flake-utils";
 
     # Plugins direct from their repos
-    "plugin:vim-symlink" = {
-      url = "github:aymericbeaumet/vim-symlink";
-      flake = false;
-    };
     "plugin:git-conflict-nvim" = {
       url = "github:akinsho/git-conflict.nvim/v1.0.0";
       flake = false;

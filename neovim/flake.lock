@@ -131,22 +131,6 @@
         "type": "github"
       }
     },
-    "plugin:vim-symlink": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1658828180,
-        "narHash": "sha256-V5ziS/Q/0hulAdUIg7PgR+yjf6vljaGQBksUCiIeHyM=",
-        "owner": "aymericbeaumet",
-        "repo": "vim-symlink",
-        "rev": "fec2d1a72c6875557109ce6113f26d3140b64374",
-        "type": "github"
-      },
-      "original": {
-        "owner": "aymericbeaumet",
-        "repo": "vim-symlink",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -156,8 +140,7 @@
         "plugin:git-conflict-nvim": "plugin:git-conflict-nvim",
         "plugin:gp-nvim": "plugin:gp-nvim",
         "plugin:tsnode-marker-nvim": "plugin:tsnode-marker-nvim",
-        "plugin:vim-jinja2-syntax": "plugin:vim-jinja2-syntax",
-        "plugin:vim-symlink": "plugin:vim-symlink"
+        "plugin:vim-jinja2-syntax": "plugin:vim-jinja2-syntax"
       }
     },
     "systems": {
