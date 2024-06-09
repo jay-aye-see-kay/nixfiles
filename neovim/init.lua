@@ -1,6 +1,7 @@
 local plugins = require("nln").plugins
 
 require("_cfg.filetype")
+require("_cfg.lines-and-bars")
 
 plugins["outline.nvim"] = {
 	lazy = true,
