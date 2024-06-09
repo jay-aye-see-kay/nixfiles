@@ -1,66 +1,54 @@
+local plugins = require("nln").plugins
 local h = require("_cfg.helpers")
 
-require("which-key").register({
-	p = {
-		name = "+push",
-		p = { "<cmd>G push<CR><ESC>", "push" },
-		f = { "<cmd>G push<CR><ESC>", "push --force-with-lease" },
+plugins["diffview.nvim"] = {
+	lazy = true,
+	cmd = {
+		"DiffviewClose",
+		"DiffviewFileHistory",
+		"DiffviewFocusFiles",
+		"DiffviewLog",
+		"DiffviewOpen",
+		"DiffviewRefresh",
+		"DiffviewToggleFiles",
 	},
-	f = {
-		name = "+fetch",
-		f = { "<cmd>G fetch<CR><ESC>", "fetch" },
-		p = { "<cmd>G pull<CR><ESC>", "pull" },
-		r = { "<cmd>G pull --rebase<CR><ESC>", "pull and rebase" },
+	keys = {
+		{ "<leader>gd", "<cmd>DiffviewFileHistory %<cr>", desc = "diffview current file" },
 	},
-}, { prefix = "<leader>g" })
+}
 
-require("git-conflict").setup()
-vim.keymap.set("n", "]x", "<Plug>(git-conflict-next-conflict)", { desc = "next conflict marker" })
-vim.keymap.set("n", "[x", "<Plug>(git-conflict-prev-conflict)", { desc = "prev conflict marker" })
+plugins["git-conflict.nvim"] = {
+	opt = {},
+	keys = {
+		{ "]x", "<Plug>(git-conflict-next-conflict)", desc = "next conflict marker" },
+		{ "[x", "<Plug>(git-conflict-prev-conflict)", desc = "prev conflict marker" },
+	},
+}
 
-local gitsigns = require("gitsigns")
-gitsigns.setup({
-	current_line_blame_opts = { delay = 0 },
-})
+plugins["gitsigns.nvim"] = {
+	lazy = true,
+	event = "VeryLazy",
+	opts = {
+		current_line_blame_opts = { delay = 0 },
+	},
+	keys = {
+		{ "<leader>hs", "<cmd>Gitsigns stage_hunk<cr>", mode = { "n", "v" }, desc = "stage hunk" },
+		{ "<leader>hr", "<cmd>Gitsigns reset_hunk<cr>", mode = { "n", "v" }, desc = "reset hunk" },
+		{ "<leader>hu", "<cmd>Gitsigns undo_stage_hunk<cr>", desc = "undo stage hunk" },
+		{ "<leader>hp", "<cmd>Gitsigns preview_hunk<cr>", desc = "preview hunk" },
+		{ "\\b", "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "toggle current line blame" },
+		{ "]h", "<cmd>Gitsigns next_hunk<cr>", desc = "next hunk" },
+		{ "[h", "<cmd>Gitsigns prev_hunk<cr>", desc = "prev hunk" },
+		-- setup hunk text objects
+		{ "ih", "<cmd><C-U>Gitsigns select_hunk<cr>", mode = { "o", "x" }, desc = "a hunk" },
+		{ "ah", "<cmd><C-U>Gitsigns select_hunk<cr>", mode = { "o", "x" }, desc = "a hunk" },
+	},
+}
 
--- Navigation
-vim.keymap.set("n", "]h", function()
-	if vim.wo.diff then
-		return "]h"
-	end
-	vim.schedule(gitsigns.next_hunk)
-	return "<Ignore>"
-end, { expr = true, desc = "next hunk" })
-vim.keymap.set("n", "[h", function()
-	if vim.wo.diff then
-		return "[h"
-	end
-	vim.schedule(gitsigns.prev_hunk)
-	return "<Ignore>"
-end, { expr = true, desc = "prev hunk" })
-
--- Actions
-vim.keymap.set({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>", { desc = "stage hunk" })
-vim.keymap.set({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>", { desc = " reset hunk" })
-vim.keymap.set("n", "<leader>hu", gitsigns.undo_stage_hunk, { desc = "undo stage hunk" })
-vim.keymap.set("n", "<leader>hp", gitsigns.preview_hunk, { desc = "preview hunk" })
-vim.keymap.set("n", "<leader>hb", function()
-	gitsigns.blame_line({ full = true })
-end, { desc = "blame hunk" })
-vim.keymap.set("n", "<leader>hd", gitsigns.diffthis, { desc = "diff this" })
-vim.keymap.set("n", "<leader>gtb", gitsigns.toggle_current_line_blame, { desc = "toggle inline blame" })
-vim.keymap.set("n", "<leader>gtd", gitsigns.toggle_deleted, { desc = "toggle showing deleted virtually" })
-
--- Text object
-vim.keymap.set({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "a hunk" })
-vim.keymap.set({ "o", "x" }, "ah", ":<C-U>Gitsigns select_hunk<CR>", { desc = "a hunk" })
-
-h.autocmd({ "FileType" }, {
-	pattern = "fugitive",
-	callback = function()
-		vim.keymap.set("n", "<tab>", "=", { buffer = 0, remap = true })
-	end,
-})
+plugins["vim-fugitive"] = {
+	event = "VeryLazy",
+	keys = { "<tab>", "=", ft = "fugitive", remap = true },
+}
 
 h.autocmd("FileType", {
 	pattern = "gitcommit",

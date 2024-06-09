@@ -1,15 +1,21 @@
 local plugins = require("nln").plugins
 
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 require("_cfg.debugging")
 require("_cfg.filetype")
+require("_cfg.git")
 require("_cfg.lines-and-bars")
 
 plugins["outline.nvim"] = {
 	lazy = true,
 	cmd = { "Outline", "OutlineOpen" },
 	opts = {},
+	keys = {
+		{ "<leader>o", "<cmd>Outline!<cr>", desc = "toggle outline" },
+	},
 }
-vim.keymap.set("n", "<leader>o", "<cmd>Outline!<cr>", { desc = "toggle outline" })
 
 plugins["leap.nvim"] = {
 	config = function()
@@ -43,7 +49,6 @@ require("_cfg.mini")
 require("_cfg.core")
 
 require("_cfg.files-and-term")
-require("_cfg.git")
 require("_cfg.keymaps")
 require("_cfg.lsp")
 require("_cfg.notes")
