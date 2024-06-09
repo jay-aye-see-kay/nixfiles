@@ -8,6 +8,7 @@ plugins["outline.nvim"] = {
 	cmd = { "Outline", "OutlineOpen" },
 	opts = {},
 }
+vim.keymap.set("n", "<leader>o", "<cmd>Outline!<cr>", { desc = "toggle outline" })
 
 plugins["leap.nvim"] = {
 	config = function()
