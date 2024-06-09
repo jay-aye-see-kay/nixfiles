@@ -6,10 +6,6 @@
     flake-utils.url = "github:numtide/flake-utils";
 
     # Plugins direct from their repos
-    "plugin:git-conflict-nvim" = {
-      url = "github:akinsho/git-conflict.nvim/v1.0.0";
-      flake = false;
-    };
     "plugin:advanced-git-search-nvim" = {
       url = "github:aaronhallaert/advanced-git-search.nvim";
       flake = false;
@@ -175,6 +171,7 @@
             vim-fugitive
             vim-rhubarb
             gitsigns-nvim
+            git-conflict-nvim
           ]);
 
           extraPackages = with pkgs; [
