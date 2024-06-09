@@ -47,16 +47,13 @@
         "nixpkgs": "nixpkgs",
         "plugin:advanced-git-search-nvim": "plugin:advanced-git-search-nvim",
         "plugin:bats-nvim": "plugin:bats-nvim",
-        "plugin:git-conflict-nvim": "plugin:git-conflict-nvim",
         "plugin:gp-nvim": "plugin:gp-nvim",
         "plugin:tsnode-marker-nvim": "plugin:tsnode-marker-nvim",
-        "plugin:vim-jinja2-syntax": "plugin:vim-jinja2-syntax",
-        "plugin:vim-symlink": "plugin:vim-symlink",
-        "plugin:yop-nvim": "plugin:yop-nvim"
+        "plugin:vim-jinja2-syntax": "plugin:vim-jinja2-syntax"
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-3k6HOJ4t409ss0Vj7Katnv/AEFF3nZ4HkT/NfCy0MI4=",
+        "narHash": "sha256-zF0fc3gOFfyPDupCJKH1pIeSenvDxVn/MZ/hLPQnmnI=",
         "path": "./neovim",
         "type": "path"
       },
@@ -161,23 +158,6 @@
         "type": "github"
       }
     },
-    "plugin:git-conflict-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1656862794,
-        "narHash": "sha256-tBKGjzKK/SftivTgdujk4NaIxz8sUNyd9ULlGKAL8x8=",
-        "owner": "akinsho",
-        "repo": "git-conflict.nvim",
-        "rev": "80bc8931d4ed8c8c4d289a08e1838fcf4741408d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "akinsho",
-        "ref": "v1.0.0",
-        "repo": "git-conflict.nvim",
-        "type": "github"
-      }
-    },
     "plugin:gp-nvim": {
       "flake": false,
       "locked": {
@@ -223,38 +203,6 @@
       "original": {
         "owner": "Glench",
         "repo": "Vim-Jinja2-Syntax",
-        "type": "github"
-      }
-    },
-    "plugin:vim-symlink": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1658828180,
-        "narHash": "sha256-V5ziS/Q/0hulAdUIg7PgR+yjf6vljaGQBksUCiIeHyM=",
-        "owner": "aymericbeaumet",
-        "repo": "vim-symlink",
-        "rev": "fec2d1a72c6875557109ce6113f26d3140b64374",
-        "type": "github"
-      },
-      "original": {
-        "owner": "aymericbeaumet",
-        "repo": "vim-symlink",
-        "type": "github"
-      }
-    },
-    "plugin:yop-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1685330605,
-        "narHash": "sha256-DMsrHINiW4Ga3K7JuG3s84KJl2ufkLtRJrM8C1NmbHM=",
-        "owner": "zdcthomas",
-        "repo": "yop.nvim",
-        "rev": "ec26d86cfa96783f6894babcc509e5287aef9a25",
-        "type": "github"
-      },
-      "original": {
-        "owner": "zdcthomas",
-        "repo": "yop.nvim",
         "type": "github"
       }
     },
