@@ -76,3 +76,9 @@ require("mini.bracketed").setup({
 	window = { suffix = "" },
 	yank = { suffix = "" },
 })
+
+require("mini.bufremove").setup()
+
+vim.keymap.set("n", "<leader>bd", function()
+	require("mini.bufremove").delete()
+end)

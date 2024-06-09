@@ -154,7 +154,6 @@
 
             hydra-nvim
             markdown-preview-nvim
-            vim-bbye
             trouble-nvim
 
             telescope-nvim
