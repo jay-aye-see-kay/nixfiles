@@ -46,7 +46,7 @@ plugins["gitsigns.nvim"] = {
 }
 
 plugins["vim-fugitive"] = {
-	event = "VeryLazy",
+	lazy = false,
 	keys = { "<tab>", "=", ft = "fugitive", remap = true },
 }
 
