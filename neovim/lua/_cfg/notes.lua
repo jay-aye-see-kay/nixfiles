@@ -41,6 +41,12 @@ plugins["render-markdown"] = {
 	},
 }
 
+plugins["markdown-preview.nvim"] = {
+	lazy = true,
+	cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+	ft = { "markdown" },
+}
+
 h.autocmd({ "FileType" }, {
 	pattern = { "markdown", "md" },
 	callback = function()
