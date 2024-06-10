@@ -4,6 +4,7 @@ require("_cfg.core")
 
 require("_cfg.colorscheme")
 require("_cfg.debugging")
+require("_cfg.files-and-term")
 require("_cfg.filetype")
 require("_cfg.git")
 require("_cfg.lines-and-bars")
@@ -32,7 +33,6 @@ require("lazy").setup(plugins:for_lazy(), {
 -- old config below lazy
 --
 
-require("_cfg.files-and-term")
 require("_cfg.keymaps")
 require("_cfg.lsp")
 require("_cfg.notes")
