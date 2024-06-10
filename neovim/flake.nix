@@ -10,10 +10,6 @@
       url = "github:aaronhallaert/advanced-git-search.nvim";
       flake = false;
     };
-    "plugin:tsnode-marker-nvim" = {
-      url = "github:atusy/tsnode-marker.nvim";
-      flake = false;
-    };
     "plugin:gp-nvim" = {
       url = "github:Robitx/gp.nvim";
       flake = false;
@@ -24,6 +20,10 @@
     };
     "plugin:vim-jinja2-syntax" = {
       url = "github:Glench/Vim-Jinja2-Syntax";
+      flake = false;
+    };
+    "plugin:render-markdown" = {
+      url = "github:MeanderingProgrammer/markdown.nvim";
       flake = false;
     };
   };

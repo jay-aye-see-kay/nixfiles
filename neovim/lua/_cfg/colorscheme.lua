@@ -34,7 +34,6 @@ plugins["catppuccin-nvim"] = {
 			},
 			custom_highlights = function(colors)
 				return {
-					CodeBlockBackground = { bg = colors.surface0 },
 					ActiveTerm = { bg = colors.crust },
 				}
 			end,
