@@ -26,8 +26,6 @@ local function project_files()
 	end
 end
 
-local telescope_fns = require("telescope.builtin")
-
 local main_keymap = {
 	lsp = {
 		name = "+lsp",
@@ -53,7 +51,7 @@ local main_keymap = {
 			end,
 			"🔭 buffers (cwd only)",
 		},
-		f = { telescope_fns.find_files, "🔭 files" },
+		f = { "<cmd>Telescope find_files<cr>", "🔭 files" },
 		g = { project_files, "🔭 git files" },
 		h = {
 			function()
@@ -61,17 +59,17 @@ local main_keymap = {
 			end,
 			"🔭 help tags",
 		},
-		c = { telescope_fns.commands, "🔭 commands" },
-		o = { telescope_fns.oldfiles, "🔭 oldfiles" },
-		l = { telescope_fns.current_buffer_fuzzy_find, "🔭 buffer lines" },
-		w = { telescope_fns.spell_suggest, "🔭 spelling suggestions" },
-		u = { telescope_fns.grep_string, "🔭 word under cursor" },
+		c = { "<cmd>Telescope commands<cr>", "🔭 commands" },
+		o = { "<cmd>Telescope oldfiles<cr>", "🔭 oldfiles" },
+		l = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "🔭 buffer lines" },
+		w = { "<cmd>Telescope spell_suggest<cr>", "🔭 spelling suggestions" },
+		u = { "<cmd>Telescope grep_string<cr>", "🔭 word under cursor" },
 		n = { grep_notes, "🔭 search all notes" },
 		i = {
 			name = "+in",
 			o = {
 				function()
-					telescope_fns.live_grep({ grep_open_files = true })
+					require("telescope.builtin").live_grep({ grep_open_files = true })
 				end,
 				"🔭 in open buffers",
 			},

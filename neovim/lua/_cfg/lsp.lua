@@ -135,8 +135,8 @@ null_ls.setup({
 	},
 })
 
-vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "Goto/find definitions" })
-vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, { desc = "Find references" })
+vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<cr>", { desc = "Goto/find definitions" })
+vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", { desc = "Find references" })
 vim.keymap.set("n", "gh", vim.lsp.buf.hover, { desc = "Hover docs" })
 vim.keymap.set("n", "gI", vim.lsp.buf.implementation, { desc = "Goto implementation" })
 vim.keymap.set("i", "<C-i>", function()
