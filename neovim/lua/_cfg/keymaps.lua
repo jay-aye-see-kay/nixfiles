@@ -202,22 +202,3 @@ Hydra({
 	},
 })
 -- }}}
-
--- {{{ switching text-case (replaced abolish)
-local textcase = require("textcase")
-local prefix = "ga"
-textcase.setup({ prefix = prefix })
--- required until this PR merged https://github.com/johmsalas/text-case.nvim/pull/31
-textcase.register_keybindings(prefix, textcase.api.to_snake_case, {
-	prefix = prefix,
-	quick_replace = "s",
-	operator = "os",
-	lsp_rename = "S",
-})
-textcase.register_keybindings(prefix, textcase.api.to_dash_case, {
-	prefix = prefix,
-	quick_replace = "k",
-	operator = "ok",
-	lsp_rename = "K",
-})
--- }}}

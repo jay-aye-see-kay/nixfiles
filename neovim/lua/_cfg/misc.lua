@@ -81,3 +81,30 @@ plugins["undotree"] = {
 		{ "\\u", "<cmd>UndotreeToggle<cr>", desc = "Toggle undotree" },
 	},
 }
+
+-- {{{ switching text-case (replaced abolish)
+plugins["text-case.nvim"] = {
+	dependencies = { "telescope.nvim" },
+	config = function()
+		local textcase = require("textcase")
+		textcase.setup({ prefix = "ga" })
+		textcase.register_keybindings("ga", textcase.api.to_dash_case, {
+			prefix = "ga",
+			quick_replace = "k",
+			operator = "ok",
+			lsp_rename = "K",
+		})
+		require("telescope").load_extension("textcase")
+	end,
+	keys = {
+		"ga",
+		{ "ga.", "<cmd>TextCaseOpenTelescope<CR>", mode = { "n", "x" }, desc = "Telescope" },
+	},
+	cmd = {
+		"Subs",
+		"TextCaseOpenTelescope",
+		"TextCaseOpenTelescopeQuickChange",
+		"TextCaseOpenTelescopeLSPChange",
+		"TextCaseStartReplacingCommand",
+	},
+}
