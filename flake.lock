@@ -48,12 +48,12 @@
         "plugin:advanced-git-search-nvim": "plugin:advanced-git-search-nvim",
         "plugin:bats-nvim": "plugin:bats-nvim",
         "plugin:gp-nvim": "plugin:gp-nvim",
-        "plugin:tsnode-marker-nvim": "plugin:tsnode-marker-nvim",
+        "plugin:render-markdown": "plugin:render-markdown",
         "plugin:vim-jinja2-syntax": "plugin:vim-jinja2-syntax"
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-zF0fc3gOFfyPDupCJKH1pIeSenvDxVn/MZ/hLPQnmnI=",
+        "narHash": "sha256-DtiHmGJBw+nEWBqePdX2usS5728ARJa0bvCWQT4CQGI=",
         "path": "./neovim",
         "type": "path"
       },
@@ -174,19 +174,19 @@
         "type": "github"
       }
     },
-    "plugin:tsnode-marker-nvim": {
+    "plugin:render-markdown": {
       "flake": false,
       "locked": {
-        "lastModified": 1696917098,
-        "narHash": "sha256-EXr0kmYwUiPLvnv7dZkDAj8pXEEFJVeSI1i14989y+Y=",
-        "owner": "atusy",
-        "repo": "tsnode-marker.nvim",
-        "rev": "551b617629c3bd0ff6c98d89d679e405f28deeb7",
+        "lastModified": 1717891749,
+        "narHash": "sha256-/qxbE/k26zTEoTXTGuo9DIv9gqHy5G9mme0DE1167z4=",
+        "owner": "MeanderingProgrammer",
+        "repo": "markdown.nvim",
+        "rev": "0adb35cc190d682d689a1a8415d5980c92708403",
         "type": "github"
       },
       "original": {
-        "owner": "atusy",
-        "repo": "tsnode-marker.nvim",
+        "owner": "MeanderingProgrammer",
+        "repo": "markdown.nvim",
         "type": "github"
       }
     },
