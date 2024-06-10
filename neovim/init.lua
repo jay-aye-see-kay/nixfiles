@@ -7,6 +7,7 @@ require("_cfg.debugging")
 require("_cfg.filetype")
 require("_cfg.git")
 require("_cfg.lines-and-bars")
+require("_cfg.treesitter")
 
 plugins["outline.nvim"] = {
 	lazy = true,
@@ -74,4 +75,4 @@ require("_cfg.lsp")
 require("_cfg.notes")
 require("_cfg.snippets")
 require("_cfg.telescope")
-require("_cfg.treesitter-and-refactoring")
+require("_cfg.refactoring-and-ai")
