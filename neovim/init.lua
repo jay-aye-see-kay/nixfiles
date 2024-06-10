@@ -7,6 +7,7 @@ require("_cfg.debugging")
 require("_cfg.filetype")
 require("_cfg.git")
 require("_cfg.lines-and-bars")
+require("_cfg.mini")
 require("_cfg.treesitter")
 
 plugins["outline.nvim"] = {
@@ -65,8 +66,6 @@ require("lazy").setup(plugins:for_lazy(), {
 -- old config below lazy
 --
 
--- must be first as these setup leader keys
-require("_cfg.mini")
 require("_cfg.core")
 
 require("_cfg.files-and-term")
