@@ -1,25 +1,30 @@
+local plugins = require("nln").plugins
 local h = require("_cfg.helpers")
 
 -- notes/wiki {{{
-require("mkdnflow").setup({
-	modules = {
-		bib = false,
-		folds = false,
+plugins["mkdnflow.nvim"] = {
+	lazy = true,
+	ft = { "markdown" },
+	opts = {
+		modules = {
+			bib = false,
+			folds = false,
+		},
+		to_do = {
+			symbols = { " ", "-", "x" },
+			update_parents = false,
+			not_started = " ",
+			complete = "x",
+		},
+		mappings = {
+			MkdnGoBack = false,
+			MkdnGoForward = false,
+			MkdnYankAnchorLink = false,
+			MkdnFoldSection = false,
+			MkdnUnfoldSection = false,
+		},
 	},
-	to_do = {
-		symbols = { " ", "-", "x" },
-		update_parents = false,
-		not_started = " ",
-		complete = "x",
-	},
-	mappings = {
-		MkdnGoBack = false,
-		MkdnGoForward = false,
-		MkdnYankAnchorLink = false,
-		MkdnFoldSection = false,
-		MkdnUnfoldSection = false,
-	},
-})
+}
 
 h.autocmd({ "FileType" }, {
 	pattern = { "markdown", "md" },

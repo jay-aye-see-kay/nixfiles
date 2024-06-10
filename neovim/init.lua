@@ -10,6 +10,7 @@ require("_cfg.git")
 require("_cfg.lines-and-bars")
 require("_cfg.mini")
 require("_cfg.misc")
+require("_cfg.notes")
 require("_cfg.telescope")
 require("_cfg.treesitter")
 
@@ -36,6 +37,5 @@ require("lazy").setup(plugins:for_lazy(), {
 
 require("_cfg.keymaps")
 require("_cfg.lsp")
-require("_cfg.notes")
 require("_cfg.snippets")
 require("_cfg.refactoring-and-ai")
