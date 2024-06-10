@@ -159,7 +159,7 @@
             telescope-live-grep-args-nvim
 
             nvim-colorizer-lua
-            vim-mundo
+            undotree
             which-key-nvim
             neodev-nvim
 

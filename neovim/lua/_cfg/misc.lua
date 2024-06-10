@@ -75,9 +75,9 @@ plugins["hover.nvim"] = {
 	},
 }
 
--- {{{ undotree
-h.map("n", "<leader>u", "<cmd>MundoToggle<cr>")
-vim.g.mundo_preview_bottom = 1
-vim.g.mundo_width = 40
-vim.g.mundo_preview_height = 20
--- }}}
+plugins["undotree"] = {
+	lazy = true,
+	keys = {
+		{ "\\u", "<cmd>UndotreeToggle<cr>", desc = "Toggle undotree" },
+	},
+}
