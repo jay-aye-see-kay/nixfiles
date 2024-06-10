@@ -14,7 +14,6 @@ telescope.setup({
 				["<C-g>"] = action_layout.toggle_preview,
 				["<C-x>"] = false,
 				["<C-s>"] = actions.select_horizontal,
-				["<esc>"] = actions.close,
 				["<C-l>"] = actions.cycle_history_next,
 				["<C-h>"] = actions.cycle_history_prev,
 			},
