@@ -82,22 +82,6 @@
         "type": "github"
       }
     },
-    "plugin:render-markdown": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1717891749,
-        "narHash": "sha256-/qxbE/k26zTEoTXTGuo9DIv9gqHy5G9mme0DE1167z4=",
-        "owner": "MeanderingProgrammer",
-        "repo": "markdown.nvim",
-        "rev": "0adb35cc190d682d689a1a8415d5980c92708403",
-        "type": "github"
-      },
-      "original": {
-        "owner": "MeanderingProgrammer",
-        "repo": "markdown.nvim",
-        "type": "github"
-      }
-    },
     "plugin:vim-jinja2-syntax": {
       "flake": false,
       "locked": {
@@ -121,7 +105,6 @@
         "plugin:advanced-git-search-nvim": "plugin:advanced-git-search-nvim",
         "plugin:bats-nvim": "plugin:bats-nvim",
         "plugin:gp-nvim": "plugin:gp-nvim",
-        "plugin:render-markdown": "plugin:render-markdown",
         "plugin:vim-jinja2-syntax": "plugin:vim-jinja2-syntax"
       }
     },

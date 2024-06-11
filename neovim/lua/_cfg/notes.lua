@@ -26,18 +26,15 @@ plugins["mkdnflow.nvim"] = {
 	},
 }
 
-plugins["render-markdown"] = {
+plugins["headlines.nvim"] = {
 	lazy = true,
-	ft = { "markdown" },
+	dependencies = { "nvim-treesitter" },
+	ft = { "markdown", "rmd", "orgmode", "neorg" },
 	opts = {
-		checkbox = {
-			unchecked = "[ ]",
-			checked = "[x]",
-		},
-		win_options = {
-			conceallevel = { rendered = 0 },
-			concealcursor = { rendered = "" },
-		},
+		markdown = { fat_headlines = false },
+		rmd = { fat_headlines = false },
+		norg = { fat_headlines = false },
+		org = { fat_headlines = false },
 	},
 }
 

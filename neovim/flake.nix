@@ -22,10 +22,6 @@
       url = "github:Glench/Vim-Jinja2-Syntax";
       flake = false;
     };
-    "plugin:render-markdown" = {
-      url = "github:MeanderingProgrammer/markdown.nvim";
-      flake = false;
-    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
@@ -150,6 +146,7 @@
 
             hydra-nvim
             markdown-preview-nvim
+            headlines-nvim
             trouble-nvim
 
             telescope-nvim
