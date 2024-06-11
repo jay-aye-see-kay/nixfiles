@@ -94,3 +94,37 @@ plugins["gp-nvim"] = {
 		)
 	end,
 }
+
+plugins["copilot.lua"] = {
+	lazy = true,
+	cmd = { "Copilot" },
+	event = "InsertEnter",
+	keys = {
+		{ "<C-d>", mode = "i" },
+		{ "<leader>cp", "<cmd>Copilot panel<cr>", desc = "open copilot side panel" },
+		{
+			"<leader>cc",
+			function()
+				require("copilot.suggestion").toggle_auto_trigger()
+				print("Copilot enabled:", vim.b.copilot_suggestion_auto_trigger)
+			end,
+			desc = "toggle copilot",
+		},
+	},
+	opts = {
+		panel = {
+			enabled = true,
+			auto_refresh = true,
+			layout = {
+				position = "right", -- | top | left | right
+			},
+		},
+		suggestion = {
+			keymap = {
+				accept = "<C-f>", -- like fish
+				next = "<C-d>", -- also triggers when not on auto
+				prev = "<C-s>",
+			},
+		},
+	},
+}

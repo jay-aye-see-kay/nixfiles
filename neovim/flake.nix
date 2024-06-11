@@ -139,6 +139,7 @@
             friendly-snippets
             hover-nvim
             outline-nvim
+            copilot-lua
 
             lualine-nvim
             lualine-lsp-progress # switch back to fidget?
