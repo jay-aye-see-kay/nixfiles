@@ -44,3 +44,9 @@ vim.opt.scrolloff = 4
 vim.opt.sidescrolloff = 4
 
 vim.opt.jumpoptions = "stack"
+
+vim.filetype.add({
+	filename = {
+		["devbox.json"] = "jsonc",
+	},
+})
