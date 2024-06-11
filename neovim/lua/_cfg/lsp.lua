@@ -87,6 +87,16 @@ for _, lsp in pairs(lsp_servers) do
 	})
 end
 
+-- {{{ markdown_oxide setup
+local markdown_oxide_capabilities =
+	require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+markdown_oxide_capabilities.workspace = { didChangeWatchedFiles = { dynamicRegistration = true } }
+require("lspconfig").markdown_oxide.setup({
+	capabilities = markdown_oxide_capabilities,
+	on_attach = on_attach,
+})
+-- }}}
+
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "rounded",
 })
@@ -181,7 +191,7 @@ cmp.setup({
 		}),
 	}),
 	sources = cmp.config.sources({
-		{ name = "nvim_lsp" },
+		{ name = "nvim_lsp", option = { markdown_oxide = { keyword_pattern = [[\(\k\| \|\/\|#\)\+]] } } },
 		{ name = "luasnip" },
 		{ name = "nvim_lua" },
 	}, {

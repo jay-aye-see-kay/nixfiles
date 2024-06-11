@@ -22,6 +22,10 @@
       url = "github:Glench/Vim-Jinja2-Syntax";
       flake = false;
     };
+    "plugin:toggle-checkbox.nvim" = {
+      url = "github:opdavies/toggle-checkbox.nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
@@ -133,7 +137,6 @@
             nvim-autopairs
             null-ls-nvim
             friendly-snippets
-            mkdnflow-nvim
             hover-nvim
             outline-nvim
 
@@ -193,6 +196,7 @@
             sumneko-lua-language-server
             ruff
             terraform-ls
+            markdown-oxide
 
             # Formatters
             black

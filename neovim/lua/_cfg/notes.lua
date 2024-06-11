@@ -1,28 +1,11 @@
 local plugins = require("nln").plugins
 local h = require("_cfg.helpers")
 
--- notes/wiki {{{
-plugins["mkdnflow.nvim"] = {
+plugins["toggle-checkbox.nvim"] = {
 	lazy = true,
-	ft = { "markdown" },
-	opts = {
-		modules = {
-			bib = false,
-			folds = false,
-		},
-		to_do = {
-			symbols = { " ", "-", "x" },
-			update_parents = false,
-			not_started = " ",
-			complete = "x",
-		},
-		mappings = {
-			MkdnGoBack = false,
-			MkdnGoForward = false,
-			MkdnYankAnchorLink = false,
-			MkdnFoldSection = false,
-			MkdnUnfoldSection = false,
-		},
+	cmd = "ToggleCheckbox",
+	keys = {
+		{ "\\\\", "<cmd>lua require('toggle-checkbox').toggle()<cr>", desc = "Toggle Checkbox" },
 	},
 }
 
@@ -69,7 +52,6 @@ local function open_logbook_cmd(days_from_today)
 	end
 end
 
--- }}}
 vim.api.nvim_create_user_command("LogbookToday", open_logbook_cmd(), {})
 vim.api.nvim_create_user_command("LogbookYesterday", open_logbook_cmd(-1), {})
 vim.api.nvim_create_user_command("LogbookTomorrow", open_logbook_cmd(1), {})
