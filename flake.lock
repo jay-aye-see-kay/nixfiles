@@ -48,11 +48,12 @@
         "plugin:advanced-git-search-nvim": "plugin:advanced-git-search-nvim",
         "plugin:bats-nvim": "plugin:bats-nvim",
         "plugin:gp-nvim": "plugin:gp-nvim",
+        "plugin:toggle-checkbox.nvim": "plugin:toggle-checkbox.nvim",
         "plugin:vim-jinja2-syntax": "plugin:vim-jinja2-syntax"
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-8Rtgww1HbUXNw+gjrsOLRPPAsIepTeipG8VXBL0ZsUM=",
+        "narHash": "sha256-lMnxj/25KAnCqYBpYkhaUfNnDR8s3iUo3e4ys7okx+Q=",
         "path": "./neovim",
         "type": "path"
       },
@@ -170,6 +171,22 @@
       "original": {
         "owner": "Robitx",
         "repo": "gp.nvim",
+        "type": "github"
+      }
+    },
+    "plugin:toggle-checkbox.nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1703353613,
+        "narHash": "sha256-4YSEagQnLK5MBl2z53e6sOBlCDm220GYVlc6A+HNywg=",
+        "owner": "opdavies",
+        "repo": "toggle-checkbox.nvim",
+        "rev": "58f958a2dcfb974963d4bb772ad8c3d8a1c62774",
+        "type": "github"
+      },
+      "original": {
+        "owner": "opdavies",
+        "repo": "toggle-checkbox.nvim",
         "type": "github"
       }
     },
