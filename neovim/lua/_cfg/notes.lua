@@ -60,29 +60,19 @@ h.autocmd({ "FileType" }, {
 	end,
 })
 
-local function open_logbook(days_from_today)
-	local date_offset = (days_from_today or 0) * 24 * 60 * 60
-	local filename = os.date("%Y-%m-%d-%A", os.time() + date_offset) .. ".md"
-	local todays_journal_file = "~/notes/logbook/" .. filename
-	vim.cmd("edit " .. todays_journal_file)
+local function open_logbook_cmd(days_from_today)
+	return function()
+		local date_offset = (days_from_today or 0) * 24 * 60 * 60
+		local filename = os.date("%Y-%m-%d-%A", os.time() + date_offset) .. ".md"
+		local todays_journal_file = "~/notes/logbook/" .. filename
+		vim.cmd("edit " .. todays_journal_file)
+	end
 end
 
-function LogbookToday()
-	open_logbook()
-end
-
-function LogbookYesterday()
-	open_logbook(-1)
-end
-
-function LogbookTomorrow()
-	open_logbook(1)
-end
-
-vim.cmd([[command! LogbookToday :call v:lua.LogbookToday()]])
-vim.cmd([[command! LogbookYesterday :call v:lua.LogbookYesterday()]])
-vim.cmd([[command! LogbookTomorrow :call v:lua.LogbookTomorrow()]])
 -- }}}
+vim.api.nvim_create_user_command("LogbookToday", open_logbook_cmd(), {})
+vim.api.nvim_create_user_command("LogbookYesterday", open_logbook_cmd(-1), {})
+vim.api.nvim_create_user_command("LogbookTomorrow", open_logbook_cmd(1), {})
 
 -- markdown notes experiment
 H = {
