@@ -2,8 +2,6 @@ local plugins = require("nln").plugins
 local h = require("_cfg.helpers")
 
 plugins["neo-tree.nvim"] = {
-	lazy = true,
-	cmd = "Neotree",
 	opts = {
 		window = {
 			position = "left",
