@@ -38,3 +38,12 @@ require("lazy").setup(plugins:for_lazy(), {
 require("_cfg.keymaps")
 require("_cfg.lsp")
 require("_cfg.snippets")
+
+-- debug command that prints all plugins (show prob be part of nln)
+vim.api.nvim_create_user_command("ListPlugins", function(opts)
+	for key, _ in pairs(require("nln").plugins) do
+		if opts.args and key:find(opts.args) then
+			print(key)
+		end
+	end
+end, { nargs = "?" })
