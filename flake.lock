@@ -48,12 +48,11 @@
         "plugin:advanced-git-search-nvim": "plugin:advanced-git-search-nvim",
         "plugin:bats-nvim": "plugin:bats-nvim",
         "plugin:gp-nvim": "plugin:gp-nvim",
-        "plugin:render-markdown": "plugin:render-markdown",
         "plugin:vim-jinja2-syntax": "plugin:vim-jinja2-syntax"
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-AeXb076hTLlk8IJatP0hRSh7heIL7aR/5Jm24mgvHFU=",
+        "narHash": "sha256-8Rtgww1HbUXNw+gjrsOLRPPAsIepTeipG8VXBL0ZsUM=",
         "path": "./neovim",
         "type": "path"
       },
@@ -171,22 +170,6 @@
       "original": {
         "owner": "Robitx",
         "repo": "gp.nvim",
-        "type": "github"
-      }
-    },
-    "plugin:render-markdown": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1717891749,
-        "narHash": "sha256-/qxbE/k26zTEoTXTGuo9DIv9gqHy5G9mme0DE1167z4=",
-        "owner": "MeanderingProgrammer",
-        "repo": "markdown.nvim",
-        "rev": "0adb35cc190d682d689a1a8415d5980c92708403",
-        "type": "github"
-      },
-      "original": {
-        "owner": "MeanderingProgrammer",
-        "repo": "markdown.nvim",
         "type": "github"
       }
     },
