@@ -20,7 +20,7 @@ let
 in
 platformSpecificPackages ++ [
   # shells
-  bash
+  bashInteractive
   fish
   nushell
 
