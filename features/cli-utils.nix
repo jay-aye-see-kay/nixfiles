@@ -26,7 +26,7 @@ platformSpecificPackages ++ [
 
   # working with json
   jq # query json
-  yq # jq for yaml
+  yq-go # jq for yaml
   jid # incrementally narrow json
   jiq # jid with jq syntax
   jc # parse common cli outputs to json
