@@ -9,6 +9,7 @@ h.autocmd({ "ColorScheme" }, {
 		copy_color("DiffAdd", "diffAdded")
 		copy_color("DiffDelete", "diffRemoved")
 		copy_color("DiffChange", "diffChanged")
+		vim.api.nvim_set_hl(0, "@markup.quote", {})
 	end,
 })
 
