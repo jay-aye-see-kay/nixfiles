@@ -47,13 +47,14 @@
         "nixpkgs": "nixpkgs",
         "plugin:advanced-git-search-nvim": "plugin:advanced-git-search-nvim",
         "plugin:bats-nvim": "plugin:bats-nvim",
+        "plugin:decisive.nvim": "plugin:decisive.nvim",
         "plugin:gp-nvim": "plugin:gp-nvim",
         "plugin:toggle-checkbox.nvim": "plugin:toggle-checkbox.nvim",
         "plugin:vim-jinja2-syntax": "plugin:vim-jinja2-syntax"
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-oojJjQktEwNB3pA9O/fG8Vs04IDXgNtxNH/ugaghZkg=",
+        "narHash": "sha256-KAVmSgbwohSSB8TpY8ecTsozekQzuh7U1OKYSibu8Gc=",
         "path": "./neovim",
         "type": "path"
       },
@@ -155,6 +156,22 @@
       "original": {
         "owner": "aliou",
         "repo": "bats.vim",
+        "type": "github"
+      }
+    },
+    "plugin:decisive.nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1718475536,
+        "narHash": "sha256-Zcn5kqdI2to+bhJ10FZmpCfN33OaK1HgiHc7D7cS0Tw=",
+        "owner": "emmanueltouzery",
+        "repo": "decisive.nvim",
+        "rev": "53a1e1a715fd93ccb5d705181413f726b4276431",
+        "type": "github"
+      },
+      "original": {
+        "owner": "emmanueltouzery",
+        "repo": "decisive.nvim",
         "type": "github"
       }
     },

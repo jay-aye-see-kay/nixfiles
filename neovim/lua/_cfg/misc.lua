@@ -108,3 +108,11 @@ plugins["text-case.nvim"] = {
 		"TextCaseStartReplacingCommand",
 	},
 }
+
+plugins["decisive.nvim"] = {
+	lazy = true,
+	ft = { "csv" },
+	keys = {
+		{ "\\v", ":lua require('decisive').align_csv({})<cr>", desc = "Align CSV" },
+	},
+}

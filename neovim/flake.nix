@@ -26,6 +26,10 @@
       url = "github:opdavies/toggle-checkbox.nvim";
       flake = false;
     };
+    "plugin:decisive.nvim" = {
+      url = "github:emmanueltouzery/decisive.nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
