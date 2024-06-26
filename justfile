@@ -22,7 +22,7 @@ update-one:
   echo "---"
   nix flake lock --update-input $CHOSEN
 
-switch:
+switch: update-neovim
   #!/bin/sh
   if [ "$(uname)" = "Darwin" ]; then
     home-manager switch --flake ".#$(whoami)@$(hostname)"
@@ -30,7 +30,7 @@ switch:
     nixos-rebuild --use-remote-sudo switch --flake .#
   fi
 
-build:
+build: update-neovim
   #!/bin/sh
   if [ "$(uname)" = "Darwin" ]; then
     home-manager build --flake ".#$(whoami)@$(hostname)"
