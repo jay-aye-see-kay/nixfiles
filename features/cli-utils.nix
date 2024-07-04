@@ -55,6 +55,7 @@ platformSpecificPackages ++ [
   atool # uncompress or compress common formats with a common interface
   unzip
   pigz
+  usql # decent universal db cli
 
   # dashboards
   htop
