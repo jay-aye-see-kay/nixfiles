@@ -58,7 +58,7 @@ in
     printing.enable = true;
     avahi = {
       enable = true;
-      nssmdns = true;
+      nssmdns4 = true;
       openFirewall = true;
     };
 
@@ -129,7 +129,7 @@ in
 
     (pkgs.symlinkJoin {
       name = "dbeaver";
-      paths = [ pkgs.dbeaver ];
+      paths = [ pkgs.dbeaver-bin ];
       buildInputs = [ pkgs.makeWrapper ];
       postBuild = ''
         wrapProgram $out/bin/dbeaver --unset WAYLAND_DISPLAY
