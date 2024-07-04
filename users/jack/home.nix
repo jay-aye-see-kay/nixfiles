@@ -5,7 +5,7 @@ let
     aws-vault
     grantedWithFish
     istioctl
-    rtx
+    mise
     jira-cli-go
     unstable.localsend
     unstable.aerospace
@@ -110,14 +110,10 @@ in
         # Make `Option` key behave as `Alt` (macOS only):
         window.option_as_alt = "OnlyRight";
 
-        key_bindings = [
+        keyboard.bindings = [
           # Don't quit on Cmd-W it's annoying
           # Unfortunately it will still quit on Cmd-Q and this can't be disabled, see https://github.com/alacritty/alacritty/issues/6136
           { key = "W"; mods = "Command"; action = "None"; }
-
-          # https://stackoverflow.com/a/42461580
-          { key = "Return"; mods = "Shift"; chars = ''\x1b[13;2u''; }
-          { key = "Return"; mods = "Control"; chars = ''\x1b[13;5u''; }
         ];
 
         # from: https://github.com/catppuccin/alacritty/blob/main/catppuccin-mocha.yml

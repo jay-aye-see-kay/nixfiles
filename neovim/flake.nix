@@ -187,7 +187,7 @@
             nodePackages.bash-language-server
             nodePackages.dockerfile-language-server-nodejs
             nodePackages.eslint_d
-            nodePackages.pyright
+            pyright
             nodePackages.typescript
             nodePackages.typescript-language-server
             nodePackages.vim-language-server

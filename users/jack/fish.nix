@@ -93,7 +93,7 @@ in
       end
       set -x GRANTED_ALIAS_CONFIGURED true
     '' + (if isDarwin then ''
-      ${pkgs.rtx}/bin/rtx activate fish | source
+      ${pkgs.mise}/bin/mise activate fish | source
     '' else "");
 
     plugins = [
