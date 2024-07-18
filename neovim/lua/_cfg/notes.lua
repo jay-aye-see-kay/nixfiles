@@ -46,8 +46,8 @@ h.autocmd({ "FileType" }, {
 local function open_logbook_cmd(days_from_today)
 	return function()
 		local date_offset = (days_from_today or 0) * 24 * 60 * 60
-		local filename = os.date("%Y-%m-%d-%A", os.time() + date_offset) .. ".md"
-		local todays_journal_file = "~/notes/logbook/" .. filename
+		local filename = os.date("%Y-%m-%d", os.time() + date_offset) .. ".md"
+		local todays_journal_file = "~/obsidian/notes/daily/" .. filename
 		vim.cmd("edit " .. todays_journal_file)
 	end
 end
