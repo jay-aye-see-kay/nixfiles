@@ -94,6 +94,18 @@ in
       set -x GRANTED_ALIAS_CONFIGURED true
     '' + (if isDarwin then ''
       ${pkgs.mise}/bin/mise activate fish | source
+
+      # homebrew stuff (generated with /opt/homebrew/bin/brew shellenv)
+      #
+      set -gx HOMEBREW_NO_ANALYTICS "1"
+      # this part generated with /opt/homebrew/bin/brew shellenv
+      #
+      set -gx HOMEBREW_PREFIX "/opt/homebrew";
+      set -gx HOMEBREW_CELLAR "/opt/homebrew/Cellar";
+      set -gx HOMEBREW_REPOSITORY "/opt/homebrew";
+      fish_add_path -gP "/opt/homebrew/bin" "/opt/homebrew/sbin";
+      set -q MANPATH; and set MANPATH[1] ":$(string trim --left --chars=":" $MANPATH[1])";
+      ! set -q INFOPATH; and set INFOPATH ""; set -gx INFOPATH "/opt/homebrew/share/info" $INFOPATH;
     '' else "");
 
     plugins = [
@@ -115,11 +127,11 @@ in
     loginShellInit =
       if isDarwin then ''
         if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-          fenv source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+        fenv source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
         end
 
         if test -e /nix/var/nix/profiles/default/etc/profile.d/nix.sh
-          fenv source /nix/var/nix/profiles/default/etc/profile.d/nix.sh
+        fenv source /nix/var/nix/profiles/default/etc/profile.d/nix.sh
         end
       '' else "";
   };
