@@ -59,13 +59,6 @@ plugins["hover.nvim"] = {
 	end,
 	keys = {
 		{
-			"K",
-			function()
-				require("hover").hover()
-			end,
-			desc = "hover.nvim",
-		},
-		{
 			"gK",
 			function()
 				require("hover").hover_select()
