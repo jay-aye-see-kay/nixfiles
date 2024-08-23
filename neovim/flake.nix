@@ -30,6 +30,10 @@
       url = "github:emmanueltouzery/decisive.nvim";
       flake = false;
     };
+    "plugin:which-key.nvim" = {
+      url = "github:folke/which-key.nvim/v2.1.0";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
@@ -165,7 +169,6 @@
 
             nvim-colorizer-lua
             undotree
-            which-key-nvim
             neodev-nvim
 
             nvim-surround
