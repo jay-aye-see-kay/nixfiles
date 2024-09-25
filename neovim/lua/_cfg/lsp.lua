@@ -51,11 +51,9 @@ end
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-require("typescript").setup({
-	server = {
-		on_attach = on_attach,
-		capabilities = capabilities,
-	},
+require("typescript-tools").setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
 })
 
 for _, lsp in pairs(lsp_servers) do

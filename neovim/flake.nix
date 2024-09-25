@@ -121,7 +121,7 @@
 
             # langs
             vim-caddyfile
-            typescript-nvim
+            typescript-tools-nvim
 
             nvim-treesitter
             nvim-treesitter-textobjects
