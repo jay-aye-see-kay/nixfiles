@@ -33,9 +33,7 @@
               username = "jack";
               stateVersion = "22.05";
               homeDirectory = "/Users/jack";
-              packages = (import ./features/cli-utils.nix { inherit pkgs; }) ++ [
-                pkgs.silk-cli
-              ];
+              packages = import ./features/cli-utils.nix { inherit pkgs; };
             };
           })
         ];

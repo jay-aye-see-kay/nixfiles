@@ -33,24 +33,6 @@
     customNodePackages = import ./node-packages/default.nix { pkgs = prev; };
 
     grantedWithFish = prev.unstable.granted.override { withFish = true; };
-
-    # silk-cli (only used on cultureamp laptop)
-    silk-cli =
-      let
-        version = "2.28.0";
-        rev = "6e2bbcb5e4852041ac85ebaf7f0504fd3a3ade71";
-      in
-      prev.buildGoModule rec {
-        inherit version;
-        pname = "silk";
-        src = builtins.fetchGit {
-          inherit rev;
-          url = "ssh://git@github.com/cultureamp/silk.git";
-        };
-        ldflags = [ "-s" "-w" "-X main.version=${version}" "-X main.commit=${rev}" "-X main.builtBy=nix" ];
-        # To get a new sha: `vendorHash = prev.lib.fakeSha256`
-        vendorHash = "sha256-/1u/CDc0GNPQqv6gYE9x0Y+ZvtURXgurJssUZiJUlo0=";
-      };
   };
 
   #
