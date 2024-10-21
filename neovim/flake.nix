@@ -2,7 +2,7 @@
   description = "A configured Neovim flake";
 
   inputs = {
-    nixpkgs.url = "github:jay-aye-see-kay/nixpkgs/add-aerospace";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
 
     # Plugins direct from their repos

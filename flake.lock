@@ -55,7 +55,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-UtPvvhj7zBAfkYoS7q+EPTFe2oSDoBbDwenSaxttBkw=",
+        "narHash": "sha256-SOw+bVMJSxyHlAQICWNNIWHUApnGItcJY1Y99jeT+QE=",
         "path": "./neovim",
         "type": "path"
       },
@@ -82,32 +82,32 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1727245288,
-        "narHash": "sha256-TcFQsuhMm8wGRSUAoiKssj15iZe+OImTI/0qIW0I478=",
-        "owner": "jay-aye-see-kay",
+        "lastModified": 1729256560,
+        "narHash": "sha256-/uilDXvCIEs3C9l73JTACm4quuHUsIHcns1c+cHUJwA=",
+        "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "b804e8de6b4603aa94d00871fe56abae6e2659e5",
+        "rev": "4c2fcb090b1f3e5b47eaa7bd33913b574a11e0a0",
         "type": "github"
       },
       "original": {
-        "owner": "jay-aye-see-kay",
-        "ref": "add-aerospace",
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1727245288,
-        "narHash": "sha256-TcFQsuhMm8wGRSUAoiKssj15iZe+OImTI/0qIW0I478=",
-        "owner": "jay-aye-see-kay",
+        "lastModified": 1729256560,
+        "narHash": "sha256-/uilDXvCIEs3C9l73JTACm4quuHUsIHcns1c+cHUJwA=",
+        "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "b804e8de6b4603aa94d00871fe56abae6e2659e5",
+        "rev": "4c2fcb090b1f3e5b47eaa7bd33913b574a11e0a0",
         "type": "github"
       },
       "original": {
-        "owner": "jay-aye-see-kay",
-        "ref": "add-aerospace",
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }

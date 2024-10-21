@@ -8,7 +8,6 @@ let
     mise
     jira-cli-go
     unstable.localsend
-    unstable.aerospace
   ];
   linuxOnlyPackages = with pkgs; [
     awscli2
