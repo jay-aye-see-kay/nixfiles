@@ -40,6 +40,25 @@ plugins["gp-nvim"] = {
 			openai_api_key = { "cat", vim.fn.stdpath("config") .. "/openai_api_key" },
 			chat_dir = gp_chat_dir,
 			chat_conceal_model_params = false,
+			agents = {
+				{ name = "ChatGPT4o-mini", disable = true },
+				{
+					provider = "openai",
+					name = "CodeGPT4o",
+					chat = true,
+					command = false,
+					model = { model = "gpt-4o" },
+					system_prompt = "You are a helpful AI assistant",
+				},
+				{
+					provider = "copilot",
+					name = "ChatCopilot",
+					chat = true,
+					command = false,
+					model = { model = "gpt-4o" },
+					system_prompt = "You are a helpful AI assistant",
+				},
+			},
 		})
 
 		local function keymapOptions(desc)
