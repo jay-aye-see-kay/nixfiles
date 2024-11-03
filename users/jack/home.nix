@@ -40,7 +40,6 @@ in
 {
   imports = [
     ./fish.nix
-    ./launchd.nix
   ];
 
   home.sessionVariables = {
