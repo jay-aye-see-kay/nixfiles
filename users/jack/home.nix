@@ -131,6 +131,7 @@ in
         push.default = "current";
         init.defaultBranch = "main";
         github.user = "jay-aye-see-kay";
+        url."ssh://git@github.com/".insteadOf = "https://github.com/";
       };
       aliases = {
         aa = "add .";
