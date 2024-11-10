@@ -108,6 +108,10 @@ in
       32412 # plex network discovery
       32413 # plex network discovery
       32414 # plex network discovery
+      8096 # jellyfin http
+      8920 # jellyfin https
+      1900 # jellyfin service discovery
+      7359 # jellyfin client discovery
     ];
     allowedTCPPorts = [
       53 # dns
@@ -118,6 +122,10 @@ in
       8080 # kodi
       8443 # matrix-synapse
       32400 # plex
+      8096 # jellyfin http
+      8920 # jellyfin https
+      1900 # jellyfin service discovery
+      7359 # jellyfin client discovery
     ];
   };
 
