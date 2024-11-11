@@ -196,7 +196,7 @@
             nodePackages.vim-language-server
             nodePackages.vscode-langservers-extracted
             nodePackages.yaml-language-server
-            nil # nix lsp
+            nixd
             rubyPackages.solargraph
             rust-analyzer
             shellcheck
