@@ -118,7 +118,7 @@ in
     wireshark-cli
     mullvad-vpn
     pulsemixer
-    qbittorrent
+    unstable.qbittorrent
     flyctl
     zathura
     vimiv-qt

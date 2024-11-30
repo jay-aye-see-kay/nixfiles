@@ -2,7 +2,7 @@
 {
   environment.systemPackages = with pkgs; [
     prismlauncher # minecraft launcher
-    unstable.openra
+    # unstable.openra # disabled because dotnet marked insecure
   ];
 
   programs.steam = {
