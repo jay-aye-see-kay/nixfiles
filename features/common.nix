@@ -5,7 +5,7 @@
   # - delete generations older than a month, that's plenty for rollbacks
   # - auto-optimise-store sounds good too
   nix = {
-    package = pkgs.nixFlakes;
+    package = pkgs.nixVersions.stable;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';

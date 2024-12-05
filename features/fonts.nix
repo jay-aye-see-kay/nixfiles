@@ -18,7 +18,7 @@
       liberation_ttf
       nerdfonts
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       proggyfonts
       ubuntu_font_family
