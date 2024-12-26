@@ -89,6 +89,7 @@ in
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  services.openssh.settings.PasswordAuthentication = false;
 
   # https://nixos.wiki/wiki/Binary_Cache
   services.nix-serve = {
