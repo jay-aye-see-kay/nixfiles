@@ -14,6 +14,7 @@
       dates = "weekly";
       options = "--delete-older-than 30d";
     };
+    settings.trusted-users = [ "root" "jack" ];
     settings.auto-optimise-store = true;
   };
 
