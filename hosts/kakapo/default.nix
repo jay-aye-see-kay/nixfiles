@@ -36,6 +36,7 @@ in
         authorizedKeys = [
           publicKeys.tuiJack
           publicKeys.deskJack
+          publicKeys.iSH
         ];
       };
       postCommands = ''
@@ -63,6 +64,7 @@ in
     openssh.authorizedKeys.keys = [
       publicKeys.tuiJack
       publicKeys.deskJack
+      publicKeys.iSH
     ];
   };
 
