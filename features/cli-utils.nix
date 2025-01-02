@@ -47,6 +47,8 @@ platformSpecificPackages ++ [
   pwgen
   nmap
   wget
+  tmux
+  screen
 
   tldr # sometimes better docs
 
