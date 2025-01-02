@@ -76,7 +76,6 @@ plugins["telescope.nvim"] = {
 		telescope.load_extension("undo")
 		telescope.load_extension("zoxide")
 		telescope.load_extension("live_grep_args")
-		telescope.load_extension("advanced_git_search")
 	end,
 }
 
@@ -89,10 +88,4 @@ vim.keymap.set(
 	"<leader>fa",
 	"<cmd>Telescope live_grep_args live_grep_args<cr>",
 	{ desc = "🔭 full text search" }
-)
-vim.keymap.set(
-	"n",
-	"<leader>fG",
-	"<cmd>Telescope advanced_git_search search_log_content<cr>",
-	{ desc = "🔭 search git commit lines" }
 )

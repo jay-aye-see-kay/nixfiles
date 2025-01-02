@@ -20,33 +20,17 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1732758367,
-        "narHash": "sha256-RzaI1RO0UXqLjydtz3GAXSTzHkpb/lLD1JD8a0W4Wpo=",
+        "lastModified": 1735471104,
+        "narHash": "sha256-0q9NGQySwDQc7RhAV2ukfnu7Gxa5/ybJ2ANT8DQrQrs=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "fa42b5a5f401aab8a32bd33c9a4de0738180dc59",
+        "rev": "88195a94f390381c6afcdaa933c2f6ff93959cb4",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
         "ref": "nixos-unstable",
         "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "plugin:advanced-git-search-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1725269419,
-        "narHash": "sha256-YF/cN3FwH/ADeY3fIHs4FRFwXb+g/HzjEV2YKr8WF3o=",
-        "owner": "aaronhallaert",
-        "repo": "advanced-git-search.nvim",
-        "rev": "1c5a10f5c838cfad2c17d7464311d6fb416cb319",
-        "type": "github"
-      },
-      "original": {
-        "owner": "aaronhallaert",
-        "repo": "advanced-git-search.nvim",
         "type": "github"
       }
     },
@@ -151,7 +135,6 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
-        "plugin:advanced-git-search-nvim": "plugin:advanced-git-search-nvim",
         "plugin:bats-nvim": "plugin:bats-nvim",
         "plugin:decisive.nvim": "plugin:decisive.nvim",
         "plugin:gp-nvim": "plugin:gp-nvim",

@@ -6,10 +6,6 @@
     flake-utils.url = "github:numtide/flake-utils";
 
     # Plugins direct from their repos
-    "plugin:advanced-git-search-nvim" = {
-      url = "github:aaronhallaert/advanced-git-search.nvim";
-      flake = false;
-    };
     "plugin:gp-nvim" = {
       url = "github:Robitx/gp.nvim";
       flake = false;

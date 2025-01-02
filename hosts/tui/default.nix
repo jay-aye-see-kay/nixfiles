@@ -126,7 +126,7 @@ in
     telegram-desktop
     unstable.localsend
     unstable.obsidian
-    unstable.jetbrains.idea-community
+    unstable.ghostty
 
     (pkgs.symlinkJoin {
       name = "dbeaver";
