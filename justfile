@@ -8,7 +8,7 @@ update:
   nix flake update
 
 update-neovim:
-  nix flake lock --update-input neovim-flake
+  nix flake update neovim-flake
 
 update-one:
   #!/bin/sh
@@ -20,7 +20,7 @@ update-one:
   echo "---"
   echo "Updating ${CHOSEN}..."
   echo "---"
-  nix flake lock --update-input $CHOSEN
+  nix flake update $CHOSEN
 
 switch: update-neovim
   #!/bin/sh
