@@ -12,6 +12,8 @@ in
       gs = "git status";
       gpr = "git pull --rebase";
       gpu = "git push -u";
+      gd = "git diff";
+      gdm = "git diff (git merge-base (git guess-default-branch) HEAD)";
       g- = "git checkout -";
       s = "systemctl";
       j = "just";
@@ -20,6 +22,10 @@ in
       y = "yarn";
       p = "pnpm";
       d = "docker";
+      k = "kubectl";
+      ka = "kubectl apply -f";
+      kp = "kubectl get pod";
+      ki = "kubectl cluster-info";
       dc = "docker-compose";
       dcu = "docker-compose up -d";
       dcd = "docker-compose down";
@@ -94,6 +100,11 @@ in
       set -x GRANTED_ALIAS_CONFIGURED true
     '' + (if isDarwin then ''
       ${pkgs.mise}/bin/mise activate fish | source
+
+      if test -f $HOME/.rd/bin
+          # rancher's docker binaries
+          fish_add_path $HOME/.rd/bin
+      end
 
       # homebrew stuff (generated with /opt/homebrew/bin/brew shellenv)
       #
