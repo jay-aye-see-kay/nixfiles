@@ -101,7 +101,7 @@ in
     '' + (if isDarwin then ''
       ${pkgs.mise}/bin/mise activate fish | source
 
-      if test -f $HOME/.rd/bin
+      if test -d $HOME/.rd/bin
           # rancher's docker binaries
           fish_add_path $HOME/.rd/bin
       end
