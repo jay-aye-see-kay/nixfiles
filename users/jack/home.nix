@@ -98,6 +98,11 @@ in
     navi.enable = true;
     navi.enableFishIntegration = true;
 
+    atuin.enable = true;
+    atuin.settings = {
+      enter_accept = false;
+    };
+
     alacritty = {
       enable = true;
       settings = {
