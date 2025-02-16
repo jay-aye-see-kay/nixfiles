@@ -8,6 +8,7 @@ let
     mise
     jira-cli-go
     unstable.localsend
+    google-cloud-sdk
   ];
   linuxOnlyPackages = with pkgs; [
     awscli2
