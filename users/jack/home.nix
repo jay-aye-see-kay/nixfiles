@@ -2,12 +2,9 @@
 let
   ifDarwin = lib.mkIf pkgs.stdenv.isDarwin;
   darwinOnlyPackages = with pkgs; [
-    aws-vault
     grantedWithFish
-    istioctl
     mise
     jira-cli-go
-    unstable.localsend
     google-cloud-sdk
   ];
   linuxOnlyPackages = with pkgs; [
@@ -91,7 +88,7 @@ in
     zoxide.enableFishIntegration = true;
 
     fzf.enable = true;
-    fzf.enableFishIntegration = true;
+    fzf.enableFishIntegration = false;
 
     starship.enable = true;
     starship.enableFishIntegration = true;
@@ -103,6 +100,9 @@ in
     atuin.settings = {
       enter_accept = false;
     };
+    atuin.flags = [
+      "--disable-up-arrow"
+    ];
 
     alacritty = {
       enable = true;
