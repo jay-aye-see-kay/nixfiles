@@ -26,26 +26,9 @@ require("neodev").setup({
 	end,
 })
 
-local lsp_augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local function on_attach(client, bufnr)
 	if client.server_capabilities.documentSymbolProvider then
 		require("nvim-navic").attach(client, bufnr)
-	end
-	-- autoformat document with null-ls if setup
-	if client.supports_method("textDocument/formatting") then
-		vim.api.nvim_clear_autocmds({ group = lsp_augroup, buffer = bufnr })
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			group = lsp_augroup,
-			buffer = bufnr,
-			callback = function()
-				vim.lsp.buf.format({
-					bufnr = bufnr,
-					filter = function(fmt_client)
-						return fmt_client.name == "null-ls"
-					end,
-				})
-			end,
-		})
 	end
 end
 
@@ -97,50 +80,6 @@ require("lspconfig").markdown_oxide.setup({
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "rounded",
-})
-
--- @param severity "ERROR"| "WARN"| "INFO"| "HINT"
-local force_diagnostic_severity = function(severity)
-	return function(diagnostic)
-		diagnostic.severity = vim.diagnostic.severity[severity]
-	end
-end
-local null_ls = require("null-ls")
-null_ls.setup({
-	sources = {
-		-- lua
-		null_ls.builtins.formatting.stylua,
-		-- nix
-		null_ls.builtins.code_actions.statix,
-		null_ls.builtins.diagnostics.statix,
-		null_ls.builtins.formatting.nixpkgs_fmt,
-		-- js/ts
-		null_ls.builtins.formatting.prettierd,
-		null_ls.builtins.code_actions.eslint_d,
-		null_ls.builtins.diagnostics.eslint_d.with({
-			method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-			diagnostics_postprocess = force_diagnostic_severity("INFO"),
-			filter = function(diagnostic)
-				if diagnostic.message then
-					return diagnostic.message:lower():match("no eslint configuration found") == nil
-				else
-					return true
-				end
-			end,
-		}),
-		-- shell
-		null_ls.builtins.code_actions.shellcheck,
-		null_ls.builtins.diagnostics.shellcheck.with({
-			diagnostics_postprocess = force_diagnostic_severity("INFO"),
-		}),
-		null_ls.builtins.formatting.shfmt.with({
-			extra_args = { "--indent", "2" },
-		}),
-		-- python
-		null_ls.builtins.diagnostics.ruff,
-		null_ls.builtins.formatting.black,
-		null_ls.builtins.formatting.isort,
-	},
 })
 
 vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<cr>", { desc = "Goto/find definitions" })

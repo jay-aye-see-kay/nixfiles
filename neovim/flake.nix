@@ -139,7 +139,7 @@
             lspkind-nvim
             luasnip
             nvim-autopairs
-            null-ls-nvim
+            conform-nvim
             friendly-snippets
             hover-nvim
             outline-nvim
