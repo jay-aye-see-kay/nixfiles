@@ -99,6 +99,7 @@ in
     atuin.enable = true;
     atuin.settings = {
       enter_accept = false;
+      daemon.enabled = pkgs.stdenv.isLinux; # quick hack
     };
     atuin.flags = [
       "--disable-up-arrow"

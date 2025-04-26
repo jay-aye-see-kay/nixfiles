@@ -97,6 +97,23 @@ in
       startAt = "daily";
     };
 
+  # zfs/sqlite perf issue
+  # https://github.com/atuinsh/atuin/issues/952
+  systemd.user.services.atuin-daemon = {
+    enable = true;
+    description = "Atuin daemon service";
+    after = [ "network.target" ];
+    startLimitIntervalSec = 0;
+    wantedBy = [ "default.target" ];
+    serviceConfig = {
+      Type = "simple";
+      Restart = "always";
+      RestartSec = 1;
+      ExecStart = "${pkgs.atuin}/bin/atuin daemon";
+    };
+  };
+
+
   virtualisation.docker.enable = true;
   virtualisation.docker.storageDriver = "zfs";
 
