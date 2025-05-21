@@ -32,7 +32,7 @@
     # stuff from npm
     customNodePackages = import ./node-packages/default.nix { pkgs = prev; };
 
-    grantedWithFish = prev.unstable.granted.override { withFish = true; };
+    grantedWithFish = prev.granted.override { withFish = true; };
   };
 
   #
