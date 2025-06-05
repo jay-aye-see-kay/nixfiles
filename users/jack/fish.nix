@@ -73,7 +73,7 @@ in
       inflate = "${pkgs.pigz}/bin/pigz --decompress --zlib --stdout";
 
       assume = lib.mkIf isDarwin
-        "source ${pkgs.grantedWithFish}/share/assume.fish";
+        "source ${pkgs.granted}/share/assume.fish";
       granted-refresh = lib.mkIf isDarwin
         "granted sso populate --sso-region us-west-2 https://cultureamp.awsapps.com/start";
     };

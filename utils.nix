@@ -31,8 +31,6 @@
   myPkgsOverlay = final: prev: {
     # stuff from npm
     customNodePackages = import ./node-packages/default.nix { pkgs = prev; };
-
-    grantedWithFish = prev.granted.override { withFish = true; };
   };
 
   #

@@ -2,7 +2,7 @@
 let
   ifDarwin = lib.mkIf pkgs.stdenv.isDarwin;
   darwinOnlyPackages = with pkgs; [
-    grantedWithFish
+    granted
     mise
     jira-cli-go
     google-cloud-sdk
