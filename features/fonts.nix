@@ -16,12 +16,16 @@
       hack-font
       inconsolata
       liberation_ttf
-      nerdfonts
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-emoji
       proggyfonts
       ubuntu_font_family
+
+      nerd-fonts.fira-code
+      nerd-fonts.fira-mono
+      nerd-fonts.dejavu-sans-mono
+      nerd-fonts.noto
     ];
 
     # fontconfig = {
