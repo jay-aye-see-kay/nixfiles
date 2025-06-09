@@ -147,22 +147,6 @@ in
     HandleLidSwitchDocked=ignore
   '';
 
-  # zfs/sqlite perf issue
-  # https://github.com/atuinsh/atuin/issues/952
-  systemd.user.services.atuin-daemon = {
-    enable = true;
-    description = "Atuin daemon service";
-    after = [ "network.target" ];
-    startLimitIntervalSec = 0;
-    wantedBy = [ "default.target" ];
-    serviceConfig = {
-      Type = "simple";
-      Restart = "always";
-      RestartSec = 1;
-      ExecStart = "${pkgs.atuin}/bin/atuin daemon";
-    };
-  };
-
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

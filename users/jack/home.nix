@@ -104,6 +104,7 @@ in
     atuin.flags = [
       "--disable-up-arrow"
     ];
+    atuin.daemon.enable = pkgs.stdenv.isLinux;
 
     alacritty = {
       enable = true;
