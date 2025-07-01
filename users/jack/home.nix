@@ -92,6 +92,9 @@ in
 
     starship.enable = true;
     starship.enableFishIntegration = true;
+    starship.settings = {
+      gcloud.disabled = true;
+    };
 
     navi.enable = true;
     navi.enableFishIntegration = true;
