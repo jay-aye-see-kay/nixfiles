@@ -143,7 +143,10 @@
             friendly-snippets
             hover-nvim
             outline-nvim
+
             copilot-lua
+            codecompanion-nvim
+            codecompanion-history-nvim
 
             lualine-nvim
             lualine-lsp-progress # switch back to fidget?

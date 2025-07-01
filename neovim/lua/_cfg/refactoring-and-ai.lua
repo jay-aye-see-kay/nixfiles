@@ -147,3 +147,8 @@ plugins["copilot.lua"] = {
 		},
 	},
 }
+
+plugins["codecompanion.nvim"] = {
+	event = "VeryLazy",
+	opts = {},
+}
