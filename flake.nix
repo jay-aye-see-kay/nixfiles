@@ -9,9 +9,6 @@
 
     flake-utils.url = "github:numtide/flake-utils";
     mac-app-util.url = "github:hraban/mac-app-util";
-
-    neovim-flake.url = "path:./neovim";
-    neovim-flake.inputs.flake-utils.follows = "flake-utils";
   };
 
   outputs = { nixpkgs, nixos-hardware, home-manager, mac-app-util, ... }@inputs:

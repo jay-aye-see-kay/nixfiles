@@ -2,7 +2,7 @@
 # This file is only useful for the main flake.nix file, it expects the flake inputs
 # as it's parameter
 #
-{ nixpkgs, nixpkgs-unstable, neovim-flake, ... }: rec {
+{ nixpkgs, nixpkgs-unstable, ... }: rec {
   #
   # list of systems this config can support
   #
@@ -51,7 +51,6 @@
       overlays = [
         nixpkgs-unstable-overlay
         myPkgsOverlay
-        neovim-flake.overlays.${system}.default
       ];
     };
 
@@ -73,7 +72,6 @@
         overlays = [
           nixpkgs-unstable-overlay
           myPkgsOverlay
-          neovim-flake.overlays.${system}.default
         ];
       };
     };

@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 let
   ifDarwin = lib.mkIf pkgs.stdenv.isDarwin;
   darwinOnlyPackages = with pkgs; [
@@ -40,6 +40,14 @@ in
     ./fish.nix
   ];
 
+  home.activation = {
+    directlink = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+      ''
+        $DRY_RUN_CMD ln -sfv $HOME/nixfiles/nvim $HOME/.config/nvim
+      ''
+    );
+  };
+
   home.sessionVariables = {
     EDITOR = "nvim";
     RIPGREP_CONFIG_PATH = "$HOME/.config/ripgreprc";
@@ -53,7 +61,7 @@ in
 
   home.packages = with pkgs;
     [
-      mainNeovim
+      neovim
       gh
       manix
       trash-cli

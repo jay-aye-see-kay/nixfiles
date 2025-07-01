@@ -51,7 +51,7 @@
     docker-compose
     firefox
     home-manager
-    mainNeovim
+    neovim
     zathura
     valgrind
     massif-visualizer
