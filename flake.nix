@@ -47,6 +47,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           (mkPkgCfg system)
+          ./modules
           ./hosts/moa
           ./features/common.nix
           ./features/fonts.nix
@@ -78,15 +79,16 @@
         modules = [
           (mkPkgCfg system)
           nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
+          ./modules
           ./hosts/tui
           ./features/common.nix
           ./features/firefox.nix
           ./features/fonts.nix
-          ./features/games.nix
           ./features/gui-utils.nix
           ./features/key-remapping.nix
           ./features/sway-desktop.nix
           ./features/syncthing.nix
+          { features.games.enable = true; }
           home-manager.nixosModules.home-manager
           {
             home-manager = {
@@ -112,6 +114,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           (mkPkgCfg system)
+          ./modules
           ./hosts/kakapo
           ./features/common.nix
           ./features/key-remapping.nix
