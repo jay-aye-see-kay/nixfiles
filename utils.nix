@@ -26,14 +26,6 @@
     mySystems);
 
   #
-  # adding stuff that's not in nixpkgs
-  #
-  myPkgsOverlay = final: prev: {
-    # stuff from npm
-    customNodePackages = import ./node-packages/default.nix { pkgs = prev; };
-  };
-
-  #
   # Build `pkgs` with my overlays for a given system
   #
   mkPkgs = system:
@@ -50,7 +42,6 @@
       config = { allowUnfree = true; };
       overlays = [
         nixpkgs-unstable-overlay
-        myPkgsOverlay
         neovim-flake.overlays.${system}.default
       ];
     };
@@ -72,7 +63,6 @@
         config.allowUnfree = true;
         overlays = [
           nixpkgs-unstable-overlay
-          myPkgsOverlay
           neovim-flake.overlays.${system}.default
         ];
       };
