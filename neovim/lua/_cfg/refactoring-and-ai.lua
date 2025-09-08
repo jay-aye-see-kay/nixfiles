@@ -36,27 +36,46 @@ plugins["gp-nvim"] = {
 	event = "VeryLazy",
 	config = function()
 		local gp_chat_dir = os.getenv("HOME") .. "/Documents/gp-chats"
+		local get_secret_cmd = "cat ~/.config/github-copilot/apps.json | sed -e 's/.*oauth_token...//;s/\".*//'"
 		require("gp").setup({
-			openai_api_key = { "cat", vim.fn.stdpath("config") .. "/openai_api_key" },
 			chat_dir = gp_chat_dir,
 			chat_conceal_model_params = false,
+			providers = {
+				openai = { disable = true },
+				copilot = {
+					-- disable = false,
+					endpoint = "https://api.githubcopilot.com/chat/completions",
+					secret = { "bash", "-c", get_secret_cmd },
+				},
+			},
 			agents = {
-				{ name = "ChatGPT4o-mini", disable = true },
+				{ name = "CodeCopilot", disable = true },
+				{ name = "CodeGPT-o3-mini", disable = true },
+				{ name = "CodeGPT4o", disable = true },
+				{ name = "CodeGPT4o-mini", disable = true },
 				{
-					provider = "openai",
-					name = "CodeGPT4o",
+					provider = "copilot",
+					name = "claude-sonnet-4",
 					chat = true,
 					command = false,
-					model = { model = "gpt-4o" },
-					system_prompt = "You are a helpful AI assistant",
+					model = { model = "claude-sonnet-4" },
+					system_prompt = "You are an expert AI programming assistant",
 				},
 				{
 					provider = "copilot",
-					name = "ChatCopilot",
+					name = "gemini-2.5-pro",
 					chat = true,
 					command = false,
-					model = { model = "gpt-4o" },
-					system_prompt = "You are a helpful AI assistant",
+					model = { model = "gemini-2.5-pro" },
+					system_prompt = "You are an expert AI programming assistant",
+				},
+				{
+					provider = "copilot",
+					name = "gpt-5",
+					chat = true,
+					command = false,
+					model = { model = "gpt-5" },
+					system_prompt = "You are an expert AI programming assistant",
 				},
 			},
 		})
