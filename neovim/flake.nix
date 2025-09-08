@@ -107,7 +107,10 @@
             dressing-nvim
             vim-repeat
 
-            nvim-dap
+            (nvim-dap.overrideAttrs {
+              # required for nix update, unsure why, hopefully a short term workaround
+              nvimSkipModules = [ "dap.health" ];
+            })
             nvim-dap-ui
             nvim-nio
             nvim-dap-virtual-text
