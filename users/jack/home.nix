@@ -72,6 +72,8 @@ in
       unstable.yt-dlp
       ffmpeg
 
+      unstable.opencode
+
       (writeShellScriptBin
         "git-guess-default-branch"
         (builtins.readFile ../../scripts/guess-default-branch.sh))
