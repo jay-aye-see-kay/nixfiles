@@ -10,7 +10,6 @@
     ];
 
   hardware.graphics.extraPackages = [
-    pkgs.intel-compute-runtime # intel opencl support
     pkgs.intel-media-driver # intel vaapi support
   ];
 
