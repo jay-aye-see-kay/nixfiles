@@ -79,7 +79,7 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     age
-    smallNeovim
+    neovim
     arion # for running web services
     unstable.docker
     unstable.docker-compose

@@ -53,7 +53,7 @@ in
 
   home.packages = with pkgs;
     [
-      mainNeovim
+      neovim
       gh
       manix
       trash-cli
