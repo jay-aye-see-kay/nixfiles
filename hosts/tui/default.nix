@@ -127,6 +127,7 @@ in
     unstable.localsend
     unstable.obsidian
     unstable.ghostty
+    stow
 
     (pkgs.symlinkJoin {
       name = "dbeaver";
