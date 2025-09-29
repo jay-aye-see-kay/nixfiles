@@ -138,8 +138,8 @@ in
       '';
     })
 
-    (vscode-with-extensions.override {
-      vscodeExtensions = with vscode-extensions; [
+    (unstable.vscode-with-extensions.override {
+      vscodeExtensions = with unstable.vscode-extensions; [
         github.copilot
         github.copilot-chat
         jnoortheen.nix-ide
