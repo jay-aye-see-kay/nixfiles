@@ -54,14 +54,6 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
--- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
--- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
--- is not what someone will guess without a bit more experience.
---
--- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
--- or just use <C-\><C-n> to exit terminal mode
-vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
-
 -- Keybinds to make split navigation easier.
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
@@ -611,32 +603,9 @@ require("lazy").setup({
 		--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 	},
 
-	-- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
-	-- init.lua. If you want these files, they are in the repository, so you can just download them and
-	-- place them in the correct locations.
-
-	-- NOTE: Next step on your Neovim journey: Add/Configure additional plugins for Kickstart
-	--
-	--  Here are some example plugins that I've included in the Kickstart repository.
-	--  Uncomment any of the lines below to enable them (you will need to restart nvim).
-	--
-	-- require 'kickstart.plugins.debug',
-	-- require 'kickstart.plugins.indent_line',
-	-- require 'kickstart.plugins.lint',
-	-- require 'kickstart.plugins.autopairs',
-	-- require 'kickstart.plugins.neo-tree',
 	require("kickstart.plugins.git"),
-
-	-- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-	--    This is the easiest way to modularize your config.
-	--
-	--  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-	-- { import = 'custom.plugins' },
-	--
-	-- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
-	-- Or use telescope!
-	-- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
-	-- you can continue same window with `<space>sr` which resumes last telescope search
+	require("kickstart.plugins.notes"),
+	require("kickstart.plugins.file-tree"),
 })
 
 local function make_directed_maps(key_prefix, command_desc, command)
@@ -669,6 +638,7 @@ make_directed_maps("ny", "Yesterday's notepad", "LogbookYesterday")
 make_directed_maps("nt", "Tomorrow's notepad", "LogbookTomorrow")
 make_directed_maps("e", "File explorer", "Neotree reveal current")
 
+-- {{{ notes
 local function open_logbook_cmd(days_from_today)
 	return function()
 		local date_offset = (days_from_today or 0) * 24 * 60 * 60
@@ -681,5 +651,52 @@ end
 vim.api.nvim_create_user_command("LogbookToday", open_logbook_cmd(), {})
 vim.api.nvim_create_user_command("LogbookYesterday", open_logbook_cmd(-1), {})
 vim.api.nvim_create_user_command("LogbookTomorrow", open_logbook_cmd(1), {})
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "markdown", "md" },
+	callback = function()
+		vim.wo.foldlevel = 99
+		vim.wo.foldmethod = "expr"
+		vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "text", "markdown", "md" },
+	callback = function()
+		vim.opt_local.wrap = true
+	end,
+})
+-- }}}
+
+-- {{{ terminal
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
+vim.api.nvim_create_autocmd("TermEnter", {
+	command = "setlocal winhighlight=Normal:ActiveTerm",
+})
+vim.api.nvim_create_autocmd("TermLeave", {
+	command = "setlocal winhighlight=Normal:NC",
+})
+
+vim.api.nvim_create_autocmd("TermOpen", {
+	callback = function()
+		-- {{{ might not need these anymore?
+		-- -- stops terminal side scrolling
+		-- vim.cmd([[ setlocal nonumber norelativenumber signcolumn=no ]])
+		-- -- put this back to default
+		-- vim.opt.scrolloff = 0
+		-- vim.opt.sidescrolloff = 1
+		-- }}}
+
+		-- ctrl-c, ctrl-p, ctrl-n, enter should all be passed through from normal mode
+		vim.keymap.set("n", "<C-c>", [[ i<C-c><C-\><C-n> ]], { buffer = 0 })
+		vim.keymap.set("n", "<C-n>", [[ i<C-n><C-\><C-n> ]], { buffer = 0 })
+		vim.keymap.set("n", "<C-p>", [[ i<C-p><C-\><C-n> ]], { buffer = 0 })
+		vim.keymap.set("n", "<CR>", [[ i<CR><C-\><C-n> ]], { buffer = 0 })
+	end,
+})
+
+-- }}}
 
 -- vim: ts=2 sts=2 sw=2 et
