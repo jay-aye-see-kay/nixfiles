@@ -639,4 +639,47 @@ require("lazy").setup({
 	-- you can continue same window with `<space>sr` which resumes last telescope search
 })
 
+local function make_directed_maps(key_prefix, command_desc, command)
+	local directions = {
+		left = { key = "h", description = "to left", command_prefix = "aboveleft vsplit" },
+		right = { key = "l", description = "to right", command_prefix = "belowright vsplit" },
+		above = { key = "k", description = "above", command_prefix = "aboveleft split" },
+		below = { key = "j", description = "below", command_prefix = "belowright split" },
+		in_place = { key = ".", description = "in place", command_prefix = nil },
+		tab = { key = ",", description = "in new tab", command_prefix = "tabnew" },
+	}
+
+	for _, d in pairs(directions) do
+		local full_description = command_desc .. " " .. d.description
+
+		local full_command = "<CMD>"
+		if d.command_prefix then
+			full_command = full_command .. d.command_prefix .. " | "
+		end
+		full_command = full_command .. command .. "<CR>"
+
+		vim.keymap.set("n", "<leader>" .. key_prefix .. d.key, full_command, { desc = full_description })
+	end
+end
+
+make_directed_maps("g", "Git Status", "Gedit :")
+make_directed_maps("t", "New terminal", "terminal")
+make_directed_maps("n", "Today's notepad", "LogbookToday")
+make_directed_maps("ny", "Yesterday's notepad", "LogbookYesterday")
+make_directed_maps("nt", "Tomorrow's notepad", "LogbookTomorrow")
+make_directed_maps("e", "File explorer", "Neotree reveal current")
+
+local function open_logbook_cmd(days_from_today)
+	return function()
+		local date_offset = (days_from_today or 0) * 24 * 60 * 60
+		local filename = os.date("%Y-%m-%d", os.time() + date_offset) .. ".md"
+		local todays_journal_file = "~/obsidian/notes/daily/" .. filename
+		vim.cmd("edit " .. todays_journal_file)
+	end
+end
+
+vim.api.nvim_create_user_command("LogbookToday", open_logbook_cmd(), {})
+vim.api.nvim_create_user_command("LogbookYesterday", open_logbook_cmd(-1), {})
+vim.api.nvim_create_user_command("LogbookTomorrow", open_logbook_cmd(1), {})
+
 -- vim: ts=2 sts=2 sw=2 et
