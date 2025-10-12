@@ -84,6 +84,7 @@
           ./features/key-remapping.nix
           ./features/sway-desktop.nix
           ./features/syncthing.nix
+          ./features/nvim-extras.nix
           home-manager.nixosModules.home-manager
           {
             home-manager = {
