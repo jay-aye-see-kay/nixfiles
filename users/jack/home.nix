@@ -3,7 +3,7 @@ let
   ifDarwin = lib.mkIf pkgs.stdenv.isDarwin;
   darwinOnlyPackages = with pkgs; [
     granted
-    mise
+    unstable.mise
     jira-cli-go
     google-cloud-sdk
   ];
