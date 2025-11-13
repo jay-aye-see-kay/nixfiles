@@ -202,10 +202,11 @@
             rust-analyzer
             shellcheck
             statix
-            sumneko-lua-language-server
+            lua-language-server
             ruff
             terraform-ls
             markdown-oxide
+            templ
 
             # Formatters
             black

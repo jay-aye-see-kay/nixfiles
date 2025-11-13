@@ -1,20 +1,38 @@
 -- lsp {{{
 local lsp_servers = {
-	"bashls",
-	"cssls",
-	"dockerls",
-	"gopls",
-	"html",
-	"jsonls",
-	"lua_ls",
-	"nixd",
-	"pyright",
-	"rust_analyzer",
-	"solargraph",
-	"tailwindcss",
-	"terraformls",
-	"vimls",
-	"yamlls",
+	bashls = {},
+	cssls = {},
+	dockerls = {},
+	gopls = {},
+	html = {},
+	jsonls = {
+		settings = {
+			validate = { enable = true },
+			schemas = require("schemastore").json.schemas(),
+		},
+	},
+	lua_ls = {
+		settings = {
+			Lua = {
+				runtime = { version = "LuaJIT" },
+				diagnostics = { globals = { "vim" } },
+				workspace = { checkThirdParty = false },
+				telemetry = { enable = false },
+			},
+		},
+	},
+	nixd = {},
+	pyright = {},
+	rust_analyzer = {},
+	solargraph = {},
+	tailwindcss = {},
+	terraformls = {},
+	vimls = {},
+	yamlls = {
+		settings = {
+			schemas = require("schemastore").yaml.schemas(),
+		},
+	},
 }
 
 require("neodev").setup({
@@ -39,43 +57,22 @@ require("typescript-tools").setup({
 	capabilities = capabilities,
 })
 
-for _, lsp in pairs(lsp_servers) do
-	local settings = {}
-	if lsp == "jsonls" then
-		settings.json = {
-			validate = { enable = true },
-			schemas = require("schemastore").json.schemas(),
-		}
-	elseif lsp == "yamlls" then
-		settings = {
-			yaml = {
-				schemas = require("schemastore").yaml.schemas(),
-			},
-		}
-	elseif lsp == "lua_ls" then
-		settings.Lua = {
-			runtime = { version = "LuaJIT" },
-			diagnostics = { globals = { "vim" } },
-			workspace = { checkThirdParty = false },
-			telemetry = { enable = false },
-		}
-	end
-
-	require("lspconfig")[lsp].setup({
-		settings = settings,
-		on_attach = on_attach,
-		capabilities = capabilities,
-	})
+for name, config in pairs(lsp_servers) do
+	config.on_attach = on_attach
+	config.capabilities = capabilities
+	vim.lsp.config(name, config)
+	vim.lsp.enable(name)
 end
 
 -- {{{ markdown_oxide setup
 local markdown_oxide_capabilities =
 	require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 markdown_oxide_capabilities.workspace = { didChangeWatchedFiles = { dynamicRegistration = true } }
-require("lspconfig").markdown_oxide.setup({
+vim.lsp.config("markdown_oxide", {
 	capabilities = markdown_oxide_capabilities,
 	on_attach = on_attach,
 })
+vim.lsp.enable("markdown_oxide")
 -- }}}
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
