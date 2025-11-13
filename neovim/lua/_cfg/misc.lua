@@ -10,12 +10,6 @@ plugins["outline.nvim"] = {
 	},
 }
 
-plugins["leap.nvim"] = {
-	config = function()
-		require("leap").create_default_mappings()
-	end,
-}
-
 plugins["nvim-ts-autotag"] = {
 	event = "VeryLazy",
 	opts = {},

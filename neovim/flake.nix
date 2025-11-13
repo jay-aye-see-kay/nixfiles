@@ -97,7 +97,6 @@
             nvim-unception
 
             mini-nvim
-            leap-nvim
 
             # dependencies
             plenary-nvim
