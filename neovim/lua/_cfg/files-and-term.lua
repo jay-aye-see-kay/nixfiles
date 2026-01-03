@@ -126,7 +126,7 @@ plugins["oil.nvim"] = {
 }
 
 -- {{{ terminal
-vim.keymap.set("t", "<ESC>", [[<C-\><C-n>]])
+vim.keymap.set("t", "<ESC><ESC>", [[<C-\><C-n>]])
 
 h.autocmd({ "TermEnter" }, {
 	command = "setlocal winhighlight=Normal:ActiveTerm",
