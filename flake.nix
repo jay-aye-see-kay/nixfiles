@@ -8,13 +8,12 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-utils.url = "github:numtide/flake-utils";
-    mac-app-util.url = "github:hraban/mac-app-util";
 
     neovim-flake.url = "path:./neovim";
     neovim-flake.inputs.flake-utils.follows = "flake-utils";
   };
 
-  outputs = { nixpkgs, nixos-hardware, home-manager, mac-app-util, ... }@inputs:
+  outputs = { nixpkgs, nixos-hardware, home-manager, ... }@inputs:
     let
       inherit ((import ./utils.nix inputs)) mkPkgs mkPkgCfg eachMySystem;
       username = "jack";
@@ -27,7 +26,6 @@
       homeConfigurations."${username}@jjack-XMW16X" = mkHmConfig {
         pkgs = mkPkgs "aarch64-darwin";
         modules = [
-          mac-app-util.homeManagerModules.default
           ./users/jack/home.nix
           ({ pkgs, ... }: {
             nix.registry.nixpkgs.flake = inputs.nixpkgs;
