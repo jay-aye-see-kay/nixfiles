@@ -28,8 +28,9 @@ let
     unstable.cargo
     unstable.clippy
 
-    # use yarn installed pnpm on work laptop
+    # use yarn installed on work laptop
     nodePackages_latest.pnpm
+    unstable.opencode
 
     # use the script installed version on mac (to keep in sync others at work)
     unstable.devbox
@@ -71,8 +72,6 @@ in
       exercism
       unstable.yt-dlp
       ffmpeg
-
-      unstable.opencode
 
       (writeShellScriptBin
         "git-guess-default-branch"
