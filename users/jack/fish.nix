@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, pkgs-unstable, lib, ... }:
 let
   inherit (pkgs.stdenv) isDarwin;
 in
@@ -99,7 +99,7 @@ in
       end
       set -x GRANTED_ALIAS_CONFIGURED true
     '' + (if isDarwin then ''
-      ${pkgs.unstable.mise}/bin/mise activate fish | source
+      ${pkgs-unstable.mise}/bin/mise activate fish | source
 
       if test -d $HOME/.rd/bin
           # rancher's docker binaries

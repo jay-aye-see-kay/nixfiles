@@ -21,10 +21,14 @@
         { }
         mySystems);
 
-      # Overlay to provide unstable packages
-      unstableOverlay = system: final: prev: {
-        unstable = import nixpkgs-unstable {
-          inherit system;
+      # Import unstable once per system (no overlay needed!)
+      pkgsUnstable = {
+        "x86_64-linux" = import nixpkgs-unstable {
+          system = "x86_64-linux";
+          config.allowUnfree = true;
+        };
+        "aarch64-darwin" = import nixpkgs-unstable {
+          system = "aarch64-darwin";
           config.allowUnfree = true;
         };
       };
@@ -37,7 +41,10 @@
         pkgs = import nixpkgs {
           system = "aarch64-darwin";
           config = { allowUnfree = true; };
-          overlays = [ (unstableOverlay "aarch64-darwin") ];
+          overlays = [ ];
+        };
+        extraSpecialArgs = {
+          pkgs-unstable = pkgsUnstable."aarch64-darwin";
         };
         modules = [
           ./users/jack/home.nix
@@ -58,14 +65,12 @@
       # home laptop (NixOS)
       nixosConfigurations.tui = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = {
+          inherit inputs;
+          pkgs-unstable = pkgsUnstable."x86_64-linux";
+        };
         modules = [
-          {
-            nixpkgs = {
-              config.allowUnfree = true;
-              overlays = [ (unstableOverlay system) ];
-            };
-          }
+          { nixpkgs.config.allowUnfree = true; }
           nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
           ./hosts/tui
           ./modules/nixos
@@ -84,6 +89,9 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
+              extraSpecialArgs = {
+                pkgs-unstable = pkgsUnstable."x86_64-linux";
+              };
               users.jack = {
                 imports = [
                   ./users/jack/home.nix

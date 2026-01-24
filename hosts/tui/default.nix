@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-unstable, ... }:
 let publicKeys = import ../../publicKeys.nix;
 in
 {
@@ -117,15 +117,15 @@ in
     wireshark-cli
     mullvad-vpn
     pulsemixer
-    unstable.qbittorrent
+    pkgs-unstable.qbittorrent
     flyctl
     zathura
     vimiv-qt
     imagemagick
     telegram-desktop
-    unstable.localsend
-    unstable.obsidian
-    unstable.ghostty
+    pkgs-unstable.localsend
+    pkgs-unstable.obsidian
+    pkgs-unstable.ghostty
 
     (pkgs.symlinkJoin {
       name = "dbeaver";

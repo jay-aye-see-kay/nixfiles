@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pkgs-unstable, ... }:
 with lib;
 let
   cfg = config.modules.devtools;
@@ -72,7 +72,7 @@ in
       exercism
 
       # Kubernetes
-      unstable.kubectl
+      pkgs-unstable.kubectl
 
       # LSPs
       godef
@@ -114,11 +114,11 @@ in
       aspellDicts.en
     ] ++ lib.optionals stdenv.isLinux [
       # Rust toolchain (only on Linux; use rustup on macOS due to Netskope issues)
-      unstable.rustc
-      unstable.rustfmt
-      unstable.cargo-edit
-      unstable.cargo
-      unstable.clippy
+      pkgs-unstable.rustc
+      pkgs-unstable.rustfmt
+      pkgs-unstable.cargo-edit
+      pkgs-unstable.cargo
+      pkgs-unstable.clippy
       rust-analyzer
 
       # Ruby tools (primarily needed on Linux)

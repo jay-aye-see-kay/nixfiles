@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pkgs-unstable, ... }:
 let
   cfg = config.modules.cli-utils;
 in
@@ -8,6 +8,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = import ../shared/cli-utils-packages.nix { inherit pkgs; };
+    home.packages = import ../shared/cli-utils-packages.nix { inherit pkgs pkgs-unstable; };
   };
 }

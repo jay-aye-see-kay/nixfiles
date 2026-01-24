@@ -1,27 +1,27 @@
-{ pkgs, lib, ... }:
+{ pkgs, pkgs-unstable, lib, ... }:
 let
   ifDarwin = lib.mkIf pkgs.stdenv.isDarwin;
-  darwinOnlyPackages = with pkgs; [
-    granted
-    unstable.mise
-    jira-cli-go
-    google-cloud-sdk
+  darwinOnlyPackages = [
+    pkgs.granted
+    pkgs-unstable.mise
+    pkgs.jira-cli-go
+    pkgs.google-cloud-sdk
   ];
-  linuxOnlyPackages = with pkgs; [
-    awscli2
-    arandr
-    gparted
-    easyeffects
-    imv
-    mpv
-    pdfarranger
-    prusa-slicer
-    syncthing
-    unstable.calibre
-    unstable.opencode
-    unstable.devbox
+  linuxOnlyPackages = [
+    pkgs.awscli2
+    pkgs.arandr
+    pkgs.gparted
+    pkgs.easyeffects
+    pkgs.imv
+    pkgs.mpv
+    pkgs.pdfarranger
+    pkgs.prusa-slicer
+    pkgs.syncthing
+    pkgs-unstable.calibre
+    pkgs-unstable.opencode
+    pkgs-unstable.devbox
 
-    clang # comes with xcode, things expect to use that version
+    pkgs.clang # comes with xcode, things expect to use that version
   ];
 in
 {
@@ -47,7 +47,7 @@ in
       trash-cli
       gnupg
 
-      unstable.yt-dlp
+      pkgs-unstable.yt-dlp
       ffmpeg
 
       (writeShellScriptBin
