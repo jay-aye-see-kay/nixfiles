@@ -1,6 +1,3 @@
-# Lazy.nvim plugin directory and lock file
-lazy-lock.json
-
 # Neovim state directories (shouldn't be here but just in case)
 plugin/
 undo/
