@@ -56,7 +56,7 @@ in
       xdg-utils # for opening default programs when clicking links
       glib # gsettings
       dracula-theme # gtk theme
-      swaylock-effects
+      swaylock
       swayidle
       grim # screenshot functionality
       slurp # screenshot functionality
