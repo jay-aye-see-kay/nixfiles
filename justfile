@@ -22,25 +22,20 @@ update-one:
   echo "---"
   nix flake update $CHOSEN
 
-# Stow neovim config to ~/.config/nvim
-stow-nvim:
-  stow -d stow -t ~ .
+stow:
+  stow -d ./dots -t ~ .
 
-# Remove stowed neovim config
-unstow-nvim:
-  stow -d stow -t ~ -D .
+unstow:
+  stow -d ./dots -t ~ -D .
 
-# Restow neovim config (useful after changes)
-restow-nvim:
-  stow -d stow -t ~ -R .
-
-switch: update-neovim stow-nvim
+switch: update-neovim
   #!/bin/sh
   if [ "$(uname)" = "Darwin" ]; then
     home-manager switch --flake ".#$(whoami)@$(hostname)"
   else
     nixos-rebuild --use-remote-sudo switch --flake .#
   fi
+  just stow
 
 build: update-neovim
   #!/bin/sh
