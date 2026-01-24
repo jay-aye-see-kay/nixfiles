@@ -18,6 +18,7 @@ in
       # Plugins managed by nix (stable, rarely change)
       plugins = with pkgs.vimPlugins; [
         lazy-nvim # Plugin manager
+        nvim-treesitter-textobjects # Treesitter textobjects extension
         (nvim-treesitter.withPlugins (p: with p; [
           bash
           c
