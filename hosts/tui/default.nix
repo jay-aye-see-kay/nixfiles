@@ -112,7 +112,6 @@ in
     libnotify
     libreoffice
     lm_sensors
-    nnvim
     slack
     wireshark
     wireshark-cli

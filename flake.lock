@@ -1,23 +1,5 @@
 {
   "nodes": {
-    "flake-utils": {
-      "inputs": {
-        "systems": "systems"
-      },
-      "locked": {
-        "lastModified": 1731533236,
-        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -39,29 +21,6 @@
         "type": "github"
       }
     },
-    "neovim-flake": {
-      "inputs": {
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": "nixpkgs",
-        "plugin:bats-nvim": "plugin:bats-nvim",
-        "plugin:decisive.nvim": "plugin:decisive.nvim",
-        "plugin:gp-nvim": "plugin:gp-nvim",
-        "plugin:toggle-checkbox.nvim": "plugin:toggle-checkbox.nvim",
-        "plugin:vim-jinja2-syntax": "plugin:vim-jinja2-syntax",
-        "plugin:which-key.nvim": "plugin:which-key.nvim"
-      },
-      "locked": {
-        "path": "./neovim",
-        "type": "path"
-      },
-      "original": {
-        "path": "./neovim",
-        "type": "path"
-      },
-      "parent": []
-    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1767185284,
@@ -80,16 +39,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1767116409,
-        "narHash": "sha256-5vKw92l1GyTnjoLzEagJy5V5mDFck72LiQWZSOnSicw=",
+        "lastModified": 1767313136,
+        "narHash": "sha256-16KkgfdYqjaeRGBaYsNrhPRRENs0qzkQVUooNHtoy2w=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "cad22e7d996aea55ecab064e84834289143e44a0",
+        "rev": "ac62194c3917d5f474c1a844b6fd6da2db95077d",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-unstable",
+        "ref": "nixos-25.05",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -110,142 +69,12 @@
         "type": "github"
       }
     },
-    "nixpkgs_2": {
-      "locked": {
-        "lastModified": 1767313136,
-        "narHash": "sha256-16KkgfdYqjaeRGBaYsNrhPRRENs0qzkQVUooNHtoy2w=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "ac62194c3917d5f474c1a844b6fd6da2db95077d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-25.05",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "plugin:bats-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1681058501,
-        "narHash": "sha256-oKdnWciaKyI7iaBSQ0DeG7ZQWmi9NlSVVZyeGCpAW84=",
-        "owner": "aliou",
-        "repo": "bats.vim",
-        "rev": "19eb3c5a05aaa889647af8107a4518b3fb4a4711",
-        "type": "github"
-      },
-      "original": {
-        "owner": "aliou",
-        "repo": "bats.vim",
-        "type": "github"
-      }
-    },
-    "plugin:decisive.nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1749120084,
-        "narHash": "sha256-uy+Nj+hfeei8nquZCzIxDYf1eQsaPMX26IMh/opOwG0=",
-        "owner": "emmanueltouzery",
-        "repo": "decisive.nvim",
-        "rev": "c401541b8429b787d7dcb441e43bee63fc94737c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "emmanueltouzery",
-        "repo": "decisive.nvim",
-        "type": "github"
-      }
-    },
-    "plugin:gp-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1754903071,
-        "narHash": "sha256-+K536d3WF5eHRTSgkhn1NLFHms67iw4A0Ql8OZ9TgTw=",
-        "owner": "Robitx",
-        "repo": "gp.nvim",
-        "rev": "c37f154b97690c4925fef4e35ffdbf2c844b5f4e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Robitx",
-        "repo": "gp.nvim",
-        "type": "github"
-      }
-    },
-    "plugin:toggle-checkbox.nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1703353613,
-        "narHash": "sha256-4YSEagQnLK5MBl2z53e6sOBlCDm220GYVlc6A+HNywg=",
-        "owner": "opdavies",
-        "repo": "toggle-checkbox.nvim",
-        "rev": "58f958a2dcfb974963d4bb772ad8c3d8a1c62774",
-        "type": "github"
-      },
-      "original": {
-        "owner": "opdavies",
-        "repo": "toggle-checkbox.nvim",
-        "type": "github"
-      }
-    },
-    "plugin:vim-jinja2-syntax": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1624372005,
-        "narHash": "sha256-57kZn10XBpCRRXsFSSEIUngdIJSj3cmNQHnkObj+ro4=",
-        "owner": "Glench",
-        "repo": "Vim-Jinja2-Syntax",
-        "rev": "2c17843b074b06a835f88587e1023ceff7e2c7d1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Glench",
-        "repo": "Vim-Jinja2-Syntax",
-        "type": "github"
-      }
-    },
-    "plugin:which-key.nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1717686444,
-        "narHash": "sha256-gc/WJJ1s4s+hh8Mx8MTDg8pGGNOXxgKqBMwudJtpO4Y=",
-        "owner": "folke",
-        "repo": "which-key.nvim",
-        "rev": "0539da005b98b02cf730c1d9da82b8e8edb1c2d2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "folke",
-        "ref": "v2.1.0",
-        "repo": "which-key.nvim",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
-        "flake-utils": "flake-utils",
         "home-manager": "home-manager",
-        "neovim-flake": "neovim-flake",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable"
-      }
-    },
-    "systems": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
       }
     }
   },
