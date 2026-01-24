@@ -9,8 +9,10 @@ return {
 	-- Main treesitter plugin (provided by nix, just configure it)
 	{
 		"nvim-treesitter/nvim-treesitter",
+		build = false, -- Parsers provided by nix
 		dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
 		config = function()
+			-- Note: No ensure_installed needed - all parsers provided by Nix
 			require("nvim-treesitter.configs").setup({
 				highlight = {
 					enable = true,
