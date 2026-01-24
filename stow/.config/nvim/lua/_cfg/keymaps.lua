@@ -1,2 +1,230 @@
--- Placeholder - will be converted in Phase 6
--- Basic keymaps (no plugin dependencies)
+local h = require("_cfg.helpers")
+
+-- Which-key and Hydra plugins
+local plugins = {
+	-- Which-key for keymap hints
+	{
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+		config = function()
+			local which_key = require("which-key")
+			which_key.setup({
+				plugins = {
+					spelling = { enabled = true },
+				},
+			})
+		end,
+	},
+
+	-- Hydra for sticky keymaps
+	{
+		"nvimtools/hydra.nvim",
+		event = "VeryLazy",
+	},
+}
+
+-- Keymaps configuration
+-- show the whichkey popup (i.e. which keymaps are available)
+vim.keymap.set({ "n", "v", "i" }, "<F1>", "<cmd>WhichKey<cr>")
+
+local directed_keymaps = {
+	git_status = h.make_directed_maps("Git Status", "Gedit :"),
+	new_terminal = h.make_directed_maps("New terminal", "terminal"),
+	todays_notepad = h.make_directed_maps("Today's notepad", "LogbookToday"),
+	yesterdays_notepad = h.make_directed_maps("Yesterday's notepad", "LogbookYesterday"),
+	tomorrows_notepad = h.make_directed_maps("Tomorrow's notepad", "LogbookTomorrow"),
+	file_explorer = h.make_directed_maps("File explorer", "Neotree reveal current"),
+}
+
+--- grep through old markdown notes
+local grep_notes = function()
+	require("telescope.builtin").live_grep({ cwd = "$HOME/notes" })
+end
+
+--- git files, falling back onto all files in cwd if not in a git repo
+local function project_files()
+	local ok = pcall(require("telescope.builtin").git_files)
+	if not ok then
+		require("telescope.builtin").find_files()
+	end
+end
+
+local main_keymap = {
+	lsp = {
+		name = "+lsp",
+		a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code action" },
+		r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename symbol" },
+		d = { "<cmd>Telescope lsp_document_diagnostics<cr>", "Show document diagnostics" },
+		D = { "<cmd>Telescope lsp_workspace_diagnostics<cr>", "Show workspace diagnostics" },
+		t = { "<cmd>TroubleToggle<cr>", "Show workspace diagnostics" },
+		i = { "<cmd>LspInfo<cr>", "Info" },
+		f = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format buffer with LSP" },
+	},
+	finder = {
+		name = "+find",
+		b = {
+			function()
+				require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true })
+			end,
+			"🔭 buffers (cwd only)",
+		},
+		B = {
+			function()
+				require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true, cwd_only = true })
+			end,
+			"🔭 buffers (cwd only)",
+		},
+		f = { "<cmd>Telescope find_files<cr>", "🔭 files" },
+		g = { project_files, "🔭 git files" },
+		h = {
+			function()
+				require("telescope.builtin").help_tags({ default_text = vim.fn.expand("<cword>") })
+			end,
+			"🔭 help tags",
+		},
+		c = { "<cmd>Telescope commands<cr>", "🔭 commands" },
+		o = { "<cmd>Telescope oldfiles<cr>", "🔭 oldfiles" },
+		l = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "🔭 buffer lines" },
+		w = { "<cmd>Telescope spell_suggest<cr>", "🔭 spelling suggestions" },
+		u = { "<cmd>Telescope grep_string<cr>", "🔭 word under cursor" },
+		n = { grep_notes, "🔭 search all notes" },
+		i = {
+			name = "+in",
+			o = {
+				function()
+					require("telescope.builtin").live_grep({ grep_open_files = true })
+				end,
+				"🔭 in open buffers",
+			},
+		},
+	},
+	git = h.merge(directed_keymaps.git_status, {
+		name = "+git",
+		g = { "<Cmd>Telescope git_commits<CR>", "🔭 commits" },
+		c = { "<Cmd>Telescope git_bcommits<CR>", "🔭 buffer commits" },
+		b = { "<Cmd>Telescope git_branches<CR>", "🔭 branches" },
+	}),
+	terminal = h.merge(directed_keymaps.new_terminal, {
+		name = "+terminal",
+	}),
+	explorer = h.merge(directed_keymaps.file_explorer, {
+		name = "+file explorer",
+		e = { "<cmd>Neotree toggle<cr>", "toggle side file tree" },
+	}),
+	notes = h.merge(directed_keymaps.todays_notepad, {
+		name = "+notes",
+		f = { grep_notes, "🔭 search all notes" },
+		y = h.merge(directed_keymaps.yesterdays_notepad, {
+			name = "+Yesterday' notepad",
+		}),
+		t = h.merge(directed_keymaps.tomorrows_notepad, {
+			name = "+Tomorrow' notepad",
+		}),
+	}),
+	misc = {
+		name = "+misc",
+		p = {
+			function()
+				vim.api.nvim_win_set_width(0, 60)
+				vim.api.nvim_win_set_option(0, "winfixwidth", true)
+			end,
+			"pin window to edge",
+		},
+		P = {
+			function()
+				vim.api.nvim_win_set_option(0, "winfixwidth", false)
+			end,
+			"unpin window",
+		},
+	},
+}
+
+vim.opt.timeoutlen = 250
+
+-- Register keymaps with which-key (after plugin loads)
+vim.api.nvim_create_autocmd("VimEnter", {
+	callback = function()
+		local which_key = require("which-key")
+
+		which_key.add({
+			{ "<leader>e", group = main_keymap.explorer.name },
+			{ "<leader>f", group = main_keymap.finder.name },
+			{ "<leader>g", group = main_keymap.git.name },
+			{ "<leader>l", group = main_keymap.lsp.name },
+			{ "<leader>t", group = main_keymap.terminal.name },
+			{ "<leader>n", group = main_keymap.notes.name },
+			{ "<leader>m", group = main_keymap.misc.name },
+		})
+
+		-- Register all nested keymaps
+		for prefix, group in pairs(main_keymap) do
+			for key, value in pairs(group) do
+				if type(value) == "table" and value[1] ~= nil then
+					which_key.add({
+						{ "<leader>" .. prefix:sub(1, 1) .. key, value[1], desc = value[2] },
+					})
+				end
+			end
+		end
+
+		-- Quick keymaps with comma prefix
+		which_key.add({
+			{ ",", group = "quick keymaps" },
+			{ ",b", main_keymap.finder.b[1], desc = main_keymap.finder.b[2] },
+			{ ",B", main_keymap.finder.B[1], desc = main_keymap.finder.B[2] },
+			{ ",l", main_keymap.finder.l[1], desc = main_keymap.finder.l[2] },
+			{ ",f", main_keymap.finder.f[1], desc = main_keymap.finder.f[2] },
+			{ ",o", main_keymap.finder.o[1], desc = main_keymap.finder.o[2] },
+			{ ",.", main_keymap.explorer["."][1], desc = main_keymap.explorer["."][2] },
+		})
+	end,
+})
+
+-- Hydra keymaps (after Hydra loads)
+vim.api.nvim_create_autocmd("VimEnter", {
+	callback = function()
+		local Hydra = require("hydra")
+		Hydra({
+			name = "Side scroll",
+			mode = "n",
+			body = "z",
+			heads = {
+				{ "h", "5zh" },
+				{ "l", "5zl", { desc = "←/→" } },
+				{ "H", "zH" },
+				{ "L", "zL", { desc = "half screen ←/→" } },
+			},
+		})
+		Hydra({
+			name = "Window resizing",
+			mode = "n",
+			body = "<c-w>",
+			heads = {
+				{ "+", "5<c-w>+" },
+				{ "-", "5<c-w>-" },
+				{ "<", "5<c-w><" },
+				{ ">", "5<c-w>>" },
+				{ "=", "<C-w>=" },
+			},
+		})
+		local function tab_func(cmd, arg)
+			return function()
+				pcall(vim.cmd[cmd], arg)
+				require("lualine").refresh()
+			end
+		end
+		Hydra({
+			name = "Windows and tabs",
+			mode = "n",
+			body = "<leader>w",
+			heads = {
+				{ "l", tab_func("tabnext"), { desc = "next tab" } },
+				{ "h", tab_func("tabprevious"), { desc = "prev tab" } },
+				{ "L", tab_func("tabmove", "+1"), { desc = "move tab right" } },
+				{ "H", tab_func("tabmove", "-1"), { desc = "move tab left" } },
+			},
+		})
+	end,
+})
+
+return plugins
