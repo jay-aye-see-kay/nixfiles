@@ -1,4 +1,4 @@
-local h = require("_cfg.helpers")
+local h = require("config.helpers")
 
 -- Colorscheme post-load autocmd
 h.autocmd({ "ColorScheme" }, {
