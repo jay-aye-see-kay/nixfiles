@@ -18,22 +18,10 @@ let
     prusa-slicer
     syncthing
     unstable.calibre
+    unstable.opencode
+    unstable.devbox
 
     clang # comes with xcode, things expect to use that version
-
-    # use rustup on mac (because netskope)
-    unstable.rustc
-    unstable.rustfmt
-    unstable.cargo-edit
-    unstable.cargo
-    unstable.clippy
-
-    # use yarn installed on work laptop
-    nodePackages_latest.pnpm
-    unstable.opencode
-
-    # use the script installed version on mac (to keep in sync others at work)
-    unstable.devbox
   ];
 in
 {
@@ -42,9 +30,9 @@ in
   ];
 
   home.sessionVariables = {
-    EDITOR = "nvim";
     RIPGREP_CONFIG_PATH = "$HOME/.config/ripgreprc";
     DIRENV_LOG_FORMAT = "";
+    # EDITOR is set by devtools module if enabled
   };
 
   xdg.configFile."ripgreprc".text = ''
@@ -54,22 +42,12 @@ in
 
   home.packages = with pkgs;
     [
-      mainNeovim
+      mainNeovim # TODO: will be renamed to nnvim in next phase
       gh
       manix
       trash-cli
-      (python3.withPackages (ps: [ ps.ipykernel ]))
       gnupg
 
-      unstable.kubectl
-
-      nodejs
-      yarn
-
-      just
-      go
-
-      exercism
       unstable.yt-dlp
       ffmpeg
 
@@ -78,6 +56,9 @@ in
         (builtins.readFile ../../scripts/guess-default-branch.sh))
     ]
     ++ (if pkgs.stdenv.isLinux then linuxOnlyPackages else darwinOnlyPackages);
+  
+  # Development tools (LSPs, formatters, runtimes, etc) are in ../features/devtools.nix
+  # Enable per-host in flake.nix by setting features.devtools.enable = true;
 
   programs = {
     home-manager.enable = true;

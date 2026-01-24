@@ -27,8 +27,10 @@
         pkgs = mkPkgs "aarch64-darwin";
         modules = [
           ./users/jack/home.nix
+          ./features/devtools.nix
           ({ pkgs, ... }: {
             nix.registry.nixpkgs.flake = inputs.nixpkgs;
+            features.devtools.enable = true;
             home = {
               username = "jack";
               stateVersion = "22.05";
@@ -59,7 +61,9 @@
                 imports = [
                   ./users/jack/home.nix
                   ./users/jack/sway
+                  ./features/devtools.nix
                 ];
+                features.devtools.enable = true;
                 home.username = "jack";
                 home.stateVersion = "22.05";
                 home.homeDirectory = "/home/jack";
@@ -94,7 +98,9 @@
                 imports = [
                   ./users/jack/home.nix
                   ./users/jack/sway
+                  ./features/devtools.nix
                 ];
+                features.devtools.enable = true;
                 home.username = "jack";
                 home.stateVersion = "22.05";
                 home.homeDirectory = "/home/jack";
@@ -122,7 +128,9 @@
               users.jack = {
                 imports = [
                   ./users/jack/home.nix
+                  ./features/devtools.nix
                 ];
+                features.devtools.enable = false; # Server - no dev tools needed
                 home.username = "jack";
                 home.stateVersion = "22.05";
                 home.homeDirectory = "/home/jack";
