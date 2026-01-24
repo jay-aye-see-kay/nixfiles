@@ -1,36 +1,5 @@
 -- Refactoring and AI plugins
 return {
-	-- Refactoring plugin
-	{
-		"ThePrimeagen/refactoring.nvim",
-		event = "VeryLazy",
-		dependencies = { "folke/which-key.nvim" },
-		config = function()
-			require("refactoring").setup({})
-
-			-- helper fn to make passing these functions to which_key easier
-			local function refactor(name)
-				return function()
-					require("refactoring").refactor(name)
-				end
-			end
-
-			require("which-key").add({
-				{ "<leader>r", group = "refactoring" },
-				{ "<leader>rb", refactor("Extract Block"), desc = "Extract Block" },
-				{ "<leader>ri", refactor("Inline Variable"), desc = "Inline Variable" },
-			})
-			require("which-key").add({
-				mode = "v",
-				{ "<leader>r", group = "refactoring" },
-				{ "<leader>re", refactor("Extract Function"), desc = "Extract Function" },
-				{ "<leader>rf", refactor("Extract Function To File"), desc = "Extract Function To File" },
-				{ "<leader>rv", refactor("Extract Variable"), desc = "Extract Variable" },
-				{ "<leader>ri", refactor("Inline Variable"), desc = "Inline Variable" },
-			})
-		end,
-	},
-
 	-- GP.nvim for ChatGPT/Copilot chat
 	{
 		"robitx/gp.nvim",
@@ -119,12 +88,27 @@ return {
 			vim.keymap.set({ "n", "i" }, "<C-g>ww", "<cmd>GpWhisper<cr>", keymapOptions("Whisper"))
 			vim.keymap.set("v", "<C-g>ww", ":<C-u>'<,'>GpWhisper<cr>", keymapOptions("Visual Whisper"))
 
-			vim.keymap.set({ "n", "i" }, "<C-g>wr", "<cmd>GpWhisperRewrite<cr>", keymapOptions("Whisper Inline Rewrite"))
+			vim.keymap.set(
+				{ "n", "i" },
+				"<C-g>wr",
+				"<cmd>GpWhisperRewrite<cr>",
+				keymapOptions("Whisper Inline Rewrite")
+			)
 			vim.keymap.set({ "n", "i" }, "<C-g>wa", "<cmd>GpWhisperAppend<cr>", keymapOptions("Whisper Append (after)"))
-			vim.keymap.set({ "n", "i" }, "<C-g>wb", "<cmd>GpWhisperPrepend<cr>", keymapOptions("Whisper Prepend (before) "))
+			vim.keymap.set(
+				{ "n", "i" },
+				"<C-g>wb",
+				"<cmd>GpWhisperPrepend<cr>",
+				keymapOptions("Whisper Prepend (before) ")
+			)
 
 			vim.keymap.set("v", "<C-g>wr", ":<C-u>'<,'>GpWhisperRewrite<cr>", keymapOptions("Visual Whisper Rewrite"))
-			vim.keymap.set("v", "<C-g>wa", ":<C-u>'<,'>GpWhisperAppend<cr>", keymapOptions("Visual Whisper Append (after)"))
+			vim.keymap.set(
+				"v",
+				"<C-g>wa",
+				":<C-u>'<,'>GpWhisperAppend<cr>",
+				keymapOptions("Visual Whisper Append (after)")
+			)
 			vim.keymap.set(
 				"v",
 				"<C-g>wb",
@@ -176,7 +160,6 @@ return {
 		event = "VeryLazy",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
 		},
 		opts = {},
 	},

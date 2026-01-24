@@ -3,6 +3,11 @@
 -- They're already in the runtimepath, so we just need to configure them
 
 require("nvim-treesitter.configs").setup({
+	auto_install = false,
+	sync_install = false,
+	ensure_installed = {},
+	ignore_install = {},
+	modules = {},
 	highlight = {
 		enable = true,
 		additional_vim_regex_highlighting = { "ruby" },

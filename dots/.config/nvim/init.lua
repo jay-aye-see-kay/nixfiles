@@ -12,7 +12,9 @@ require("lazy").setup("plugins", {
 	},
 	ui = { border = "rounded" },
 	performance = {
+		reset_packpath = false,
 		rtp = {
+			reset = false,
 			disabled_plugins = { "tohtml", "tutor" },
 		},
 	},

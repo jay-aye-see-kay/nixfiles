@@ -47,7 +47,6 @@ return {
 	{
 		"lukas-reineke/headlines.nvim",
 		lazy = true,
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		ft = { "markdown", "rmd", "orgmode", "neorg" },
 		opts = {
 			markdown = { fat_headlines = false },

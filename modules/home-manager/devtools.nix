@@ -107,9 +107,6 @@ in
       # Debuggers
       delve
 
-      # Treesitter (CLI and parser generator)
-      tree-sitter
-
       # Dictionaries (for spell checking)
       aspell
       aspellDicts.en
