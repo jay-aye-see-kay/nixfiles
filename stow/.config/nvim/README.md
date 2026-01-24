@@ -24,5 +24,16 @@ LSPs, formatters, and debuggers are provided by the nix devtools module.
 
 ## Directory Structure
 
-- `init.lua` - Entry point, bootstraps lazy.nvim
+- `init.lua` - Entry point that sets up lazy.nvim and loads all configs
 - `lua/_cfg/` - Plugin configurations organized by category
+
+## How It Works
+
+1. **Nix provides**: neovim binary + lazy.nvim plugin + all treesitter grammars
+2. **This directory provides**: All plugin specs and configuration via lazy.nvim
+3. **Home-manager**: Automatically sources `init.lua` when nvim starts
+
+This means:
+- Treesitter grammars are pre-built via nix (fast, stable)
+- All other plugins are managed by lazy.nvim (fast iteration)
+- Edit any lua file, restart nvim, see changes instantly!

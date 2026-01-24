@@ -9,13 +9,20 @@ in
   };
 
   config = mkIf cfg.enable {
+    programs.neovim = {
+      enable = true;
+      defaultEditor = true;
+      viAlias = false;
+      vimAlias = false;
+
+      # Plugins managed by nix (stable, rarely change)
+      plugins = with pkgs.vimPlugins; [
+        lazy-nvim # Plugin manager
+        nvim-treesitter.withAllGrammars # Treesitter with all grammars
+      ];
+    };
+
     home.packages = with pkgs; [
-      # NOTE: Plain neovim will be added here in Phase 5 after renaming mainNeovim to nnvim
-      # For now, mainNeovim is still in users/jack/home.nix to avoid collision
-
-      # Lazy.nvim plugin manager (installed via nix, referenced in lua config)
-      vimPlugins.lazy-nvim
-
       # Language runtimes & tools
       nodejs
       yarn
@@ -78,10 +85,5 @@ in
       # Ruby tools (primarily needed on Linux)
       rubyPackages.solargraph
     ];
-
-    # Keep EDITOR pointing to nvim
-    home.sessionVariables = {
-      EDITOR = "nvim";
-    };
   };
 }

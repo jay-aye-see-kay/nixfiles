@@ -1,8 +1,12 @@
-# Lazy.nvim plugin directory
+# Lazy.nvim plugin directory and lock file
 lazy-lock.json
 
-# Neovim state directories (these should be in ~/.local/share/nvim, but just in case)
+# Neovim state directories (shouldn't be here but just in case)
 plugin/
 undo/
 swap/
 shada/
+
+# LSP and language server logs
+lsp.log
+*.log
