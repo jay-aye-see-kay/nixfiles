@@ -26,9 +26,9 @@ in
         liberation_ttf
         noto-fonts
         noto-fonts-cjk-sans
-        noto-fonts-emoji
+        noto-fonts-color-emoji
         proggyfonts
-        ubuntu_font_family
+        ubuntu-classic
 
         nerd-fonts.fira-code
         nerd-fonts.fira-mono

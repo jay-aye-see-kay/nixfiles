@@ -79,7 +79,7 @@ in
       gopls
       nodePackages."@tailwindcss/language-server"
       nodePackages.bash-language-server
-      dockerfile-language-server-nodejs
+      dockerfile-language-server
       nodePackages.eslint_d
       pyright
       nodePackages.typescript
