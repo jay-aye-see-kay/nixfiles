@@ -40,19 +40,14 @@ function M.exec(command)
 end
 
 function M.map(mode, lhs, rhs, extraOpts)
-	local opts = { noremap = true, silent = true }
-	if extraOpts then
-		opts = M.merge(opts, extraOpts)
-	end
-	vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
+	local opts = extraOpts or {}
+	vim.keymap.set(mode, lhs, rhs, opts)
 end
 
 function M.buf_map(buffer, mode, lhs, rhs, extraOpts)
-	local opts = { noremap = true, silent = true }
-	if extraOpts then
-		opts = M.merge(opts, extraOpts)
-	end
-	vim.api.nvim_buf_set_keymap(buffer, mode, lhs, rhs, opts)
+	local opts = extraOpts or {}
+	opts.buffer = buffer
+	vim.keymap.set(mode, lhs, rhs, opts)
 end
 
 M.cfg_augroup = vim.api.nvim_create_augroup("Main augroup for config", { clear = true })
