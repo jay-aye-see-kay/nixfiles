@@ -41,41 +41,6 @@
         ];
       };
 
-      # work vm
-      nixosConfigurations.moa = nixpkgs.lib.nixosSystem rec {
-        system = "aarch64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          (mkPkgCfg system)
-          ./hosts/moa
-          ./modules/nixos
-          {
-            modules.cli-utils.enable = true;
-            modules.fonts.enable = true;
-            modules.sway-desktop.enable = true;
-            modules.syncthing.enable = true;
-          }
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.jack = {
-                imports = [
-                  ./users/jack/home.nix
-                  ./users/jack/sway
-                  ./modules/home-manager
-                ];
-                modules.devtools.enable = true;
-                home.username = "jack";
-                home.stateVersion = "22.05";
-                home.homeDirectory = "/home/jack";
-              };
-            };
-          }
-        ];
-      };
-
       # home laptop
       nixosConfigurations.tui = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
@@ -107,39 +72,6 @@
                   ./modules/home-manager
                 ];
                 modules.devtools.enable = true;
-                home.username = "jack";
-                home.stateVersion = "22.05";
-                home.homeDirectory = "/home/jack";
-              };
-            };
-          }
-        ];
-      };
-
-      # home server
-      nixosConfigurations.kakapo = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          (mkPkgCfg system)
-          ./hosts/kakapo
-          ./modules/nixos
-          {
-            modules.cli-utils.enable = true;
-            modules.key-remapping.enable = true;
-            modules.syncthing.enable = true;
-          }
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.jack = {
-                imports = [
-                  ./users/jack/home.nix
-                  ./modules/home-manager
-                ];
-                modules.devtools.enable = false; # Server - no dev tools needed
                 home.username = "jack";
                 home.stateVersion = "22.05";
                 home.homeDirectory = "/home/jack";
