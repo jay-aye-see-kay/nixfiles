@@ -105,6 +105,8 @@ in
           # Don't quit on Cmd-W it's annoying
           # Unfortunately it will still quit on Cmd-Q and this can't be disabled, see https://github.com/alacritty/alacritty/issues/6136
           { key = "W"; mods = "Command"; action = "None"; }
+          # shift enter is newline
+          { key = "Return"; mods = "Shift"; chars = "\n"; }
         ];
 
         # from: https://github.com/catppuccin/alacritty/blob/main/catppuccin-mocha.yml
