@@ -109,10 +109,10 @@ return {
 			wk.add({ { "<leader>m", group = "+misc" } })
 			h.keymap("n", "<leader>mp", function()
 				vim.api.nvim_win_set_width(0, 60)
-				vim.api.nvim_win_set_option(0, "winfixwidth", true)
+				vim.wo.winfixwidth = true
 			end, "Pin window to edge")
 			h.keymap("n", "<leader>mP", function()
-				vim.api.nvim_win_set_option(0, "winfixwidth", false)
+				vim.wo.winfixwidth = false
 			end, "Unpin window")
 
 			vim.opt.timeoutlen = 250
