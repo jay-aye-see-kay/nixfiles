@@ -1,11 +1,13 @@
--- LSP configuration using neovim 0.11 API
--- LSP servers are provided by nix (in PATH via features/devtools.nix)
-
 return {
-	-- Neodev for neovim lua development
 	{
-		"folke/neodev.nvim",
+		"folke/lazydev.nvim",
 		ft = "lua",
+		opts = {
+			library = {
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+				{ path = "~/nixfiles/dots/.config/nvim", words = { "vim" } },
+			},
+		},
 	},
 
 	-- LSP configuration plugin
@@ -13,13 +15,30 @@ return {
 		"neovim/nvim-lspconfig",
 		event = { "BufReadPre", "BufNewFile" },
 		config = function()
-			-- Setup neodev first
-			require("neodev").setup({
-				override = function(root_dir, library)
-					if require("neodev.util").has_file(root_dir, "~/nixfiles/neovim") then
-						library.enabled = true
-						library.plugins = true
+			-- LspAttach autocmd for keymaps and navic
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(args)
+					local client = vim.lsp.get_client_by_id(args.data.client_id)
+					local bufnr = args.buf
+
+					-- Attach navic if server supports document symbols
+					if client and client.server_capabilities.documentSymbolProvider then
+						require("nvim-navic").attach(client, bufnr)
 					end
+
+					-- LSP keymaps (only active in buffers with LSP)
+					local function map(mode, lhs, rhs, desc)
+						vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+					end
+
+					map("n", "gd", "<cmd>Telescope lsp_definitions<cr>", "Goto/find definitions")
+					map("n", "gr", "<cmd>Telescope lsp_references<cr>", "Find references")
+					map("n", "gh", vim.lsp.buf.hover, "Hover docs")
+					map("n", "gI", vim.lsp.buf.implementation, "Goto implementation")
+					map("i", "<C-i>", function()
+						require("cmp").mapping.close()(function() end) -- requires a fallback() arg or will throw
+						vim.lsp.buf.signature_help()
+					end, "Signature Documentation")
 				end,
 			})
 
@@ -60,35 +79,25 @@ return {
 				},
 			}
 
-			local function on_attach(client, bufnr)
-				if client.server_capabilities.documentSymbolProvider then
-					require("nvim-navic").attach(client, bufnr)
-				end
-			end
-
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 			-- Setup typescript-tools
 			require("typescript-tools").setup({
-				on_attach = on_attach,
 				capabilities = capabilities,
 			})
 
 			-- Setup all other LSP servers
 			for name, config in pairs(lsp_servers) do
-				config.on_attach = on_attach
 				config.capabilities = capabilities
 				vim.lsp.config(name, config)
 				vim.lsp.enable(name)
 			end
 
 			-- Setup markdown_oxide with special capabilities
-			local markdown_oxide_capabilities =
-				require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+			local markdown_oxide_capabilities = vim.deepcopy(capabilities)
 			markdown_oxide_capabilities.workspace = { didChangeWatchedFiles = { dynamicRegistration = true } }
 			vim.lsp.config("markdown_oxide", {
 				capabilities = markdown_oxide_capabilities,
-				on_attach = on_attach,
 			})
 			vim.lsp.enable("markdown_oxide")
 
@@ -97,16 +106,7 @@ return {
 				border = "rounded",
 			})
 
-			-- LSP keymaps
-			vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<cr>", { desc = "Goto/find definitions" })
-			vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", { desc = "Find references" })
-			vim.keymap.set("n", "gh", vim.lsp.buf.hover, { desc = "Hover docs" })
-			vim.keymap.set("n", "gI", vim.lsp.buf.implementation, { desc = "Goto implementation" })
-			vim.keymap.set("i", "<C-i>", function()
-				require("cmp").mapping.close()(function() end) -- requires a fallback() arg or will throw
-				vim.lsp.buf.signature_help()
-			end, { desc = "Signature Documentation" })
-
+			-- Autocomplete toggle keymap
 			vim.keymap.set("n", [[\a]], function()
 				if vim.b._autocomplete_disabled then
 					require("cmp").setup.buffer({})
