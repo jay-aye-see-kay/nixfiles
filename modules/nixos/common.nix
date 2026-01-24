@@ -24,6 +24,7 @@ in
       };
       settings.trusted-users = [ "root" "jack" ];
       settings.auto-optimise-store = true;
+      settings.eval-cache = true;
     };
 
     # nix search nixpkgs <blah> won't download nixpkgs every time!
