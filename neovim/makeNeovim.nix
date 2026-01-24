@@ -8,6 +8,7 @@
 , withNodeJs ? true
 , luaPath ? "${./.}"
 , nvimAppName ? ""
+, pname ? null  # Custom name for the executable (default: neovim)
 }:
 let
   inherit (import ./fromNixCats.nix { inherit pkgs; }) luaTablePrinter allTreesitterGrammars;
@@ -102,5 +103,21 @@ let
   extraWrapperArgs = cfg.wrapperArgs
     ++ [ "--suffix" "PATH" ":" (pkgs.lib.makeBinPath extraPackages) ]
     ++ (if nvimAppName == "" then [ ] else [ "--set" "NVIM_APPNAME" nvimAppName ]);
+  
+  wrappedNeovim = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped (cfg // { wrapperArgs = extraWrapperArgs; });
 in
-pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped (cfg // { wrapperArgs = extraWrapperArgs; })
+# If pname is specified, create a wrapper with renamed executable
+if pname != null then
+  pkgs.runCommand pname { } ''
+    mkdir -p $out/bin
+    ln -s ${wrappedNeovim}/bin/nvim $out/bin/${pname}
+    # Also create symlinks for other nvim-related binaries if they exist
+    for file in ${wrappedNeovim}/bin/*; do
+      filename=$(basename "$file")
+      if [ "$filename" != "nvim" ]; then
+        ln -s "$file" "$out/bin/$filename"
+      fi
+    done
+  ''
+else
+  wrappedNeovim

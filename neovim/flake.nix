@@ -231,25 +231,25 @@
         #
         # the actual neovim packages
         #
-        mainNeovim = makeNeovim mainNeovimArgs;
+        nnvim = makeNeovim (mainNeovimArgs // { pname = "nnvim"; });
         smallNeovim = makeNeovim mainNeovimArgs; # TODO: a smaller build for servers, take out LSPs and debuggers
 
         # identical to above pkgs, but with NVIM_APPNAME set so cache/state files are isolated
-        mainNeovimDev = makeNeovim (mainNeovimArgs // { nvimAppName = "nvim-dev"; });
+        nnvimDev = makeNeovim (mainNeovimArgs // { nvimAppName = "nvim-dev"; pname = "nnvim"; });
         smallNeovimDev = makeNeovim (mainNeovimArgs // { nvimAppName = "nvim-dev-small"; });
       in
       {
         packages = {
-          inherit mainNeovim smallNeovim;
+          inherit nnvim smallNeovim;
         };
 
         overlays.default = _: _: {
-          inherit mainNeovim smallNeovim;
+          inherit nnvim smallNeovim;
         };
 
-        packages.default = mainNeovimDev; # I only ever run `nix build. #` when trying new things
+        packages.default = nnvimDev; # I only ever run `nix build. #` when trying new things
         apps.smallNeovim = { type = "app"; program = "${smallNeovimDev}/bin/nvim"; };
-        apps.default = { type = "app"; program = "${mainNeovimDev}/bin/nvim"; };
+        apps.default = { type = "app"; program = "${nnvimDev}/bin/nvim"; };
       }
     );
 }

@@ -42,7 +42,7 @@ in
 
   home.packages = with pkgs;
     [
-      mainNeovim # TODO: will be renamed to nnvim in next phase
+      nnvim # Renamed from mainNeovim - this is the nix-configured neovim
       gh
       manix
       trash-cli
