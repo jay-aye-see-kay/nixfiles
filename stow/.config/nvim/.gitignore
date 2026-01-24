@@ -1,0 +1,8 @@
+# Lazy.nvim plugin directory
+lazy-lock.json
+
+# Neovim state directories (these should be in ~/.local/share/nvim, but just in case)
+plugin/
+undo/
+swap/
+shada/

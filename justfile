@@ -22,7 +22,19 @@ update-one:
   echo "---"
   nix flake update $CHOSEN
 
-switch: update-neovim
+# Stow neovim config to ~/.config/nvim
+stow-nvim:
+  stow -d stow -t ~ .
+
+# Remove stowed neovim config
+unstow-nvim:
+  stow -d stow -t ~ -D .
+
+# Restow neovim config (useful after changes)
+restow-nvim:
+  stow -d stow -t ~ -R .
+
+switch: update-neovim stow-nvim
   #!/bin/sh
   if [ "$(uname)" = "Darwin" ]; then
     home-manager switch --flake ".#$(whoami)@$(hostname)"

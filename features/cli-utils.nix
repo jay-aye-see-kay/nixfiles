@@ -51,6 +51,7 @@ platformSpecificPackages ++ [
   screen
 
   tldr # sometimes better docs
+  stow # symlink manager for dotfiles
 
   # tools?
   just
