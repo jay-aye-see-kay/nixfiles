@@ -7,9 +7,6 @@ default:
 update:
   nix flake update
 
-update-neovim:
-  nix flake update neovim-flake
-
 update-one:
   #!/bin/sh
   CHOSEN=$(nix flake metadata --json \
@@ -28,7 +25,7 @@ stow:
 unstow:
   stow -d ./dots -t ~ -D .
 
-switch: update-neovim
+switch:
   #!/bin/sh
   if [ "$(uname)" = "Darwin" ]; then
     home-manager switch --flake ".#$(whoami)@$(hostname)"
@@ -37,7 +34,7 @@ switch: update-neovim
   fi
   just stow
 
-build: update-neovim
+build:
   #!/bin/sh
   if [ "$(uname)" = "Darwin" ]; then
     home-manager build --flake ".#$(whoami)@$(hostname)"
