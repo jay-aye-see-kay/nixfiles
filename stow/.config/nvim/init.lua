@@ -15,6 +15,9 @@ require("lazy").setup({
 	{ import = "_cfg.refactoring-and-ai" },
 	{ import = "_cfg.telescope" },
 	{ import = "_cfg.treesitter" },
+	{ import = "_cfg.keymaps" },
+	{ import = "_cfg.lsp" },
+	{ import = "_cfg.snippets" },
 }, {
 	ui = { border = "rounded" },
 	performance = {
@@ -29,8 +32,3 @@ require("lazy").setup({
 		},
 	},
 })
-
--- Load remaining config after lazy
-require("_cfg.keymaps")
-require("_cfg.lsp")
-require("_cfg.snippets")
