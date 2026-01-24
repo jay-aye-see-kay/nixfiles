@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.features.devtools;
+  cfg = config.modules.devtools;
 in
 {
-  options.features.devtools = {
+  options.modules.devtools = {
     enable = mkEnableOption "development tools including LSPs, formatters, debuggers, and language runtimes";
   };
 

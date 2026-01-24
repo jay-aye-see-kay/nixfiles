@@ -27,15 +27,15 @@
         pkgs = mkPkgs "aarch64-darwin";
         modules = [
           ./users/jack/home.nix
-          ./features/devtools.nix
+          ./modules/home-manager
           ({ pkgs, ... }: {
             nix.registry.nixpkgs.flake = inputs.nixpkgs;
-            features.devtools.enable = true;
+            modules.devtools.enable = true;
+            modules.cli-utils.enable = true;
             home = {
               username = "jack";
               stateVersion = "22.05";
               homeDirectory = "/Users/jack";
-              packages = import ./features/cli-utils.nix { inherit pkgs; };
             };
           })
         ];
@@ -48,10 +48,13 @@
         modules = [
           (mkPkgCfg system)
           ./hosts/moa
-          ./features/common.nix
-          ./features/fonts.nix
-          ./features/sway-desktop.nix
-          ./features/syncthing.nix
+          ./modules/nixos
+          {
+            modules.cli-utils.enable = true;
+            modules.fonts.enable = true;
+            modules.sway-desktop.enable = true;
+            modules.syncthing.enable = true;
+          }
           home-manager.nixosModules.home-manager
           {
             home-manager = {
@@ -61,9 +64,9 @@
                 imports = [
                   ./users/jack/home.nix
                   ./users/jack/sway
-                  ./features/devtools.nix
+                  ./modules/home-manager
                 ];
-                features.devtools.enable = true;
+                modules.devtools.enable = true;
                 home.username = "jack";
                 home.stateVersion = "22.05";
                 home.homeDirectory = "/home/jack";
@@ -81,14 +84,17 @@
           (mkPkgCfg system)
           nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
           ./hosts/tui
-          ./features/common.nix
-          ./features/firefox.nix
-          ./features/fonts.nix
-          ./features/games.nix
-          ./features/gui-utils.nix
-          ./features/key-remapping.nix
-          ./features/sway-desktop.nix
-          ./features/syncthing.nix
+          ./modules/nixos
+          {
+            modules.cli-utils.enable = true;
+            modules.firefox.enable = true;
+            modules.fonts.enable = true;
+            modules.games.enable = true;
+            modules.gui-utils.enable = true;
+            modules.key-remapping.enable = true;
+            modules.sway-desktop.enable = true;
+            modules.syncthing.enable = true;
+          }
           home-manager.nixosModules.home-manager
           {
             home-manager = {
@@ -98,9 +104,9 @@
                 imports = [
                   ./users/jack/home.nix
                   ./users/jack/sway
-                  ./features/devtools.nix
+                  ./modules/home-manager
                 ];
-                features.devtools.enable = true;
+                modules.devtools.enable = true;
                 home.username = "jack";
                 home.stateVersion = "22.05";
                 home.homeDirectory = "/home/jack";
@@ -117,9 +123,12 @@
         modules = [
           (mkPkgCfg system)
           ./hosts/kakapo
-          ./features/common.nix
-          ./features/key-remapping.nix
-          ./features/syncthing.nix
+          ./modules/nixos
+          {
+            modules.cli-utils.enable = true;
+            modules.key-remapping.enable = true;
+            modules.syncthing.enable = true;
+          }
           home-manager.nixosModules.home-manager
           {
             home-manager = {
@@ -128,9 +137,9 @@
               users.jack = {
                 imports = [
                   ./users/jack/home.nix
-                  ./features/devtools.nix
+                  ./modules/home-manager
                 ];
-                features.devtools.enable = false; # Server - no dev tools needed
+                modules.devtools.enable = false; # Server - no dev tools needed
                 home.username = "jack";
                 home.stateVersion = "22.05";
                 home.homeDirectory = "/home/jack";
