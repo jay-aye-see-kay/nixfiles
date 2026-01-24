@@ -8,18 +8,37 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, nixos-hardware, home-manager, ... }@inputs:
+  outputs = { nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, ... }@inputs:
     let
-      inherit ((import ./utils.nix inputs)) mkPkgs mkPkgCfg eachMySystem;
       username = "jack";
-      mkHmConfig = home-manager.lib.homeManagerConfiguration;
+
+      # Systems this config supports
+      mySystems = [ "x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin" ];
+
+      # Helper to build attrset for each system (used for formatter)
+      eachMySystem = mkConfig: (nixpkgs.lib.lists.fold
+        (system: accum: accum // { ${system} = mkConfig system; })
+        { }
+        mySystems);
+
+      # Overlay to provide unstable packages
+      unstableOverlay = system: final: prev: {
+        unstable = import nixpkgs-unstable {
+          inherit system;
+          config.allowUnfree = true;
+        };
+      };
     in
     {
       formatter = eachMySystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
-      # work laptop
-      homeConfigurations."${username}@jjack-XMW16X" = mkHmConfig {
-        pkgs = mkPkgs "aarch64-darwin";
+      # work laptop (macOS)
+      homeConfigurations."${username}@jjack-XMW16X" = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          system = "aarch64-darwin";
+          config = { allowUnfree = true; };
+          overlays = [ (unstableOverlay "aarch64-darwin") ];
+        };
         modules = [
           ./users/jack/home.nix
           ./modules/home-manager
@@ -36,12 +55,17 @@
         ];
       };
 
-      # home laptop
+      # home laptop (NixOS)
       nixosConfigurations.tui = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [
-          (mkPkgCfg system)
+          {
+            nixpkgs = {
+              config.allowUnfree = true;
+              overlays = [ (unstableOverlay system) ];
+            };
+          }
           nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
           ./hosts/tui
           ./modules/nixos
