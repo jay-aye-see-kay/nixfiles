@@ -1,173 +1,121 @@
 local h = require("config.helpers")
 
--- Which-key and Hydra plugins
 return {
-	-- Which-key for keymap hints
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		config = function()
-			local which_key = require("which-key")
-			which_key.setup({
+			local wk = require("which-key")
+			wk.setup({
 				plugins = {
 					spelling = { enabled = true },
 				},
 			})
 
-			-- Keymaps configuration
-			-- show the whichkey popup (i.e. which keymaps are available)
-			vim.keymap.set({ "n", "v", "i" }, "<F1>", "<cmd>WhichKey<cr>")
-
-			local directed_keymaps = {
-				git_status = h.make_directed_maps("Git Status", "Gedit :"),
-				new_terminal = h.make_directed_maps("New terminal", "terminal"),
-				todays_notepad = h.make_directed_maps("Today's notepad", "LogbookToday"),
-				yesterdays_notepad = h.make_directed_maps("Yesterday's notepad", "LogbookYesterday"),
-				tomorrows_notepad = h.make_directed_maps("Tomorrow's notepad", "LogbookTomorrow"),
-				file_explorer = h.make_directed_maps("File explorer", "Neotree reveal current"),
-			}
-
-			--- grep through old markdown notes
+			-- Define helper functions
 			local grep_notes = function()
 				require("telescope.builtin").live_grep({ cwd = "$HOME/notes" })
 			end
 
-			--- git files, falling back onto all files in cwd if not in a git repo
-			local function project_files()
+			local project_files = function()
 				local ok = pcall(require("telescope.builtin").git_files)
 				if not ok then
 					require("telescope.builtin").find_files()
 				end
 			end
 
-			local main_keymap = {
-				lsp = {
-					name = "+lsp",
-					a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code action" },
-					r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename symbol" },
-					d = { "<cmd>Telescope lsp_document_diagnostics<cr>", "Show document diagnostics" },
-					D = { "<cmd>Telescope lsp_workspace_diagnostics<cr>", "Show workspace diagnostics" },
-					t = { "<cmd>TroubleToggle<cr>", "Show workspace diagnostics" },
-					i = { "<cmd>LspInfo<cr>", "Info" },
-					f = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format buffer with LSP" },
-				},
-				finder = {
-					name = "+find",
-					b = {
-						function()
-							require("telescope.builtin").buffers({ sort_mru = true, ignore_current_buffer = true })
-						end,
-						"🔭 buffers (cwd only)",
-					},
-					B = {
-						function()
-							require("telescope.builtin").buffers({
-								sort_mru = true,
-								ignore_current_buffer = true,
-								cwd_only = true,
-							})
-						end,
-						"🔭 buffers (cwd only)",
-					},
-					f = { "<cmd>Telescope find_files<cr>", "🔭 files" },
-					g = { project_files, "🔭 git files" },
-					h = {
-						function()
-							require("telescope.builtin").help_tags({ default_text = vim.fn.expand("<cword>") })
-						end,
-						"🔭 help tags",
-					},
-					c = { "<cmd>Telescope commands<cr>", "🔭 commands" },
-					o = { "<cmd>Telescope oldfiles<cr>", "🔭 oldfiles" },
-					l = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "🔭 buffer lines" },
-					w = { "<cmd>Telescope spell_suggest<cr>", "🔭 spelling suggestions" },
-					u = { "<cmd>Telescope grep_string<cr>", "🔭 word under cursor" },
-					n = { grep_notes, "🔭 search all notes" },
-					i = {
-						name = "+in",
-						o = {
-							function()
-								require("telescope.builtin").live_grep({ grep_open_files = true })
-							end,
-							"🔭 in open buffers",
-						},
-					},
-				},
-				git = h.merge(directed_keymaps.git_status, {
-					name = "+git",
-					g = { "<Cmd>Telescope git_commits<CR>", "🔭 commits" },
-					c = { "<Cmd>Telescope git_bcommits<CR>", "🔭 buffer commits" },
-					b = { "<Cmd>Telescope git_branches<CR>", "🔭 branches" },
-				}),
-				terminal = h.merge(directed_keymaps.new_terminal, {
-					name = "+terminal",
-				}),
-				explorer = h.merge(directed_keymaps.file_explorer, {
-					name = "+file explorer",
-					e = { "<cmd>Neotree toggle<cr>", "toggle side file tree" },
-				}),
-				notes = h.merge(directed_keymaps.todays_notepad, {
-					name = "+notes",
-					f = { grep_notes, "🔭 search all notes" },
-					y = h.merge(directed_keymaps.yesterdays_notepad, {
-						name = "+Yesterday' notepad",
-					}),
-					t = h.merge(directed_keymaps.tomorrows_notepad, {
-						name = "+Tomorrow' notepad",
-					}),
-				}),
-				misc = {
-					name = "+misc",
-					p = {
-						function()
-							vim.api.nvim_win_set_width(0, 60)
-							vim.api.nvim_win_set_option(0, "winfixwidth", true)
-						end,
-						"pin window to edge",
-					},
-					P = {
-						function()
-							vim.api.nvim_win_set_option(0, "winfixwidth", false)
-						end,
-						"unpin window",
-					},
-				},
-			}
+			local function mru_buffers()
+				require("telescope.builtin").buffers({
+					sort_mru = true,
+					ignore_current_buffer = true,
+				})
+			end
 
-			vim.opt.timeoutlen = 250
-
-			-- Register keymaps with which-key
-			which_key.add({
-				{ "<leader>e", group = main_keymap.explorer.name },
-				{ "<leader>f", group = main_keymap.finder.name },
-				{ "<leader>g", group = main_keymap.git.name },
-				{ "<leader>l", group = main_keymap.lsp.name },
-				{ "<leader>t", group = main_keymap.terminal.name },
-				{ "<leader>n", group = main_keymap.notes.name },
-				{ "<leader>m", group = main_keymap.misc.name },
-			})
-
-			-- Register all nested keymaps
-			for prefix, group in pairs(main_keymap) do
-				for key, value in pairs(group) do
-					if type(value) == "table" and value[1] ~= nil then
-						which_key.add({
-							{ "<leader>" .. prefix:sub(1, 1) .. key, value[1], desc = value[2] },
-						})
-					end
-				end
+			local function cwd_mru_buffers()
+				require("telescope.builtin").buffers({
+					sort_mru = true,
+					ignore_current_buffer = true,
+				})
 			end
 
 			-- Quick keymaps with comma prefix
-			which_key.add({
-				{ ",", group = "quick keymaps" },
-				{ ",b", main_keymap.finder.b[1], desc = main_keymap.finder.b[2] },
-				{ ",B", main_keymap.finder.B[1], desc = main_keymap.finder.B[2] },
-				{ ",l", main_keymap.finder.l[1], desc = main_keymap.finder.l[2] },
-				{ ",f", main_keymap.finder.f[1], desc = main_keymap.finder.f[2] },
-				{ ",o", main_keymap.finder.o[1], desc = main_keymap.finder.o[2] },
-				{ ",.", main_keymap.explorer["."][1], desc = main_keymap.explorer["."][2] },
+			wk.add({ { ",", group = "quick keymaps" } })
+			h.keymap("n", ",b", mru_buffers, "🔭 buffers")
+			h.keymap("n", ",B", cwd_mru_buffers, "🔭 buffers (cwd only)")
+			h.keymap("n", ",l", "<cmd>Telescope current_buffer_fuzzy_find<cr>", "🔭 buffer lines")
+			h.keymap("n", ",f", "<cmd>Telescope find_files<cr>", "🔭 files")
+			h.keymap("n", ",o", "<cmd>Telescope oldfiles<cr>", "🔭 oldfiles")
+			h.keymap("n", ",.", "<cmd>Neotree reveal current<cr>", "File explorer in place")
+
+			-- LSP keymaps
+			wk.add({ { "<leader>l", group = "+lsp" } })
+			h.keymap("n", "<leader>la", vim.lsp.buf.code_action, "Code action")
+			h.keymap("n", "<leader>lr", vim.lsp.buf.rename, "Rename symbol")
+			h.keymap("n", "<leader>ld", "<cmd>Telescope lsp_document_diagnostics<cr>", "Document diagnostics")
+			h.keymap("n", "<leader>lD", "<cmd>Telescope lsp_workspace_diagnostics<cr>", "Workspace diagnostics")
+			h.keymap("n", "<leader>lt", "<cmd>TroubleToggle<cr>", "Toggle Trouble")
+			h.keymap("n", "<leader>li", "<cmd>LspInfo<cr>", "LSP Info")
+			h.keymap("n", "<leader>lf", vim.lsp.buf.format, "Format buffer")
+
+			-- Finder keymaps
+			wk.add({ { "<leader>f", group = "+find" } })
+			h.keymap("n", "<leader>fb", mru_buffers, "🔭 buffers")
+			h.keymap("n", "<leader>fB", cwd_mru_buffers, "🔭 buffers (cwd only)")
+			h.keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", "🔭 files")
+			h.keymap("n", "<leader>fg", project_files, "🔭 git files")
+			h.keymap("n", "<leader>fh", function()
+				require("telescope.builtin").help_tags({ default_text = vim.fn.expand("<cword>") })
+			end, "🔭 help tags")
+			h.keymap("n", "<leader>fc", "<cmd>Telescope commands<cr>", "🔭 commands")
+			h.keymap("n", "<leader>fo", "<cmd>Telescope oldfiles<cr>", "🔭 oldfiles")
+			h.keymap("n", "<leader>fl", "<cmd>Telescope current_buffer_fuzzy_find<cr>", "🔭 buffer lines")
+			h.keymap("n", "<leader>fw", "<cmd>Telescope spell_suggest<cr>", "🔭 spelling")
+			h.keymap("n", "<leader>fu", "<cmd>Telescope grep_string<cr>", "🔭 word under cursor")
+			h.keymap("n", "<leader>fn", grep_notes, "🔭 search notes")
+
+			wk.add({ { "<leader>fi", group = "+in" } })
+			h.keymap("n", "<leader>fio", function()
+				require("telescope.builtin").live_grep({ grep_open_files = true })
+			end, "🔭 in open buffers")
+
+			-- Git keymaps with directed maps
+			wk.add({ { "<leader>g", group = "+git" } })
+			h.make_directed_maps("<leader>g", "Git Status", "Gedit :")
+			h.keymap("n", "<leader>gg", "<Cmd>Telescope git_commits<CR>", "🔭 commits")
+			h.keymap("n", "<leader>gc", "<Cmd>Telescope git_bcommits<CR>", "🔭 buffer commits")
+			h.keymap("n", "<leader>gb", "<Cmd>Telescope git_branches<CR>", "🔭 branches")
+
+			-- Terminal keymaps with directed maps
+			wk.add({ { "<leader>t", group = "+terminal" } })
+			h.make_directed_maps("<leader>t", "New terminal", "terminal")
+
+			-- File explorer keymaps with directed maps
+			wk.add({ { "<leader>e", group = "+file explorer" } })
+			h.make_directed_maps("<leader>e", "File explorer", "Neotree reveal current")
+			h.keymap("n", "<leader>ee", "<cmd>Neotree toggle<cr>", "Toggle file tree")
+
+			-- Notes keymaps with directed maps
+			wk.add({
+				{ "<leader>n", group = "+notes" },
+				{ "<leader>ny", group = "+yesterday" },
+				{ "<leader>nt", group = "+tomorrow" },
 			})
+			h.make_directed_maps("<leader>n", "Today's notepad", "LogbookToday")
+			h.keymap("n", "<leader>nf", grep_notes, "🔭 search notes")
+			h.make_directed_maps("<leader>ny", "Yesterday's notepad", "LogbookYesterday")
+			h.make_directed_maps("<leader>nt", "Tomorrow's notepad", "LogbookTomorrow")
+
+			-- Misc keymaps
+			wk.add({ { "<leader>m", group = "+misc" } })
+			h.keymap("n", "<leader>mp", function()
+				vim.api.nvim_win_set_width(0, 60)
+				vim.api.nvim_win_set_option(0, "winfixwidth", true)
+			end, "Pin window to edge")
+			h.keymap("n", "<leader>mP", function()
+				vim.api.nvim_win_set_option(0, "winfixwidth", false)
+			end, "Unpin window")
+
+			vim.opt.timeoutlen = 250
 		end,
 	},
 

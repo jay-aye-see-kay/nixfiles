@@ -4,26 +4,27 @@ function M.merge(t1, t2)
 	return vim.tbl_extend("force", t1, t2)
 end
 
-function M.make_directed_maps(command_desc, command)
+-- Directly sets keymaps for opening something in different window directions
+-- Creates 6 keymaps: h (left), l (right), k (above), j (below), . (in place), , (new tab)
+function M.make_directed_maps(prefix, command_desc, command, extra_opts)
 	local directions = {
-		left = { key = "h", description = "to left", command_prefix = "aboveleft vsplit" },
-		right = { key = "l", description = "to right", command_prefix = "belowright vsplit" },
-		above = { key = "k", description = "above", command_prefix = "aboveleft split" },
-		below = { key = "j", description = "below", command_prefix = "belowright split" },
-		in_place = { key = ".", description = "in place", command_prefix = nil },
-		tab = { key = ",", description = "in new tab", command_prefix = "tabnew" },
+		{ key = "h", desc = "to left", cmd_prefix = "aboveleft vsplit" },
+		{ key = "l", desc = "to right", cmd_prefix = "belowright vsplit" },
+		{ key = "k", desc = "above", cmd_prefix = "aboveleft split" },
+		{ key = "j", desc = "below", cmd_prefix = "belowright split" },
+		{ key = ".", desc = "in place", cmd_prefix = nil },
+		{ key = ",", desc = "in new tab", cmd_prefix = "tabnew" },
 	}
 
-	local maps = {}
-	for _, d in pairs(directions) do
-		local full_description = command_desc .. " " .. d.description
-		local full_command = d.command_prefix -- approximating a ternary
-				and "<CMD>" .. d.command_prefix .. " | " .. command .. "<CR>"
-			or "<CMD>" .. command .. "<CR>"
+	for _, d in ipairs(directions) do
+		local full_desc = command_desc .. " " .. d.desc
+		local full_cmd = d.cmd_prefix and string.format("<CMD>%s | %s<CR>", d.cmd_prefix, command)
+			or string.format("<CMD>%s<CR>", command)
 
-		maps[d.key] = { full_command, full_description }
+		local opts = extra_opts or {}
+		opts.desc = full_desc
+		vim.keymap.set("n", prefix .. d.key, full_cmd, opts)
 	end
-	return maps
 end
 
 function M.exec(command)
@@ -39,6 +40,14 @@ function M.exec(command)
 	return res
 end
 
+-- Simple wrapper for vim.keymap.set that ensures description is always set
+function M.keymap(mode, lhs, rhs, desc, extraOpts)
+	local opts = extraOpts or {}
+	opts.desc = desc
+	vim.keymap.set(mode, lhs, rhs, opts)
+end
+
+-- Legacy map function (kept for backward compatibility)
 function M.map(mode, lhs, rhs, extraOpts)
 	local opts = extraOpts or {}
 	vim.keymap.set(mode, lhs, rhs, opts)
