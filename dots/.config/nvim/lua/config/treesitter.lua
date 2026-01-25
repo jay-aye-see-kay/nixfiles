@@ -2,6 +2,8 @@
 -- Note: nvim-treesitter and nvim-treesitter-textobjects are provided by Nix
 -- They're already in the runtimepath, so we just need to configure them
 
+require("nvim-treesitter").setup()
+
 require("nvim-treesitter.configs").setup({
 	auto_install = false,
 	sync_install = false,
