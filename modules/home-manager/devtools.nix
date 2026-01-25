@@ -19,46 +19,7 @@ in
       plugins = with pkgs.vimPlugins; [
         lazy-nvim # Plugin manager
         nvim-treesitter-textobjects # Treesitter textobjects extension
-        (nvim-treesitter.withPlugins (p: with p; [
-          bash
-          c
-          caddy
-          css
-          dockerfile
-          fish
-          gleam
-          go
-          gomod
-          gosum
-          gotmpl
-          gowork
-          graphql
-          hcl
-          html
-          http
-          hurl
-          javascript
-          json
-          json
-          json5
-          jsonc
-          lua
-          markdown
-          markdown_inline
-          nix
-          printf
-          python
-          rust
-          sql
-          templ
-          toml
-          tsx
-          typescript
-          vim
-          vimdoc
-          xml
-          yaml
-        ]))
+        nvim-treesitter.withAllGrammars # Treesitter with all grammars
       ];
     };
 
