@@ -1,5 +1,11 @@
 -- Miscellaneous plugins
 return {
+	-- vim-unimpaired for bracket mappings (replaces mini.move and mini.bracketed)
+	{
+		"tpope/vim-unimpaired",
+		event = "VeryLazy",
+	},
+
 	-- Outline sidebar
 	{
 		"hedyhli/outline.nvim",
