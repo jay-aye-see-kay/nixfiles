@@ -126,32 +126,35 @@ return {
 		event = "InsertEnter",
 		keys = {
 			{ "<C-d>", mode = "i" },
-			{ "<leader>cp", "<cmd>Copilot panel<cr>", desc = "open copilot side panel" },
 			{
 				"<leader>cc",
 				function()
-					require("copilot.suggestion").toggle_auto_trigger()
-					print("Copilot enabled:", vim.b.copilot_suggestion_auto_trigger)
+					if require("copilot.client").is_disabled() then
+						vim.cmd("Copilot enable")
+						print("copilot enabled")
+					else
+						vim.cmd("Copilot disable")
+						print("copilot disabled")
+					end
 				end,
-				desc = "toggle copilot",
+				desc = "toggle copilot globally",
 			},
 		},
-		opts = {
-			panel = {
-				enabled = true,
-				auto_refresh = true,
-				layout = {
-					position = "right", -- | top | left | right
+		config = function()
+			require("copilot").setup({
+				panel = {
+					enabled = false,
 				},
-			},
-			suggestion = {
-				keymap = {
-					accept = "<C-f>", -- like fish
-					next = "<C-d>", -- also triggers when not on auto
-					prev = "<C-s>",
+				suggestion = {
+					keymap = {
+						accept = "<C-f>", -- like fish
+						next = "<C-d>", -- also triggers when not on auto
+						prev = "<C-s>",
+					},
 				},
-			},
-		},
+			})
+			vim.cmd("Copilot disable") -- enable on demand
+		end,
 	},
 
 	-- CodeCompanion
