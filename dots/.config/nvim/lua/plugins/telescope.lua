@@ -8,14 +8,6 @@ return {
 		build = "make",
 	},
 	{
-		"nvim-telescope/telescope-live-grep-args.nvim",
-		lazy = true,
-	},
-	{
-		"debugloop/telescope-undo.nvim",
-		lazy = true,
-	},
-	{
 		"jvgrootveld/telescope-zoxide",
 		lazy = true,
 	},
@@ -28,15 +20,12 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope-fzf-native.nvim",
-			"nvim-telescope/telescope-live-grep-args.nvim",
-			"debugloop/telescope-undo.nvim",
 			"jvgrootveld/telescope-zoxide",
 		},
 		config = function()
 			local actions = require("telescope.actions")
 			local action_layout = require("telescope.actions.layout")
 			local telescope = require("telescope")
-			local lga_actions = require("telescope-live-grep-args.actions")
 
 			telescope.setup({
 				defaults = {
@@ -70,9 +59,6 @@ return {
 						override_generic_sorter = true,
 						override_file_sorter = true,
 					},
-					undo = {
-						use_delta = false,
-					},
 					zoxide = {
 						mappings = {
 							["<c-b>"] = nil,
@@ -85,31 +71,14 @@ return {
 							},
 						},
 					},
-					live_grep_args = {
-						auto_quoting = true,
-						mappings = {
-							i = {
-								["<C-k>"] = lga_actions.quote_prompt(),
-								["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
-							},
-						},
-					},
 				},
 			})
 			telescope.load_extension("fzf")
-			telescope.load_extension("undo")
 			telescope.load_extension("zoxide")
-			telescope.load_extension("live_grep_args")
 		end,
 		keys = {
-			{ "<leader>fU", "<cmd>Telescope undo undo<cr>", desc = "search telescope history" },
 			{ "<leader>fz", "<cmd>Telescope zoxide list<cr>", desc = "cd with zoxide" },
 			{ ",z", "<cmd>Telescope zoxide list<cr>", desc = "cd with zoxide" },
-			{
-				"<leader>fa",
-				"<cmd>Telescope live_grep_args live_grep_args<cr>",
-				desc = "🔭 full text search",
-			},
 		},
 	},
 }
