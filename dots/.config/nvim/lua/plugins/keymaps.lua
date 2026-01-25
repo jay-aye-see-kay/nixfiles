@@ -40,50 +40,50 @@ return {
 
 			-- Quick keymaps with comma prefix
 			wk.add({ { ",", group = "quick keymaps" } })
-			h.keymap("n", ",b", mru_buffers, "🔭 buffers")
-			h.keymap("n", ",B", cwd_mru_buffers, "🔭 buffers (cwd only)")
-			h.keymap("n", ",l", "<cmd>Telescope current_buffer_fuzzy_find<cr>", "🔭 buffer lines")
-			h.keymap("n", ",f", "<cmd>Telescope find_files<cr>", "🔭 files")
-			h.keymap("n", ",o", "<cmd>Telescope oldfiles<cr>", "🔭 oldfiles")
-			h.keymap("n", ",.", "<cmd>Neotree reveal current<cr>", "File explorer in place")
+			vim.keymap.set("n", ",b", mru_buffers, { desc = "🔭 buffers" })
+			vim.keymap.set("n", ",B", cwd_mru_buffers, { desc = "🔭 buffers (cwd only)" })
+			vim.keymap.set("n", ",l", "<cmd>Telescope current_buffer_fuzzy_find<cr>", { desc = "🔭 buffer lines" })
+			vim.keymap.set("n", ",f", "<cmd>Telescope find_files<cr>", { desc = "🔭 files" })
+			vim.keymap.set("n", ",o", "<cmd>Telescope oldfiles<cr>", { desc = "🔭 oldfiles" })
+			vim.keymap.set("n", ",.", "<cmd>Neotree reveal current<cr>", { desc = "File explorer in place" })
 
 			-- LSP keymaps
 			wk.add({ { "<leader>l", group = "+lsp" } })
-			h.keymap("n", "<leader>la", vim.lsp.buf.code_action, "Code action")
-			h.keymap("n", "<leader>lr", vim.lsp.buf.rename, "Rename symbol")
-			h.keymap("n", "<leader>ld", "<cmd>Telescope lsp_document_diagnostics<cr>", "Document diagnostics")
-			h.keymap("n", "<leader>lD", "<cmd>Telescope lsp_workspace_diagnostics<cr>", "Workspace diagnostics")
-			h.keymap("n", "<leader>lt", "<cmd>TroubleToggle<cr>", "Toggle Trouble")
-			h.keymap("n", "<leader>li", "<cmd>LspInfo<cr>", "LSP Info")
-			h.keymap("n", "<leader>lf", vim.lsp.buf.format, "Format buffer")
+			vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, { desc = "Code action" })
+			vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Rename symbol" })
+			vim.keymap.set("n", "<leader>ld", "<cmd>Telescope lsp_document_diagnostics<cr>", { desc = "Document diagnostics" })
+			vim.keymap.set("n", "<leader>lD", "<cmd>Telescope lsp_workspace_diagnostics<cr>", { desc = "Workspace diagnostics" })
+			vim.keymap.set("n", "<leader>lt", "<cmd>TroubleToggle<cr>", { desc = "Toggle Trouble" })
+			vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "LSP Info" })
+			vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, { desc = "Format buffer" })
 
 			-- Finder keymaps
 			wk.add({ { "<leader>f", group = "+find" } })
-			h.keymap("n", "<leader>fb", mru_buffers, "🔭 buffers")
-			h.keymap("n", "<leader>fB", cwd_mru_buffers, "🔭 buffers (cwd only)")
-			h.keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", "🔭 files")
-			h.keymap("n", "<leader>fg", project_files, "🔭 git files")
-			h.keymap("n", "<leader>fh", function()
+			vim.keymap.set("n", "<leader>fb", mru_buffers, { desc = "🔭 buffers" })
+			vim.keymap.set("n", "<leader>fB", cwd_mru_buffers, { desc = "🔭 buffers (cwd only)" })
+			vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "🔭 files" })
+			vim.keymap.set("n", "<leader>fg", project_files, { desc = "🔭 git files" })
+			vim.keymap.set("n", "<leader>fh", function()
 				require("telescope.builtin").help_tags({ default_text = vim.fn.expand("<cword>") })
-			end, "🔭 help tags")
-			h.keymap("n", "<leader>fc", "<cmd>Telescope commands<cr>", "🔭 commands")
-			h.keymap("n", "<leader>fo", "<cmd>Telescope oldfiles<cr>", "🔭 oldfiles")
-			h.keymap("n", "<leader>fl", "<cmd>Telescope current_buffer_fuzzy_find<cr>", "🔭 buffer lines")
-			h.keymap("n", "<leader>fw", "<cmd>Telescope spell_suggest<cr>", "🔭 spelling")
-			h.keymap("n", "<leader>fu", "<cmd>Telescope grep_string<cr>", "🔭 word under cursor")
-			h.keymap("n", "<leader>fn", grep_notes, "🔭 search notes")
+			end, { desc = "🔭 help tags" })
+			vim.keymap.set("n", "<leader>fc", "<cmd>Telescope commands<cr>", { desc = "🔭 commands" })
+			vim.keymap.set("n", "<leader>fo", "<cmd>Telescope oldfiles<cr>", { desc = "🔭 oldfiles" })
+			vim.keymap.set("n", "<leader>fl", "<cmd>Telescope current_buffer_fuzzy_find<cr>", { desc = "🔭 buffer lines" })
+			vim.keymap.set("n", "<leader>fw", "<cmd>Telescope spell_suggest<cr>", { desc = "🔭 spelling" })
+			vim.keymap.set("n", "<leader>fu", "<cmd>Telescope grep_string<cr>", { desc = "🔭 word under cursor" })
+			vim.keymap.set("n", "<leader>fn", grep_notes, { desc = "🔭 search notes" })
 
 			wk.add({ { "<leader>fi", group = "+in" } })
-			h.keymap("n", "<leader>fio", function()
+			vim.keymap.set("n", "<leader>fio", function()
 				require("telescope.builtin").live_grep({ grep_open_files = true })
-			end, "🔭 in open buffers")
+			end, { desc = "🔭 in open buffers" })
 
 			-- Git keymaps with directed maps
 			wk.add({ { "<leader>g", group = "+git" } })
 			h.make_directed_maps("<leader>g", "Git Status", "Gedit :")
-			h.keymap("n", "<leader>gg", "<Cmd>Telescope git_commits<CR>", "🔭 commits")
-			h.keymap("n", "<leader>gc", "<Cmd>Telescope git_bcommits<CR>", "🔭 buffer commits")
-			h.keymap("n", "<leader>gb", "<Cmd>Telescope git_branches<CR>", "🔭 branches")
+			vim.keymap.set("n", "<leader>gg", "<Cmd>Telescope git_commits<CR>", { desc = "🔭 commits" })
+			vim.keymap.set("n", "<leader>gc", "<Cmd>Telescope git_bcommits<CR>", { desc = "🔭 buffer commits" })
+			vim.keymap.set("n", "<leader>gb", "<Cmd>Telescope git_branches<CR>", { desc = "🔭 branches" })
 
 			-- Terminal keymaps with directed maps
 			wk.add({ { "<leader>t", group = "+terminal" } })
@@ -92,7 +92,7 @@ return {
 			-- File explorer keymaps with directed maps
 			wk.add({ { "<leader>e", group = "+file explorer" } })
 			h.make_directed_maps("<leader>e", "File explorer", "Neotree reveal current")
-			h.keymap("n", "<leader>ee", "<cmd>Neotree toggle<cr>", "Toggle file tree")
+			vim.keymap.set("n", "<leader>ee", "<cmd>Neotree toggle<cr>", { desc = "Toggle file tree" })
 
 			-- Notes keymaps with directed maps
 			wk.add({
@@ -101,19 +101,19 @@ return {
 				{ "<leader>nt", group = "+tomorrow" },
 			})
 			h.make_directed_maps("<leader>n", "Today's notepad", "LogbookToday")
-			h.keymap("n", "<leader>nf", grep_notes, "🔭 search notes")
+			vim.keymap.set("n", "<leader>nf", grep_notes, { desc = "🔭 search notes" })
 			h.make_directed_maps("<leader>ny", "Yesterday's notepad", "LogbookYesterday")
 			h.make_directed_maps("<leader>nt", "Tomorrow's notepad", "LogbookTomorrow")
 
 			-- Misc keymaps
 			wk.add({ { "<leader>m", group = "+misc" } })
-			h.keymap("n", "<leader>mp", function()
+			vim.keymap.set("n", "<leader>mp", function()
 				vim.api.nvim_win_set_width(0, 60)
 				vim.wo.winfixwidth = true
-			end, "Pin window to edge")
-			h.keymap("n", "<leader>mP", function()
+			end, { desc = "Pin window to edge" })
+			vim.keymap.set("n", "<leader>mP", function()
 				vim.wo.winfixwidth = false
-			end, "Unpin window")
+			end, { desc = "Unpin window" })
 
 			vim.opt.timeoutlen = 250
 		end,

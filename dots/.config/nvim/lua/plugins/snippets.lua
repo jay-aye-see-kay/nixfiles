@@ -1,5 +1,3 @@
-local h = require("config.helpers")
-
 -- Snippets configuration
 return {
 	-- LuaSnip
@@ -14,8 +12,8 @@ return {
 
 			-- these need to work in insert and select mode for some reason
 			local function snip_map(lhs, rhs)
-				h.map("i", lhs, rhs)
-				h.map("s", lhs, rhs)
+				vim.keymap.set("i", lhs, rhs)
+				vim.keymap.set("s", lhs, rhs)
 			end
 
 			snip_map("<C-j>", "<Plug>luasnip-expand-snippet")

@@ -1,9 +1,5 @@
 local M = {}
 
-function M.merge(t1, t2)
-	return vim.tbl_extend("force", t1, t2)
-end
-
 -- Directly sets keymaps for opening something in different window directions
 -- Creates 6 keymaps: h (left), l (right), k (above), j (below), . (in place), , (new tab)
 function M.make_directed_maps(prefix, command_desc, command, extra_opts)
@@ -25,46 +21,6 @@ function M.make_directed_maps(prefix, command_desc, command, extra_opts)
 		opts.desc = full_desc
 		vim.keymap.set("n", prefix .. d.key, full_cmd, opts)
 	end
-end
-
-function M.exec(command)
-	local file, err = io.popen(command, "r")
-	if file == nil then
-		print("file could not be opened:", err)
-		return
-	end
-	local res = {}
-	for line in file:lines() do
-		table.insert(res, line)
-	end
-	return res
-end
-
--- Simple wrapper for vim.keymap.set that ensures description is always set
-function M.keymap(mode, lhs, rhs, desc, extraOpts)
-	local opts = extraOpts or {}
-	opts.desc = desc
-	vim.keymap.set(mode, lhs, rhs, opts)
-end
-
--- Legacy map function (kept for backward compatibility)
-function M.map(mode, lhs, rhs, extraOpts)
-	local opts = extraOpts or {}
-	vim.keymap.set(mode, lhs, rhs, opts)
-end
-
-function M.buf_map(buffer, mode, lhs, rhs, extraOpts)
-	local opts = extraOpts or {}
-	opts.buffer = buffer
-	vim.keymap.set(mode, lhs, rhs, opts)
-end
-
-M.cfg_augroup = vim.api.nvim_create_augroup("Main augroup for config", { clear = true })
-
-M.autocmd = function(event, _opts)
-	local opts = _opts or {}
-	opts.group = M.cfg_augroup
-	vim.api.nvim_create_autocmd(event, opts)
 end
 
 M.toggle_executable_bit = function(file_path)

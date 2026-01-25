@@ -1,5 +1,3 @@
-local h = require("config.helpers")
-
 -- User commands for logbook
 local function open_logbook_cmd(days_from_today)
 	return function()
@@ -15,7 +13,7 @@ vim.api.nvim_create_user_command("LogbookYesterday", open_logbook_cmd(-1), {})
 vim.api.nvim_create_user_command("LogbookTomorrow", open_logbook_cmd(1), {})
 
 -- Autocmds for markdown files
-h.autocmd({ "FileType" }, {
+vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "markdown", "md" },
 	callback = function()
 		vim.wo.foldlevel = 99
@@ -24,7 +22,7 @@ h.autocmd({ "FileType" }, {
 	end,
 })
 
-h.autocmd({ "FileType" }, {
+vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "text", "markdown", "md" },
 	callback = function()
 		vim.opt_local.wrap = true

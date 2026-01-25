@@ -1,7 +1,5 @@
-local h = require("config.helpers")
-
 -- Autocmd for gitcommit filetype
-h.autocmd("FileType", {
+vim.api.nvim_create_autocmd("FileType", {
 	pattern = "gitcommit",
 	callback = function()
 		vim.wo.spell = true

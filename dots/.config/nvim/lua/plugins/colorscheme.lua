@@ -1,7 +1,5 @@
-local h = require("config.helpers")
-
 -- Colorscheme post-load autocmd
-h.autocmd({ "ColorScheme" }, {
+vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 	callback = function()
 		local copy_color = function(from, to)
 			vim.api.nvim_set_hl(0, to, vim.api.nvim_get_hl_by_name(from, true))
@@ -30,7 +28,6 @@ return {
 					cmp = true,
 					gitsigns = true,
 					markdown = true,
-					mini = true,
 					neotree = true,
 					semantic_tokens = true,
 					telescope = true,

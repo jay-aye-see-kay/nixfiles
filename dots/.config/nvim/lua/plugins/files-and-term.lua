@@ -139,14 +139,14 @@ local plugins = {
 -- Terminal configuration
 vim.keymap.set("t", "<ESC><ESC>", [[<C-\><C-n>]])
 
-h.autocmd({ "TermEnter" }, {
+vim.api.nvim_create_autocmd({ "TermEnter" }, {
 	command = "setlocal winhighlight=Normal:ActiveTerm",
 })
-h.autocmd({ "TermLeave" }, {
+vim.api.nvim_create_autocmd({ "TermLeave" }, {
 	command = "setlocal winhighlight=Normal:NC",
 })
 
-h.autocmd({ "TermOpen" }, {
+vim.api.nvim_create_autocmd({ "TermOpen" }, {
 	callback = function()
 		-- stops terminal side scrolling
 		vim.cmd([[ setlocal nonumber norelativenumber signcolumn=no ]])
