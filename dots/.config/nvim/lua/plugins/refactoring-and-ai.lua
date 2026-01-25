@@ -156,14 +156,4 @@ return {
 			vim.cmd("Copilot disable") -- enable on demand
 		end,
 	},
-
-	-- CodeCompanion
-	{
-		"olimorris/codecompanion.nvim",
-		event = "VeryLazy",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-		},
-		opts = {},
-	},
 }
