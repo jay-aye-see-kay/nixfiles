@@ -20,4 +20,19 @@ require("blink.cmp").setup({
 			},
 		},
 	},
+	keymap = {
+		preset = "default",
+		["<c-l>"] = { "snippet_forward" },
+		["<c-h>"] = { "snippet_backward" },
+		["<c-j>"] = {
+			function(cmp)
+				local word = cmp.get_context().get_keyword()
+				for index, item in ipairs(cmp.get_items()) do
+					if item.source_id == "snippets" and item.label == word then
+						cmp.select_and_accept({ index = index })
+					end
+				end
+			end,
+		},
+	},
 })
