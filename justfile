@@ -30,7 +30,7 @@ switch:
   if [ "$(uname)" = "Darwin" ]; then
     home-manager switch --flake ".#$(whoami)@$(hostname)"
   else
-    nixos-rebuild --use-remote-sudo switch --flake .#
+    nixos-rebuild --sudo switch --flake .#
   fi
   just stow
 
@@ -39,5 +39,5 @@ build:
   if [ "$(uname)" = "Darwin" ]; then
     home-manager build --flake ".#$(whoami)@$(hostname)"
   else
-    nixos-rebuild --use-remote-sudo build --flake .#
+    nixos-rebuild --sudo build --flake .#
   fi
