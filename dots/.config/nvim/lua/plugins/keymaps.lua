@@ -41,6 +41,7 @@ return {
 
 			-- Quick keymaps with comma prefix
 			wk.add({ { ",", group = "quick keymaps" } })
+			vim.keymap.set("n", ",a", "<cmd>Telescope live_grep<cr>", { desc = "🔭 live grep" })
 			vim.keymap.set("n", ",b", mru_buffers, { desc = "🔭 buffers" })
 			vim.keymap.set("n", ",B", cwd_mru_buffers, { desc = "🔭 buffers (cwd only)" })
 			vim.keymap.set("n", ",l", "<cmd>Telescope current_buffer_fuzzy_find<cr>", { desc = "🔭 buffer lines" })
@@ -60,6 +61,7 @@ return {
 
 			-- Finder keymaps
 			wk.add({ { "<leader>f", group = "+find" } })
+			vim.keymap.set("n", "<leader>ff", "<cmd>Telescope live_grep<cr>", { desc = "🔭 live grep" })
 			vim.keymap.set("n", "<leader>fb", mru_buffers, { desc = "🔭 buffers" })
 			vim.keymap.set("n", "<leader>fB", cwd_mru_buffers, { desc = "🔭 buffers (cwd only)" })
 			vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "🔭 files" })
