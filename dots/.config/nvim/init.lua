@@ -1,8 +1,9 @@
 -- Load core settings before plugins
 require("config.core")
 
--- tree sitter managed without lazy
+-- tree sitter and blink.cmp managed without lazy
 require("config.treesitter")
+require("config.completions")
 
 -- Setup lazy.nvim - automatically imports all modules from lua/plugins/
 require("lazy").setup("plugins", {

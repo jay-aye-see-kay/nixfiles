@@ -32,13 +32,10 @@ return {
 					end
 
 					map("n", "gd", "<cmd>Telescope lsp_definitions<cr>", "Goto/find definitions")
-					map("n", "gr", "<cmd>Telescope lsp_references<cr>", "Find references")
+					-- map("n", "gr", "<cmd>Telescope lsp_references<cr>", "Find references")
 					map("n", "gh", vim.lsp.buf.hover, "Hover docs")
 					map("n", "gI", vim.lsp.buf.implementation, "Goto implementation")
-					map("i", "<C-i>", function()
-						require("cmp").mapping.close()(function() end) -- requires a fallback() arg or will throw
-						vim.lsp.buf.signature_help()
-					end, "Signature Documentation")
+					map("i", "<C-i>", vim.lsp.buf.signature_help, "Signature Documentation")
 				end,
 			})
 
@@ -79,7 +76,9 @@ return {
 				},
 			}
 
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			capabilities =
+				vim.tbl_deep_extend("force", capabilities, require("blink.cmp").get_lsp_capabilities({}, false))
 
 			-- Setup typescript-tools
 			require("typescript-tools").setup({
@@ -106,18 +105,6 @@ return {
 				border = "rounded",
 			})
 
-			-- Autocomplete toggle keymap
-			vim.keymap.set("n", [[\a]], function()
-				if vim.b._autocomplete_disabled then
-					require("cmp").setup.buffer({})
-					print("autocomplete enabled in buffer")
-				else
-					require("cmp").setup.buffer({ completion = { autocomplete = false } })
-					print("autocomplete disabled in buffer")
-				end
-				vim.b._autocomplete_disabled = not vim.b._autocomplete_disabled
-			end, { desc = "Toggle buffer autocomplete" })
-
 			vim.diagnostic.config({ signs = false })
 		end,
 	},
@@ -133,68 +120,5 @@ return {
 	{
 		"b0o/schemastore.nvim",
 		lazy = true,
-	},
-
-	-- Completion plugin
-	{
-		"hrsh7th/nvim-cmp",
-		event = "InsertEnter",
-		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-nvim-lua",
-			"saadparwaiz1/cmp_luasnip",
-			"onsails/lspkind.nvim",
-		},
-		config = function()
-			require("nvim-autopairs").setup()
-
-			local cmp = require("cmp")
-			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-
-			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-
-			cmp.setup({
-				snippet = {
-					expand = function(args)
-						require("luasnip").lsp_expand(args.body)
-					end,
-				},
-				mapping = cmp.mapping.preset.insert({
-					["<C-y>"] = cmp.mapping.confirm({ select = true }),
-					["<C-k>"] = cmp.mapping(cmp.mapping.complete({}), { "i", "c" }),
-					["<C-e>"] = cmp.mapping({
-						i = cmp.mapping.abort(),
-						c = cmp.mapping.close(),
-					}),
-				}),
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp", option = { markdown_oxide = { keyword_pattern = [[\(\k\| \|\/\|#\)\+]] } } },
-					{ name = "luasnip" },
-					{ name = "nvim_lua" },
-				}, {
-					{ name = "path" },
-					{
-						name = "buffer",
-						options = {
-							get_bufnrs = function()
-								return vim.api.nvim_list_bufs()
-							end,
-						},
-					},
-				}),
-				formatting = {
-					format = require("lspkind").cmp_format(),
-				},
-			})
-		end,
-	},
-
-	-- Autopairs
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		opts = {},
 	},
 }
