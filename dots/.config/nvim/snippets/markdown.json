@@ -1,0 +1,70 @@
+{
+  "Task": {
+    "prefix": "t",
+    "body": "- [ ] ${0}",
+    "description": "Markdown task item"
+  },
+  "Code Block": {
+    "prefix": "c",
+    "body": [
+      "```",
+      "${1}",
+      "```"
+    ],
+    "description": "Generic code block"
+  },
+  "JSON Code Block": {
+    "prefix": "cj",
+    "body": [
+      "```json",
+      "${1}",
+      "```"
+    ],
+    "description": "JSON code block"
+  },
+  "TypeScript Code Block": {
+    "prefix": "ct",
+    "body": [
+      "```typescript",
+      "${1}",
+      "```"
+    ],
+    "description": "TypeScript code block"
+  },
+  "Python Code Block": {
+    "prefix": "cp",
+    "body": [
+      "```python",
+      "${1}",
+      "```"
+    ],
+    "description": "Python code block"
+  },
+  "Bash Code Block": {
+    "prefix": "cs",
+    "body": [
+      "```bash",
+      "${1}",
+      "```"
+    ],
+    "description": "Bash code block"
+  },
+  "Nix Code Block": {
+    "prefix": "cn",
+    "body": [
+      "```nix",
+      "${1}",
+      "```"
+    ],
+    "description": "Nix code block"
+  },
+  "C Code Block": {
+    "prefix": "cc",
+    "body": [
+      "```c",
+      "${1}",
+      "```"
+    ],
+    "description": "C code block"
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "Const": {
+    "prefix": "c",
+    "body": "const ${1:name} = ${0:value}",
+    "description": "Const declaration"
+  },
+  "Let": {
+    "prefix": "l",
+    "body": "let ${1:name} = ${0:value}",
+    "description": "Let declaration"
+  },
+  "Export": {
+    "prefix": "e",
+    "body": "export ${0}",
+    "description": "Export statement"
+  },
+  "Await": {
+    "prefix": "aw",
+    "body": "await ${0}",
+    "description": "Await keyword"
+  },
+  "Async": {
+    "prefix": "as",
+    "body": "async ${0}",
+    "description": "Async keyword"
+  },
+  "Debugger": {
+    "prefix": "d",
+    "body": "debugger",
+    "description": "Debugger statement"
+  },
+  "Function": {
+    "prefix": "f",
+    "body": [
+      "function ${1:name}(${2:params}) {",
+      "\t${3}",
+      "}"
+    ],
+    "description": "Function declaration"
+  },
+  "Arrow Function": {
+    "prefix": "af",
+    "body": "(${1:params}) => ${0:expression}",
+    "description": "Arrow function"
+  },
+  "Skeleton Function": {
+    "prefix": "sf",
+    "body": [
+      "function ${1:name}(${2:params}): ${3:void} {",
+      "\t${0:throw new Error('Not implemented')}",
+      "}"
+    ],
+    "description": "Skeleton function with type and default error"
+  },
+  "Throw Error": {
+    "prefix": "tn",
+    "body": "throw new Error(${0})",
+    "description": "Throw new Error"
+  },
+  "JSDoc": {
+    "prefix": "jsdoc",
+    "body": [
+      "/**",
+      " * ${0}",
+      " */"
+    ],
+    "description": "JSDoc comment block"
+  },
+  "Block Comment": {
+    "prefix": "/",
+    "body": "/* ${0} */",
+    "description": "Block comment"
+  },
+  "Inline JSDoc": {
+    "prefix": "/**",
+    "body": "/** ${0} */",
+    "description": "Inline JSDoc comment"
+  },
+  "ESLint Disable Next Line": {
+    "prefix": "eld",
+    "body": "/* eslint-disable-next-line ${0} */",
+    "description": "ESLint disable next line"
+  },
+  "Template String Variable": {
+    "prefix": "v",
+    "body": "\\${${1:variable}}",
+    "description": "Template string variable"
+  },
+  "Equals Undefined": {
+    "prefix": "=u",
+    "body": "=== undefined",
+    "description": "Strict equals undefined check"
+  },
+  "Not Equals Undefined": {
+    "prefix": "!u",
+    "body": "!== undefined",
+    "description": "Strict not equals undefined check"
+  },
+  "Delay": {
+    "prefix": "delay",
+    "body": "await new Promise((resolve) => setTimeout(resolve, ${0:1000}))",
+    "description": "Async delay using Promise and setTimeout"
+  }
+}
