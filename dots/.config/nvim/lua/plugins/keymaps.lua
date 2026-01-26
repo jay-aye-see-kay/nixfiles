@@ -117,8 +117,6 @@ return {
 			vim.keymap.set("n", "<leader>mP", function()
 				vim.wo.winfixwidth = false
 			end, { desc = "Unpin window" })
-
-			vim.opt.timeoutlen = 250
 		end,
 	},
 

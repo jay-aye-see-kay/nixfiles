@@ -1,33 +1,40 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+vim.g.have_nerd_font = true
 vim.g.unception_block_while_host_edits = true
 
+-- From kickstart.nvim
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.mouse = 'a'
+vim.o.showmode = false -- it's already in the status line
+vim.o.breakindent = true
+vim.o.undofile = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.signcolumn = 'yes'
+vim.o.updatetime = 250 -- decrease because it impacts CursorHold
+vim.o.timeoutlen = 300 -- makes which-key nice
+vim.o.splitright = true
+vim.o.splitbelow = true
+vim.o.list = true
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.o.inccommand = 'nosplit' -- preview substitutions as you type
+
 -- Settings from mini.basics options.basic = true
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.splitbelow = true
-vim.opt.splitright = true
-vim.opt.undofile = true
-vim.opt.backup = false
-vim.opt.writebackup = false
-vim.opt.mouse = 'a'
-vim.opt.breakindent = true
-vim.opt.linebreak = true
-vim.opt.number = true
-vim.opt.ruler = false
-vim.opt.showmode = false
-vim.opt.wrap = false
-vim.opt.signcolumn = 'yes'
-vim.opt.fillchars = 'eob: '
-vim.opt.incsearch = true
-vim.opt.infercase = true
-vim.opt.smartindent = true
-vim.opt.completeopt = 'menuone,noselect'
-vim.opt.virtualedit = 'block'
-vim.opt.formatoptions = 'qjl1'
-vim.opt.shortmess:append('WcC')
-vim.opt.splitkeep = 'screen'
+vim.o.backup = false
+vim.o.writebackup = false
+vim.o.linebreak = true
+vim.o.ruler = false
+vim.o.wrap = false
+vim.o.signcolumn = 'yes'
+vim.o.incsearch = true
+vim.o.infercase = true
+vim.o.smartindent = true
+vim.o.completeopt = 'menuone,noselect'
+vim.o.splitkeep = 'screen'
+vim.o.confirm = true
 
 -- disable ex mode
 vim.keymap.set("n", "Q", "<nop>")
@@ -71,6 +78,9 @@ vim.keymap.set('n', '\\w', '<cmd>setlocal wrap!<cr>', { desc = "Toggle wrap" })
 -- Buffer deletion (replacing mini.bufremove)
 vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
 
+-- Clear highlights on search when pressing <Esc> in normal mode
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
 -- Cursorline only in active window
 vim.api.nvim_create_autocmd({ "VimEnter", "WinEnter", "BufWinEnter" }, {
 	command = "setlocal cursorline",
@@ -89,7 +99,14 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
-vim.api.nvim_create_autocmd({ "TextYankPost" }, { command = "silent! lua vim.highlight.on_yank()" })
+-- Highlight when yanking (copying) text
+vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Highlight when yanking (copying) text',
+  group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
+  callback = function()
+    vim.hl.on_yank()
+  end,
+})
 
 -- modern copy paste keymaps
 vim.keymap.set("i", "<C-v>", "<C-r>+")
