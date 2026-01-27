@@ -1,42 +1,34 @@
 {
-  "Date": {
+  "date": {
     "prefix": "date",
     "body": "${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
-    "description": "Current date in YYYY-MM-DD format"
   },
-  "Random Number": {
+  "random number": {
     "prefix": "rn",
     "body": "$RANDOM",
-    "description": "Random number"
   },
-  "Random Hex": {
+  "random hex": {
     "prefix": "rh",
     "body": "$RANDOM_HEX",
-    "description": "Random hexadecimal number"
   },
-  "UUID": {
+  "uuid": {
     "prefix": "uuid",
     "body": "$UUID",
-    "description": "Random UUID"
   },
-  "Filename": {
+  "filename": {
     "prefix": "filename",
     "body": "$TM_FILENAME",
-    "description": "Current filename"
   },
-  "Filepath": {
+  "filepath": {
     "prefix": "filepath",
     "body": "$TM_FILEPATH",
-    "description": "Current file path"
   },
-  "Template String Variable": {
+  "template string variable": {
     "prefix": "v",
     "body": "\\${${1:variable}}",
-    "description": "Template string variable interpolation"
   },
-  "Return": {
+  "return": {
     "prefix": "r",
     "body": "return ${0}",
-    "description": "Return statement"
   }
 }

@@ -1,30 +1,26 @@
 {
-  "React useState": {
+  "react usestate": {
     "prefix": "us",
     "body": [
       "const [${1:state}, set${1/(.*)/${1:/capitalize}/}] = useState(${2})"
     ],
-    "description": "React useState hook"
   },
-  "React useEffect": {
+  "react useeffect": {
     "prefix": "ue",
     "body": [
       "useEffect(() => {",
       "\t${1}",
       "}, [${0}])"
     ],
-    "description": "React useEffect hook"
   },
-  "HTML Tag": {
+  "html tag": {
     "prefix": "t",
     "body": [
       "<${1:div}>${0}</${1:div}>"
     ],
-    "description": "HTML tag pair"
   },
-  "Class Name": {
+  "class name": {
     "prefix": "cn",
     "body": "className=\"${0}\"",
-    "description": "React className attribute"
   }
 }
