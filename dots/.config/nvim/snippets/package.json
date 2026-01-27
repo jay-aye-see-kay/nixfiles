@@ -2,10 +2,18 @@
   "name": "personal-snippets",
   "contributes": {
     "snippets": [
-      { "language": ["javascript", "typescript"], "path": "./javascript.json" },
+      { "language": "javascript", "path": "./javascript.json" },
+      { "language": ["typescript", "typescriptreact"], "path": "./javascript.json" },
+      { "language": ["typescript", "typescriptreact"], "path": "./typescript.json" },
       { "language": ["typescriptreact", "javascriptreact"], "path": "./react.json" },
       { "language": "markdown", "path": "./markdown.json" },
       { "language": "go", "path": "./go.json" },
+      { "language": "rust", "path": "./rust.json" },
+      { "language": "ruby", "path": "./ruby.json" },
+      { "language": "lua", "path": "./lua.json" },
+      { "language": "python", "path": "./python.json" },
+      { "language": "sh", "path": "./sh.json" },
+      { "language": "fish", "path": "./fish.json" },
       { "language": "all", "path": "./all.json" }
     ]
   }
