@@ -81,24 +81,54 @@
     "body": "/* eslint-disable-next-line ${0} */",
     "description": "ESLint disable next line"
   },
-  "Template String Variable": {
-    "prefix": "v",
-    "body": "\\${${1:variable}}",
-    "description": "Template string variable"
-  },
-  "Equals Undefined": {
-    "prefix": "=u",
-    "body": "=== undefined",
-    "description": "Strict equals undefined check"
-  },
-  "Not Equals Undefined": {
-    "prefix": "!u",
-    "body": "!== undefined",
-    "description": "Strict not equals undefined check"
-  },
   "Delay": {
     "prefix": "delay",
     "body": "await new Promise((resolve) => setTimeout(resolve, ${0:1000}))",
     "description": "Async delay using Promise and setTimeout"
+  },
+  "Class": {
+    "prefix": "cl",
+    "body": [
+      "class ${1:Name} {",
+      "\t${0}",
+      "}"
+    ],
+    "description": "Class declaration"
+  },
+  "Method": {
+    "prefix": "m",
+    "body": [
+      "${1:name}(${2:params}): ${3:void} {",
+      "\t${0}",
+      "}"
+    ],
+    "description": "Method declaration"
+  },
+  "If Statement": {
+    "prefix": "if",
+    "body": [
+      "if (${1:condition}) {",
+      "\t${0}",
+      "}"
+    ],
+    "description": "If statement"
+  },
+  "For Of Loop": {
+    "prefix": "forr",
+    "body": [
+      "for (const ${1:item} of ${2:array}) {",
+      "\t${0}",
+      "}"
+    ],
+    "description": "For...of loop"
+  },
+  "For I Loop": {
+    "prefix": "fori",
+    "body": [
+      "for (let ${1:i} = 0; $1 < ${2:array}.length; $1++) {",
+      "\t${0}",
+      "}"
+    ],
+    "description": "Classic for loop with integer index"
   }
 }

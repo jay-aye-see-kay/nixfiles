@@ -1,6 +1,6 @@
 {
   "single constant": {
-    "prefix": "co",
+    "prefix": "c",
     "body": "const ${1:name} = ${2:value}",
     "description": "Snippet for a constant"
   },
@@ -23,6 +23,11 @@
     "prefix": "f",
     "body": "func $1($2) $3 {\n\t$0\n}",
     "description": "Snippet for function declaration"
+  },
+  "short variable declaration": {
+    "prefix": "l",
+    "body": "${1:name} := ${2:value}",
+    "description": "Snippet for short variable declaration"
   },
   "variable declaration": {
     "prefix": "var",
@@ -161,6 +166,7 @@
   },
   "method declaration": {
     "prefix": [
+      "m",
       "meth",
       "fum"
     ],

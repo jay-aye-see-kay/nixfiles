@@ -1,0 +1,82 @@
+{
+  "function": {
+    "prefix": "f",
+    "body": [
+      "function ${1:name}(${2:args})",
+      "\t${0}",
+      "end"
+    ],
+    "description": "Function definition"
+  },
+  "anonymous function": {
+    "prefix": "af",
+    "body": [
+      "function(${1:args})",
+      "\t${0}",
+      "end"
+    ],
+    "description": "Anonymous function"
+  },
+  "class": {
+    "prefix": "cl",
+    "body": [
+      "${1:ClassName} = {}",
+      "$1.__index = $1",
+      "",
+      "function $1:new(${2:args})",
+      "\tlocal instance = setmetatable({}, $1)",
+      "\t${0}",
+      "\treturn instance",
+      "end",
+      "",
+      "return $1"
+    ],
+    "description": "Class-like table with metatable"
+  },
+  "method": {
+    "prefix": "m",
+    "body": [
+      "function ${1:ClassName}:${2:method_name}(${3:args})",
+      "\t${0}",
+      "end"
+    ],
+    "description": "Method with self parameter"
+  },
+  "if statement": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition} then",
+      "\t${0}",
+      "end"
+    ],
+    "description": "If statement"
+  },
+  "local variable": {
+    "prefix": "l",
+    "body": "local ${1:name} = ${0:value}",
+    "description": "Local variable"
+  },
+  "constant": {
+    "prefix": "c",
+    "body": "local ${1:NAME} = ${0:value}",
+    "description": "Constant (local, convention)"
+  },
+  "pairs loop": {
+    "prefix": "forr",
+    "body": [
+      "for ${1:key}, ${2:value} in pairs(${3:table}) do",
+      "\t${0}",
+      "end"
+    ],
+    "description": "For loop with pairs (key-value)"
+  },
+  "numeric for loop": {
+    "prefix": "fori",
+    "body": [
+      "for ${1:i} = 1, ${2:n} do",
+      "\t${0}",
+      "end"
+    ],
+    "description": "Numeric for loop"
+  }
+}

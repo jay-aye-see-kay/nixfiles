@@ -70,5 +70,45 @@
   "delay": {
     "prefix": "delay",
     "body": "await new Promise((resolve) => setTimeout(resolve, ${0:1000}))",
+  },
+  "class": {
+    "prefix": "cl",
+    "body": [
+      "class ${1:Name} {",
+      "\t${0}",
+      "}"
+    ],
+  },
+  "method": {
+    "prefix": "m",
+    "body": [
+      "${1:name}(${2:params}) {",
+      "\t${0}",
+      "}"
+    ],
+  },
+  "if statement": {
+    "prefix": "if",
+    "body": [
+      "if (${1:condition}) {",
+      "\t${0}",
+      "}"
+    ],
+  },
+  "for of loop": {
+    "prefix": "forr",
+    "body": [
+      "for (const ${1:item} of ${2:array}) {",
+      "\t${0}",
+      "}"
+    ],
+  },
+  "for i loop": {
+    "prefix": "fori",
+    "body": [
+      "for (let ${1:i} = 0; $1 < ${2:array}.length; $1++) {",
+      "\t${0}",
+      "}"
+    ],
   }
 }

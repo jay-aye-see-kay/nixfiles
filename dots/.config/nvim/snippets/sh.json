@@ -1,0 +1,48 @@
+{
+  "function": {
+    "prefix": "f",
+    "body": [
+      "${1:name}() {",
+      "\t${0}",
+      "}"
+    ],
+    "description": "Function definition"
+  },
+  "if statement": {
+    "prefix": "if",
+    "body": [
+      "if [ ${1:condition} ]; then",
+      "\t${0}",
+      "fi"
+    ],
+    "description": "If statement"
+  },
+  "variable": {
+    "prefix": "l",
+    "body": "${1:name}=${0:value}",
+    "description": "Variable assignment"
+  },
+  "readonly constant": {
+    "prefix": "c",
+    "body": "readonly ${1:NAME}=${0:value}",
+    "description": "Readonly constant"
+  },
+  "for loop": {
+    "prefix": "forr",
+    "body": [
+      "for ${1:item} in \"$@\"; do",
+      "\t${0}",
+      "done"
+    ],
+    "description": "For loop over arguments/list"
+  },
+  "for i loop": {
+    "prefix": "fori",
+    "body": [
+      "for ${1:i} in $(seq 0 $((${2:len}-1))); do",
+      "\t${0}",
+      "done"
+    ],
+    "description": "For loop with integer range"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "function": {
+    "prefix": "f",
+    "body": [
+      "fn ${1:name}(${2:params}) ${3:-> ${4:Type} }{",
+      "\t${0}",
+      "}"
+    ],
+    "description": "Function declaration"
+  },
+  "closure": {
+    "prefix": "af",
+    "body": "|${1:args}| ${0:expr}",
+    "description": "Anonymous function (closure)"
+  },
+  "method": {
+    "prefix": "m",
+    "body": [
+      "fn ${1:name}(&${2:self}${3:, ${4:params}}) ${5:-> ${6:Type} }{",
+      "\t${0}",
+      "}"
+    ],
+    "description": "Method declaration"
+  },
+  "if statement": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition} {",
+      "\t${0}",
+      "}"
+    ],
+    "description": "If statement"
+  },
+  "let binding": {
+    "prefix": "l",
+    "body": "let ${1:name} = ${0:value};",
+    "description": "Let binding (immutable)"
+  },
+  "constant": {
+    "prefix": "c",
+    "body": "const ${1:NAME}: ${2:Type} = ${0:value};",
+    "description": "Constant declaration"
+  },
+  "for loop": {
+    "prefix": "forr",
+    "body": [
+      "for ${1:item} in ${2:collection} {",
+      "\t${0}",
+      "}"
+    ],
+    "description": "For loop over collection"
+  },
+  "for i loop": {
+    "prefix": "fori",
+    "body": [
+      "for ${1:i} in 0..${2:len} {",
+      "\t${0}",
+      "}"
+    ],
+    "description": "For loop with integer range"
+  }
+}

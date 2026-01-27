@@ -1,0 +1,74 @@
+{
+  "function": {
+    "prefix": "f",
+    "body": [
+      "def ${1:name}(${2:args}):",
+      "\t${0:pass}"
+    ],
+    "description": "Function definition"
+  },
+  "lambda": {
+    "prefix": "af",
+    "body": "lambda ${1:args}: ${0:expr}",
+    "description": "Lambda function"
+  },
+  "class": {
+    "prefix": "cl",
+    "body": [
+      "class ${1:Name}:",
+      "\t${0:pass}"
+    ],
+    "description": "Class definition"
+  },
+  "dataclass": {
+    "prefix": "dc",
+    "body": [
+      "@dataclass",
+      "class ${1:Name}:",
+      "\t${0:pass}"
+    ],
+    "description": "Dataclass definition"
+  },
+  "method": {
+    "prefix": "m",
+    "body": [
+      "def ${1:method_name}(self${2:, args}):",
+      "\t${0:pass}"
+    ],
+    "description": "Method definition"
+  },
+  "if statement": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition}:",
+      "\t${0:pass}"
+    ],
+    "description": "If statement"
+  },
+  "variable": {
+    "prefix": "l",
+    "body": "${1:name} = ${0:value}",
+    "description": "Variable assignment"
+  },
+  "constant": {
+    "prefix": "c",
+    "body": "${1:NAME} = ${0:value}",
+    "description": "Constant (uppercase convention)"
+  },
+  "for loop": {
+    "prefix": "forr",
+    "body": [
+      "for ${1:item} in ${2:collection}:",
+      "\t${0:pass}"
+    ],
+    "description": "For loop over collection"
+  },
+  "for i loop": {
+    "prefix": "fori",
+    "body": [
+      "for ${1:i} in range(len(${2:collection})):",
+      "\t${0:pass}"
+    ],
+    "description": "For loop with integer index"
+  }
+}

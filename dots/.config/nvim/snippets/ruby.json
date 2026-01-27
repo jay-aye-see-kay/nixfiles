@@ -1,0 +1,71 @@
+{
+  "function": {
+    "prefix": "f",
+    "body": [
+      "def ${1:name}(${2:args})",
+      "\t${0}",
+      "end"
+    ],
+    "description": "Function definition"
+  },
+  "lambda": {
+    "prefix": "af",
+    "body": "-> (${1:args}) { ${0} }",
+    "description": "Lambda (stabby lambda)"
+  },
+  "class": {
+    "prefix": "cl",
+    "body": [
+      "class ${1:Name}",
+      "\t${0}",
+      "end"
+    ],
+    "description": "Class definition"
+  },
+  "method": {
+    "prefix": "m",
+    "body": [
+      "def ${1:method_name}(${2:args})",
+      "\t${0}",
+      "end"
+    ],
+    "description": "Method definition"
+  },
+  "if statement": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition}",
+      "\t${0}",
+      "end"
+    ],
+    "description": "If statement"
+  },
+  "variable": {
+    "prefix": "l",
+    "body": "${1:name} = ${0:value}",
+    "description": "Variable assignment"
+  },
+  "constant": {
+    "prefix": "c",
+    "body": "${1:NAME} = ${0:value}",
+    "description": "Constant (uppercase convention)"
+  },
+  "each loop": {
+    "prefix": "forr",
+    "body": [
+      "${1:collection}.each do |${2:item}|",
+      "\t${0}",
+      "end"
+    ],
+    "description": "Each loop over collection"
+  },
+  "for i loop": {
+    "prefix": "fori",
+    "body": [
+      "(0...${1:n}).each do |${2:i}|",
+      "\t${0}",
+      "end"
+    ],
+    "description": "Numeric range loop"
+  }
+}
