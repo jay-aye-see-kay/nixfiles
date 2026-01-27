@@ -5,6 +5,7 @@
       { "language": ["javascript", "typescript"], "path": "./javascript.json" },
       { "language": ["typescriptreact", "javascriptreact"], "path": "./react.json" },
       { "language": "markdown", "path": "./markdown.json" },
+      { "language": "go", "path": "./go.json" },
       { "language": "all", "path": "./all.json" }
     ]
   }
