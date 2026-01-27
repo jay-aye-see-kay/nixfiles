@@ -1,34 +1,34 @@
 {
   "date": {
     "prefix": "date",
-    "body": "${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
+    "body": "${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}"
   },
   "random number": {
     "prefix": "rn",
-    "body": "$RANDOM",
+    "body": "$RANDOM"
   },
   "random hex": {
     "prefix": "rh",
-    "body": "$RANDOM_HEX",
+    "body": "$RANDOM_HEX"
   },
   "uuid": {
     "prefix": "uuid",
-    "body": "$UUID",
+    "body": "$UUID"
   },
   "filename": {
     "prefix": "filename",
-    "body": "$TM_FILENAME",
+    "body": "$TM_FILENAME"
   },
   "filepath": {
     "prefix": "filepath",
-    "body": "$TM_FILEPATH",
+    "body": "$TM_FILEPATH"
   },
   "template string variable": {
     "prefix": "v",
-    "body": "\\${${1:variable}}",
+    "body": "\\${${1:variable}}"
   },
   "return": {
     "prefix": "r",
-    "body": "return ${0}",
+    "body": "return ${0}"
   }
 }
