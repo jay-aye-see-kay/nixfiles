@@ -1,6 +1,37 @@
 { pkgs, pkgs-unstable, lib, ... }:
 let
   inherit (pkgs.stdenv) isDarwin;
+
+  # Git subcommand abbreviations - generates both:
+  # 1. g-prefixed abbrs: gst -> "git status"
+  # 2. --command git abbrs: "git st" -> "git status"
+  # TODO also generate git alias in gitconfig from this list
+  shellGitAbbrs = {
+    st = "status";
+    co = "checkout";
+    pr = "pull --rebase";
+    pu = "push -u";
+    d = "diff";
+    dm = "diff (git merge-base (git guess-default-branch) HEAD)";
+    "-" = "checkout -";
+    dfs = "diff --staged";
+    cp = "cherry-pick";
+    rb = "rebase";
+    sw = "switch";
+    l = "log";
+    com = "checkout (git guess-default-branch)";
+  };
+
+  # Convert shellGitAbbrs to fish abbreviation commands
+  gitAbbrs = lib.concatStringsSep "\n" (
+    lib.mapAttrsToList
+      (
+        name: value:
+          ''abbr --add --command git ${name} "${value}"
+          abbr --add g${name} git ${value}''
+      )
+      shellGitAbbrs
+  );
 in
 {
   programs.fish = {
@@ -9,12 +40,6 @@ in
     shellAbbrs = {
       _ = "sudo";
       g = "git";
-      gs = "git status";
-      gpr = "git pull --rebase";
-      gpu = "git push -u";
-      gd = "git diff";
-      gdm = "git diff (git merge-base (git guess-default-branch) HEAD)";
-      g- = "git checkout -";
       s = "systemctl";
       j = "just";
       e = "nvim";
@@ -40,7 +65,7 @@ in
       ",z" = "zi";
       db = "devbox";
       dba = "devbox add";
-      dbr = "devbox rm";
+      dbr = "devbox run";
       dbs = "devbox services";
       dbu = "devbox services up -b";
       dbd = "devbox services down";
@@ -98,7 +123,12 @@ in
           source $HOME/.config/fish/completions/granted_completer_fish.fish
       end
       set -x GRANTED_ALIAS_CONFIGURED true
-    '' + (if isDarwin then ''
+
+      # Git subcommand abbreviations
+      ${gitAbbrs}
+    ''
+    +
+    (if isDarwin then ''
       ${pkgs-unstable.mise}/bin/mise activate fish | source
 
       if test -d $HOME/.rd/bin
