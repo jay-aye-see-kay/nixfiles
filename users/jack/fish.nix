@@ -27,8 +27,8 @@ let
     lib.mapAttrsToList
       (
         name: value:
-          ''abbr --add --command git ${name} "${value}"
-          abbr --add g${name} git ${value}''
+          ''abbr --add --command git ${name} '${value}'
+          abbr --add g${name} 'git ${value}' ''
       )
       shellGitAbbrs
   );
