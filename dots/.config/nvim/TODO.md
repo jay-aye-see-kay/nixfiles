@@ -1,0 +1,3 @@
+- [x] make it easy to make TODOs (`,v`)
+- [ ] fix fugitive setup (keymap and rhubarb)
+- [ ]
