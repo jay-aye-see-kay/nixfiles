@@ -1,3 +1,4 @@
 - [x] make it easy to make TODOs (`,v`)
-- [ ] fix fugitive setup (keymap and rhubarb)
-- [ ]
+- [x] fix fugitive setup (keymap and rhubarb)
+- [ ] remove hover.nvim (I don't care aobut those featuesr, plus put the K keymap back)
+- [ ] fix the diagnositic pop ups, it doesn't show on `]d` any more
