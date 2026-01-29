@@ -156,6 +156,8 @@ nvim --headless -c 'luafile lua/plugins/lsp.lua' -c 'quit'
 ```
 
 **Find doc files for grepping:**
+- `:help` is interactive and will hang if called headlessly, you must search plugin source code for docs
+- sometime help docs are not complete, and searching plugin source code is required too
 ```bash
 # Print all runtime paths (includes plugin doc dirs)
 nvim --headless -c 'lua print(vim.inspect(vim.api.nvim_list_runtime_paths()))' -c 'quit'
