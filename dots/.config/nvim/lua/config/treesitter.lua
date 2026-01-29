@@ -2,7 +2,12 @@
 -- Note: nvim-treesitter and nvim-treesitter-textobjects are provided by Nix
 -- They're already in the runtimepath, so we just need to configure them
 
-require("nvim-treesitter").setup()
+-- Initialize nvim-treesitter-textobjects (queues the textobjects module definitions)
+require("nvim-treesitter-textobjects").init()
+
+-- Initialize nvim-treesitter configs (processes queued module definitions including textobjects)
+-- This is normally done by the nvim-treesitter plugin file, but we're loading this before plugin files are sourced
+require("nvim-treesitter.configs").init()
 
 require("nvim-treesitter.configs").setup({
 	auto_install = false,
