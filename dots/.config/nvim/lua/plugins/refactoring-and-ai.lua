@@ -156,4 +156,12 @@ return {
 			vim.cmd("Copilot disable") -- enable on demand
 		end,
 	},
+
+	{
+		"stevearc/quicker.nvim",
+		ft = "qf",
+		---@module "quicker"
+		---@type quicker.SetupOptions
+		opts = {},
+	},
 }
