@@ -67,6 +67,39 @@ return {
 		lazy = false,
 		keys = {
 			{ "<tab>", "=", ft = "fugitive", remap = true },
+			{
+				"<leader>gp",
+				function()
+					local output = {}
+					vim.fn.jobstart("git push", {
+						on_stdout = function(_, data)
+							if data then
+								vim.list_extend(output, data)
+							end
+						end,
+						on_stderr = function(_, data)
+							if data then
+								vim.list_extend(output, data)
+							end
+						end,
+						on_exit = function(_, exit_code)
+							vim.schedule(function()
+								if exit_code == 0 then
+									vim.notify("Git push succeeded", vim.log.levels.INFO)
+									vim.fn["FugitiveDidChange"]() -- Refresh fugitive buffers
+								else
+									local error_msg = table.concat(output, "\n")
+									vim.notify("Git push failed:\n" .. error_msg, vim.log.levels.ERROR)
+								end
+							end)
+						end,
+						stdout_buffered = true,
+						stderr_buffered = true,
+					})
+					vim.notify("Pushing to remote...", vim.log.levels.INFO)
+				end,
+				desc = "git push async",
+			},
 		},
 	},
 }
