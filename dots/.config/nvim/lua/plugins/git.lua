@@ -61,7 +61,12 @@ return {
 	-- Vim fugitive for git commands
 	{
 		"tpope/vim-fugitive",
+		dependencies = {
+			"tpope/vim-rhubarb",
+		},
 		lazy = false,
-		keys = { "<tab>", "=", ft = "fugitive", remap = true },
+		keys = {
+			{ "<tab>", "=", ft = "fugitive", remap = true },
+		},
 	},
 }
