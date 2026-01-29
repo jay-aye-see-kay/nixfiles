@@ -40,9 +40,7 @@ return {
 					end
 
 					map("n", "gd", "<cmd>Telescope lsp_definitions<cr>", "Goto/find definitions")
-					-- map("n", "gr", "<cmd>Telescope lsp_references<cr>", "Find references")
 					map("n", "gh", vim.lsp.buf.hover, "Hover docs")
-					map("n", "gI", vim.lsp.buf.implementation, "Goto implementation")
 					map("i", "<C-i>", vim.lsp.buf.signature_help, "Signature Documentation")
 				end,
 			})
