@@ -1,7 +1,7 @@
 {
   "task": {
     "prefix": "t",
-    "body": "- [ ] ${0}",
+    "body": "- [ ] ${0}"
   },
   "code block": {
     "prefix": "c",
@@ -9,7 +9,7 @@
       "```",
       "${1}",
       "```"
-    ],
+    ]
   },
   "json code block": {
     "prefix": "cj",
@@ -17,7 +17,7 @@
       "```json",
       "${1}",
       "```"
-    ],
+    ]
   },
   "go code block": {
     "prefix": "cg",
@@ -25,7 +25,7 @@
       "```go",
       "${1}",
       "```"
-    ],
+    ]
   },
   "typescript code block": {
     "prefix": "ct",
@@ -33,7 +33,7 @@
       "```typescript",
       "${1}",
       "```"
-    ],
+    ]
   },
   "python code block": {
     "prefix": "cp",
@@ -41,7 +41,7 @@
       "```python",
       "${1}",
       "```"
-    ],
+    ]
   },
   "bash code block": {
     "prefix": "cs",
@@ -49,7 +49,7 @@
       "```bash",
       "${1}",
       "```"
-    ],
+    ]
   },
   "nix code block": {
     "prefix": "cn",
@@ -57,7 +57,7 @@
       "```nix",
       "${1}",
       "```"
-    ],
+    ]
   },
   "c code block": {
     "prefix": "cc",
@@ -65,6 +65,6 @@
       "```c",
       "${1}",
       "```"
-    ],
+    ]
   }
 }
