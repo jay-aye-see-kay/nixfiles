@@ -1,4 +1,5 @@
 - [x] make it easy to make TODOs (`,v`)
 - [x] fix fugitive setup (keymap and rhubarb)
-- [ ] remove hover.nvim (I don't care aobut those featuesr, plus put the K keymap back)
-- [ ] fix the diagnositic pop ups, it doesn't show on `]d` any more
+- [ ] remove hover.nvim (I don't care about those features, plus put the K keymap back)
+- [x] fix the diagnostic pop ups, it doesn't show on `]d` any more
+- [ ] `af` object doesn't work anymore, this used to come from treesitter?

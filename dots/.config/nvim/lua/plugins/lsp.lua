@@ -1,3 +1,11 @@
+-- improve ]d and [d behavior
+vim.diagnostic.config({
+	jump = {
+		float = true,
+		wrap = true,
+	},
+})
+
 return {
 	{
 		"folke/lazydev.nvim",
