@@ -139,10 +139,47 @@ vim.filetype.add({
 	},
 })
 
-vim.keymap.set("n", ",v", "<cmd>e ~/nixfiles/dots/.config/nvim/TODO.md<cr>", {
+-- Open file in centered floating window
+local function open_in_float(filepath)
+	-- Expand ~ to home directory
+	local expanded_path = vim.fn.expand(filepath)
+
+	-- Calculate dimensions (80% of editor)
+	local width = math.floor(vim.o.columns * 0.8)
+	local height = math.floor(vim.o.lines * 0.8)
+	local col = math.floor((vim.o.columns - width) / 2)
+	local row = math.floor((vim.o.lines - height) / 2)
+
+	-- Create a new buffer and load the file
+	local buf = vim.api.nvim_create_buf(false, false) -- listed, not scratch
+	vim.api.nvim_buf_call(buf, function()
+		vim.cmd.edit(expanded_path)
+	end)
+
+	-- Open floating window
+	local win = vim.api.nvim_open_win(buf, true, {
+		relative = "editor",
+		width = width,
+		height = height,
+		col = col,
+		row = row,
+		style = "minimal",
+		border = "double",
+	})
+
+	-- Window-local settings
+	vim.wo[win].number = true
+	vim.wo[win].relativenumber = true
+end
+
+vim.keymap.set("n", ",v", function()
+	open_in_float("~/nixfiles/dots/.config/nvim/TODO.md")
+end, {
 	desc = "open nvim todo file",
 })
 
-vim.keymap.set("n", ",i", "<cmd>e ~/obsidian/notes/ideas.md<cr>", {
+vim.keymap.set("n", ",i", function()
+	open_in_float("~/obsidian/notes/ideas.md")
+end, {
 	desc = "open ideas file",
 })
