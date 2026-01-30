@@ -136,10 +136,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	end,
 })
 
--- modern copy paste keymaps
-vim.keymap.set("i", "<C-v>", "<C-r>+")
-vim.keymap.set("v", "<C-c>", '"+y')
-
 vim.opt.spellcapcheck = "" -- ignore capitalisation
 vim.wo.relativenumber = true -- Make line numbers relative
 
