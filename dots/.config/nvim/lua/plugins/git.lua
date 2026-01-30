@@ -72,7 +72,7 @@ return {
 			{
 				"<leader>gp",
 				function()
-					helpers.run_git_command_async("push")
+					helpers.run_git_command_async("push -u")
 				end,
 				desc = "git push async",
 			},
@@ -82,6 +82,13 @@ return {
 					helpers.run_git_command_async("pull --rebase")
 				end,
 				desc = "git pull async",
+			},
+			{
+				"<leader>gF",
+				function()
+					helpers.run_git_command_async("fetch")
+				end,
+				desc = "git fetch async",
 			},
 		},
 	},
