@@ -142,3 +142,7 @@ vim.filetype.add({
 vim.keymap.set("n", ",v", "<cmd>e ~/nixfiles/dots/.config/nvim/TODO.md<cr>", {
 	desc = "open nvim todo file",
 })
+
+vim.keymap.set("n", ",i", "<cmd>e ~/obsidian/notes/ideas.md<cr>", {
+	desc = "open ideas file",
+})
