@@ -47,4 +47,60 @@ M.toggle_executable_bit = function(file_path)
 	end)
 end
 
+-- Runs a shell command asynchronously with callbacks
+M.run_shell_command_async = function(opts)
+	assert(type(opts.cmd) == "string", "cmd must be a string")
+
+	local output = {}
+	vim.fn.jobstart(opts.cmd, {
+		on_stdout = function(_, data)
+			if data then
+				vim.list_extend(output, data)
+			end
+		end,
+		on_stderr = function(_, data)
+			if data then
+				vim.list_extend(output, data)
+			end
+		end,
+		on_exit = function(_, exit_code)
+			vim.schedule(function()
+				local output_str = table.concat(output, "\n")
+				if exit_code == 0 then
+					if opts.on_success then
+						opts.on_success(output_str)
+					end
+				else
+					if opts.on_error then
+						opts.on_error(output_str, exit_code)
+					end
+				end
+			end)
+		end,
+		stdout_buffered = true,
+		stderr_buffered = true,
+	})
+end
+
+-- Runs a git command asynchronously with automatic notifications and fugitive refresh
+M.run_git_command_async = function(git_args)
+	assert(type(git_args) == "string", "git_args must be a string")
+
+	-- Extract action verb (first word) for messages
+	local action = git_args:match("^(%S+)")
+
+	vim.notify("Running git " .. action .. "...", vim.log.levels.INFO)
+
+	M.run_shell_command_async({
+		cmd = "git " .. git_args,
+		on_success = function(output)
+			vim.notify("Git " .. action .. " succeeded", vim.log.levels.INFO)
+			vim.fn["FugitiveDidChange"]()
+		end,
+		on_error = function(output, exit_code)
+			vim.notify("Git " .. action .. " failed:\n" .. output, vim.log.levels.ERROR)
+		end,
+	})
+end
+
 return M

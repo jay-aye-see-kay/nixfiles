@@ -1,3 +1,5 @@
+local helpers = require("config.helpers")
+
 -- Autocmd for gitcommit filetype
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "gitcommit",
@@ -70,35 +72,16 @@ return {
 			{
 				"<leader>gp",
 				function()
-					local output = {}
-					vim.fn.jobstart("git push", {
-						on_stdout = function(_, data)
-							if data then
-								vim.list_extend(output, data)
-							end
-						end,
-						on_stderr = function(_, data)
-							if data then
-								vim.list_extend(output, data)
-							end
-						end,
-						on_exit = function(_, exit_code)
-							vim.schedule(function()
-								if exit_code == 0 then
-									vim.notify("Git push succeeded", vim.log.levels.INFO)
-									vim.fn["FugitiveDidChange"]() -- Refresh fugitive buffers
-								else
-									local error_msg = table.concat(output, "\n")
-									vim.notify("Git push failed:\n" .. error_msg, vim.log.levels.ERROR)
-								end
-							end)
-						end,
-						stdout_buffered = true,
-						stderr_buffered = true,
-					})
-					vim.notify("Pushing to remote...", vim.log.levels.INFO)
+					helpers.run_git_command_async("push")
 				end,
 				desc = "git push async",
+			},
+			{
+				"<leader>gl",
+				function()
+					helpers.run_git_command_async("pull --rebase")
+				end,
+				desc = "git pull async",
 			},
 		},
 	},

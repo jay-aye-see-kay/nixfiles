@@ -4,5 +4,11 @@
 - [x] fix the diagnostic pop ups, it doesn't show on `]d` any more
 - [x] `af` object doesn't work anymore, this used to come from treesitter?
 - [x] remember file position on next open?
-- [ ] git pull async
+- [x] git pull async
 - [ ] move the "open file in float" to notes.lua, tidy it up
+- [ ] run this prompt on work laptop:
+```
+!atuin --help
+!abbr
+look through my shell history in atuin, and suggest new fish abbreviations I don't have setup
+```
