@@ -77,7 +77,7 @@ return {
 				desc = "git push async",
 			},
 			{
-				"<leader>gl",
+				"<leader>gP",
 				function()
 					helpers.run_git_command_async("pull --rebase")
 				end,
