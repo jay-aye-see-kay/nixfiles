@@ -41,27 +41,24 @@ return {
 		},
 	},
 
-	-- Headlines for markdown
 	{
-		"lukas-reineke/headlines.nvim",
-		lazy = true,
-		ft = { "markdown", "rmd", "orgmode", "neorg" },
-		opts = {
-			markdown = { fat_headlines = false },
-			rmd = { fat_headlines = false },
-			norg = { fat_headlines = false },
-			org = { fat_headlines = false },
+		"MeanderingProgrammer/render-markdown.nvim",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons",
 		},
-	},
-
-	-- Markdown preview
-	{
-		"iamcco/markdown-preview.nvim",
-		lazy = true,
-		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-		ft = { "markdown" },
-		build = function()
-			vim.fn["mkdp#util#install"]()
-		end,
+		---@module 'render-markdown'
+		---@type render.md.UserConfig
+		opts = {
+			render_modes = true,
+			code = {
+				border = "thin",
+			},
+			html = {
+				comment = {
+					conceal = false,
+				},
+			},
+		},
 	},
 }
