@@ -55,7 +55,7 @@ in
         (builtins.readFile ../../scripts/guess-default-branch.sh))
     ]
     ++ (if pkgs.stdenv.isLinux then linuxOnlyPackages else darwinOnlyPackages);
-  
+
   # Development tools (LSPs, formatters, runtimes, etc) are in ../features/devtools.nix
   # Enable per-host in flake.nix by setting features.devtools.enable = true;
 
@@ -89,6 +89,14 @@ in
       "--disable-up-arrow"
     ];
     atuin.daemon.enable = pkgs.stdenv.isLinux;
+
+    ghostty = {
+      enable = true;
+      systemd.enable = true;
+      settings = {
+        theme = "GitHub Light Default";
+      };
+    };
 
     alacritty = {
       enable = true;

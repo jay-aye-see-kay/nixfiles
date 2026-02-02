@@ -14,9 +14,9 @@ set $left h
 set $down j
 set $up k
 set $right l
-set $term alacritty
+set $term ghostty
 
-set $menu $term --class=launcher --command env "FZF_DEFAULT_OPTS='--reverse'" sway-launcher-desktop
+set $menu alacritty --class=launcher --command env "FZF_DEFAULT_OPTS='--reverse'" sway-launcher-desktop
 for_window [app_id="^launcher$"] floating enable, sticky enable
 
 default_border pixel 4
