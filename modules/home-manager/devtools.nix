@@ -44,16 +44,16 @@ in
       # LSPs
       godef
       gopls
-      nodePackages."@tailwindcss/language-server"
-      nodePackages.bash-language-server
+      tailwindcss-language-server
+      bash-language-server
       dockerfile-language-server
       nodePackages.eslint_d
       pyright
-      nodePackages.typescript
-      nodePackages.typescript-language-server
-      nodePackages.vim-language-server
-      nodePackages.vscode-langservers-extracted
-      nodePackages.yaml-language-server
+      typescript
+      typescript-language-server
+      vim-language-server
+      vscode-langservers-extracted
+      yaml-language-server
       nixd
       lua-language-server
       ruff
