@@ -42,6 +42,7 @@ return {
 				lua = { "stylua" },
 				nix = { "nixpkgs_fmt" },
 				python = { "isort", "black" },
+				go = { "goimports", "gofmt" },
 			},
 
 			default_format_opts = {

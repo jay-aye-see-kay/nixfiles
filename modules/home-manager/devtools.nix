@@ -70,6 +70,13 @@ in
       stylua
       nixpkgs-fmt
 
+      # gotools includes a 'stress' binary that conflicts with the stress package (rm it)
+      (gotools.overrideAttrs (old: {
+        postInstall = (old.postInstall or "") + ''
+          rm -f $out/bin/stress
+        '';
+      }))
+
       # Debuggers
       delve
 
