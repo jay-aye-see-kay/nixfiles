@@ -1,6 +1,5 @@
 local helpers = require("config.helpers")
 
--- Autocmd for gitcommit filetype
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "gitcommit",
 	callback = function()
@@ -10,35 +9,25 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- Git plugins
 return {
-	-- Diffview for viewing diffs
 	{
-		"sindrets/diffview.nvim",
-		lazy = true,
-		cmd = {
-			"DiffviewClose",
-			"DiffviewFileHistory",
-			"DiffviewFocusFiles",
-			"DiffviewLog",
-			"DiffviewOpen",
-			"DiffviewRefresh",
-			"DiffviewToggleFiles",
-		},
+		"esmuellert/codediff.nvim",
+		dependencies = { "MunifTanjim/nui.nvim" },
+		cmd = "CodeDiff",
 		keys = {
-			{ "<leader>gd", "<cmd>DiffviewFileHistory %<cr>", desc = "diffview current file" },
+			{ "<leader>gs", "<cmd>CodeDiff<cr>", desc = "changes in working area" },
+			{ "<leader>gd", "<cmd>CodeDiff history %<cr>", desc = "history of current file" },
 		},
 	},
 
-	-- Git conflict resolution
 	{
 		"akinsho/git-conflict.nvim",
-		opts = {},
+		event = "VeryLazy",
 		keys = {
 			{ "]x", "<Plug>(git-conflict-next-conflict)", desc = "next conflict marker" },
 			{ "[x", "<Plug>(git-conflict-prev-conflict)", desc = "prev conflict marker" },
 		},
 	},
 
-	-- Gitsigns for git decorations and hunks
 	{
 		"lewis6991/gitsigns.nvim",
 		lazy = true,
@@ -60,7 +49,6 @@ return {
 		},
 	},
 
-	-- Vim fugitive for git commands
 	{
 		"tpope/vim-fugitive",
 		dependencies = {
