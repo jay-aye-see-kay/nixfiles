@@ -59,6 +59,14 @@ return {
 					conceal = false,
 				},
 			},
+			checkbox = {
+				unchecked = {
+					icon = "-  󰄱 ",
+				},
+				checked = {
+					icon = "-  󰱒 ",
+				},
+			},
 		},
 	},
 }
