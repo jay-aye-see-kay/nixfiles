@@ -77,48 +77,11 @@ in
       gcloud.disabled = true;
     };
 
-    navi.enable = true;
-    navi.enableFishIntegration = true;
-
-    atuin.enable = true;
-    atuin.settings = {
-      enter_accept = false;
-      daemon.enabled = pkgs.stdenv.isLinux; # quick hack
-    };
-    atuin.flags = [
-      "--disable-up-arrow"
-    ];
-    atuin.daemon.enable = pkgs.stdenv.isLinux;
-
     ghostty = if pkgs.stdenv.isDarwin then { } else {
       enable = true;
       systemd.enable = true;
       settings = {
         theme = "GitHub Light Default";
-      };
-    };
-
-    alacritty = {
-      enable = true;
-      settings = {
-        font.size = if pkgs.stdenv.isLinux then 12 else 14;
-        font.normal.family = ifDarwin "FiraMono Nerd Font Mono";
-        # Spread additional padding evenly around the terminal content.
-        window.dynamic_padding = true;
-        # Make `Option` key behave as `Alt` (macOS only):
-        window.option_as_alt = "OnlyRight";
-
-        keyboard.bindings = [
-          # Don't quit on Cmd-W it's annoying
-          # Unfortunately it will still quit on Cmd-Q and this can't be disabled, see https://github.com/alacritty/alacritty/issues/6136
-          { key = "W"; mods = "Command"; action = "None"; }
-          # shift enter is newline
-          { key = "Return"; mods = "Shift"; chars = "\n"; }
-        ];
-
-        # from: https://github.com/catppuccin/alacritty/blob/main/catppuccin-mocha.yml
-        # converted to json in vim with `:'<,'>!yq`
-        colors = builtins.fromJSON (builtins.readFile ./alacritty-colors.json);
       };
     };
 
