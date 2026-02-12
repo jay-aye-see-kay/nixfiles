@@ -90,7 +90,7 @@ in
     ];
     atuin.daemon.enable = pkgs.stdenv.isLinux;
 
-    ghostty = {
+    ghostty = if pkgs.stdenv.isDarwin then { } else {
       enable = true;
       systemd.enable = true;
       settings = {
