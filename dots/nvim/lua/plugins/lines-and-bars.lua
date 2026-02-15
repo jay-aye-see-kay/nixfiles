@@ -9,8 +9,6 @@ return {
 	-- Lualine statusline
 	{
 		"nvim-lualine/lualine.nvim",
-		lazy = true,
-		event = "VeryLazy",
 		dependencies = { "SmiteshP/nvim-navic" },
 		config = function()
 			local navic = require("nvim-navic")
