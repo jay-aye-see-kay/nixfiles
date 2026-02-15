@@ -12,7 +12,7 @@ nixfiles/
 │   └── home-manager/     # Home Manager user modules
 ├── hosts/                 # Host-specific configurations (tui, kakapo, etc.)
 ├── users/                 # User-specific home configurations
-├── dots/                  # Dotfiles (deployed via GNU stow)
+├── dots/                  # Dotfiles (mostly stuff that goes in ~/.config, not managed directly with nix, uses mkOutOfStoreSymlink)
 ├── scripts/              # Utility shell scripts
 ├── justfile              # Command runner tasks
 └── statix.toml           # Nix linter configuration
@@ -25,7 +25,6 @@ nixfiles/
 ```bash
 just                      # List all available commands
 just build                # Build configuration without applying to check for nix issues
-just stow                 # Deploy dotfiles using stow
 ```
 
 ## Code Style Guidelines

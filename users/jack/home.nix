@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, lib, ... }:
+{ pkgs, pkgs-unstable, lib, config, ... }:
 let
   ifDarwin = lib.mkIf pkgs.stdenv.isDarwin;
   darwinOnlyPackages = [
@@ -39,6 +39,9 @@ in
     --hidden
     --ignore
   '';
+
+  xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink
+    "${config.home.homeDirectory}/nixfiles/dots/nvim";
 
   home.packages = with pkgs;
     [

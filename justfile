@@ -19,12 +19,6 @@ update-one:
   echo "---"
   nix flake update $CHOSEN
 
-stow:
-  stow -d ./dots -t ~ .
-
-unstow:
-  stow -d ./dots -t ~ -D .
-
 switch:
   #!/bin/sh
   if [ "$(uname)" = "Darwin" ]; then
@@ -32,7 +26,6 @@ switch:
   else
     nixos-rebuild --sudo switch --flake .#
   fi
-  just stow
 
 build:
   #!/bin/sh
