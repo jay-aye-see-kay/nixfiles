@@ -94,4 +94,11 @@ return {
 			{ "\\v", ":lua require('decisive').align_csv({})<cr>", desc = "Align CSV" },
 		},
 	},
+
+	{
+		"samjwill/nvim-unception",
+		init = function()
+			vim.g.unception_block_while_host_edits = true
+		end,
+	},
 }

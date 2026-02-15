@@ -2,7 +2,6 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 vim.g.have_nerd_font = true
-vim.g.unception_block_while_host_edits = true
 
 -- From kickstart.nvim
 vim.o.number = true
