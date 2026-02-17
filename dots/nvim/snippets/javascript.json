@@ -1,27 +1,27 @@
 {
   "const": {
     "prefix": "c",
-    "body": "const ${1:name} = ${0:value}",
+    "body": "const ${1:name} = ${0:value}"
   },
   "let": {
     "prefix": "l",
-    "body": "let ${1:name} = ${0:value}",
+    "body": "let ${1:name} = ${0:value}"
   },
   "export": {
     "prefix": "e",
-    "body": "export ${0}",
+    "body": "export ${0}"
   },
   "await": {
     "prefix": "aw",
-    "body": "await ${0}",
+    "body": "await ${0}"
   },
   "async": {
     "prefix": "as",
-    "body": "async ${0}",
+    "body": "async ${0}"
   },
   "debugger": {
     "prefix": "d",
-    "body": "debugger",
+    "body": "debugger"
   },
   "function": {
     "prefix": "f",
@@ -29,11 +29,11 @@
       "function ${1:name}(${2:params}) {",
       "\t${3}",
       "}"
-    ],
+    ]
   },
   "arrow function": {
     "prefix": "af",
-    "body": "(${1:params}) => ${0:expression}",
+    "body": "(${1:params}) => ${0:expression}"
   },
   "skeleton function": {
     "prefix": "sf",
@@ -41,11 +41,11 @@
       "function ${1:name}(${2:params}): ${3:void} {",
       "\t${0:throw new Error('Not implemented')}",
       "}"
-    ],
+    ]
   },
   "throw error": {
     "prefix": "tn",
-    "body": "throw new Error(${0})",
+    "body": "throw new Error(${0})"
   },
   "jsdoc": {
     "prefix": "jsdoc",
@@ -53,23 +53,23 @@
       "/**",
       " * ${0}",
       " */"
-    ],
+    ]
   },
   "block comment": {
     "prefix": "/",
-    "body": "/* ${0} */",
+    "body": "/* ${0} */"
   },
   "inline jsdoc": {
     "prefix": "/**",
-    "body": "/** ${0} */",
+    "body": "/** ${0} */"
   },
   "eslint disable next line": {
     "prefix": "eld",
-    "body": "/* eslint-disable-next-line ${0} */",
+    "body": "/* eslint-disable-next-line ${0} */"
   },
   "delay": {
     "prefix": "delay",
-    "body": "await new Promise((resolve) => setTimeout(resolve, ${0:1000}))",
+    "body": "await new Promise((resolve) => setTimeout(resolve, ${0:1000}))"
   },
   "class": {
     "prefix": "cl",
@@ -77,7 +77,7 @@
       "class ${1:Name} {",
       "\t${0}",
       "}"
-    ],
+    ]
   },
   "method": {
     "prefix": "m",
@@ -85,7 +85,7 @@
       "${1:name}(${2:params}) {",
       "\t${0}",
       "}"
-    ],
+    ]
   },
   "if statement": {
     "prefix": "if",
@@ -93,7 +93,7 @@
       "if (${1:condition}) {",
       "\t${0}",
       "}"
-    ],
+    ]
   },
   "for of loop": {
     "prefix": "forr",
@@ -101,7 +101,7 @@
       "for (const ${1:item} of ${2:array}) {",
       "\t${0}",
       "}"
-    ],
+    ]
   },
   "for i loop": {
     "prefix": "fori",
@@ -109,6 +109,6 @@
       "for (let ${1:i} = 0; $1 < ${2:array}.length; $1++) {",
       "\t${0}",
       "}"
-    ],
+    ]
   }
 }

@@ -3,7 +3,7 @@
     "prefix": "us",
     "body": [
       "const [${1:state}, set${1/(.*)/${1:/capitalize}/}] = useState(${2})"
-    ],
+    ]
   },
   "react useeffect": {
     "prefix": "ue",
@@ -11,16 +11,16 @@
       "useEffect(() => {",
       "\t${1}",
       "}, [${0}])"
-    ],
+    ]
   },
   "html tag": {
     "prefix": "t",
     "body": [
       "<${1:div}>${0}</${1:div}>"
-    ],
+    ]
   },
   "class name": {
     "prefix": "cn",
-    "body": "className=\"${0}\"",
+    "body": "className=\"${0}\""
   }
 }
