@@ -84,6 +84,7 @@
             modules.key-remapping.enable = true;
             modules.sway-desktop.enable = true;
             modules.syncthing.enable = true;
+            modules.common.autoGc = false; # annoying on a laptop
           }
           home-manager.nixosModules.home-manager
           {

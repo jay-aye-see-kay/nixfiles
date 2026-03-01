@@ -5,6 +5,11 @@ in
 {
   options.modules.common = {
     enable = lib.mkEnableOption "base NixOS configuration" // { default = true; };
+    autoGc = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable automatic Nix garbage collection.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -17,14 +22,15 @@ in
       extraOptions = ''
         experimental-features = nix-command flakes
       '';
-      gc = {
-        automatic = true;
-        dates = "weekly";
-        options = "--delete-older-than 30d";
-      };
       settings.trusted-users = [ "root" "jack" ];
       settings.auto-optimise-store = true;
       settings.eval-cache = true;
+    };
+
+    nix.gc = lib.mkIf cfg.autoGc {
+      automatic = cfg.autoGc;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
     };
 
     # nix search nixpkgs <blah> won't download nixpkgs every time!
