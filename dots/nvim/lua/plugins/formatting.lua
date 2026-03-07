@@ -1,4 +1,5 @@
--- Formatting with conform.nvim
+local js_fmt = { "oxfmt", "prettierd", "prettier", stop_after_first = true }
+
 return {
 	{
 		"stevearc/conform.nvim",
@@ -38,7 +39,12 @@ return {
 		---@type conform.setupOpts
 		opts = {
 			formatters_by_ft = {
-				javascript = { "prettierd", "prettier", stop_after_first = true },
+				javascript = js_fmt,
+				javascriptreact = js_fmt,
+				typescript = js_fmt,
+				typescriptreact = js_fmt,
+				json = { "oxfmt", stop_after_first = true },
+				jsonc = { "oxfmt", stop_after_first = true },
 				lua = { "stylua" },
 				nix = { "nixpkgs_fmt" },
 				python = { "isort", "black" },
