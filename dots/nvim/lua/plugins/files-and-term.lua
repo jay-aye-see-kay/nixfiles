@@ -137,7 +137,8 @@ local plugins = {
 }
 
 -- Terminal configuration
-vim.keymap.set("t", "<ESC><ESC>", [[<C-\><C-n>]])
+vim.keymap.set("t", "<ESC>", [[<C-\><C-n>]])
+vim.keymap.set("t", "<A-ESC>", "<ESC>")
 
 vim.api.nvim_create_autocmd({ "TermEnter" }, {
 	command = "setlocal winhighlight=Normal:ActiveTerm",
