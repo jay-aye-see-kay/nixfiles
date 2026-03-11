@@ -1,6 +1,6 @@
 # collect all my "core" cli tools, describe then
 # install them on all hosts from here
-{ pkgs, pkgs-unstable, ... }: with pkgs;
+{ pkgs, ... }: with pkgs;
 let
   platformSpecificPackages =
     if stdenv.isLinux then [
@@ -67,7 +67,7 @@ platformSpecificPackages ++ [
   hyperfine
   tokei
   stress
-  pkgs-unstable.ast-grep
+  ast-grep
 
   # nix stuff
   nix-tree # show dependencies and sizes of installed nixpkgs

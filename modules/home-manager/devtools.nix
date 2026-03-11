@@ -43,7 +43,7 @@ in
 
       # LSPs
       godef
-      gopls
+      pkgs-unstable.gopls
       tailwindcss-language-server
       bash-language-server
       dockerfile-language-server
