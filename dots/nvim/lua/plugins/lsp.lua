@@ -76,8 +76,10 @@ return {
 				html = {},
 				jsonls = {
 					settings = {
-						validate = { enable = true },
-						schemas = require("schemastore").json.schemas(),
+						json = {
+							validate = { enable = true },
+							schemas = require("schemastore").json.schemas(),
+						},
 					},
 				},
 				lua_ls = {
