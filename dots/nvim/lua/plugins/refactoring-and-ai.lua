@@ -38,6 +38,28 @@ return {
 	},
 
 	{
+		"folke/sidekick.nvim",
+		opts = {
+			nes = { enabled = false },
+			cli = {
+				mux = {
+					backend = "tmux",
+					enabled = true,
+				},
+			},
+		},
+		keys = {
+			{
+				",s",
+				function()
+					require("sidekick.cli").toggle({ name = "opencode", focus = true })
+				end,
+				desc = "Sidekick Toggle Opencode",
+			},
+		},
+	},
+
+	{
 		"stevearc/quicker.nvim",
 		ft = "qf",
 		---@module "quicker"
