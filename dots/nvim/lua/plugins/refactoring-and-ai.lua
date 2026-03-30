@@ -61,7 +61,17 @@ return {
 
 	{
 		"carlos-algms/agentic.nvim",
-		opts = { provider = "opencode-acp" },
+		config = function()
+			require("agentic").setup({
+				provider = "opencode-acp",
+			})
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "AgenticInput",
+				callback = function()
+					vim.keymap.set("n", "ZZ", "<Nop>", { buffer = true })
+				end,
+			})
+		end,
 		keys = {
 			{
 				"<C-\\>",
@@ -72,7 +82,7 @@ return {
 				desc = "Toggle Agentic Chat",
 			},
 			{
-				"<C-'>",
+				"<C-'>", -- note: not currently working through tmux
 				function()
 					require("agentic").add_selection_or_file_to_context()
 				end,
@@ -80,12 +90,28 @@ return {
 				desc = "Add file or selection to Agentic to Context",
 			},
 			{
-				"<C-,>",
+				"<leader>an",
 				function()
 					require("agentic").new_session()
 				end,
-				mode = { "n", "v", "i" },
+				mode = { "n", "v" },
 				desc = "New Agentic Session",
+			},
+			{
+				"<leader>ar",
+				function()
+					require("agentic").restore_session()
+				end,
+				mode = { "n" },
+				desc = "Agentic Sessions",
+			},
+			{
+				"<leader>as",
+				function()
+					require("agentic").stop_generation()
+				end,
+				mode = { "n" },
+				desc = "Agentic Stop",
 			},
 		},
 	},
