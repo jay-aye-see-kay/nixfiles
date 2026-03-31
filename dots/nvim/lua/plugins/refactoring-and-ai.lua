@@ -64,6 +64,40 @@ return {
 		config = function()
 			require("agentic").setup({
 				provider = "opencode-acp",
+				headers = {
+					input = function(parts)
+						local usage = vim.t.agentic_usage
+						local usage_str = ""
+						if usage then
+							local used_k = math.floor(usage.used / 1000)
+							local size_k = math.floor(usage.size / 1000)
+							local pct = math.floor((usage.used / usage.size) * 100)
+							usage_str = string.format(" | %dk/%dk (%d%%)", used_k, size_k, pct)
+						end
+						return parts.title .. usage_str .. " | " .. parts.suffix
+					end,
+				},
+				hooks = {
+					on_session_update = function(data)
+						if data.update.sessionUpdate == "usage_update" then
+							if vim.api.nvim_tabpage_is_valid(data.tab_page_id) then
+								vim.t[data.tab_page_id].agentic_usage = {
+									used = data.update.used,
+									size = data.update.size,
+								}
+								-- Trigger header re-render for input window
+								for _, win in ipairs(vim.api.nvim_tabpage_list_wins(data.tab_page_id)) do
+									local buf = vim.api.nvim_win_get_buf(win)
+									if vim.bo[buf].filetype == "AgenticInput" then
+										local WindowDecoration = require("agentic.ui.window_decoration")
+										WindowDecoration.render_header(buf, "input")
+										break
+									end
+								end
+							end
+						end
+					end,
+				},
 			})
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "AgenticInput",
