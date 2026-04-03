@@ -34,3 +34,6 @@ build:
   else
     nixos-rebuild --sudo build --flake .#
   fi
+
+innie-deploy:
+  nixos-rebuild switch --flake .#innie --target-host jack@innie --sudo
