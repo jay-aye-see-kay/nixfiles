@@ -16,6 +16,8 @@ in
   time.timeZone = "Australia/Melbourne";
   i18n.defaultLocale = "en_AU.UTF-8";
 
+  services.qemuGuest.enable = true;
+
   services.openssh = {
     enable = true;
     settings = {
