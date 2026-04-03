@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  # Samba NAS - public guest share
   services.samba = {
     enable = true;
     openFirewall = true;
@@ -13,19 +12,16 @@
         security = "user";
         "hosts allow" = "192.168. 127.0.0.1 localhost";
         "hosts deny" = "0.0.0.0/0";
-        "guest account" = "nobody";
-        "map to guest" = "bad user";
       };
-      public = {
-        path = "/srv/public";
+      data = {
+        path = "/srv/data";
         browseable = "yes";
         "read only" = "no";
-        writable = "yes";
-        "guest ok" = "yes";
-        "create mask" = "0664";
-        "directory mask" = "0775";
-        "force user" = "nobody";
-        "force group" = "nogroup";
+        "guest ok" = "no";
+        "valid users" = "jack nora";
+        "create mask" = "0660";
+        "directory mask" = "0770";
+        "force group" = "rose";
         "vfs objects" = "catia fruit streams_xattr"; # macos compat
       };
     };

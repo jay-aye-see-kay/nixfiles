@@ -26,7 +26,7 @@
       fsType = "ext4";
     };
 
-  fileSystems."/srv/public" =
+  fileSystems."/srv/data" =
     {
       device = "/dev/disk/by-uuid/be032d54-5454-4b35-9382-bfb676c347da";
       fsType = "ext4";

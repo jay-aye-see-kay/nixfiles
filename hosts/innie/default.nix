@@ -26,6 +26,10 @@ in
     };
   };
 
+  users.groups.rose = {
+    members = [ "jack" "nora" ];
+  };
+
   users.users.jack = {
     isNormalUser = true;
     shell = pkgs.fish;
@@ -34,6 +38,10 @@ in
       publicKeys.tuiJack
       publicKeys.deskJack
     ];
+  };
+
+  users.users.nora = {
+    isNormalUser = true;
   };
 
   programs.fish.enable = true;
