@@ -5,6 +5,7 @@ in
 {
   imports = [
     ./hardware.nix
+    ./samba.nix
   ];
 
   boot.loader.grub.enable = true;
