@@ -6,6 +6,7 @@ in
   imports = [
     ./hardware.nix
     ./samba.nix
+    ./paperless.nix
   ];
 
   boot.loader.grub.enable = true;
