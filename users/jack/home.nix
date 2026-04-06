@@ -32,8 +32,12 @@ in
   home.sessionVariables = {
     RIPGREP_CONFIG_PATH = "$HOME/.config/ripgreprc";
     DIRENV_LOG_FORMAT = "";
-    # EDITOR is set by devtools module if enabled
+    NPM_CONFIG_PREFIX = "${config.home.homeDirectory}/.npm-global"; # so `npm -g` works
   };
+
+  home.sessionPath = [
+    "${config.home.homeDirectory}/.npm-global/bin"
+  ];
 
   xdg.configFile."ripgreprc".text = ''
     --hidden
