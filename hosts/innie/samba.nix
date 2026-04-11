@@ -14,13 +14,22 @@
         "hosts deny" = "0.0.0.0/0";
       };
       data = {
-        path = "/srv/data";
+        path = "/srv/data/family";
         browseable = "yes";
         "read only" = "no";
         "guest ok" = "no";
         "valid users" = "jack nora";
         "create mask" = "0660";
         "directory mask" = "0770";
+        "force group" = "rose";
+        "vfs objects" = "catia fruit streams_xattr"; # macos compat
+      };
+      paperless = {
+        path = "/srv/data/paperless-media";
+        browseable = "yes";
+        "read only" = "yes";
+        "guest ok" = "no";
+        "valid users" = "jack nora";
         "force group" = "rose";
         "vfs objects" = "catia fruit streams_xattr"; # macos compat
       };

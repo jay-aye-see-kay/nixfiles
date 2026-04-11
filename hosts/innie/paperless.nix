@@ -3,9 +3,13 @@
 {
   environment.etc."paperless-admin-pass".text = "admin";
 
+  # Add paperless user to rose group for Samba compatibility
+  users.users.paperless.extraGroups = [ "rose" ];
+
   services.paperless = {
     enable = true;
     address = "0.0.0.0";  # Listen on all interfaces for LAN access
+    mediaDir = "/srv/data/paperless-media";  # Store documents on HDD
     passwordFile = "/etc/paperless-admin-pass";
     settings = {
       PAPERLESS_OCR_LANGUAGE = "eng";
