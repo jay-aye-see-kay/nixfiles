@@ -162,4 +162,14 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
 	end,
 })
 
+-- pass through OSC 777 notifications to parent terminal (allows notifications in from pi to ghostty)
+vim.api.nvim_create_autocmd("TermRequest", {
+	callback = function(ev)
+		local seq = ev.data and ev.data.sequence
+		if seq and seq:match("^\027]777;") then
+			io.stdout:write(seq)
+		end
+	end,
+})
+
 return plugins
