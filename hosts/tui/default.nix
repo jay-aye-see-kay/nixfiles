@@ -123,6 +123,8 @@ in
     vimiv-qt
     imagemagick
     telegram-desktop
+    bubblewrap
+    socat
     pkgs-unstable.localsend
     pkgs-unstable.obsidian
     pkgs-unstable.ghostty
