@@ -20,7 +20,6 @@ let
     pkgs-unstable.calibre
     pkgs-unstable.opencode
     pkgs-unstable.devbox
-    pkgs-unstable.yt-dlp
 
     pkgs.clang # comes with xcode, things expect to use that version
   ];
