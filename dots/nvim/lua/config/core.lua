@@ -13,12 +13,13 @@ vim.o.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.signcolumn = "yes"
+vim.o.winborder = "rounded"
 vim.o.updatetime = 250 -- decrease because it impacts CursorHold
 vim.o.timeoutlen = 300 -- makes which-key nice
 vim.o.splitright = true
 vim.o.splitbelow = true
 vim.o.list = true
-vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+vim.opt.listchars = { tab = "»·", trail = "·", nbsp = "·" } -- Display extra whitespace
 vim.o.inccommand = "nosplit" -- preview substitutions as you type
 
 -- Settings from mini.basics options.basic = true
@@ -27,7 +28,6 @@ vim.o.writebackup = false
 vim.o.linebreak = true
 vim.o.ruler = false
 vim.o.wrap = false
-vim.o.signcolumn = "yes"
 vim.o.incsearch = true
 vim.o.infercase = true
 vim.o.smartindent = true
@@ -40,8 +40,6 @@ vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "gQ", "<nop>")
 
 vim.keymap.set("i", "<c-a>", "<nop>") -- disable insert repeating
-vim.opt.list = true
-vim.opt.listchars = { tab = "»·", trail = "·", nbsp = "·" } -- Display extra whitespace
 vim.opt.shada = "!,'1000,<50,s10,h" -- increase oldfile saved ( default is !,'100,<50,s10,h )
 
 -- Window navigation (from mini.basics)

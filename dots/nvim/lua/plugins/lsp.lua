@@ -1,31 +1,11 @@
 -- improve ]d and [d behavior
 vim.diagnostic.config({
 	jump = {
-		float = true,
 		wrap = true,
+		on_jump = function(_, bufnr)
+			vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor" })
+		end,
 	},
-})
-
--- https://old.reddit.com/r/neovim/comments/1rcvliq/comment/o73wdkc
-vim.api.nvim_create_autocmd("LspProgress", {
-	callback = function(ev)
-		local value = ev.data.params.value or {}
-		if not value.kind then
-			return
-		end
-
-		local status = value.kind == "end" and 0 or 1
-		local percent = value.percentage or 0
-
-		local osc_seq = string.format("\27]9;4;%d;%d\a", status, percent)
-
-		if os.getenv("TMUX") then
-			osc_seq = string.format("\27Ptmux;\27%s\27\\", osc_seq)
-		end
-
-		io.stdout:write(osc_seq)
-		io.stdout:flush()
-	end,
 })
 
 return {
@@ -131,10 +111,6 @@ return {
 			vim.lsp.enable("markdown_oxide")
 
 			-- LSP handlers
-			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-				border = "rounded",
-			})
-
 			vim.diagnostic.config({ signs = false })
 		end,
 	},
