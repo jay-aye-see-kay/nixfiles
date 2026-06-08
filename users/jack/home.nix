@@ -28,6 +28,10 @@ in
     ./fish.nix
   ];
 
+  # faster rebuilds, hides a warning
+  manual.manpages.enable = false;
+  programs.man.enable = false;
+
   home.sessionVariables = {
     RIPGREP_CONFIG_PATH = "$HOME/.config/ripgreprc";
     DIRENV_LOG_FORMAT = "";
