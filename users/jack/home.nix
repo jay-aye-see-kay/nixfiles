@@ -46,6 +46,12 @@ in
   xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink
     "${config.home.homeDirectory}/nixfiles/dots/nvim";
 
+  xdg.configFile."karabiner/karabiner.json" = {
+    enable = pkgs.stdenv.isDarwin;
+    source = config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/nixfiles/dots/karabiner.json";
+  };
+
   home.packages = with pkgs;
     [
       gh
