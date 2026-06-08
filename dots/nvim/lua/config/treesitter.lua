@@ -91,6 +91,3 @@ end, "TS previous function start")
 map({ "n", "x", "o" }, "[M", function()
 	move.goto_previous_end("@function.outer", "textobjects")
 end, "TS previous function end")
-
--- NOTE: incremental_selection (<c-space>) was removed upstream in the `main`
--- branch and has no drop-in replacement. Left unbound for now.
