@@ -15,6 +15,15 @@ in
       viAlias = false;
       vimAlias = false;
 
+      # default values on new installs (but not with older stateVersion)
+      withRuby = false;
+      withPython3 = false;
+
+      # init.lua is managed out-of-store (xdg.configFile."nvim" symlink in
+      # home.nix). Sideload the generated provider config via wrapper args so
+      # home-manager doesn't try to write nvim/init.lua through the symlink.
+      sideloadInitLua = true;
+
       # Plugins managed by nix (stable, rarely change)
       plugins = with pkgs.vimPlugins; [
         # Plugin manager
@@ -32,7 +41,7 @@ in
       # Language runtimes & tools
       nodejs
       yarn
-      nodePackages_latest.pnpm
+      pnpm
       go
       (python3.withPackages (ps: [ ps.ipykernel ]))
       just
@@ -47,7 +56,7 @@ in
       tailwindcss-language-server
       bash-language-server
       dockerfile-language-server
-      nodePackages.eslint_d
+      eslint_d
       pyright
       typescript
       typescript-language-server
