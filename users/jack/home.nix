@@ -70,6 +70,7 @@ in
 
     direnv.enable = true;
     direnv.nix-direnv.enable = true;
+    direnv.package = pkgs.direnv.overrideAttrs { doCheck = false; };
 
     zoxide.enable = true;
     zoxide.enableFishIntegration = true;
