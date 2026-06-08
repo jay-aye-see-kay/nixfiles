@@ -1,9 +1,8 @@
-{ pkgs, pkgs-unstable, lib, config, ... }:
+{ pkgs, pkgs-unstable, config, ... }:
 let
-  ifDarwin = lib.mkIf pkgs.stdenv.isDarwin;
   darwinOnlyPackages = [
     pkgs.granted
-    #  pkgs-unstable.mise
+    pkgs-unstable.mise
     pkgs.jira-cli-go
     pkgs.google-cloud-sdk
   ];
@@ -70,7 +69,6 @@ in
 
     direnv.enable = true;
     direnv.nix-direnv.enable = true;
-    direnv.package = pkgs.direnv.overrideAttrs { doCheck = false; };
 
     zoxide.enable = true;
     zoxide.enableFishIntegration = true;

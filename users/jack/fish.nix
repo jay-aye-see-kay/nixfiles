@@ -129,7 +129,7 @@ in
     ''
     +
     (if isDarwin then ''
-      # {pkgs-unstable.mise}/bin/mise activate fish | source
+      ${pkgs-unstable.mise}/bin/mise activate fish | source
 
       if test -d $HOME/.rd/bin
           # rancher's docker binaries
