@@ -49,7 +49,6 @@
         modules = [
           ./users/jack/home.nix
           ./modules/home-manager
-          ./modules/shared/inetutils-darwin-fix.nix
           ({ pkgs, ... }: {
             nix.registry.nixpkgs.flake = inputs.nixpkgs;
             modules.devtools.enable = true;
@@ -76,7 +75,6 @@
         modules = [
           ./users/jack/home.nix
           ./modules/home-manager
-          # ./modules/shared/inetutils-darwin-fix.nix
           ({ pkgs, ... }: {
             nix.registry.nixpkgs.flake = inputs.nixpkgs;
             modules.devtools.enable = true;
