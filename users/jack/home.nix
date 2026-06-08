@@ -88,7 +88,7 @@ in
         theme = "GitHub Light Default";
         font-size = 14;
         font-feature = "-calt"; # disable programming ligatures
-        quite-after-last-window-close = true;
+        quit-after-last-window-closed = true;
         shell-integration-features = "ssh-env";
       };
     } // (if pkgs.stdenv.isDarwin then {
