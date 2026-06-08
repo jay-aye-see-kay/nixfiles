@@ -15,7 +15,7 @@ let
       ltunify # manage logitech unifying receiver dongle (linux only)
       httm # TUI for zfs snapshots
     ] else [
-      terminal-notifier # user generated macos notifiations (used by fishPlugins.done)
+      # nothing right now
     ];
 in
 platformSpecificPackages ++ [

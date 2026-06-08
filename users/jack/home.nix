@@ -3,7 +3,7 @@ let
   ifDarwin = lib.mkIf pkgs.stdenv.isDarwin;
   darwinOnlyPackages = [
     pkgs.granted
-    pkgs-unstable.mise
+    #  pkgs-unstable.mise
     pkgs.jira-cli-go
     pkgs.google-cloud-sdk
   ];
@@ -84,13 +84,20 @@ in
       gcloud.disabled = true;
     };
 
-    ghostty = if pkgs.stdenv.isDarwin then { } else {
+    ghostty = {
       enable = true;
-      systemd.enable = true;
       settings = {
         theme = "GitHub Light Default";
+        font-size = 14;
+        font-feature = "-calt"; # disable programming ligatures
+        quite-after-last-window-close = true;
+        shell-integration-features = "ssh-env";
       };
-    };
+    } // (if pkgs.stdenv.isDarwin then {
+      package = null; # use official .app on macOS
+    } else {
+      systemd.enable = true; # use service to make it faster on linux
+    });
 
     git = {
       enable = true;

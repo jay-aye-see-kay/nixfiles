@@ -63,6 +63,33 @@
         ];
       };
 
+      # kea: personal laptop (macOS)
+      homeConfigurations."${username}@kea" = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          system = "aarch64-darwin";
+          config = { allowUnfree = true; };
+          overlays = [ ];
+        };
+        extraSpecialArgs = {
+          pkgs-unstable = pkgsUnstable."aarch64-darwin";
+        };
+        modules = [
+          ./users/jack/home.nix
+          ./modules/home-manager
+          # ./modules/shared/inetutils-darwin-fix.nix
+          ({ pkgs, ... }: {
+            nix.registry.nixpkgs.flake = inputs.nixpkgs;
+            modules.devtools.enable = true;
+            modules.cli-utils.enable = true;
+            home = {
+              username = "jack";
+              stateVersion = "25.11";
+              homeDirectory = "/Users/jack";
+            };
+          })
+        ];
+      };
+
       # innie (VM on pm1)
       nixosConfigurations.innie = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";

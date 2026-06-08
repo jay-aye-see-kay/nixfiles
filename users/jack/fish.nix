@@ -129,7 +129,7 @@ in
     ''
     +
     (if isDarwin then ''
-      ${pkgs-unstable.mise}/bin/mise activate fish | source
+      # {pkgs-unstable.mise}/bin/mise activate fish | source
 
       if test -d $HOME/.rd/bin
           # rancher's docker binaries
@@ -152,7 +152,6 @@ in
     plugins = [
       # weird syntax required to use nixpkgs plugins in HM
       # see: https://nixos.wiki/wiki/Fish#Home_Manager
-      { inherit (pkgs.fishPlugins.done) name src; }
       { inherit (pkgs.fishPlugins.foreign-env) name src; }
       {
         name = "pnpm-shell-completion";
