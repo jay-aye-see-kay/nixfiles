@@ -30,6 +30,14 @@ return {
 		init = function()
 			vim.g.skip_ts_context_commentstring_module = true
 		end,
+		main = "ts_context_commentstring",
+		opts = {
+			-- We only use this via Comment.nvim's pre_hook, so the CursorHold
+			-- autocmd is unnecessary. It also crashes on parser-less buffers
+			-- (e.g. fugitive) since newer Neovim's get_parser returns nil
+			-- instead of erroring, breaking the plugin's is_treesitter_active.
+			enable_autocmd = false,
+		},
 	},
 	{
 		"numToStr/Comment.nvim",
