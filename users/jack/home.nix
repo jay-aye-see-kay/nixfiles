@@ -56,6 +56,12 @@ in
       "${config.home.homeDirectory}/nixfiles/dots/karabiner.json";
   };
 
+  xdg.configFile."aerospace" = {
+    enable = pkgs.stdenv.isDarwin;
+    source = config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/nixfiles/dots/aerospace";
+  };
+
   home.packages = with pkgs;
     [
       gh
