@@ -1,7 +1,15 @@
 # Reference: https://github.com/i3/i3/blob/next/etc/config
 
+config-version = 2
+
+# In i3, all workspaces are phantom (stay alive when empty)
+persistent-workspaces = []
+
 enable-normalization-flatten-containers = false
 enable-normalization-opposite-orientation-for-nested-containers = true
+
+# Mouse follows focus when focused monitor changes (i3-like)
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 [[on-window-detected]]
 if.app-id = 'us.zoom.xos'
@@ -57,6 +65,7 @@ alt-6 = 'workspace 6'
 alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
+alt-0 = 'workspace 10'
 
 alt-shift-1 = 'move-node-to-workspace 1'
 alt-shift-2 = 'move-node-to-workspace 2'
@@ -67,10 +76,12 @@ alt-shift-6 = 'move-node-to-workspace 6'
 alt-shift-7 = 'move-node-to-workspace 7'
 alt-shift-8 = 'move-node-to-workspace 8'
 alt-shift-9 = 'move-node-to-workspace 9'
+alt-shift-0 = 'move-node-to-workspace 10'
 
 alt-shift-c = 'reload-config'
 
 alt-r = 'mode resize'
+alt-shift-semicolon = 'mode service'
 
 [mode.resize.binding]
 h = 'resize width -50'
@@ -79,3 +90,15 @@ k = 'resize height -50'
 l = 'resize width +50'
 enter = 'mode main'
 esc = 'mode main'
+
+[mode.service.binding]
+esc = ['reload-config', 'mode main']
+r = ['flatten-workspace-tree', 'mode main'] # reset layout
+f = ['layout floating tiling', 'mode main'] # toggle floating/tiling
+backspace = ['close-all-windows-but-current', 'mode main']
+
+# join-with: recommended 'split' replacement
+alt-shift-h = ['join-with left', 'mode main']
+alt-shift-j = ['join-with down', 'mode main']
+alt-shift-k = ['join-with up', 'mode main']
+alt-shift-l = ['join-with right', 'mode main']
