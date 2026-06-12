@@ -71,4 +71,8 @@ platformSpecificPackages ++ [
 
   # nix stuff
   nix-tree # show dependencies and sizes of installed nixpkgs
+
+  # working with html
+  htmlq
+  pandoc
 ]
