@@ -7,26 +7,16 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
--- Git plugins
-return {
-	{
-		"esmuellert/codediff.nvim",
-		dependencies = { "MunifTanjim/nui.nvim" },
-		cmd = "CodeDiff",
-		keys = {
-			{ "<leader>gs", "<cmd>CodeDiff<cr>", desc = "changes in working area" },
-			{ "<leader>gd", "<cmd>CodeDiff history %<cr>", desc = "history of current file" },
-		},
+vim.g.diffs = {
+	integrations = {
+		fugitive = true,
+		gitsigns = true,
 	},
+}
 
-	{
-		"akinsho/git-conflict.nvim",
-		event = "VeryLazy",
-		keys = {
-			{ "]x", "<Plug>(git-conflict-next-conflict)", desc = "next conflict marker" },
-			{ "[x", "<Plug>(git-conflict-prev-conflict)", desc = "prev conflict marker" },
-		},
-	},
+-- Git lugins 2
+return {
+	{ "barrettruth/diffs.nvim" },
 
 	{
 		"lewis6991/gitsigns.nvim",
