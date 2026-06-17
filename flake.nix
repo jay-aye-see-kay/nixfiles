@@ -53,6 +53,7 @@
             nix.registry.nixpkgs.flake = inputs.nixpkgs;
             modules.devtools.enable = true;
             modules.cli-utils.enable = true;
+            modules.homebrew.enable = true;
             modules.syncthing.enable = true;
             home = {
               username = "jack";
@@ -80,6 +81,7 @@
             nix.registry.nixpkgs.flake = inputs.nixpkgs;
             modules.devtools.enable = true;
             modules.cli-utils.enable = true;
+            modules.homebrew.enable = true;
             modules.syncthing.enable = true;
             home = {
               username = "jack.rose";
@@ -107,6 +109,7 @@
             nix.registry.nixpkgs.flake = inputs.nixpkgs;
             modules.devtools.enable = true;
             modules.cli-utils.enable = true;
+            modules.homebrew.enable = true;
             modules.syncthing.enable = true;
             home = {
               username = "jack";
