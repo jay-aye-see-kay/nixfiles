@@ -1,0 +1,8 @@
+# This Brewfile is the source of truth for Homebrew packages on macOS hosts.
+# Managed by modules/home-manager/homebrew.nix — `brew bundle --cleanup` runs on
+# `just switch`, so REMOVING a line here will UNINSTALL that package on next switch.
+# Add packages with: `just brew-add <formula-or-cask>`
+
+# Example formulae / casks (edit to taste):
+# brew "mas"
+# cask "raycast"
