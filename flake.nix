@@ -53,6 +53,7 @@
             nix.registry.nixpkgs.flake = inputs.nixpkgs;
             modules.devtools.enable = true;
             modules.cli-utils.enable = true;
+            modules.syncthing.enable = true;
             home = {
               username = "jack";
               stateVersion = "22.05";

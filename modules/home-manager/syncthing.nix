@@ -7,15 +7,13 @@ let
   #
   # To get a new device's ID:
   #   1. Enable this module on the host and apply the config (keys get generated).
-  #   2. Run `syncthing --device-id` on that host, or open the GUI at
-  #      http://127.0.0.1:8384 and use Actions -> Show ID.
+  #   2. Run `syncthing --device-id` on that host
   #   3. Paste the ID below and re-apply on all hosts.
   devices = {
     "tui" = { id = "3EEYNSK-IJ4YIX3-PHIEKT7-OECJJ2K-7RZAEZ7-TBY2AGW-HCKNPNH-34QYTQ6"; };
     "jjack-XMW16X" = { id = "IMQF5KD-ZGCQOZQ-GWPFWSN-2E3FH3O-UFOJL2Z-DBTS2AU-NVVAVYJ-XYNLJAG"; };
-    # TODO: fill in once generated on first run (see comment above).
     "jrose-04LCLG" = { id = "MPJVTVB-LQYSFOC-SXERAID-MX4YVCY-2SKZHBQ-QDCV5Z2-6QL6DM2-7FQANAF"; };
-    "kea" = { id = "FILL-ME-IN"; };
+    "kea" = { id = "DVKNRBQ-TZDPTLE-OQ5JP3O-WS5VFCT-WWQGHEI-34ORG5B-HPGHM3Y-XHT34A3"; };
   };
 
   # Device groups for sharing. Adjust membership as machines come and go.
