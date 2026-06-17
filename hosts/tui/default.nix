@@ -86,7 +86,7 @@ in
   users.users.jack = {
     isNormalUser = true;
     shell = pkgs.fish;
-    extraGroups = [ "wheel" "docker" "networkmanager" "video" ];
+    extraGroups = [ "wheel" "docker" "networkmanager" "video" "dialout" ];
     openssh.authorizedKeys.keys = [ publicKeys.deskJack ];
   };
 
