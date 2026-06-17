@@ -35,5 +35,12 @@ build:
     nixos-rebuild --sudo build --flake .#
   fi
 
+# install a brew/cask and record it in the Brewfile (macOS)
+brew-add +args:
+  #!/bin/sh
+  set -e
+  brew install {{args}}
+  brew bundle dump --file=modules/home-manager/Brewfile --force
+
 innie-deploy:
   nixos-rebuild switch --flake .#innie --target-host jack@innie --sudo
