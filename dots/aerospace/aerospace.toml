@@ -2,6 +2,8 @@
 
 config-version = 2
 
+start-at-login = true
+
 # In i3, all workspaces are phantom (stay alive when empty)
 persistent-workspaces = []
 
