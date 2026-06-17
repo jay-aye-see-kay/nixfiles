@@ -8,6 +8,5 @@
     ./gui-utils.nix
     ./key-remapping.nix
     ./sway-desktop.nix
-    ./syncthing.nix
   ];
 }

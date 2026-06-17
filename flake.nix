@@ -79,6 +79,7 @@
             nix.registry.nixpkgs.flake = inputs.nixpkgs;
             modules.devtools.enable = true;
             modules.cli-utils.enable = true;
+            modules.syncthing.enable = true;
             home = {
               username = "jack.rose";
               stateVersion = "26.05";
@@ -105,6 +106,7 @@
             nix.registry.nixpkgs.flake = inputs.nixpkgs;
             modules.devtools.enable = true;
             modules.cli-utils.enable = true;
+            modules.syncthing.enable = true;
             home = {
               username = "jack";
               stateVersion = "25.11";
@@ -151,7 +153,6 @@
             modules.gui-utils.enable = true;
             modules.key-remapping.enable = true;
             modules.sway-desktop.enable = true;
-            modules.syncthing.enable = true;
             modules.common.autoGc = false; # annoying on a laptop
           }
           home-manager.nixosModules.home-manager
@@ -169,6 +170,7 @@
                   ./modules/home-manager
                 ];
                 modules.devtools.enable = true;
+                modules.syncthing.enable = true;
                 home.username = "jack";
                 home.stateVersion = "22.05";
                 home.homeDirectory = "/home/jack";
