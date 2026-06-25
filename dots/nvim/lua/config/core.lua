@@ -90,6 +90,15 @@ vim.keymap.set("n", "\\w", "<cmd>setlocal wrap!<cr>", { desc = "Toggle wrap" })
 -- Buffer deletion (replacing mini.bufremove)
 vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
 
+-- Strip trailing whitespace without clobbering cursor or search state
+vim.api.nvim_create_user_command("StripWhitespace", function()
+	local view = vim.fn.winsaveview()
+	local search = vim.fn.getreg("/")
+	vim.cmd([[keeppatterns %s/\s\+$//e]])
+	vim.fn.setreg("/", search)
+	vim.fn.winrestview(view)
+end, { desc = "Remove all trailing whitespace" })
+
 -- Clear highlights on search when pressing <Esc> in normal mode
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 

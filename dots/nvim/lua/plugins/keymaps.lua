@@ -117,6 +117,7 @@ return {
 			vim.keymap.set("n", "<leader>mP", function()
 				vim.wo.winfixwidth = false
 			end, { desc = "Unpin window" })
+			vim.keymap.set("n", "<leader>mw", "<cmd>StripWhitespace<cr>", { desc = "Strip trailing whitespace" })
 		end,
 	},
 
