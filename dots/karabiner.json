@@ -16,6 +16,30 @@
                                 "type": "basic"
                             }
                         ]
+                    },
+                    {
+                        "description": "Obsidian: Cmd+Q closes window instead of quitting (protect Sync)",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "q",
+                                    "modifiers": { "mandatory": ["command"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "w",
+                                        "modifiers": ["command"]
+                                    }
+                                ],
+                                "conditions": [
+                                    {
+                                        "type": "frontmost_application_if",
+                                        "bundle_identifiers": ["^md\\.obsidian$"]
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ]
             },
