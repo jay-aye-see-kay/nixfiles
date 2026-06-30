@@ -26,6 +26,15 @@ switch:
   else
     nixos-rebuild --sudo switch --flake .#
   fi
+  just nvim-sync
+
+# Sync lazy.nvim plugins to match lazy-lock.json (restore) and remove unused (clean)
+nvim-sync:
+  #!/bin/sh
+  if command -v nvim >/dev/null 2>&1; then
+    echo "--- Syncing nvim plugins (Lazy restore + clean) ---"
+    nvim --headless "+Lazy! restore" "+Lazy! clean" +qa
+  fi
 
 build:
   #!/bin/sh
