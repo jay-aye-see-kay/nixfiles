@@ -14,6 +14,7 @@
   cob = "checkout -b";
   cod = "checkout develop";
   com = ''checkout "$(git guess-default-branch)"'';
+  dp = ''checkout "$(git guess-default-branch)" && git pull'';
   "-" = "checkout -"; # fish g- only; "-" is not a valid git alias name
   aa = "add .";
   ci = "commit";
