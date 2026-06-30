@@ -19,7 +19,8 @@ in
     shellAbbrs = {
       _ = "sudo";
       g = "git";
-      s = "systemctl";
+      h = "hotel";
+      s = lib.mkIf (!isDarwin) "systemctl";
       j = "just";
       e = "nvim";
       v = "nvim";
