@@ -96,6 +96,22 @@ in
     starship.enableFishIntegration = true;
     starship.settings = {
       gcloud.disabled = true;
+      docker_context.disabled = true;
+      nix_shell = {
+        format = "[$symbol]($style)";
+        symbol = "❄️ ";
+        impure_msg = "";
+        pure_msg = "";
+        unknown_msg = "";
+      };
+      aws.region_aliases = { "us-west-2" = "usw2"; };
+      aws.profile_aliases = {
+        "cultureamp-development/Administrator2H" = "dev:admin";
+        "cultureamp-development/ReadOnly" = "dev:ro";
+        "cultureamp-meta/ReadOnly" = "meta:ro";
+        "cultureamp-sandbox/Administrator4H" = "sandbox:admin";
+        "cultureamp-sandbox/BedrockDevTools" = "sandbox:bedrock";
+      };
     };
 
     ghostty = {
