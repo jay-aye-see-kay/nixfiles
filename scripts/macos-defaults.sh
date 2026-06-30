@@ -22,25 +22,72 @@ set -e
 #   - Menu bar / Control Center visible items: stored as opaque binary blobs
 #     (MenuBarCustomizationState), not cleanly scriptable.
 
+# Apps that need restarting because a value actually changed.
+RESTART=""
+
+# dwrite <domain> <key> <type> <value>
+# Writes the default only if the current value differs, and queues the matching
+# app(s) for restart. Maps domains to the process that must be killed to pick
+# up the change.
+dwrite() {
+  domain=$1
+  key=$2
+  type=$3
+  value=$4
+
+  # Normalise the expected value to how `defaults read` reports it, so the
+  # comparison is apples-to-apples (bools come back as 1/0).
+  expected=$value
+  if [ "$type" = "-bool" ]; then
+    case "$value" in
+      true|yes|1)  expected=1 ;;
+      false|no|0)  expected=0 ;;
+    esac
+  fi
+
+  old=$(defaults read "$domain" "$key" 2>/dev/null || echo "__UNSET__")
+  if [ "$old" = "$expected" ]; then
+    return
+  fi
+
+  defaults write "$domain" "$key" "$type" "$value"
+
+  case "$domain" in
+    com.apple.finder)       apps="Finder" ;;
+    com.apple.dock)         apps="Dock" ;;
+    com.apple.menuextra.*)  apps="SystemUIServer" ;;
+    -g|NSGlobalDomain)      apps="Finder Dock SystemUIServer" ;;
+    *)                      apps="" ;;
+  esac
+  RESTART="$RESTART $apps"
+}
+
 # --- Input: trackpad & mouse -------------------------------------------------
 # Tracking speed (gestures/tap settings are all left at factory default).
-defaults write -g com.apple.trackpad.scaling -float 2.5
-defaults write -g com.apple.mouse.scaling -float 2.5
+dwrite -g com.apple.trackpad.scaling -float 2.5
+dwrite -g com.apple.mouse.scaling -float 2.5
 
 # --- Finder ------------------------------------------------------------------
-defaults write -g AppleShowAllExtensions -bool true              # show all file extensions
-defaults write com.apple.finder FXPreferredViewStyle -string Nlsv          # default to list view
-defaults write com.apple.finder ShowPathbar -bool true                     # show path bar
-defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false # no warning on ext change
-defaults write com.apple.finder ShowRecentTags -bool false                 # hide recent tags in sidebar
-defaults write com.apple.finder FXDefaultSearchScope -string SCev          # search "This Mac" by default
+dwrite -g AppleShowAllExtensions -bool true              # show all file extensions
+dwrite com.apple.finder FXPreferredViewStyle -string Nlsv          # default to list view
+dwrite com.apple.finder ShowPathbar -bool true                     # show path bar
+dwrite com.apple.finder FXEnableExtensionChangeWarning -bool false # no warning on ext change
+dwrite com.apple.finder ShowRecentTags -bool false                 # hide recent tags in sidebar
+dwrite com.apple.finder FXDefaultSearchScope -string SCev          # search "This Mac" by default
 
 # --- Dock --------------------------------------------------------------------
-defaults write com.apple.dock autohide -bool true
-defaults write com.apple.dock tilesize -int 44
+dwrite com.apple.dock autohide -bool true
+dwrite com.apple.dock tilesize -int 44
 
 # --- Menu bar clock ----------------------------------------------------------
-defaults write com.apple.menuextra.clock ShowDate -int 0         # hide date in menu bar clock
+dwrite com.apple.menuextra.clock ShowDate -int 0         # hide date in menu bar clock
 
 # --- Apply -------------------------------------------------------------------
-killall Finder Dock SystemUIServer 2>/dev/null || true
+# Only restart apps whose values actually changed - avoids the flicker on no-op runs.
+if [ -n "$RESTART" ]; then
+  # Dedupe the accumulated app list.
+  apps=$(printf '%s\n' $RESTART | sort -u | tr '\n' ' ')
+  echo "Restarting:$apps"
+  # shellcheck disable=SC2086
+  killall $apps 2>/dev/null || true
+fi
