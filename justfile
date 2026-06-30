@@ -42,7 +42,14 @@ nvim-sync:
   #!/bin/sh
   if command -v nvim >/dev/null 2>&1; then
     echo "--- Syncing nvim plugins (Lazy restore + clean) ---"
-    nvim --headless "+Lazy! restore" "+Lazy! clean" +qa
+    log=$(mktemp)
+    if nvim --headless "+Lazy! restore" "+Lazy! clean" +qa >"$log" 2>&1; then
+      echo "nvim plugins synced"
+    else
+      echo "nvim sync failed:"
+      cat "$log"
+    fi
+    rm -f "$log"
   fi
 
 build:
