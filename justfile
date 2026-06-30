@@ -23,10 +23,19 @@ switch:
   #!/bin/sh
   if [ "$(uname)" = "Darwin" ]; then
     home-manager switch --flake ".#$(whoami)@$(hostname)"
+    just macos-defaults
   else
     nixos-rebuild --sudo switch --flake .#
   fi
   just nvim-sync
+
+# Apply per-user macOS settings (Finder, trackpad, menu bar, etc) - Darwin only, no sudo
+macos-defaults:
+  #!/bin/sh
+  if [ "$(uname)" = "Darwin" ]; then
+    echo "--- Applying macOS defaults ---"
+    sh {{justfile_directory()}}/scripts/macos-defaults.sh
+  fi
 
 # Sync lazy.nvim plugins to match lazy-lock.json (restore) and remove unused (clean)
 nvim-sync:
