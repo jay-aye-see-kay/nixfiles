@@ -24,6 +24,10 @@ in
       j = "just";
       e = "nvim";
       v = "nvim";
+      pt = "cd ~/tmp && pi";
+      pc = "pi -c";
+      pu = "pi update --all";
+      caf = "caffeinate -i";
       y = "yarn";
       p = "pnpm";
       d = "docker";
