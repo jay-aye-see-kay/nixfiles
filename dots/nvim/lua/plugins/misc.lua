@@ -106,7 +106,10 @@ return {
 	{
 		"samjwill/nvim-unception",
 		init = function()
-			vim.g.unception_block_while_host_edits = true
+			-- Don't enable host-edit blocking in headless mode: unception errors
+			-- out ("Must have exactly 1 argument") when $NVIM is inherited by a
+			-- nested headless run (e.g. `nvim --headless +Lazy!` from :terminal).
+			vim.g.unception_block_while_host_edits = #vim.api.nvim_list_uis() > 0
 		end,
 	},
 }
