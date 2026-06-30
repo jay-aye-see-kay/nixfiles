@@ -2,35 +2,14 @@
 let
   inherit (pkgs.stdenv) isDarwin;
 
-  # Git subcommand abbreviations - generates both:
-  # 1. g-prefixed abbrs: gst -> "git status"
-  # 2. --command git abbrs: "git st" -> "git status"
-  # TODO also generate git alias in gitconfig from this list
-  shellGitAbbrs = {
-    st = "status";
-    co = "checkout";
-    pr = "pull --rebase";
-    pu = "push -u";
-    d = "diff";
-    dm = "diff (git merge-base (git guess-default-branch) HEAD)";
-    "-" = "checkout -";
-    dfs = "diff --staged";
-    cp = "cherry-pick";
-    rb = "rebase";
-    sw = "switch";
-    l = "log";
-    com = "checkout (git guess-default-branch)";
-  };
-
-  # Convert shellGitAbbrs to fish abbreviation commands
+  # Shared source of truth for git aliases (see git-aliases.nix). Here we
+  # generate g-prefixed abbrs only: gst -> "git status". The "git st" style
+  # expansion is handled by the real git aliases generated in home.nix.
+  gitAliases = import ./git-aliases.nix;
   gitAbbrs = lib.concatStringsSep "\n" (
     lib.mapAttrsToList
-      (
-        name: value:
-          ''abbr --add --command git ${name} '${value}'
-          abbr --add g${name} 'git ${value}' ''
-      )
-      shellGitAbbrs
+      (name: value: ''abbr --add g${name} 'git ${value}' '')
+      gitAliases
   );
 in
 {

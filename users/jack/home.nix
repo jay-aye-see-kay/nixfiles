@@ -1,5 +1,13 @@
-{ pkgs, pkgs-unstable, config, ... }:
+{ pkgs, pkgs-unstable, config, lib, ... }:
 let
+  # Shared source of truth for short git aliases (also drives fish g* abbrs in
+  # fish.nix). Entries using $() command substitution need a shell, so they're
+  # prefixed with `!git`. "-" is dropped as it isn't a valid git alias name.
+  gitShortAliases = import ./git-aliases.nix;
+  toGitAlias = v: if lib.hasInfix "$(" v then "!git ${v}" else v;
+  generatedGitAliases =
+    lib.mapAttrs (_: toGitAlias)
+      (lib.filterAttrs (n: _: n != "-") gitShortAliases);
   darwinOnlyPackages = [
     pkgs.granted
     pkgs-unstable.mise
@@ -140,26 +148,15 @@ in
         init.defaultBranch = "main";
         github.user = "jay-aye-see-kay";
         url."ssh://git@github.com/".insteadOf = "https://github.com/";
-        alias = {
-          aa = "add .";
-          ci = "commit";
-          cia = "commit -a";
-          co = "checkout";
-          cob = "checkout -b";
-          cod = "checkout develop";
-          com = ''!git checkout "$(git guess-default-branch)"'';
+        # Short aliases come from git-aliases.nix (shared with fish g* abbrs).
+        # Below are git-only aliases that introduce a new concept.
+        alias = generatedGitAliases // {
           gdb = "guess-default-branch";
-          df = "diff";
-          dfs = "diff --staged";
-          st = "status";
-          pu = "push";
-          pfl = "push --force-with-lease";
-          pop = "stash pop";
           unstage = "reset HEAD --";
-          brt =
-            "!git for-each-ref refs/heads --color=always --sort -committerdate --format='%(HEAD)%(color:reset) %(color:yellow)%(refname:short)%(color:reset) %(contents:subject) %(color:green)(%(committerdate:relative))%(color:blue) <%(authorname)>'";
           uncommit = "reset --soft HEAD~1";
           recommit = "commit --amend --no-edit";
+          brt =
+            "!git for-each-ref refs/heads --color=always --sort -committerdate --format='%(HEAD)%(color:reset) %(color:yellow)%(refname:short)%(color:reset) %(contents:subject) %(color:green)(%(committerdate:relative))%(color:blue) <%(authorname)>'";
           changeset-recommit-branch = "git fetch && git checkout changeset-release/master && git reset --hard origin/changeset-release/master && git commit --amend --no-edit && git push --force-with-lease";
         };
       };
