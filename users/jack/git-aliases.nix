@@ -11,14 +11,12 @@
 {
   st = "status";
   co = "checkout";
-  cob = "checkout -b";
-  cod = "checkout develop";
+  cb = "checkout -b";
   com = ''checkout "$(git guess-default-branch)"'';
   dp = ''checkout "$(git guess-default-branch)" && git pull'';
   "-" = "checkout -"; # fish g- only; "-" is not a valid git alias name
   aa = "add .";
   ci = "commit";
-  cia = "commit -a";
   d = "diff";
   df = "diff";
   dfs = "diff --staged";
@@ -27,7 +25,6 @@
   pu = "push -u";
   pfl = "push --force-with-lease";
   pop = "stash pop";
-  cp = "cherry-pick";
   rb = "rebase";
   sw = "switch";
   l = "log";
