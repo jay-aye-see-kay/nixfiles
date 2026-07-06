@@ -28,6 +28,7 @@ in
       pc = "pi -c";
       pu = "pi update --all";
       caf = "caffeinate -i";
+      cx = "chmod +x";
       y = "yarn";
       p = "pnpm";
       d = "docker";
