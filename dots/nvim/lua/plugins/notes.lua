@@ -51,21 +51,13 @@ return {
 		---@type render.md.UserConfig
 		opts = {
 			render_modes = true,
+			win_options = {
+				conceallevel = {
+					rendered = 0,
+				},
+			},
 			code = {
 				border = "thin",
-			},
-			html = {
-				comment = {
-					conceal = false,
-				},
-			},
-			checkbox = {
-				unchecked = {
-					icon = "-  󰄱 ",
-				},
-				checked = {
-					icon = "-  󰱒 ",
-				},
 			},
 		},
 	},
