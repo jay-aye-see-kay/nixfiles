@@ -40,6 +40,7 @@ in
     home.packages = with pkgs; [
       # Language runtimes & tools
       nodejs
+      bun
       yarn
       pnpm
       go
