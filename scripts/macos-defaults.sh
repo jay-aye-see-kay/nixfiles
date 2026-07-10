@@ -56,6 +56,7 @@ dwrite() {
     com.apple.finder)       apps="Finder" ;;
     com.apple.dock)         apps="Dock" ;;
     com.apple.menuextra.*)  apps="SystemUIServer" ;;
+    com.apple.screencapture) apps="SystemUIServer" ;;
     -g|NSGlobalDomain)      apps="Finder Dock SystemUIServer" ;;
     *)                      apps="" ;;
   esac
@@ -78,6 +79,12 @@ dwrite com.apple.finder FXDefaultSearchScope -string SCev          # search "Thi
 # --- Dock --------------------------------------------------------------------
 dwrite com.apple.dock autohide -bool true
 dwrite com.apple.dock tilesize -int 44
+
+# --- Screenshots -------------------------------------------------------------
+# Save screenshots to a dedicated folder instead of cluttering the Desktop.
+# `defaults` doesn't expand ~, so write an absolute path; the folder must exist.
+mkdir -p "$HOME/Desktop/Screenshots"
+dwrite com.apple.screencapture location -string "$HOME/Desktop/Screenshots"
 
 # --- Menu bar clock ----------------------------------------------------------
 dwrite com.apple.menuextra.clock ShowDate -int 0         # hide date in menu bar clock
