@@ -37,7 +37,8 @@ in
     extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = [
       publicKeys.tuiJack
-      publicKeys.deskJack
+      publicKeys.keaJack
+      publicKeys.iSH
     ];
   };
 
