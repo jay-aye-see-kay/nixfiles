@@ -61,4 +61,4 @@ build:
   fi
 
 innie-deploy:
-  nixos-rebuild switch --flake .#innie --target-host jack@innie --sudo
+  nix run nixpkgs#nixos-rebuild -- switch --flake .#innie --build-host jack@innie --target-host jack@innie --sudo
