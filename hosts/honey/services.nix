@@ -28,20 +28,15 @@
   # ---
   # === linkding ===
   # https://github.com/sissbruecker/linkding
-  # nixpkgs request: https://github.com/NixOS/nixpkgs/issues/341665
   # ---
   services.caddy.virtualHosts."linkding.h.jackrose.co.nz".extraConfig = ''
     reverse_proxy http://127.0.0.1:9090
   '';
-  virtualisation.oci-containers.containers.linkding = {
-    image = "sissbruecker/linkding";
-    ports = [
-      "127.0.0.1:9090:9090"
-    ];
-    volumes = [
-      "/hs/linkding/:/etc/linkding/data"
-      "/etc/localtime:/etc/localtime:ro"
-    ];
+  services.linkding = {
+    enable = true;
+    dataDir = "/hs/linkding";
+    address = "127.0.0.1";
+    port = 9090;
   };
 
   # ---
