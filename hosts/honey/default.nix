@@ -43,6 +43,9 @@ in
   services.openssh.enable = true;
   services.qemuGuest.enable = true;
 
+  # Allow passwordless sudo for wheel group (for remote deploys)
+  security.sudo.wheelNeedsPassword = false;
+
   # Auto-upgrade weekly from GitHub
   # Config changes are deployed manually with `just honey-deploy` (builds on
   # honey itself, so it can be run from any host), but security updates are
