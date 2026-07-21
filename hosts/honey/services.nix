@@ -37,6 +37,29 @@
   };
 
   # ---
+  # === readeck ===
+  # https://readeck.org/en/docs/configuration
+  # ---
+  services.caddy.virtualHosts."readeck.h.jackrose.co.nz".extraConfig = ''
+    reverse_proxy http://127.0.0.1:9091
+  '';
+  services.readeck = {
+    enable = true;
+    # Provide READECK_SECRET_KEY out-of-store so Readeck doesn't try to
+    # generate one and write it back into its read-only nix-store config.
+    # Create on the host once with:
+    #   umask 077
+    #   printf 'READECK_SECRET_KEY=%s\n' "$(openssl rand -hex 32)" > /var/lib/readeck/readeck.env
+    environmentFile = "/var/lib/readeck/readeck.env";
+    settings = {
+      server.host = "127.0.0.1";
+      server.port = 9091;
+      server.base_url = "https://readeck.h.jackrose.co.nz";
+      server.trusted_proxies = [ "127.0.0.1" ];
+    };
+  };
+
+  # ---
   # === crafty ===
   # https://docs.craftycontrol.com/
   # ---
