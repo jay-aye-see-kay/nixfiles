@@ -22,7 +22,7 @@ in
   services.openssh = {
     enable = true;
     settings = {
-      PermitRootLogin = "no";
+      PermitRootLogin = "prohibit-password";
       PasswordAuthentication = false;
     };
   };
@@ -30,6 +30,12 @@ in
   users.groups.rose = {
     members = [ "jack" "nora" ];
   };
+
+  users.users.root.openssh.authorizedKeys.keys = [
+    publicKeys.tuiJack
+    publicKeys.keaJack
+    publicKeys.iSH
+  ];
 
   users.users.jack = {
     isNormalUser = true;
