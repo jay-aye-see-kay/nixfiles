@@ -134,6 +134,23 @@
         ];
       };
 
+      # honey (VM, media + services host)
+      nixosConfigurations.honey = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {
+          inherit inputs;
+          pkgs-unstable = pkgsUnstable."x86_64-linux";
+        };
+        modules = [
+          { nixpkgs.config.allowUnfree = true; }
+          ./hosts/honey
+          ./modules/nixos
+          {
+            modules.cli-utils.enable = true;
+          }
+        ];
+      };
+
       # home laptop (NixOS)
       nixosConfigurations.tui = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";

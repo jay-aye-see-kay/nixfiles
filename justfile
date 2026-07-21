@@ -62,3 +62,6 @@ build:
 
 innie-deploy:
   nix run nixpkgs#nixos-rebuild -- switch --flake .#innie --build-host jack@innie --target-host jack@innie --sudo
+
+honey-deploy:
+  nix run nixpkgs#nixos-rebuild -- switch --flake .#honey --build-host jack@honey --target-host jack@honey --sudo
