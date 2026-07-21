@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-unstable, ... }:
 
 {
   networking.firewall.allowedTCPPorts = [ 80 443 ];
@@ -18,10 +18,10 @@
   '';
   services.mealie = {
     enable = true;
+    package = pkgs-unstable.mealie;
     settings = {
-      # ALLOW_SIGNUP = "false";
+      ALLOW_SIGNUP = "false";
       BASE_URL = "https://mealie.h.jackrose.co.nz";
-      OPENAI_API_KEY = "PLACEHOLDER_OPENAI_KEY";
     };
   };
 
