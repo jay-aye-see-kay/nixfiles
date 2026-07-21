@@ -1,13 +1,10 @@
-{ config, pkgs, pkgs-unstable, ... }:
+{ config, pkgs-unstable, ... }:
 
 {
   networking.firewall.allowedTCPPorts = [ 80 443 ];
   networking.firewall.allowedUDPPorts = [ 80 443 ];
 
   services.caddy.enable = true;
-  virtualisation.docker.enable = true;
-  virtualisation.docker.package = pkgs.docker_29;
-  virtualisation.oci-containers.backend = "docker";
 
   # ---
   # === mealie ===
