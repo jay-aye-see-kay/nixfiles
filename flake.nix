@@ -130,6 +130,7 @@
           ./modules/nixos
           {
             modules.cli-utils.enable = true;
+            modules.common.autoUpgrade = true;
           }
         ];
       };
@@ -147,6 +148,7 @@
           ./modules/nixos
           {
             modules.cli-utils.enable = true;
+            modules.common.autoUpgrade = true;
           }
         ];
       };

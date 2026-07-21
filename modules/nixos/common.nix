@@ -10,6 +10,15 @@ in
       default = true;
       description = "Enable automatic Nix garbage collection.";
     };
+    autoUpgrade = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = ''
+        Enable weekly auto-upgrade from the latest lockfile in the GitHub repo.
+        Config changes are still deployed manually; this only pulls security
+        updates automatically. The flake target is derived from the hostname.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -31,6 +40,21 @@ in
       automatic = cfg.autoGc;
       dates = "weekly";
       options = "--delete-older-than 30d";
+    };
+
+    # Weekly auto-upgrade from GitHub. Reboots are constrained to a quiet
+    # window so hosts don't restart at arbitrary times. GC is handled by the
+    # shared weekly nix.gc timer above, so it's not run again here.
+    system.autoUpgrade = lib.mkIf cfg.autoUpgrade {
+      enable = true;
+      flake = "github:jay-aye-see-kay/nixfiles#${config.networking.hostName}";
+      dates = "Sun 03:00";
+      randomizedDelaySec = "30min";
+      allowReboot = true;
+      rebootWindow = {
+        lower = "03:00";
+        upper = "05:00";
+      };
     };
 
     # nix search nixpkgs <blah> won't download nixpkgs every time!
