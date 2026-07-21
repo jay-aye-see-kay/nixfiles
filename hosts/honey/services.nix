@@ -74,18 +74,4 @@
     enable = true;
     openFirewall = true;
   };
-
-
-  # ---
-  # === windmill ===
-  # https://www.windmill.dev/docs/advanced/self_host
-  # https://github.com/NixOS/nixpkgs/blob/nixos-25.11/nixos/modules/services/web-apps/windmill.nix
-  # ---
-  # services.caddy.virtualHosts."windmill.h.jackrose.co.nz".extraConfig = ''
-  #   reverse_proxy http://127.0.0.1:8001
-  # '';
-  # services.windmill = {
-  #   enable = true;
-  #   baseUrl = "https://windmill.h.jackrose.co.nz";
-  # };
 }
