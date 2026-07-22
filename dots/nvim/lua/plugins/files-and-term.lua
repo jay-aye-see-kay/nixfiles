@@ -49,7 +49,29 @@ local plugins = {
 									vim.notify("Quick Look (qlmanage) is only available on macOS", vim.log.levels.WARN)
 									return
 								end
-								vim.fn.jobstart({ "qlmanage", "-p", node.path })
+								-- Gather siblings in neo-tree's displayed order, then rotate so the
+								-- selected node comes first (qlmanage always opens arg #1, and has no
+								-- flag to pick a start index). Navigation wraps past the first item.
+								local siblings = state.tree:get_nodes(node:get_parent_id())
+								local before, after = {}, {}
+								local seen = false
+								for _, sib in ipairs(siblings) do
+									if sib:get_id() == node:get_id() then
+										seen = true
+									table.insert(after, sib.path)
+									elseif seen then
+										table.insert(after, sib.path)
+									else
+										table.insert(before, sib.path)
+									end
+								end
+								local paths = {}
+								vim.list_extend(paths, after)
+								vim.list_extend(paths, before)
+								if #paths == 0 then
+									paths = { node.path }
+								end
+								vim.fn.jobstart(vim.list_extend({ "qlmanage", "-p" }, paths))
 							end,
 							desc = "Quick Look preview",
 						},
