@@ -39,6 +39,20 @@ local plugins = {
 						["<c-x>"] = "clear_filter",
 						["[g"] = "prev_git_modified",
 						["]g"] = "next_git_modified",
+						["gp"] = {
+							function(state)
+								local node = state.tree:get_node()
+								if not node then
+									return
+								end
+								if vim.fn.has("mac") == 0 then
+									vim.notify("Quick Look (qlmanage) is only available on macOS", vim.log.levels.WARN)
+									return
+								end
+								vim.fn.jobstart({ "qlmanage", "-p", node.path })
+							end,
+							desc = "Quick Look preview",
+						},
 						["a"] = { "add", config = { show_path = "relative" } },
 						["c"] = { "copy", config = { show_path = "relative" } },
 						["m"] = { "move", config = { show_path = "relative" } },
