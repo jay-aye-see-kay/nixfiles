@@ -54,6 +54,8 @@
             modules.devtools.enable = true;
             modules.cli-utils.enable = true;
             modules.syncthing.enable = true;
+            modules.ssh.enable = true;
+            modules.ssh.groups = [ "common" ];
             home = {
               username = "jack";
               stateVersion = "22.05";
@@ -81,6 +83,8 @@
             modules.devtools.enable = true;
             modules.cli-utils.enable = true;
             modules.syncthing.enable = true;
+            modules.ssh.enable = true;
+            modules.ssh.groups = [ "common" ];
             home = {
               username = "jack.rose";
               stateVersion = "26.05";
@@ -108,6 +112,8 @@
             modules.devtools.enable = true;
             modules.cli-utils.enable = true;
             modules.syncthing.enable = true;
+            modules.ssh.enable = true;
+            modules.ssh.groups = [ "common" "personal" ];
             home = {
               username = "jack";
               stateVersion = "25.11";
@@ -191,6 +197,8 @@
                 ];
                 modules.devtools.enable = true;
                 modules.syncthing.enable = true;
+                modules.ssh.enable = true;
+                modules.ssh.groups = [ "common" "personal" ];
                 home.username = "jack";
                 home.stateVersion = "22.05";
                 home.homeDirectory = "/home/jack";
