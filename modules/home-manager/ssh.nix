@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 let
   cfg = config.modules.ssh;
 
@@ -19,10 +19,14 @@ let
 
     # non work stuff
     personal = {
-      vaccum = {
+      vacuum = {
         User = "root";
         HostName = "192.168.50.200";
-        IdentityAgent = "~/.1password/agent.sock";
+        IdentityAgent =
+          if pkgs.stdenv.isDarwin then
+            ''"~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"''
+          else
+            "~/.1password/agent.sock";
       };
 
       pm1 = {
