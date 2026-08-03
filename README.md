@@ -11,7 +11,7 @@ If you have Netskope (corpo MitM software) set that up [https://jackrose.co.nz/t
 ```bash
 # install nix with nice defaults (enables flakes, allows user to set substituters)
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --extra-conf "trusted-users = root $(whoami)"
-nix shell nixpkgs#home-manager nixpkgs#just --command just home-switch # install and setup everything
+nix shell nixpkgs#home-manager nixpkgs#just --command just switch # install and setup everything
 ```
 
 ### NixOS
@@ -23,16 +23,24 @@ nix shell nixpkgs#just --command just switch # install and setup everything
 
 ## Hosts
 
-Hosts are named after a New Zealand birds
+Most hosts are named after a New Zealand bird. Work machines keep the name given by the corporate MDM.
 
-### Tui
+### tui
 
-Personal laptop, x86
+Personal laptop (Thinkpad X1 6th gen, x86), NixOS with sway, ZFS on root and home-manager as a NixOS module.
 
-### Kakapo
+### kea
 
-Home media server, x86
+Personal laptop (M-series mac), home-manager only.
 
-### Moa
+### jrose-04LCLG
 
-A VM on my work laptop, work in progress, not currently used.
+Work laptop (M-series mac), just using home-manager as a brew replacement and config manager. Not using nix-darwin as I suspect it would have bad interactions with the MDM and other security software.
+
+### honey
+
+VM on the home server, runs the media and web services: caddy, jellyfin, plex, mealie, linkding and readeck. Deploy with `just honey-deploy`.
+
+### innie
+
+VM on the home server, runs file and document services: samba, paperless and vsftpd. Deploy with `just innie-deploy`.
