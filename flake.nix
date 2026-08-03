@@ -36,35 +36,6 @@
     {
       formatter = eachMySystem (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
 
-      # OLD work laptop (macOS)
-      homeConfigurations."${username}@jjack-XMW16X" = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          system = "aarch64-darwin";
-          config = { allowUnfree = true; };
-          overlays = [ ];
-        };
-        extraSpecialArgs = {
-          pkgs-unstable = pkgsUnstable."aarch64-darwin";
-        };
-        modules = [
-          ./users/jack/home.nix
-          ./modules/home-manager
-          ({ pkgs, ... }: {
-            nix.registry.nixpkgs.flake = inputs.nixpkgs;
-            modules.devtools.enable = true;
-            modules.cli-utils.enable = true;
-            modules.syncthing.enable = true;
-            modules.ssh.enable = true;
-            modules.ssh.groups = [ "common" ];
-            home = {
-              username = "jack";
-              stateVersion = "22.05";
-              homeDirectory = "/Users/jack";
-            };
-          })
-        ];
-      };
-
       # work laptop (macOS)
       homeConfigurations."jack.rose@jrose-04LCLG" = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {

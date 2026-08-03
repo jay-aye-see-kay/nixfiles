@@ -33,10 +33,6 @@ Personal laptop, x86
 
 Home media server, x86
 
-### jjack-XMW16X
-
-Work laptop M1, just using home-manager as a brew replacement and config manager. Not using nix-darwin as I suspect it would have bad interactions with the MDM and other security software.
-
 ### Moa
 
 A VM on my work laptop, work in progress, not currently used.

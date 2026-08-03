@@ -11,14 +11,13 @@ let
   #   3. Paste the ID below and re-apply on all hosts.
   devices = {
     "tui" = { id = "3EEYNSK-IJ4YIX3-PHIEKT7-OECJJ2K-7RZAEZ7-TBY2AGW-HCKNPNH-34QYTQ6"; };
-    "jjack-XMW16X" = { id = "IMQF5KD-ZGCQOZQ-GWPFWSN-2E3FH3O-UFOJL2Z-DBTS2AU-NVVAVYJ-XYNLJAG"; };
     "jrose-04LCLG" = { id = "MPJVTVB-LQYSFOC-SXERAID-MX4YVCY-2SKZHBQ-QDCV5Z2-6QL6DM2-7FQANAF"; };
     "kea" = { id = "DVKNRBQ-TZDPTLE-OQ5JP3O-WS5VFCT-WWQGHEI-34ORG5B-HPGHM3Y-XHT34A3"; };
   };
 
   # Device groups for sharing. Adjust membership as machines come and go.
   personalDevices = [ "tui" "kea" ];
-  allDevices = [ "tui" "kea" "jrose-04LCLG" "jjack-XMW16X" ];
+  allDevices = [ "tui" "kea" "jrose-04LCLG" ];
 
   versioning = {
     type = "staggered";
