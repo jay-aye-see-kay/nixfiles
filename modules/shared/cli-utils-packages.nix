@@ -15,7 +15,10 @@ let
       ltunify # manage logitech unifying receiver dongle (linux only)
       httm # TUI for zfs snapshots
     ] else [
-      # nothing right now
+      # macOS ships BSD userland, which lacks timeout, nproc, tac, shuf,
+      # numfmt, shred and GNU flags like `date -d` / `stat -c`.
+      # This shadows the BSD tools with GNU versions on purpose.
+      coreutils
     ];
 in
 platformSpecificPackages ++ [
