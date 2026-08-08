@@ -10,7 +10,7 @@ nixfiles/
 ├── modules/               # Reusable NixOS and home-manager modules
 │   ├── nixos/            # NixOS system modules
 │   └── home-manager/     # Home Manager user modules
-├── hosts/                 # Host-specific configurations (tui, kakapo, etc.)
+├── hosts/                 # Host-specific configurations (tui, honey, innie, etc.)
 ├── users/                 # User-specific home configurations
 ├── dots/                  # Dotfiles (mostly stuff that goes in ~/.config, not managed directly with nix, uses mkOutOfStoreSymlink)
 ├── scripts/              # Utility shell scripts
@@ -94,7 +94,7 @@ if pkgs.stdenv.isLinux then linuxPackages else darwinPackages
 
 ## Neovim Config
 
-Located in `dots/.config/nvim/`
+Located in `dots/nvim/`
 
 ### Plugin Management
 
@@ -111,7 +111,7 @@ Located in `dots/.config/nvim/`
 ### Directory Structure
 
 ```
-dots/.config/nvim/
+dots/nvim/
 ├── init.lua                # Entry point
 ├── lazy-lock.json          # Plugin versions
 ├── lua/

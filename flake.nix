@@ -41,7 +41,6 @@
         pkgs = import nixpkgs {
           system = "aarch64-darwin";
           config = { allowUnfree = true; };
-          overlays = [ ];
         };
         extraSpecialArgs = {
           pkgs-unstable = pkgsUnstable."aarch64-darwin";
@@ -70,7 +69,6 @@
         pkgs = import nixpkgs {
           system = "aarch64-darwin";
           config = { allowUnfree = true; };
-          overlays = [ ];
         };
         extraSpecialArgs = {
           pkgs-unstable = pkgsUnstable."aarch64-darwin";
