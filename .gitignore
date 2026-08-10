@@ -1,1 +1,7 @@
-result
+# Snapshots are a scratch baseline for a refactoring session, not a committed
+# artifact: the derivation hashes go stale on every `nix flake update`, which
+# would churn ~34k lines on each nixpkgs bump.
+#
+# To instead commit them as a reviewable "what did this PR change" artifact
+# (like nixpkgs-review), delete this file and run `just snap`.
+tests/snapshots/

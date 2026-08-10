@@ -60,6 +60,18 @@ build:
     nixos-rebuild --sudo build --flake .#
   fi
 
+# Record a snapshot of every host's derivation hash (run BEFORE refactoring)
+snap:
+  sh {{justfile_directory()}}/scripts/snapshot.sh record
+
+# Prove a refactor changed no build output (run AFTER refactoring)
+snap-check:
+  sh {{justfile_directory()}}/scripts/snapshot.sh check
+
+# Explain why a target's derivation changed
+snap-explain target:
+  sh {{justfile_directory()}}/scripts/snapshot.sh explain {{target}}
+
 innie-deploy:
   nix run nixpkgs#nixos-rebuild -- switch --flake .#innie --build-host jack@innie --target-host jack@innie --sudo
 

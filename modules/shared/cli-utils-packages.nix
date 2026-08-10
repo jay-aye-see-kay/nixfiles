@@ -2,24 +2,29 @@
 # install them on all hosts from here
 { pkgs, ... }: with pkgs;
 let
+  linuxOnlyPackages = [
+    lsof # list open files
+    hdparm # query hard drive info
+    pciutils # provides lspci
+    parted # partition disks
+    progress # show progress of running processes
+    powertop
+    git # mac+hm doesn't like having this twice?? idk it's fine on linux
+    curl # use macos' built in
+    ltunify # manage logitech unifying receiver dongle (linux only)
+    httm # TUI for zfs snapshots
+  ];
+
+  # macOS ships BSD userland, which lacks timeout, nproc, tac, shuf,
+  # numfmt, shred and GNU flags like `date -d` / `stat -c`.
+  # This shadows the BSD tools with GNU versions on purpose.
+  darwinOnlyPackages = [
+    coreutils
+  ];
+
   platformSpecificPackages =
-    if stdenv.isLinux then [
-      lsof # list open files
-      hdparm # query hard drive info
-      pciutils # provides lspci
-      parted # partition disks
-      progress # show progress of running processes
-      powertop
-      git # mac+hm doesn't like having this twice?? idk it's fine on linux
-      curl # use macos' built in
-      ltunify # manage logitech unifying receiver dongle (linux only)
-      httm # TUI for zfs snapshots
-    ] else [
-      # macOS ships BSD userland, which lacks timeout, nproc, tac, shuf,
-      # numfmt, shred and GNU flags like `date -d` / `stat -c`.
-      # This shadows the BSD tools with GNU versions on purpose.
-      coreutils
-    ];
+    lib.optionals stdenv.isLinux linuxOnlyPackages
+    ++ lib.optionals (!stdenv.isLinux) darwinOnlyPackages;
 in
 platformSpecificPackages ++ [
   # shells

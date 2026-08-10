@@ -27,6 +27,31 @@ just                      # List all available commands
 just build                # Build configuration without applying to check for nix issues
 ```
 
+### Refactoring Safely (snapshot tests)
+
+`scripts/snapshot.sh` evaluates every host's derivation hash. Because a `.drv`
+path is a hash of every input, identical hashes before and after a change prove
+the built result is bit-for-bit identical — no matter how aggressive the
+refactor. Everything is *evaluated*, never built, so all 5 hosts (3 NixOS + 2
+home-manager) can be checked from any machine in ~30s.
+
+```bash
+just snap                 # BEFORE refactoring: record the baseline
+# ...refactor...
+just snap-check           # AFTER: PASS means zero build output changed
+just snap-explain nixosConfigurations/tui   # drill into a reported change
+```
+
+On a mismatch it reports the blast radius per host and diffs the closure by
+package name, so you can tell "added a package" from "only hashes moved".
+
+Known blind spots (things it deliberately cannot see):
+- `dots/` — wired up with `mkOutOfStoreSymlink`, so only the symlink target is
+  hashed, not the contents. Changes to the nvim config are invisible here.
+- Semantically-neutral changes that are real at the derivation level, most
+  notably **reordering a package list** (order is load-bearing for buildEnv
+  collision priority). Keep list order stable when refactoring.
+
 ## Code Style Guidelines
 
 ### Nix Files
