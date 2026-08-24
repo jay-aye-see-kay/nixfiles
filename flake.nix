@@ -59,6 +59,7 @@
               username = "jack.rose";
               stateVersion = "26.05";
               homeDirectory = "/Users/jack.rose";
+              sessionVariables.PI_CACHE_RETENTION = "long";
             };
           })
         ];
