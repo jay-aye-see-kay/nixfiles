@@ -18,6 +18,27 @@
                         ]
                     },
                     {
+                        "description": "Nodeterm: Ignore Ctrl+W - only required until the release after 0.3.2 when we can remap this key",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.nodeterm\\.app$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "w",
+                                    "modifiers": { "mandatory": ["control"] }
+                                },
+                                "to": [{ "key_code": "vk_none" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Obsidian: Cmd+Q closes window instead of quitting (protect Sync)",
                         "manipulators": [
                             {
