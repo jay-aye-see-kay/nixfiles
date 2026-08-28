@@ -18,7 +18,7 @@
                         ]
                     },
                     {
-                        "description": "Nodeterm: Ignore Ctrl+W - only required until the release after 0.3.2 when we can remap this key",
+                        "description": "Nodeterm: Remap Ctrl+W to Option+Backspace — only required until the release after 0.3.2 when we can remap this key",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -33,7 +33,12 @@
                                     "key_code": "w",
                                     "modifiers": { "mandatory": ["control"] }
                                 },
-                                "to": [{ "key_code": "vk_none" }],
+                                "to": [
+                                    {
+                                        "key_code": "delete_or_backspace",
+                                        "modifiers": ["option"]
+                                    }
+                                ],
                                 "type": "basic"
                             }
                         ]
