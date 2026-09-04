@@ -65,8 +65,13 @@ return {
 							["<c-t>"] = nil,
 							default = {
 								action = function(selection)
-									vim.cmd.tabedit(selection.path)
+									-- open a fresh tab with a fyler tree for the project. don't
+									-- `tabedit` the directory: fyler's dir-buffer hijack is unreliable
+									-- here (the new tab can collapse when a finder for the path is
+									-- already open elsewhere)
+									vim.cmd("tabnew")
 									vim.cmd.tcd(selection.path)
+									require("fyler").open({ kind = "replace", root_path = selection.path })
 								end,
 							},
 						},
