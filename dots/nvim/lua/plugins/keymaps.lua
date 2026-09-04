@@ -96,25 +96,16 @@ return {
 
 			-- File explorer keymaps with directed maps
 			wk.add({ { "<leader>e", group = "+file explorer" } })
-			-- fyler window kind per direction, everything else opens in place
-			local explorer_kinds = {
-				h = "split_left",
-				l = "split_right",
-				k = "split_above",
-				j = "split_below",
-			}
 			h.make_directed_maps_fn("<leader>e", "File explorer", function(d)
-				local kind = explorer_kinds[d.key] or "replace"
-				-- fyler's split kinds create their own split; only the tab direction
-				-- needs a new tab opened first
-				if kind == "replace" and d.cmd_prefix then
+				if d.cmd_prefix then
 					vim.cmd(d.cmd_prefix)
 				end
-				require("fyler").open({ kind = kind })
+				-- open with `replace` kind so the finder acts like oil in the new split:
+				-- the split is a normal half-screen window and `<CR>` swaps it for
+				-- the selected file (split kinds are sidebar-style: fixed width,
+				-- `<CR>` opens into another window)
+				require("fyler").open({ kind = "replace" })
 			end)
-			vim.keymap.set("n", "<leader>ee", function()
-				require("fyler").toggle({ kind = "split_left_most" })
-			end, { desc = "Toggle file tree" })
 
 			-- Notes keymaps with directed maps
 			wk.add({
