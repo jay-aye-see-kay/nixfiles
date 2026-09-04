@@ -47,7 +47,13 @@ return {
 			vim.keymap.set("n", ",l", "<cmd>Telescope current_buffer_fuzzy_find<cr>", { desc = "🔭 buffer lines" })
 			vim.keymap.set("n", ",f", "<cmd>Telescope find_files<cr>", { desc = "🔭 files" })
 			vim.keymap.set("n", ",o", "<cmd>Telescope oldfiles<cr>", { desc = "🔭 oldfiles" })
-			vim.keymap.set("n", ",.", "<cmd>Neotree reveal current<cr>", { desc = "File explorer in place" })
+			vim.keymap.set("n", ",.", function()
+				require("fyler").open({ kind = "replace" })
+			end, { desc = "File explorer in place" })
+			-- kept for oil muscle memory, same action as `,.`
+			vim.keymap.set("n", ",,", function()
+				require("fyler").open({ kind = "replace" })
+			end, { desc = "File explorer in place" })
 
 			-- LSP keymaps
 			wk.add({ { "<leader>l", group = "+lsp" } })
@@ -94,8 +100,22 @@ return {
 
 			-- File explorer keymaps with directed maps
 			wk.add({ { "<leader>e", group = "+file explorer" } })
-			h.make_directed_maps("<leader>e", "File explorer", "Neotree reveal current")
-			vim.keymap.set("n", "<leader>ee", "<cmd>Neotree toggle<cr>", { desc = "Toggle file tree" })
+			-- fyler window kind per direction, everything else opens in place
+			local explorer_kinds = {
+				h = "split_left",
+				l = "split_right",
+				k = "split_above",
+				j = "split_below",
+			}
+			h.make_directed_maps_fn("<leader>e", "File explorer", function(d)
+				if d.cmd_prefix then
+					vim.cmd(d.cmd_prefix)
+				end
+				require("fyler").open({ kind = explorer_kinds[d.key] or "replace" })
+			end)
+			vim.keymap.set("n", "<leader>ee", function()
+				require("fyler").toggle({ kind = "split_left_most" })
+			end, { desc = "Toggle file tree" })
 
 			-- Notes keymaps with directed maps
 			wk.add({

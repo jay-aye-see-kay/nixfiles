@@ -1,174 +1,30 @@
-local h = require("config.helpers")
-
--- File explorers and terminal configuration
+-- File explorer and terminal configuration
 local plugins = {
-	-- Neo-tree file explorer
+	-- Fyler file manager: file tree sidebar + oil-style buffer editing.
+	-- Mutations happen by editing the buffer (rename/move, duplicate/copy,
+	-- delete lines, add lines) and writing it (`:w`), with a confirm prompt.
 	{
-		"nvim-neo-tree/neo-tree.nvim",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-tree/nvim-web-devicons",
-			"MunifTanjim/nui.nvim",
-		},
+		"FylerOrg/fyler.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {
-			window = {
-				position = "left",
-				width = 30,
-				mappings = {
-					["<space>"] = false,
-					["z"] = false,
-					["l"] = "open",
-					["h"] = "close_node",
-				},
+			extensions = {
+				git = { enabled = true },
+				trash = { enabled = true },
+				watcher = { enabled = true },
 			},
-			filesystem = {
-				filtered_items = {
-					visible = true,
-					hide_dotfiles = false,
-				},
-				hijack_netrw_behavior = "open_current",
-				use_libuv_file_watcher = true,
-				follow_current_file = { enabled = true },
-				window = {
-					mappings = {
-						["H"] = "navigate_up",
-						["L"] = "set_root",
-						["."] = "toggle_hidden",
-						["/"] = false,
-						["D"] = "fuzzy_finder_directory",
-						["<c-x>"] = "clear_filter",
-						["[g"] = "prev_git_modified",
-						["]g"] = "next_git_modified",
-						["gp"] = {
-							function(state)
-								local node = state.tree:get_node()
-								if not node then
-									return
-								end
-								if vim.fn.has("mac") == 0 then
-									vim.notify("Quick Look (qlmanage) is only available on macOS", vim.log.levels.WARN)
-									return
-								end
-								-- Gather siblings in neo-tree's displayed order, then rotate so the
-								-- selected node comes first (qlmanage always opens arg #1, and has no
-								-- flag to pick a start index). Navigation wraps past the first item.
-								local siblings = state.tree:get_nodes(node:get_parent_id())
-								local before, after = {}, {}
-								local seen = false
-								for _, sib in ipairs(siblings) do
-									if sib:get_id() == node:get_id() then
-										seen = true
-									table.insert(after, sib.path)
-									elseif seen then
-										table.insert(after, sib.path)
-									else
-										table.insert(before, sib.path)
-									end
-								end
-								local paths = {}
-								vim.list_extend(paths, after)
-								vim.list_extend(paths, before)
-								if #paths == 0 then
-									paths = { node.path }
-								end
-								vim.fn.jobstart(vim.list_extend({ "qlmanage", "-p" }, paths))
-							end,
-							desc = "Quick Look preview",
-						},
-						["a"] = { "add", config = { show_path = "relative" } },
-						["c"] = { "copy", config = { show_path = "relative" } },
-						["m"] = { "move", config = { show_path = "relative" } },
-					},
-				},
+			integrations = { icon = "nvim_web_devicons" },
+			kind_presets = {
+				split_left_most = { width = 30 },
 			},
-			source_selector = {
-				sources = {
-					{ source = "filesystem", display_name = " 󰉓 Files " },
-					{ source = "git_status", display_name = " 󰊢 Git " },
+			ui = {
+				hidden_items = {
+					-- fyler deep-merges config, so the default `switches = { "dotfiles" }`
+					-- cannot be cleared by passing an empty table. `always_visible` is
+					-- checked before switches, so this pattern keeps dotfiles always shown.
+					always_visible = { "/%.[^/]*$" },
 				},
 			},
 		},
-		init = function()
-			vim.g.neo_tree_remove_legacy_commands = 1
-			--- Opens neotree git_status, showing changes since branch off default
-			local function neotree_merge_base(prefix)
-				return function()
-					local cmd_output = vim.fn.systemlist("git guess-default-branch")
-					if #cmd_output ~= 1 then
-						print("git guess-default-branch failed")
-						return
-					end
-					local default_branch = cmd_output[1]
-					local merge_base = vim.fn.systemlist("git merge-base " .. default_branch .. " HEAD")[1]
-					print("merge base with '" .. default_branch .. "' is '" .. merge_base .. "'")
-					vim.cmd(prefix .. " | Neotree current source=git_status git_base=" .. merge_base)
-				end
-			end
-			vim.keymap.set(
-				"n",
-				"<leader>egh",
-				neotree_merge_base("aboveleft vsplit"),
-				{ desc = "neotree merge_base to left" }
-			)
-			vim.keymap.set(
-				"n",
-				"<leader>egl",
-				neotree_merge_base("belowright vsplit"),
-				{ desc = "neotree merge_base to right" }
-			)
-			vim.keymap.set("n", "<leader>egk", neotree_merge_base("aboveleft split"), { desc = "neotree merge_base above" })
-			vim.keymap.set(
-				"n",
-				"<leader>egj",
-				neotree_merge_base("belowright split"),
-				{ desc = "neotree merge_base below" }
-			)
-			vim.keymap.set("n", "<leader>eg.", neotree_merge_base("echo"), { desc = "neotree merge_base in place" })
-			vim.keymap.set("n", "<leader>eg,", neotree_merge_base("tabnew"), { desc = "neotree merge_base in new tab" })
-		end,
-	},
-
-	-- Oil.nvim file editor
-	{
-		"stevearc/oil.nvim",
-		lazy = true,
-		keys = {
-			{ ",,", "<cmd>Oil<cr>", desc = "Oil: Open file dir" },
-		},
-		config = function()
-			local oil = require("oil")
-			oil.setup({
-				default_file_explorer = false,
-				use_default_keymaps = false,
-				columns = { "icon", "permissions", "size" },
-				experimental_watch_for_changes = true,
-				keymaps = {
-					["?"] = "actions.show_help",
-					["<CR>"] = "actions.select",
-					["L"] = "actions.select",
-					["s"] = "actions.select_vsplit",
-					["<C-t>"] = "actions.select_tab",
-					["<C-p>"] = "actions.preview",
-					["<C-c>"] = "actions.close",
-					["<C-r>"] = "actions.refresh",
-					["-"] = "actions.parent",
-					["H"] = "actions.parent",
-					["_"] = "actions.open_cwd",
-					["`"] = "actions.cd",
-					["~"] = "actions.tcd",
-					["gs"] = "actions.change_sort",
-					["gx"] = "actions.open_external",
-					["."] = "actions.toggle_hidden",
-					["X"] = {
-						callback = function()
-							h.toggle_executable_bit(oil.get_current_dir() .. oil.get_cursor_entry().name)
-						end,
-						desc = "toggle exec",
-						mode = "n",
-					},
-				},
-			})
-		end,
 	},
 }
 

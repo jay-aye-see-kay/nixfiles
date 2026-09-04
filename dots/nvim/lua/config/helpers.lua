@@ -1,17 +1,18 @@
 local M = {}
 
+-- Window directions shared by the directed-map helpers below.
+local directions = {
+	{ key = "h", desc = "to left", cmd_prefix = "aboveleft vsplit" },
+	{ key = "l", desc = "to right", cmd_prefix = "belowright vsplit" },
+	{ key = "k", desc = "above", cmd_prefix = "aboveleft split" },
+	{ key = "j", desc = "below", cmd_prefix = "belowright split" },
+	{ key = ".", desc = "in place", cmd_prefix = nil },
+	{ key = ",", desc = "in new tab", cmd_prefix = "tabnew" },
+}
+
 -- Directly sets keymaps for opening something in different window directions
 -- Creates 6 keymaps: h (left), l (right), k (above), j (below), . (in place), , (new tab)
 function M.make_directed_maps(prefix, command_desc, command, extra_opts)
-	local directions = {
-		{ key = "h", desc = "to left", cmd_prefix = "aboveleft vsplit" },
-		{ key = "l", desc = "to right", cmd_prefix = "belowright vsplit" },
-		{ key = "k", desc = "above", cmd_prefix = "aboveleft split" },
-		{ key = "j", desc = "below", cmd_prefix = "belowright split" },
-		{ key = ".", desc = "in place", cmd_prefix = nil },
-		{ key = ",", desc = "in new tab", cmd_prefix = "tabnew" },
-	}
-
 	for _, d in ipairs(directions) do
 		local full_desc = command_desc .. " " .. d.desc
 		local full_cmd = d.cmd_prefix and string.format("<CMD>%s | %s<CR>", d.cmd_prefix, command)
@@ -20,6 +21,18 @@ function M.make_directed_maps(prefix, command_desc, command, extra_opts)
 		local opts = extra_opts or {}
 		opts.desc = full_desc
 		vim.keymap.set("n", prefix .. d.key, full_cmd, opts)
+	end
+end
+
+-- Like make_directed_maps, but for Lua functions instead of command strings.
+-- fn is called with the direction table, e.g. { key = "h", desc = "to left", cmd_prefix = "aboveleft vsplit" }
+function M.make_directed_maps_fn(prefix, command_desc, fn, extra_opts)
+	for _, d in ipairs(directions) do
+		local opts = extra_opts or {}
+		opts.desc = command_desc .. " " .. d.desc
+		vim.keymap.set("n", prefix .. d.key, function()
+			fn(d)
+		end, opts)
 	end
 end
 

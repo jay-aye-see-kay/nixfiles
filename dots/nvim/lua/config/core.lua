@@ -108,7 +108,7 @@ vim.api.nvim_create_autocmd({ "VimEnter", "WinEnter", "BufWinEnter" }, {
 })
 vim.api.nvim_create_autocmd({ "WinLeave" }, {
 	callback = function()
-		if vim.bo.filetype ~= "neo-tree" then
+		if vim.bo.filetype ~= "fyler_finder" then
 			vim.wo.cursorline = false
 		end
 	end,
