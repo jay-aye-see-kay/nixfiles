@@ -50,10 +50,6 @@ return {
 			vim.keymap.set("n", ",.", function()
 				require("fyler").open({ kind = "replace" })
 			end, { desc = "File explorer in place" })
-			-- kept for oil muscle memory, same action as `,.`
-			vim.keymap.set("n", ",,", function()
-				require("fyler").open({ kind = "replace" })
-			end, { desc = "File explorer in place" })
 
 			-- LSP keymaps
 			wk.add({ { "<leader>l", group = "+lsp" } })
@@ -108,10 +104,13 @@ return {
 				j = "split_below",
 			}
 			h.make_directed_maps_fn("<leader>e", "File explorer", function(d)
-				if d.cmd_prefix then
+				local kind = explorer_kinds[d.key] or "replace"
+				-- fyler's split kinds create their own split; only the tab direction
+				-- needs a new tab opened first
+				if kind == "replace" and d.cmd_prefix then
 					vim.cmd(d.cmd_prefix)
 				end
-				require("fyler").open({ kind = explorer_kinds[d.key] or "replace" })
+				require("fyler").open({ kind = kind })
 			end)
 			vim.keymap.set("n", "<leader>ee", function()
 				require("fyler").toggle({ kind = "split_left_most" })
