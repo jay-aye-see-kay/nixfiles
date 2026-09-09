@@ -18,6 +18,239 @@
                         ]
                     },
                     {
+                        "description": "Kinesis Advantage2: Shift+F1–F12 sends function keys",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "product_id": 258,
+                                                "vendor_id": 10730
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "f1",
+                                    "modifiers": { "mandatory": ["shift"] }
+                                },
+                                "to": [{ "key_code": "f1", "modifiers": ["fn"] }],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "product_id": 258,
+                                                "vendor_id": 10730
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "f2",
+                                    "modifiers": { "mandatory": ["shift"] }
+                                },
+                                "to": [{ "key_code": "f2", "modifiers": ["fn"] }],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "product_id": 258,
+                                                "vendor_id": 10730
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "f3",
+                                    "modifiers": { "mandatory": ["shift"] }
+                                },
+                                "to": [{ "key_code": "f3", "modifiers": ["fn"] }],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "product_id": 258,
+                                                "vendor_id": 10730
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "f4",
+                                    "modifiers": { "mandatory": ["shift"] }
+                                },
+                                "to": [{ "key_code": "f4", "modifiers": ["fn"] }],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "product_id": 258,
+                                                "vendor_id": 10730
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "f5",
+                                    "modifiers": { "mandatory": ["shift"] }
+                                },
+                                "to": [{ "key_code": "f5", "modifiers": ["fn"] }],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "product_id": 258,
+                                                "vendor_id": 10730
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "f6",
+                                    "modifiers": { "mandatory": ["shift"] }
+                                },
+                                "to": [{ "key_code": "f6", "modifiers": ["fn"] }],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "product_id": 258,
+                                                "vendor_id": 10730
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "f7",
+                                    "modifiers": { "mandatory": ["shift"] }
+                                },
+                                "to": [{ "key_code": "f7", "modifiers": ["fn"] }],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "product_id": 258,
+                                                "vendor_id": 10730
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "f8",
+                                    "modifiers": { "mandatory": ["shift"] }
+                                },
+                                "to": [{ "key_code": "f8", "modifiers": ["fn"] }],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "product_id": 258,
+                                                "vendor_id": 10730
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "f9",
+                                    "modifiers": { "mandatory": ["shift"] }
+                                },
+                                "to": [{ "key_code": "f9", "modifiers": ["fn"] }],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "product_id": 258,
+                                                "vendor_id": 10730
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "f10",
+                                    "modifiers": { "mandatory": ["shift"] }
+                                },
+                                "to": [{ "key_code": "f10", "modifiers": ["fn"] }],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "product_id": 258,
+                                                "vendor_id": 10730
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "f11",
+                                    "modifiers": { "mandatory": ["shift"] }
+                                },
+                                "to": [{ "key_code": "f11", "modifiers": ["fn"] }],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "product_id": 258,
+                                                "vendor_id": 10730
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "f12",
+                                    "modifiers": { "mandatory": ["shift"] }
+                                },
+                                "to": [{ "key_code": "f12", "modifiers": ["fn"] }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Nodeterm: Remap Ctrl+W to Option+Backspace — only required until the release after 0.3.2 when we can remap this key",
                         "manipulators": [
                             {
