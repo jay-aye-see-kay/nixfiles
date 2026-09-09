@@ -14,12 +14,7 @@ local plugins = {
 			},
 			integrations = { icon = "nvim_web_devicons" },
 			kind_presets = {
-				-- fyler hardcodes winfixwidth/winfixheight on its windows, which makes
-				-- `<c-w>=` skip them. Replace-kind finders should behave like normal
-				-- windows, so let equalize and resizing work on them.
-				replace = {
-					win_opts = { winfixwidth = false, winfixheight = false },
-				},
+				split_left_most = { width = 30 },
 			},
 			ui = {
 				hidden_items = {
