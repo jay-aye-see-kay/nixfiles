@@ -25,6 +25,7 @@ in
       e = "nvim";
       v = "nvim";
       pt = "cd ~/tmp && pi";
+      # t -> tark is added conditionally in shellInit (only where the bin exists)
       pc = "pi -c";
       pu = "pi update --all";
       caf = "caffeinate -i";
@@ -111,6 +112,11 @@ in
 
       # Git subcommand abbreviations
       ${gitAbbrs}
+
+      # t -> tark, only on machines that have the tark binary installed
+      if test -x $HOME/.local/bin/tark
+          abbr --add t tark
+      end
     ''
     +
     (if isDarwin then ''
