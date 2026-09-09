@@ -16,7 +16,7 @@ return {
 				options = {
 					globalstatus = true,
 					disabled_filetypes = {
-						winbar = { "", "fyler_finder", "Outline", "fugitive", "sidekick_terminal" },
+						winbar = { "", "neo-tree", "Outline", "fugitive", "sidekick_terminal" },
 					},
 				},
 				sections = {
