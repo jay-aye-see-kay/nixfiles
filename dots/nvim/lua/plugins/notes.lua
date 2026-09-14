@@ -50,11 +50,8 @@ return {
 		---@module 'render-markdown'
 		---@type render.md.UserConfig
 		opts = {
-			render_modes = true,
-			win_options = {
-				conceallevel = {
-					rendered = 0,
-				},
+			anti_conceal = {
+				enabled = false,
 			},
 			code = {
 				border = "thin",
