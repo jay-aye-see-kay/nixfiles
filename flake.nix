@@ -84,6 +84,10 @@
             modules.syncthing.enable = true;
             modules.ssh.enable = true;
             modules.ssh.groups = [ "common" "personal" ];
+            home.packages = [
+              # wrangler bundles its own typescript, which collides with typescript in devtools.nix
+              (pkgs.writeShellScriptBin "wrangler" ''exec ${pkgs.wrangler}/bin/wrangler "$@"'')
+            ];
             home = {
               username = "jack";
               stateVersion = "25.11";
