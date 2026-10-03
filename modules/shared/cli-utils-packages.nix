@@ -81,6 +81,13 @@ platformSpecificPackages ++ [
   # nix stuff
   nix-tree # show dependencies and sizes of installed nixpkgs
 
+  # agent/llm toolbelt additions
+  duckdb
+  uv # fast python runner + package manager (pip/venv replacement)
+  imagemagick # image conversion/inspection; ffmpeg covers video
+  exiftool # read media metadata
+  difftastic # syntax-aware diffs, `git difft` (delta is also installed)
+
   # document conversion
   # pandoc pipes to/from many text formats, but cannot READ pdf itself:
   # pdftotext (from poppler-utils) is the standard pre-processor for that
