@@ -20,6 +20,7 @@ let
   # This shadows the BSD tools with GNU versions on purpose.
   darwinOnlyPackages = [
     coreutils
+    gnused
   ];
 
   platformSpecificPackages =
