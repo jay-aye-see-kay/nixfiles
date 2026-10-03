@@ -80,7 +80,16 @@ platformSpecificPackages ++ [
   # nix stuff
   nix-tree # show dependencies and sizes of installed nixpkgs
 
-  # working with html
+  # document conversion
+  # pandoc pipes to/from many text formats, but cannot READ pdf itself:
+  # pdftotext (from poppler-utils) is the standard pre-processor for that
   htmlq
   pandoc
+  # pdf -> text, the "general pdf reader" for the toolbelt
+  # picked over: mupdf (less layout-aware text output), ghostscript (heavy,
+  # clunky), qpdf/pdfcpu/pdftk (structure manipulation, not extraction),
+  # pdfplumber/pypdf (best tables but needs a python env), ocrmypdf/tesseract
+  # (ocr, only needed for scanned pdfs), docling/marker (llm-era, heavy deps)
+  # @see: https://pandoc.org/MANUAL.html#option--pdf-engine
+  poppler-utils # pdftotext (-layout keeps columns), pdfinfo, pdftoppm, pdfimages
 ]
