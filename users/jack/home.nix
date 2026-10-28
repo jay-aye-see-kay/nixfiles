@@ -70,9 +70,21 @@ in
       "${config.home.homeDirectory}/nixfiles/dots/aerospace";
   };
 
+  programs.gh = {
+    enable = true;
+    package = pkgs-unstable.gh;
+    extensions = with pkgs-unstable; [
+      gh-stack
+      gh-dash
+    ];
+    settings = {
+      git_protocol = "https";
+      aliases.co = "pr checkout";
+    };
+  };
+
   home.packages = with pkgs;
     [
-      gh
       manix
       trash-cli
       gnupg
