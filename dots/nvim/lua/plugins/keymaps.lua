@@ -108,10 +108,6 @@ return {
 			vim.keymap.set("n", "<leader>gc", "<Cmd>Telescope git_bcommits<CR>", { desc = "🔭 buffer commits" })
 			vim.keymap.set("n", "<leader>gb", "<Cmd>Telescope git_branches<CR>", { desc = "🔭 branches" })
 
-			-- Terminal keymaps with directed maps
-			wk.add({ { "<leader>t", group = "+terminal" } })
-			h.make_directed_maps("<leader>t", "New terminal", "terminal")
-
 			-- File explorer keymaps with directed maps
 			wk.add({ { "<leader>e", group = "+file explorer" } })
 			h.make_directed_maps("<leader>e", "File explorer", "Neotree reveal current")
