@@ -12,6 +12,20 @@ vim.api.nvim_create_user_command("LogbookToday", open_logbook_cmd(), {})
 vim.api.nvim_create_user_command("LogbookYesterday", open_logbook_cmd(-1), {})
 vim.api.nvim_create_user_command("LogbookTomorrow", open_logbook_cmd(1), {})
 
+-- Rex's ctrl+shift+n notes float (dots/rex/init.lua) is one long-lived nvim, so
+-- when it regains focus on an old daily note (e.g. after midnight) move to today's.
+if vim.g.logbook_follow_today then
+	vim.api.nvim_create_autocmd("FocusGained", {
+		callback = function()
+			local current = vim.api.nvim_buf_get_name(0)
+			local today = vim.fn.expand("~/obsidian/notes/daily/" .. os.date("%Y-%m-%d") .. ".md")
+			if current:match("/obsidian/notes/daily/%d%d%d%d%-%d%d%-%d%d%.md$") and current ~= today then
+				pcall(vim.cmd, "LogbookToday")
+			end
+		end,
+	})
+end
+
 -- Autocmds for markdown files
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "markdown", "md" },
