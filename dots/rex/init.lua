@@ -33,3 +33,8 @@ for key, direction in pairs({ h = "left", j = "down", k = "up", l = "right" }) d
 		return true
 	end)
 end
+
+-- Scroll scrollback a page (ctrl+u/d plus shift, so the shell keeps ctrl+u/d).
+-- Uncomment once client.scroll.* leaves Rex's Bleeding Edge channel; until then the app warns "unknown action".
+-- rex.bind("ctrl+shift+u", "client.scroll.page_up")
+-- rex.bind("ctrl+shift+d", "client.scroll.page_down")
