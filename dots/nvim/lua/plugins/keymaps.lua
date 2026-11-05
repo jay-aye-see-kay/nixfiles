@@ -1,6 +1,26 @@
 local h = require("config.helpers")
 
 return {
+	-- <C-h/j/k/l> moves between nvim windows and, at nvim's edge, Rex panes.
+	-- The Rex half lives in dots/rex/init.lua.
+	{
+		"smart-splits-nvim/smart-splits.nvim",
+		version = "^3.0.0",
+		dependencies = {
+			{ "rawnly/smart-splits-backend-rex", opts = {} },
+		},
+		opts = {
+			mux = { backend = "smart-splits-backend-rex" },
+			-- match Rex (dots/rex/init.lua), which doesn't wrap either
+			move = { at_edge = "stop" },
+		},
+		keys = {
+			{ "<C-h>", function() require("smart-splits").move_cursor_left() end, desc = "Move to left window/pane" },
+			{ "<C-j>", function() require("smart-splits").move_cursor_down() end, desc = "Move to window/pane below" },
+			{ "<C-k>", function() require("smart-splits").move_cursor_up() end, desc = "Move to window/pane above" },
+			{ "<C-l>", function() require("smart-splits").move_cursor_right() end, desc = "Move to right window/pane" },
+		},
+	},
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",

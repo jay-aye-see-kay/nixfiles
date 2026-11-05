@@ -42,12 +42,6 @@ vim.keymap.set("n", "gQ", "<nop>")
 vim.keymap.set("i", "<c-a>", "<nop>") -- disable insert repeating
 vim.opt.shada = "!,'1000,<50,s10,h" -- increase oldfile saved ( default is !,'100,<50,s10,h )
 
--- Window navigation (from mini.basics)
-vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Move to left window" })
-vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to window below" })
-vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to window above" })
-vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
-
 -- Move by visible lines (from mini.basics)
 -- j/k move by display lines unless count is provided
 vim.keymap.set({ "n", "x" }, "j", [[v:count == 0 ? 'gj' : 'j']], { expr = true, desc = "Move down" })
