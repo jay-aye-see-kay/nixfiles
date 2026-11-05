@@ -23,7 +23,7 @@ in
       "Workspace.lightThemeID" = "custom-DD1CEEE1-FC58-4929-B534-60FBCFCFBC8A";
       "Workspace.animationStyle" = "snappy";
       "Workspace.paneDensity" = "compact";
-      "Workspace.showsPaneHeaders" = false;
+      "Workspace.showsPaneHeaders" = true;
 
       # terminal text
       "Workspace.terminalAllowsLigatures" = false;
