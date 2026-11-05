@@ -58,9 +58,6 @@ in
   xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink
     "${config.home.homeDirectory}/nixfiles/dots/nvim";
 
-  xdg.configFile."rex/init.lua".source = config.lib.file.mkOutOfStoreSymlink
-    "${config.home.homeDirectory}/nixfiles/dots/rex/init.lua";
-
   xdg.configFile."karabiner/karabiner.json" = {
     enable = pkgs.stdenv.isDarwin;
     source = config.lib.file.mkOutOfStoreSymlink

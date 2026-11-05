@@ -53,6 +53,7 @@
             modules.devtools.enable = true;
             modules.cli-utils.enable = true;
             modules.syncthing.enable = true;
+            modules.rex.enable = true;
             modules.ssh.enable = true;
             modules.ssh.groups = [ "common" ];
             home = {
@@ -82,6 +83,7 @@
             modules.devtools.enable = true;
             modules.cli-utils.enable = true;
             modules.syncthing.enable = true;
+            modules.rex.enable = true;
             modules.ssh.enable = true;
             modules.ssh.groups = [ "common" "personal" ];
             home.packages = [
