@@ -37,6 +37,14 @@ macos-defaults:
     sh {{justfile_directory()}}/scripts/macos-defaults.sh
   fi
 
+# Show Rex app settings changed in its UI that differ from modules/home-manager/rex.nix
+rex-diff:
+  sh {{justfile_directory()}}/scripts/rex-settings.sh diff
+
+# Copy Rex's live custom themes into dots/rex/custom-themes.json
+rex-export-themes:
+  sh {{justfile_directory()}}/scripts/rex-settings.sh export-themes
+
 # Sync lazy.nvim plugins to match lazy-lock.json (restore) and remove unused (clean)
 nvim-sync:
   #!/bin/sh

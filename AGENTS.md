@@ -117,6 +117,25 @@ if pkgs.stdenv.isLinux then linuxPackages else darwinPackages
 }
 ```
 
+## Rex Config
+
+Rex (terminal multiplexer, macOS) is configured in two places:
+- `dots/rex/init.lua` - keybindings and actions (linked to `~/.config/rex/init.lua`).
+  Validate with `rex config check`, apply with `rex config reload`. Rex's Lua API has
+  no settings/theme API, and the app warns about bindings to actions it doesn't have.
+- `modules/home-manager/rex.nix` - app settings from Rex's Settings window, written to
+  the `com.superlogical.rex` user defaults on `just switch`. Custom themes are a data
+  blob, kept as `dots/rex/custom-themes.json` and written by an activation step.
+
+To pull settings changed in Rex's UI back into the repo:
+1. `just rex-diff` - prints changed/untracked keys as ready-to-paste Nix lines.
+2. Copy changed values into `rex.nix`. For untracked keys, ask whether to sync the
+   key (add to `rex.nix`) or leave it per-machine (add to `IGNORED` in
+   `scripts/rex-settings.sh`).
+3. If themes differ, `just rex-export-themes`. If a theme id changed, update
+   `Workspace.lightThemeID` in `rex.nix` to match.
+4. Re-run `just rex-diff` until it reports a match.
+
 ## Neovim Config
 
 Located in `dots/nvim/`
