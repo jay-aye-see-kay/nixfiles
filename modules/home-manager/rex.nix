@@ -21,33 +21,22 @@ in
     targets.darwin.defaults.${domain} = {
       # appearance
       "Workspace.lightThemeID" = "custom-DD1CEEE1-FC58-4929-B534-60FBCFCFBC8A";
-      "Workspace.darkThemeID" = "merino-dark";
       "Workspace.animationStyle" = "snappy";
       "Workspace.paneDensity" = "compact";
-      "Workspace.inactivePaneFadeMode" = "both";
-      "Workspace.tintsPanesWithProgramBackground" = true;
-      "Workspace.usesStandardInactiveWindowPaneStyles" = true;
       "Workspace.showsPaneHeaders" = false;
 
       # terminal text
-      "Workspace.terminalFontPointSize" = 12.0;
       "Workspace.terminalAllowsLigatures" = false;
-      "Workspace.terminalFontSmoothing" = false;
       "Workspace.terminalSmoothScrolling" = true;
 
       # tabs and sidebar
       "Workspace.tabStyle" = "vertical";
-      "Workspace.tabsFillAvailableSpace" = false;
-      "Workspace.tabIconCount" = 3;
-      "Workspace.tabIconTintMode" = "off";
       "Workspace.sidebarPosition" = "left";
-      "Workspace.sidebarWidth" = 186.0;
 
       # app and server
       # remote control is needed for smart-splits-backend-rex's resize path
       "rex.client.remoteControl" = true;
       "rex.server.automatic-restart-enabled" = true;
-      "rex.server.block-plugin-reload-enabled" = false;
       "rex.server.run-mode" = "bundled";
       "SUAutomaticallyUpdate" = true;
       "SUEnableAutomaticChecks" = true;
