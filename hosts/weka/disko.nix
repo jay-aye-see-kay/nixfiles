@@ -2,6 +2,19 @@
 # ESP + one ZFS pool. Everything under rpool/crypt is natively encrypted with a
 # passphrase, unlocked over SSH in the initrd (port 2222).
 # @see: https://github.com/nix-community/disko/blob/master/example/zfs-encrypted-root.nix
+let
+  # A per-app dataset. nofail, because a dataset that's missing (not created
+  # by hand yet, or a typo) would otherwise stop boot in emergency mode, with
+  # no network or SSH. Instead the mount unit fails, which alerts
+  # (SystemdUnitFailed), and the app that owns it doesn't start, because each
+  # app has RequiresMountsFor on its data dir.
+  appDataset = mountpoint: {
+    type = "zfs_fs";
+    inherit mountpoint;
+    options.mountpoint = "legacy";
+    mountOptions = [ "nofail" ];
+  };
+in
 {
   disko.devices = {
     disk.main = {
@@ -88,23 +101,12 @@
         # Per-app datasets. disko only runs at install, so on the live system
         # create each one by hand before the first deploy that mounts it:
         #   sudo zfs create -o mountpoint=legacy rpool/crypt/data/<app>
+        # and give the app RequiresMountsFor on it (see appDataset above).
         # DynamicUser services keep state in /var/lib/private/<app>, others in
         # /var/lib/<app>.
-        "crypt/data/readeck" = {
-          type = "zfs_fs";
-          mountpoint = "/var/lib/private/readeck";
-          options.mountpoint = "legacy";
-        };
-        "crypt/data/mealie" = {
-          type = "zfs_fs";
-          mountpoint = "/var/lib/private/mealie";
-          options.mountpoint = "legacy";
-        };
-        "crypt/data/grafana" = {
-          type = "zfs_fs";
-          mountpoint = "/var/lib/grafana";
-          options.mountpoint = "legacy";
-        };
+        "crypt/data/readeck" = appDataset "/var/lib/private/readeck";
+        "crypt/data/mealie" = appDataset "/var/lib/private/mealie";
+        "crypt/data/grafana" = appDataset "/var/lib/grafana";
         # Parent for data that isn't snapshotted or backed up: it churns, and
         # losing it is accepted (Prometheus history, Loki logs). Same
         # create-by-hand step as crypt/data/<app>, but under crypt/nosnap.
@@ -112,16 +114,8 @@
           type = "zfs_fs";
           options.mountpoint = "none";
         };
-        "crypt/nosnap/prometheus" = {
-          type = "zfs_fs";
-          mountpoint = "/var/lib/prometheus2";
-          options.mountpoint = "legacy";
-        };
-        "crypt/nosnap/loki" = {
-          type = "zfs_fs";
-          mountpoint = "/var/lib/loki";
-          options.mountpoint = "legacy";
-        };
+        "crypt/nosnap/prometheus" = appDataset "/var/lib/prometheus2";
+        "crypt/nosnap/loki" = appDataset "/var/lib/loki";
         # Space held back so a full pool can still be cleaned up.
         reserved = {
           type = "zfs_fs";

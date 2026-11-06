@@ -223,5 +223,8 @@ in
     };
   };
 
+  # Don't start on an empty dir if the dataset isn't mounted (see disko.nix)
+  systemd.services.grafana.unitConfig.RequiresMountsFor = [ config.services.grafana.dataDir ];
+
   weka.tailscaleServices.grafana = port;
 }

@@ -21,5 +21,8 @@ in
     };
   };
 
+  # Don't start on an empty dir if the dataset isn't mounted (see disko.nix)
+  systemd.services.mealie.unitConfig.RequiresMountsFor = [ "/var/lib/private/mealie" ];
+
   weka.tailscaleServices.mealie = port;
 }

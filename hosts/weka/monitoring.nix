@@ -203,7 +203,13 @@ in
       enable = true;
       listenAddress = "127.0.0.1";
       enabledCollectors = [ "systemd" ];
-      extraFlags = [ "--collector.textfile.directory=${textfileDir}" ];
+      extraFlags = [
+        "--collector.textfile.directory=${textfileDir}"
+        # The default also excludes .mount units. Include them, so a dataset
+        # that fails to mount (they're nofail, see disko.nix) alerts as a
+        # failed unit.
+        "--collector.systemd.unit-exclude=.+[.](automount|device|scope|slice)"
+      ];
     };
 
     # SMART for every drive smartctl finds (the NVMe now, tank1's HDDs later).
@@ -264,6 +270,9 @@ in
     "healthchecks_url:${config.sops.secrets.healthchecks_watchdog_url.path}";
 
   systemd.tmpfiles.rules = [ "d ${textfileDir} 0755 root root -" ];
+
+  # Don't start on an empty dir if the dataset isn't mounted (see disko.nix)
+  systemd.services.prometheus.unitConfig.RequiresMountsFor = [ "/var/lib/${config.services.prometheus.stateDir}" ];
 
   systemd.services.zfs-metrics = {
     description = "ZFS pool and snapshot metrics for node_exporter";
