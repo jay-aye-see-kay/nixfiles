@@ -172,8 +172,26 @@ in
         inherit domain;
         root_url = "https://${domain}/";
       };
+      # Log in from the identity tailscale serve puts on each request, so no
+      # password prompt. Safe because Grafana only listens on localhost, where
+      # the only client is tailscale serve, and it overwrites these headers.
+      # Requests without the header (tagged devices) fall back to the login
+      # form. New tailnet users are created as Viewers.
+      # @see: https://tailscale.com/kb/1312/serve#identity-headers
+      # @see: https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/auth-proxy/
+      "auth.proxy" = {
+        enabled = true;
+        header_name = "Tailscale-User-Login";
+        header_property = "username";
+        headers = "Name:Tailscale-User-Name";
+        auto_sign_up = true;
+        whitelist = "127.0.0.1, ::1";
+      };
       security = {
-        admin_user = "jack";
+        # Matches the Tailscale login so the header lands on the admin account.
+        # Only used when the database is first created (the existing account
+        # was renamed from "jack" to match).
+        admin_user = "jay-aye-see-kay@github";
         admin_password = "$__file{${config.sops.secrets.grafana_admin_password.path}}";
         secret_key = "$__file{${config.sops.secrets.grafana_secret_key.path}}";
         cookie_secure = true;
