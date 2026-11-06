@@ -6,9 +6,12 @@
 
     home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, ... }@inputs:
+  outputs = { nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, disko, ... }@inputs:
     let
       username = "jack";
 
@@ -127,6 +130,25 @@
         modules = [
           { nixpkgs.config.allowUnfree = true; }
           ./hosts/honey
+          ./modules/nixos
+          {
+            modules.cli-utils.enable = true;
+            modules.common.autoUpgrade = true;
+          }
+        ];
+      };
+
+      # weka: home server (bare metal, replaces pm1 and its VMs)
+      nixosConfigurations.weka = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {
+          inherit inputs;
+          pkgs-unstable = pkgsUnstable."x86_64-linux";
+        };
+        modules = [
+          { nixpkgs.config.allowUnfree = true; }
+          disko.nixosModules.disko
+          ./hosts/weka
           ./modules/nixos
           {
             modules.cli-utils.enable = true;

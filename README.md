@@ -37,6 +37,10 @@ Personal laptop (M-series mac), home-manager only.
 
 Work laptop (M-series mac), just using home-manager as a brew replacement and config manager. Not using nix-darwin as I suspect it would have bad interactions with the MDM and other security software.
 
+### weka
+
+Home server (old desktop: Ryzen 7 3700X, X470, 970 EVO 1 TB), bare-metal NixOS replacing the Proxmox host and its VMs. Encrypted ZFS root laid out by disko, unlocked over SSH in the initrd on port 2222. Deploy with `just weka-deploy`.
+
 ### honey
 
 VM on the home server, runs the media and web services: caddy, jellyfin, plex, mealie, linkding and readeck. Deploy with `just honey-deploy`.
