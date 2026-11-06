@@ -77,10 +77,23 @@
           mountpoint = "/home";
           options.mountpoint = "legacy";
         };
-        # Parent for per-app datasets (sanoid targets these, not root or nix).
+        # Parent for per-app datasets. sanoid snapshots it recursively, so a new
+        # app here is snapshotted by default. Data that shouldn't be snapshotted
+        # (metrics, caches) goes under a separate crypt/nosnap parent instead.
+        # See "ZFS datasets" in home-server/README.md in dumpbox.
         "crypt/data" = {
           type = "zfs_fs";
           options.mountpoint = "none";
+        };
+        # Per-app datasets. disko only runs at install, so on the live system
+        # create each one by hand before the first deploy that mounts it:
+        #   sudo zfs create -o mountpoint=legacy rpool/crypt/data/<app>
+        # DynamicUser services keep state in /var/lib/private/<app>, others in
+        # /var/lib/<app>.
+        "crypt/data/readeck" = {
+          type = "zfs_fs";
+          mountpoint = "/var/lib/private/readeck";
+          options.mountpoint = "legacy";
         };
         # Space held back so a full pool can still be cleaned up.
         reserved = {

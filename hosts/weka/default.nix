@@ -11,6 +11,8 @@ in
   imports = [
     ./hardware.nix
     ./disko.nix
+    ./tailscale-services.nix
+    ./readeck.nix
   ];
 
   boot = {
