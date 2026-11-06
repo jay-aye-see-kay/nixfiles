@@ -70,6 +70,14 @@ in
     };
   };
 
+  # Joined once by hand as a tagged device (tag:server: no key expiry, needed
+  # for Tailscale Services). The node key lives in /var/lib/tailscale on the
+  # encrypted root, so no auth key is kept around. Make a new one to reinstall.
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+  };
+
   services.zfs = {
     trim.enable = true;
     autoScrub.enable = true;
