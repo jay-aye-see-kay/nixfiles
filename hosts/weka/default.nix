@@ -16,6 +16,7 @@ in
     ./restic.nix
     ./monitoring.nix
     ./grafana.nix
+    ./logs.nix
     ./readeck.nix
     ./mealie.nix
   ];

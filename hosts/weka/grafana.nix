@@ -135,6 +135,18 @@ let
         ];
         x = 12; y = 12;
       })
+      {
+        type = "logs";
+        title = "Errors in the journal";
+        datasource = { type = "loki"; uid = "loki"; };
+        gridPos = { x = 0; y = 20; w = 24; h = 10; };
+        targets = [{
+          expr = ''{host="weka", level=~"emerg|alert|crit|err"}'';
+          refId = "A";
+          datasource = { type = "loki"; uid = "loki"; };
+        }];
+        options = { showTime = true; wrapLogMessage = true; sortOrder = "Descending"; };
+      }
     ];
   };
 

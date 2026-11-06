@@ -19,6 +19,7 @@ let
   promPort = config.services.prometheus.port;
   amPort = config.services.prometheus.alertmanager.port;
   nodePort = config.services.prometheus.exporters.node.port;
+  smartPort = config.services.prometheus.exporters.smartctl.port;
 
   # Write a .prom file atomically, so node_exporter never reads half of one
   writeProm = name: ''
@@ -127,6 +128,43 @@ let
         annotations.description = "journalctl -u restic-backups-weka";
       }
       {
+        alert = "SmartFailing";
+        expr = "smartctl_device_smart_status == 0";
+        annotations.summary = "{{ $labels.device }} fails its SMART health check";
+        annotations.description = "smartctl -a /dev/{{ $labels.device }}";
+      }
+      {
+        alert = "NvmeCriticalWarning";
+        expr = "smartctl_device_critical_warning > 0";
+        annotations.summary = "{{ $labels.device }} reports an NVMe critical warning";
+        annotations.description = "smartctl -a /dev/{{ $labels.device }}";
+      }
+      {
+        alert = "NvmeWearing";
+        expr = "smartctl_device_percentage_used > 80";
+        annotations.summary = "{{ $labels.device }} has used {{ $value }}% of its rated endurance";
+      }
+      {
+        alert = "NvmeSpareLow";
+        expr = "smartctl_device_available_spare < smartctl_device_available_spare_threshold * 2";
+        annotations.summary = "{{ $labels.device }} is running out of spare blocks";
+      }
+      {
+        alert = "DiskMediaErrors";
+        expr = "increase(smartctl_device_media_errors[1d]) > 0";
+        annotations.summary = "{{ $labels.device }} logged new media errors today";
+        annotations.description = "smartctl -a /dev/{{ $labels.device }}";
+      }
+      {
+        # HDDs (tank1, later): sectors being remapped or waiting to be
+        alert = "DiskSectorsGrowing";
+        expr = ''
+          increase(smartctl_device_attribute{attribute_name=~"Reallocated_Sector_Ct|Current_Pending_Sector|Offline_Uncorrectable",attribute_value_type="raw"}[1d]) > 0
+        '';
+        annotations.summary = "{{ $labels.device }}: {{ $labels.attribute_name }} went up today";
+        annotations.description = "smartctl -a /dev/{{ $labels.device }}";
+      }
+      {
         # A metric that should exist has gone missing, e.g. a script broke
         alert = "TextfileMetricsMissing";
         expr = ''
@@ -156,6 +194,7 @@ in
       { job_name = "prometheus"; static_configs = [{ targets = [ "127.0.0.1:${toString promPort}" ]; }]; }
       { job_name = "alertmanager"; static_configs = [{ targets = [ "127.0.0.1:${toString amPort}" ]; }]; }
       { job_name = "node"; static_configs = [{ targets = [ "127.0.0.1:${toString nodePort}" ]; }]; }
+      { job_name = "smartctl"; static_configs = [{ targets = [ "127.0.0.1:${toString smartPort}" ]; }]; }
     ];
     ruleFiles = [ (pkgs.writeText "weka-rules.yml" (builtins.toJSON { groups = rules; })) ];
     alertmanagers = [{ static_configs = [{ targets = [ "127.0.0.1:${toString amPort}" ]; }]; }];
@@ -165,6 +204,16 @@ in
       listenAddress = "127.0.0.1";
       enabledCollectors = [ "systemd" ];
       extraFlags = [ "--collector.textfile.directory=${textfileDir}" ];
+    };
+
+    # SMART for every drive smartctl finds (the NVMe now, tank1's HDDs later).
+    # NVMe access comes from a udev rule that only runs when the device is
+    # added, so after first enabling it needed one
+    # `udevadm trigger --subsystem-match=nvme --action=add` and an exporter
+    # restart (or a reboot).
+    exporters.smartctl = {
+      enable = true;
+      listenAddress = "127.0.0.1";
     };
 
     alertmanager = {

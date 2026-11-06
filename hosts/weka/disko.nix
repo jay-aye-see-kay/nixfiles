@@ -117,6 +117,11 @@
           mountpoint = "/var/lib/prometheus2";
           options.mountpoint = "legacy";
         };
+        "crypt/nosnap/loki" = {
+          type = "zfs_fs";
+          mountpoint = "/var/lib/loki";
+          options.mountpoint = "legacy";
+        };
         # Space held back so a full pool can still be cleaned up.
         reserved = {
           type = "zfs_fs";
