@@ -19,6 +19,7 @@ in
     ./logs.nix
     ./readeck.nix
     ./mealie.nix
+    ./homepage.nix
   ];
 
   boot = {
