@@ -8,7 +8,11 @@
 #
 # Each service also has to be defined in the admin console (tcp:443, tag
 # tag:weka-svc, which auto-approves tag:server hosts). Define it before
-# deploying. Removing an entry here doesn't stop serving it, so run
+# deploying. If weka advertised it first, defining it later approves weka
+# (its log stops asking for approval) but clients never get the route: the
+# name resolves and then times out. Re-advertise to fix it, on weka:
+#   tailscale serve drain svc:<name> && tailscale serve advertise svc:<name>
+# Removing an entry here doesn't stop serving it, so run
 # `tailscale serve clear svc:<name>` by hand.
 # @see: https://tailscale.com/docs/features/tailscale-services
 { config, lib, ... }:

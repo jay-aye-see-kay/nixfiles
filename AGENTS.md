@@ -117,6 +117,15 @@ if pkgs.stdenv.isLinux then linuxPackages else darwinPackages
 }
 ```
 
+## Weka Services
+
+Apps on weka (home server) are reached only over Tailscale, as Tailscale
+Services listed in `weka.tailscaleServices` (see `hosts/weka/tailscale-services.nix`).
+Create the Service in the Tailscale admin console *before* deploying a new one. If it
+was deployed first, run `tailscale serve drain svc:<name>` then
+`tailscale serve advertise svc:<name>` on weka. New services show up on Homepage
+(`hosts/weka/homepage.nix`) automatically.
+
 ## Rex Config
 
 Rex (terminal multiplexer, macOS) is configured in two places:
