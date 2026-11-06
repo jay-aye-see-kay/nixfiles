@@ -1,0 +1,240 @@
+# Monitoring: Prometheus scrapes node_exporter, alert rules fire into
+# Alertmanager, which posts to Slack (#weka-alerts). An always-firing Watchdog
+# alert pings Healthchecks.io every couple of minutes, so if weka, Prometheus
+# or Alertmanager stops, Healthchecks.io notices the silence and tells Slack.
+#
+# Nothing pages: alerts wait until someone looks. One message per problem, a
+# daily reminder while it lasts, and a "resolved" message when it clears.
+#
+# UIs over Tailscale: https://prometheus.tarpan-krait.ts.net (queries, alert
+# state) and https://alertmanager.tarpan-krait.ts.net (silences).
+# @see: home-server/MONITORING.md in dumpbox
+{ config, lib, pkgs, ... }:
+let
+  # Off until the Healthchecks.io check exists and its ping URL is in sops.
+  # While off, the Watchdog goes to a receiver that sends nothing.
+  healthchecks = false;
+  textfileDir = "/var/lib/prometheus-node-exporter-text";
+  tailnet = "tarpan-krait.ts.net";
+  promPort = config.services.prometheus.port;
+  amPort = config.services.prometheus.alertmanager.port;
+  nodePort = config.services.prometheus.exporters.node.port;
+
+  # Write a .prom file atomically, so node_exporter never reads half of one
+  writeProm = name: ''
+    {
+      tmp=$(mktemp ${textfileDir}/.${name}.XXXXXX)
+      cat > "$tmp"
+      chmod 644 "$tmp"
+      mv "$tmp" ${textfileDir}/${name}.prom
+    }
+  '';
+
+  zfsMetrics = pkgs.writeShellApplication {
+    name = "zfs-metrics";
+    runtimeInputs = [ config.boot.zfs.package pkgs.jq pkgs.coreutils ];
+    text = ''
+      {
+        echo "# zfs_pool_online 1 if the pool state is ONLINE."
+        echo "# zfs_pool_errors Read/write/checksum errors summed over all vdevs, and data errors."
+        echo "# zfs_pool_used_ratio Allocated space over pool size."
+        echo "# zfs_pool_last_scrub_timestamp_seconds When the last scrub finished."
+        zpool status -jp --json-int | jq -r '
+          .pools[] | .name as $p |
+          "zfs_pool_online{pool=\"\($p)\"} \(if .state == "ONLINE" then 1 else 0 end)",
+          ([.vdevs | .. | objects | select(has("read_errors"))] as $v |
+            "zfs_pool_errors{pool=\"\($p)\",type=\"read\"} \([$v[].read_errors] | add // 0)",
+            "zfs_pool_errors{pool=\"\($p)\",type=\"write\"} \([$v[].write_errors] | add // 0)",
+            "zfs_pool_errors{pool=\"\($p)\",type=\"checksum\"} \([$v[].checksum_errors] | add // 0)"),
+          "zfs_pool_errors{pool=\"\($p)\",type=\"data\"} \(.error_count // 0)",
+          (.vdevs[$p] | "zfs_pool_used_ratio{pool=\"\($p)\"} \(.alloc_space / .total_space)"),
+          (.scan_stats // {} | select(.function == "SCRUB" and .state == "FINISHED") |
+            "zfs_pool_last_scrub_timestamp_seconds{pool=\"\($p)\"} \(.end_time)")'
+
+        # Newest snapshot per app dataset (0 if it has none)
+        echo "# zfs_newest_snapshot_timestamp_seconds Creation time of the dataset's newest snapshot."
+        zfs list -Hp -o name -r -d 1 rpool/crypt/data | tail -n +2 | while read -r ds; do
+          newest=$(zfs list -Hp -t snapshot -o creation -s creation -d 1 "$ds" | tail -n 1)
+          echo "zfs_newest_snapshot_timestamp_seconds{dataset=\"$ds\"} ''${newest:-0}"
+        done
+      } | ${writeProm "zfs"}
+    '';
+  };
+
+  rules = [{
+    name = "weka";
+    rules = [
+      {
+        # Always firing. Routed to Healthchecks.io, never to Slack.
+        alert = "Watchdog";
+        expr = "vector(1)";
+        annotations.summary = "Alerting pipeline heartbeat";
+      }
+      {
+        alert = "TargetDown";
+        expr = "up == 0";
+        for = "5m";
+        annotations.summary = "{{ $labels.job }} isn't being scraped";
+      }
+      {
+        alert = "SystemdUnitFailed";
+        expr = ''node_systemd_unit_state{state="failed"} == 1'';
+        annotations.summary = "{{ $labels.name }} failed";
+        annotations.description = "journalctl -u {{ $labels.name }}";
+      }
+      {
+        alert = "ZfsPoolNotOnline";
+        expr = "zfs_pool_online == 0";
+        annotations.summary = "Pool {{ $labels.pool }} isn't ONLINE";
+        annotations.description = "zpool status {{ $labels.pool }}";
+      }
+      {
+        alert = "ZfsPoolErrors";
+        expr = "zfs_pool_errors > 0";
+        annotations.summary = "Pool {{ $labels.pool }} has {{ $value }} {{ $labels.type }} errors";
+        annotations.description = "zpool status -v {{ $labels.pool }}";
+      }
+      {
+        alert = "ZfsScrubOverdue";
+        expr = "time() - zfs_pool_last_scrub_timestamp_seconds > 35 * 86400";
+        annotations.summary = "Pool {{ $labels.pool }} hasn't been scrubbed in over 5 weeks";
+      }
+      {
+        alert = "ZfsPoolFilling";
+        expr = "zfs_pool_used_ratio > 0.85";
+        annotations.summary = "Pool {{ $labels.pool }} is {{ $value | humanizePercentage }} full";
+      }
+      {
+        # Non-ZFS filesystems (the ESP). ZFS datasets are covered by the pool.
+        alert = "FilesystemFilling";
+        expr = ''
+          1 - node_filesystem_avail_bytes{fstype!~"zfs|tmpfs|ramfs"}
+            / node_filesystem_size_bytes{fstype!~"zfs|tmpfs|ramfs"} > 0.85
+        '';
+        annotations.summary = "{{ $labels.mountpoint }} is {{ $value | humanizePercentage }} full";
+      }
+      {
+        # sanoid snapshots hourly, so this means it has stopped
+        alert = "ZfsSnapshotsStale";
+        expr = "time() - zfs_newest_snapshot_timestamp_seconds > 6 * 3600";
+        annotations.summary = "{{ $labels.dataset }} has no snapshot in the last 6 hours";
+        annotations.description = "systemctl status sanoid";
+      }
+      {
+        alert = "ResticBackupStale";
+        expr = "time() - restic_last_success_timestamp_seconds > 36 * 3600";
+        annotations.summary = "No successful restic backup in 36 hours";
+        annotations.description = "journalctl -u restic-backups-weka";
+      }
+      {
+        # A metric that should exist has gone missing, e.g. a script broke
+        alert = "TextfileMetricsMissing";
+        expr = ''
+          absent(zfs_pool_online) or absent(restic_last_success_timestamp_seconds)
+            or time() - node_textfile_mtime_seconds{file=~".*zfs.prom"} > 1800
+        '';
+        for = "1h";
+        annotations.summary = "ZFS or restic metrics are missing or stale";
+      }
+    ];
+  }];
+in
+{
+  sops.secrets.alertmanager_slack_webhook = { };
+  sops.secrets.healthchecks_watchdog_url = lib.mkIf healthchecks { };
+
+  services.prometheus = {
+    enable = true;
+    listenAddress = "127.0.0.1";
+    webExternalUrl = "https://prometheus.${tailnet}";
+    retentionTime = "2y";
+    globalConfig = {
+      scrape_interval = "30s";
+      evaluation_interval = "30s";
+    };
+    scrapeConfigs = [
+      { job_name = "prometheus"; static_configs = [{ targets = [ "127.0.0.1:${toString promPort}" ]; }]; }
+      { job_name = "alertmanager"; static_configs = [{ targets = [ "127.0.0.1:${toString amPort}" ]; }]; }
+      { job_name = "node"; static_configs = [{ targets = [ "127.0.0.1:${toString nodePort}" ]; }]; }
+    ];
+    ruleFiles = [ (pkgs.writeText "weka-rules.yml" (builtins.toJSON { groups = rules; })) ];
+    alertmanagers = [{ static_configs = [{ targets = [ "127.0.0.1:${toString amPort}" ]; }]; }];
+
+    exporters.node = {
+      enable = true;
+      listenAddress = "127.0.0.1";
+      enabledCollectors = [ "systemd" ];
+      extraFlags = [ "--collector.textfile.directory=${textfileDir}" ];
+    };
+
+    alertmanager = {
+      enable = true;
+      listenAddress = "127.0.0.1";
+      webExternalUrl = "https://alertmanager.${tailnet}";
+      configuration = {
+        route = {
+          receiver = "slack";
+          group_by = [ "alertname" ];
+          group_wait = "30s";
+          group_interval = "5m";
+          repeat_interval = "24h";
+          routes = [{
+            matchers = [ ''alertname="Watchdog"'' ];
+            receiver = "healthchecks";
+            group_wait = "0s";
+            group_interval = "1m";
+            repeat_interval = "2m";
+          }];
+        };
+        receivers = [
+          {
+            name = "slack";
+            slack_configs = [{
+              # Alertmanager is a DynamicUser, so the secret comes in as a
+              # systemd credential rather than straight from /run/secrets
+              api_url_file = "/run/credentials/alertmanager.service/slack_webhook";
+              send_resolved = true;
+              title = ''{{ if eq .Status "firing" }}🔴{{ else }}✅{{ end }} {{ .CommonLabels.alertname }}'';
+              text = "{{ range .Alerts }}• {{ .Annotations.summary }}{{ if .Annotations.description }} (`{{ .Annotations.description }}`){{ end }}\n{{ end }}";
+            }];
+          }
+          ({ name = "healthchecks"; } // lib.optionalAttrs healthchecks {
+            webhook_configs = [{
+              url_file = "/run/credentials/alertmanager.service/healthchecks_url";
+              send_resolved = false;
+            }];
+          })
+        ];
+      };
+    };
+  };
+
+  systemd.services.alertmanager.serviceConfig.LoadCredential = [
+    "slack_webhook:${config.sops.secrets.alertmanager_slack_webhook.path}"
+  ] ++ lib.optional healthchecks
+    "healthchecks_url:${config.sops.secrets.healthchecks_watchdog_url.path}";
+
+  systemd.tmpfiles.rules = [ "d ${textfileDir} 0755 root root -" ];
+
+  systemd.services.zfs-metrics = {
+    description = "ZFS pool and snapshot metrics for node_exporter";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = lib.getExe zfsMetrics;
+    };
+    startAt = "*:0/5";
+  };
+
+  # Only after the backup, prune and check have all succeeded
+  systemd.services.restic-backups-weka.serviceConfig.ExecStartPost =
+    pkgs.writeShellScript "restic-metrics" ''
+      echo "restic_last_success_timestamp_seconds $(${pkgs.coreutils}/bin/date +%s)" | ${writeProm "restic"}
+    '';
+
+  weka.tailscaleServices = {
+    prometheus = promPort;
+    alertmanager = amPort;
+  };
+
+  services.journald.extraConfig = "SystemMaxUse=4G";
+}

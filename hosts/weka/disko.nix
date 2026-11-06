@@ -100,6 +100,23 @@
           mountpoint = "/var/lib/private/mealie";
           options.mountpoint = "legacy";
         };
+        "crypt/data/grafana" = {
+          type = "zfs_fs";
+          mountpoint = "/var/lib/grafana";
+          options.mountpoint = "legacy";
+        };
+        # Parent for data that isn't snapshotted or backed up: it churns, and
+        # losing it is accepted (Prometheus history, Loki logs). Same
+        # create-by-hand step as crypt/data/<app>, but under crypt/nosnap.
+        "crypt/nosnap" = {
+          type = "zfs_fs";
+          options.mountpoint = "none";
+        };
+        "crypt/nosnap/prometheus" = {
+          type = "zfs_fs";
+          mountpoint = "/var/lib/prometheus2";
+          options.mountpoint = "legacy";
+        };
         # Space held back so a full pool can still be cleaned up.
         reserved = {
           type = "zfs_fs";

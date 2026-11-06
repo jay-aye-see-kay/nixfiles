@@ -14,6 +14,8 @@ in
     ./tailscale-services.nix
     ./sanoid.nix
     ./restic.nix
+    ./monitoring.nix
+    # ./grafana.nix  # waiting on its sops keys
     ./readeck.nix
     ./mealie.nix
   ];
