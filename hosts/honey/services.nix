@@ -8,19 +8,9 @@
 
   # ---
   # === mealie ===
-  # https://github.com/mealie-recipes/mealie
+  # Moved to weka on 2026-11-07. Data left in /var/lib/private/mealie as a
+  # fallback until it's deleted.
   # ---
-  services.caddy.virtualHosts."mealie.h.jackrose.co.nz".extraConfig = ''
-    reverse_proxy http://127.0.0.1:9000
-  '';
-  services.mealie = {
-    enable = true;
-    package = pkgs-unstable.mealie;
-    settings = {
-      ALLOW_SIGNUP = "false";
-      BASE_URL = "https://mealie.h.jackrose.co.nz";
-    };
-  };
 
   # ---
   # === linkding ===
