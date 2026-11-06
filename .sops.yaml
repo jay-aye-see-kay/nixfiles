@@ -1,0 +1,15 @@
+# sops recipients for secrets in this (public) repo. Only age public keys here.
+# - jack: admin key, private half only in 1Password ("nixfiles age key").
+#   `just weka-secrets` passes it to sops via SOPS_AGE_KEY, never written to disk.
+# - weka: derived from weka's SSH host key with ssh-to-age, so sops-nix on
+#   weka decrypts with /etc/ssh/ssh_host_ed25519_key. Reinstalling weka with a
+#   new host key means updating this and running `sops updatekeys`.
+keys:
+  - &jack age1ux9tlannsxwspgrxwtnrf27ucm2p8v4u39629hkfj8ugh59205dst80a97
+  - &weka age15sfsknquwsdhdj0nf7cyuc8t6t9fale4zzaudw7vcvlqlnp3u9msvczhwx
+creation_rules:
+  - path_regex: hosts/weka/secrets\.yaml$
+    key_groups:
+      - age:
+          - *jack
+          - *weka

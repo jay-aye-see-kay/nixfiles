@@ -9,9 +9,12 @@
 
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, disko, ... }@inputs:
+  outputs = { nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, disko, sops-nix, ... }@inputs:
     let
       username = "jack";
 
@@ -148,6 +151,7 @@
         modules = [
           { nixpkgs.config.allowUnfree = true; }
           disko.nixosModules.disko
+          sops-nix.nixosModules.sops
           ./hosts/weka
           ./modules/nixos
           {

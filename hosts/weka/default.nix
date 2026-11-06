@@ -78,6 +78,16 @@ in
     openFirewall = true;
   };
 
+  # Secrets in ./secrets.yaml (edit with `just weka-secrets`), decrypted at
+  # activation into /run/secrets with the age key derived from the SSH host key.
+  # @see: https://github.com/Mic92/sops-nix
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+    # age only, don't also import the RSA host key as a GPG key
+    gnupg.sshKeyPaths = [ ];
+  };
+
   services.zfs = {
     trim.enable = true;
     autoScrub.enable = true;

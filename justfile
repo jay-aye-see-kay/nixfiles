@@ -88,3 +88,8 @@ honey-deploy:
 
 weka-deploy:
   nix run nixpkgs#nixos-rebuild -- switch --flake .#weka --build-host jack@weka --target-host jack@weka --sudo
+
+# Edit weka's sops secrets. The admin age key comes from 1Password via an env
+# var, so it's never written to disk.
+weka-secrets:
+  SOPS_AGE_KEY="$(op read 'op://Personal/nixfiles age key/password')" nix shell nixpkgs#sops -c sops hosts/weka/secrets.yaml
