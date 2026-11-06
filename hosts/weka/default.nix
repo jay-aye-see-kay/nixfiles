@@ -13,6 +13,7 @@ in
     ./disko.nix
     ./tailscale-services.nix
     ./sanoid.nix
+    ./restic.nix
     ./readeck.nix
     ./mealie.nix
   ];
