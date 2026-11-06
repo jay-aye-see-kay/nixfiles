@@ -13,7 +13,7 @@
 let
   # Off until the Healthchecks.io check exists and its ping URL is in sops.
   # While off, the Watchdog goes to a receiver that sends nothing.
-  healthchecks = false;
+  healthchecks = true;
   textfileDir = "/var/lib/prometheus-node-exporter-text";
   tailnet = "tarpan-krait.ts.net";
   promPort = config.services.prometheus.port;
