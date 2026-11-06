@@ -15,7 +15,7 @@ in
     ./sanoid.nix
     ./restic.nix
     ./monitoring.nix
-    # ./grafana.nix  # waiting on its sops keys
+    ./grafana.nix
     ./readeck.nix
     ./mealie.nix
   ];
