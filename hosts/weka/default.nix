@@ -12,6 +12,7 @@ in
     ./hardware.nix
     ./disko.nix
     ./tailscale-services.nix
+    ./sanoid.nix
     ./readeck.nix
   ];
 
