@@ -14,6 +14,7 @@ in
     ./tailscale-services.nix
     ./sanoid.nix
     ./readeck.nix
+    ./mealie.nix
   ];
 
   boot = {

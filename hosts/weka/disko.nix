@@ -95,6 +95,11 @@
           mountpoint = "/var/lib/private/readeck";
           options.mountpoint = "legacy";
         };
+        "crypt/data/mealie" = {
+          type = "zfs_fs";
+          mountpoint = "/var/lib/private/mealie";
+          options.mountpoint = "legacy";
+        };
         # Space held back so a full pool can still be cleaned up.
         reserved = {
           type = "zfs_fs";
