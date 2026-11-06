@@ -69,6 +69,21 @@ in
           if isDarwin then ''osascript -e "display notification \"$argv\" with title \"From terminal\""''
           else ''notify-send "from terminal" $argv'';
       };
+      # The initrd login shell is systemd-tty-ask-password-agent, which needs a
+      # tty, so a plain pipe won't do. -tt forces one, and the sleep lets the
+      # prompt turn echo off before the passphrase arrives. op read's trailing
+      # newline is the Enter keypress.
+      weka-unlock = {
+        description = "Unlock weka's encrypted ZFS root over initrd SSH, passphrase from 1Password";
+        body = ''
+          set -l host weka
+          test -n "$argv[1]"; and set host $argv[1]
+          begin
+            sleep 3
+            op read "op://Personal/weka zfs/password"
+          end | ssh -tt -p 2222 root@$host
+        '';
+      };
     };
 
     shellAliases = {
