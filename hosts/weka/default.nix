@@ -19,6 +19,8 @@ in
     ./logs.nix
     ./readeck.nix
     ./mealie.nix
+    ./files.nix
+    ./paperless.nix
     ./homepage.nix
   ];
 

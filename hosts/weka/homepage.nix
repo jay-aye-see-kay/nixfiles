@@ -29,6 +29,11 @@ let
   # loaded by the browser from a CDN.
   meta = {
     mealie = { group = "Apps"; description = "Recipes and meal plans"; };
+    paperless = {
+      group = "Apps";
+      description = "Scanned documents";
+      icon = "paperless-ngx.svg";
+    };
     readeck = {
       group = "Apps";
       description = "Saved articles";

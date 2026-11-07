@@ -105,6 +105,19 @@
           mountpoint = "/var/lib/grafana";
           options.mountpoint = "legacy";
         };
+        # Samba shares (files.nix)
+        "crypt/data/files" = {
+          type = "zfs_fs";
+          mountpoint = "/srv/files";
+          options.mountpoint = "legacy";
+        };
+        # Paperless: SQLite, search index and media together, so one snapshot
+        # covers the database and the documents it points at.
+        "crypt/data/paperless" = {
+          type = "zfs_fs";
+          mountpoint = "/var/lib/paperless";
+          options.mountpoint = "legacy";
+        };
         # Parent for data that isn't snapshotted or backed up: it churns, and
         # losing it is accepted (Prometheus history, Loki logs). Same
         # create-by-hand step as crypt/data/<app>, but under crypt/nosnap.
