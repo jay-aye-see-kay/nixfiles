@@ -93,3 +93,18 @@ weka-deploy:
 # var, so it's never written to disk.
 weka-secrets:
   SOPS_AGE_KEY="$(op read 'op://Personal/nixfiles age key/password')" nix shell nixpkgs#sops -c sops hosts/weka/secrets.yaml
+
+# Regenerate the logos in assets/logos, plus 512px square PNGs for Slack icons
+logos:
+  #!/bin/sh
+  set -e
+  cd {{justfile_directory()}}/assets/logos
+  tmp=$(mktemp -d)
+  nix shell nixpkgs#python3 nixpkgs#librsvg --command sh -c "
+    python3 -I generate.py .
+    python3 -I generate.py '$tmp' --square
+    mkdir -p slack
+    for f in weka weka-alerts rosegrove; do
+      rsvg-convert --width 512 --height 512 --output slack/\$f.png '$tmp'/\$f.svg
+    done"
+  rm -rf "$tmp"
