@@ -18,13 +18,13 @@ let
   # Same version as the HAOS VM, so the restored data isn't migrated at cutover
   tag = "2026.10.4";
 
-  # Until cutover the VM on pm1 still owns .101 and the ZBT-1. Flip this when
-  # moving: it adds the address, passes the stick through and starts HA on boot.
-  cutover = false;
+  # Cut over from the HAOS VM on pm1 on 2026-11-08. Setting this false (for a
+  # rollback to the VM) drops the address, the stick and autostart.
+  cutover = true;
   serviceAddress = "192.168.10.101";
-  # The ZBT-1 on the host, and the path ZHA stored in .storage/core.config_entries
-  # (fill both in from pm1 before cutover)
-  zbt1 = "/dev/serial/by-id/usb-Nabu_Casa_Home_Assistant_Connect_ZBT-1_TODO-if00-port0";
+  # The ZBT-1, at the same path inside the container as on the host, which is
+  # the path ZHA stored in .storage/core.config_entries
+  zbt1 = "/dev/serial/by-id/usb-Nabu_Casa_Home_Assistant_Connect_ZBT-1_20d1413b0339ef11ab18ead154516304-if00-port0";
   zhaPath = zbt1;
 in
 {
@@ -66,9 +66,13 @@ in
   sops.secrets.mqtt_password_mqtt = { };
   sops.secrets.mqtt_password_homeassistant = { };
 
-  networking.interfaces.enp34s0.ipv4.addresses = lib.mkIf cutover [
-    { address = serviceAddress; prefixLength = 24; }
-  ];
+  # A second, static address next to weka's own DHCP one. useDHCP has to be
+  # explicit: an interface with static addresses is otherwise dropped from
+  # dhcpcd, which takes away weka's own address, its default route and Tailscale.
+  networking.interfaces.enp34s0 = lib.mkIf cutover {
+    useDHCP = true;
+    ipv4.addresses = [{ address = serviceAddress; prefixLength = 24; }];
+  };
 
   networking.firewall.interfaces.enp34s0 = {
     # HA, MQTT, HomeKit Bridge
