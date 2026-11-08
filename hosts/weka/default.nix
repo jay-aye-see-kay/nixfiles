@@ -24,6 +24,7 @@ in
     ./paperless.nix
     ./homepage.nix
     ./vacuum.nix
+    ./home-assistant.nix
   ];
 
   boot = {

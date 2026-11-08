@@ -120,6 +120,12 @@
         };
         # Minecraft worlds from pm1's crafty VM (Crafty 4 servers dir, its
         # backups and DB). Archive only, nothing runs on them yet.
+        # Home Assistant config and state (home-assistant.nix)
+        "crypt/data/hass" = {
+          type = "zfs_fs";
+          mountpoint = "/var/lib/hass";
+          options.mountpoint = "legacy";
+        };
         "crypt/data/minecraft" = {
           type = "zfs_fs";
           mountpoint = "/srv/minecraft";

@@ -28,6 +28,11 @@ let
   # Icons by name come from https://github.com/homarr-labs/dashboard-icons,
   # loaded by the browser from a CDN.
   meta = {
+    home-assistant = {
+      group = "Apps";
+      title = "Home Assistant";
+      description = "Home automation";
+    };
     mealie = { group = "Apps"; description = "Recipes and meal plans"; };
     paperless = {
       group = "Apps";
