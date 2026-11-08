@@ -1,4 +1,4 @@
--- Rex config, linked to ~/.config/rex/init.lua by users/jack/home.nix
+-- Rex config, linked to ~/.config/rex/init.lua by modules/home-manager/rex.nix
 
 -- Seamless ctrl+h/j/k/l between Rex panes and Neovim windows.
 -- When nvim is in the foreground the key falls through to it, and smart-splits
