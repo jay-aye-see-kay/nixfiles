@@ -118,6 +118,13 @@
           mountpoint = "/var/lib/paperless";
           options.mountpoint = "legacy";
         };
+        # Minecraft worlds from pm1's crafty VM (Crafty 4 servers dir, its
+        # backups and DB). Archive only, nothing runs on them yet.
+        "crypt/data/minecraft" = {
+          type = "zfs_fs";
+          mountpoint = "/srv/minecraft";
+          options.mountpoint = "legacy";
+        };
         # Parent for data that isn't snapshotted or backed up: it churns, and
         # losing it is accepted (Prometheus history, Loki logs). Same
         # create-by-hand step as crypt/data/<app>, but under crypt/nosnap.
