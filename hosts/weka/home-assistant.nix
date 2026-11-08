@@ -39,7 +39,13 @@ in
       extraOptions = [
         # mDNS, HomeKit Bridge and Apple TV discovery need the host network
         "--network=host"
-      ] ++ lib.optional cutover "--device=${zbt1}:${zhaPath}";
+      ] ++ lib.optionals cutover [
+        "--device=${zbt1}:${zhaPath}"
+        # Also as the kernel name: HA's USB scan reads sysfs, finds ttyUSB0 and
+        # rewrites the ZBT-1 hardware entry to that path ("device not plugged in"
+        # otherwise). The host side stays by-id, so it's always this stick.
+        "--device=${zbt1}:/dev/ttyUSB0"
+      ];
     };
   };
 
