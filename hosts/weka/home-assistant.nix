@@ -12,35 +12,26 @@
 # migrates the recorder DB, roll back the DB from a ZFS snapshot too.
 # @see: https://wiki.nixos.org/wiki/Home_Assistant#OCI_container
 # @see: home-server/HOME-ASSISTANT.md in dumpbox
-{ config, lib, ... }:
+{ config, ... }:
 let
   port = 8123;
-  # Same version as the HAOS VM, so the restored data isn't migrated at cutover
   tag = "2026.10.4";
-
-  # Cut over from the HAOS VM on pm1 on 2026-11-08. Setting this false (for a
-  # rollback to the VM) drops the address, the stick and autostart.
-  cutover = true;
   serviceAddress = "192.168.10.101";
-  # The ZBT-1, at the same path inside the container as on the host, which is
-  # the path ZHA stored in .storage/core.config_entries
+  # The Zigbee stick (ZBT-1). ZHA stores this by-id path, so it's passed into
+  # the container at the same path.
   zbt1 = "/dev/serial/by-id/usb-Nabu_Casa_Home_Assistant_Connect_ZBT-1_20d1413b0339ef11ab18ead154516304-if00-port0";
-  zhaPath = zbt1;
 in
 {
   virtualisation.oci-containers = {
     backend = "podman";
     containers.homeassistant = {
       image = "ghcr.io/home-assistant/home-assistant:${tag}";
-      # Before cutover: `systemctl start podman-homeassistant` to try it out
-      autoStart = cutover;
       volumes = [ "/var/lib/hass:/config" ];
       environment.TZ = config.time.timeZone;
       extraOptions = [
         # mDNS, HomeKit Bridge and Apple TV discovery need the host network
         "--network=host"
-      ] ++ lib.optionals cutover [
-        "--device=${zbt1}:${zhaPath}"
+        "--device=${zbt1}:${zbt1}"
         # Also as the kernel name: HA's USB scan reads sysfs, finds ttyUSB0 and
         # rewrites the ZBT-1 hardware entry to that path ("device not plugged in"
         # otherwise). The host side stays by-id, so it's always this stick.
@@ -75,7 +66,7 @@ in
   # A second, static address next to weka's own DHCP one. useDHCP has to be
   # explicit: an interface with static addresses is otherwise dropped from
   # dhcpcd, which takes away weka's own address, its default route and Tailscale.
-  networking.interfaces.enp34s0 = lib.mkIf cutover {
+  networking.interfaces.enp34s0 = {
     useDHCP = true;
     ipv4.addresses = [{ address = serviceAddress; prefixLength = 24; }];
   };
