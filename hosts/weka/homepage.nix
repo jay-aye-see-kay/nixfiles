@@ -40,6 +40,11 @@ let
       # / redirects to the https base_url, which the monitor won't follow
       monitorPath = "/api/info";
     };
+    vacuum = {
+      group = "Apps";
+      description = "Robot vacuum (Valetudo)";
+      icon = "valetudo.svg";
+    };
     grafana = {
       group = "Monitoring";
       description = "Dashboards and logs";

@@ -23,6 +23,7 @@ in
     ./files.nix
     ./paperless.nix
     ./homepage.nix
+    ./vacuum.nix
   ];
 
   boot = {
