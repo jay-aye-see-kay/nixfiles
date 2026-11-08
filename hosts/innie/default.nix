@@ -35,6 +35,7 @@ in
     publicKeys.tuiJack
     publicKeys.keaJack
     publicKeys.iSH
+    publicKeys.laTerminal
   ];
 
   users.users.jack = {
@@ -45,6 +46,7 @@ in
       publicKeys.tuiJack
       publicKeys.keaJack
       publicKeys.iSH
+      publicKeys.laTerminal
     ];
   };
 

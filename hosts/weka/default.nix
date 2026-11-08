@@ -5,6 +5,7 @@ let
     tuiJack
     keaJack
     iSH
+    laTerminal
   ];
 in
 {
