@@ -4,9 +4,9 @@
 # so MQTT devices, the mobile apps and the Reolink webhook don't change.
 #
 # Config lives in /var/lib/hass (dataset rpool/crypt/data/hass), edited in the
-# UI. sanoid and restic cover it like every other dataset. configuration.yaml
-# needs `http: { use_x_forwarded_for: true, trusted_proxies: [127.0.0.1, ::1] }`
-# or HA answers Tailscale Serve with a 400.
+# UI. sanoid and restic cover it like every other dataset. HA answers Tailscale
+# Serve with a 400 unless it has use_x_forwarded_for and trusted_proxies
+# [127.0.0.1, ::1]. Since 2026.10 those live in .storage/http, not YAML.
 #
 # Upgrades: bump `tag`. The image only changes when the tag does. If an upgrade
 # migrates the recorder DB, roll back the DB from a ZFS snapshot too.
