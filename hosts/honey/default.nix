@@ -5,6 +5,7 @@ let
     unknown1
     tuiJack
     iSH
+    laTerminal
     keaJack
   ];
 in
