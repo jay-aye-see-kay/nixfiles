@@ -36,6 +36,15 @@ in
         # rewrites the ZBT-1 hardware entry to that path ("device not plugged in"
         # otherwise). The host side stays by-id, so it's always this stick.
         "--device=${zbt1}:/dev/ttyUSB0"
+        # Run the container inside the service's own cgroup (what Quadlet
+        # does), not a separate libpod scope in machine.slice. At shutdown
+        # systemd stopped that scope directly, SIGTERMing every process in the
+        # container at once, and HA died before the recorder closed its DB.
+        # This overrides the module's --cgroups=enabled (the last flag wins).
+        "--cgroups=split"
+        # podman's default is 10s, then SIGKILL. Some restarts took exactly
+        # that. systemd's TimeoutStopSec is 120s, so this still fits inside it.
+        "--stop-timeout=60"
       ];
     };
   };

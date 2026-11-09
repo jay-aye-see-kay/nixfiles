@@ -83,10 +83,58 @@ in
     }
 
     loki.source.journal "journal" {
-      forward_to    = [loki.write.local.receiver]
+      forward_to    = [loki.process.journal.receiver]
       relabel_rules = loki.relabel.journal.rules
       labels        = { host = "weka" }
       max_age       = "12h"
+    }
+
+    // podman logs a container's stderr at priority err, and Home Assistant
+    // logs everything to stderr, with colour codes. So take the level from
+    // HA's own format ("2026-11-09 22:35:39.054 WARNING (MainThread) [...]")
+    // instead. Lines without one keep the journal's level: s6 output is set
+    // to info below, and traceback lines stay error, next to their ERROR line.
+    loki.process "journal" {
+      forward_to = [loki.write.local.receiver]
+
+      stage.match {
+        selector = `{unit="podman-homeassistant.service"}`
+        stage.replace {
+          expression = `(\x1b\[[0-9;]*m)`
+          replace    = ""
+        }
+      }
+      // A bare colour reset becomes an empty line
+      stage.match {
+        selector            = `{unit="podman-homeassistant.service"} |~ "^\\s*$"`
+        action              = "drop"
+        drop_counter_reason = "ha_empty_line"
+      }
+      stage.match {
+        selector = `{unit="podman-homeassistant.service"} |~ "^\\S+ \\S+ DEBUG \\("`
+        stage.static_labels { values = { level = "debug" } }
+      }
+      stage.match {
+        selector = `{unit="podman-homeassistant.service"} |~ "^\\S+ \\S+ INFO \\("`
+        stage.static_labels { values = { level = "info" } }
+      }
+      stage.match {
+        selector = `{unit="podman-homeassistant.service"} |~ "^\\S+ \\S+ WARNING \\("`
+        stage.static_labels { values = { level = "warning" } }
+      }
+      stage.match {
+        selector = `{unit="podman-homeassistant.service"} |~ "^\\S+ \\S+ CRITICAL \\("`
+        stage.static_labels { values = { level = "crit" } }
+      }
+      // The container's s6 init ("s6-rc: info: ...", "[11:33:58] INFO: ...")
+      stage.match {
+        selector = `{unit="podman-homeassistant.service"} |~ "^((s6-[a-z-]+|services-up|/package/\\S+): info:|\\[[0-9:]+\\] INFO:)"`
+        stage.static_labels { values = { level = "info" } }
+      }
+      stage.match {
+        selector = `{unit="podman-homeassistant.service"} |~ "^(s6-[a-z-]+|/package/\\S+): warning:"`
+        stage.static_labels { values = { level = "warning" } }
+      }
     }
 
     loki.write "local" {
