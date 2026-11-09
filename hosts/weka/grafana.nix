@@ -121,8 +121,8 @@ let
         title = "Network";
         unit = "Bps";
         targets = [
-          { expr = ''rate(node_network_receive_bytes_total{device="enp34s0"}[$__rate_interval])''; legend = "in"; }
-          { expr = ''rate(node_network_transmit_bytes_total{device="enp34s0"}[$__rate_interval])''; legend = "out"; }
+          { expr = ''rate(node_network_receive_bytes_total{device="lan0"}[$__rate_interval])''; legend = "in"; }
+          { expr = ''rate(node_network_transmit_bytes_total{device="lan0"}[$__rate_interval])''; legend = "out"; }
         ];
         x = 0; y = 12;
       })

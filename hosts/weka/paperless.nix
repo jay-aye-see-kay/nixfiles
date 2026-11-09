@@ -81,7 +81,7 @@ in
   # local logins fall through to pam "other", which denies everything.
   security.pam.services.vsftpd = { };
 
-  networking.firewall.interfaces.enp34s0 = {
+  networking.firewall.interfaces.lan0 = {
     allowedTCPPorts = [ 21 ];
     allowedTCPPortRanges = [ passive ];
   };

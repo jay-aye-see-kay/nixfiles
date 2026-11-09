@@ -66,12 +66,12 @@ in
   # A second, static address next to weka's own DHCP one. useDHCP has to be
   # explicit: an interface with static addresses is otherwise dropped from
   # dhcpcd, which takes away weka's own address, its default route and Tailscale.
-  networking.interfaces.enp34s0 = {
+  networking.interfaces.lan0 = {
     useDHCP = true;
     ipv4.addresses = [{ address = serviceAddress; prefixLength = 24; }];
   };
 
-  networking.firewall.interfaces.enp34s0 = {
+  networking.firewall.interfaces.lan0 = {
     # HA, MQTT, HomeKit Bridge
     allowedTCPPorts = [ port 1883 21064 ];
     # mDNS

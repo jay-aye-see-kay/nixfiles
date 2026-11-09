@@ -99,7 +99,7 @@ in
   };
 
   networking.firewall.interfaces = {
-    enp34s0.allowedTCPPorts = [ 445 ];
+    lan0.allowedTCPPorts = [ 445 ];
     tailscale0.allowedTCPPorts = [ 445 ];
   };
 }

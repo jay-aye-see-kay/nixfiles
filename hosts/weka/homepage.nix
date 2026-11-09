@@ -181,7 +181,7 @@ in
           uptime = true;
           cputemp = true;
           units = "metric";
-          network = "enp34s0";
+          network = "lan0";
         };
       }
       {
