@@ -70,6 +70,10 @@ in
       "${config.home.homeDirectory}/nixfiles/dots/aerospace";
   };
 
+  # Out-of-store so `wt config` edits land back in the repo
+  xdg.configFile."worktrunk".source = config.lib.file.mkOutOfStoreSymlink
+    "${config.home.homeDirectory}/nixfiles/dots/worktrunk";
+
   programs.gh = {
     enable = true;
     package = pkgs-unstable.gh;

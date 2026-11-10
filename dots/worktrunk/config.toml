@@ -1,0 +1,8 @@
+# Worktrunk user config, linked to ~/.config/worktrunk by home.nix.
+# @see: https://worktrunk.dev/config.md
+
+# Repos are bare clones at ~/repos/<owner>/<repo>/.git (see `wt-clone` in
+# fish.nix), so worktrees sit beside .git: ~/repos/<owner>/<repo>/<branch>/.
+# A normal (non-bare) clone would put worktrees beside the repo dir instead.
+worktree-path = "{{ repo_path }}/../{{ branch | sanitize }}"
+skip-shell-integration-prompt = true

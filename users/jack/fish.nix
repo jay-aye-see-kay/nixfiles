@@ -69,6 +69,42 @@ in
           if isDarwin then ''osascript -e "display notification \"$argv\" with title \"From terminal\""''
           else ''notify-send "from terminal" $argv'';
       };
+      # Bare clone into <repo>/.git with remote-tracking branches, the layout
+      # dots/worktrunk/config.toml expects.
+      # @see: https://worktrunk.dev/tips-patterns.md#bare-repository-layout
+      wt-clone = {
+        description = "Bare-clone a GitHub repo into ~/repos/<owner>/<repo> (owner defaults to cultureamp)";
+        body = ''
+          set -l root $HOME/repos
+          set -q WT_CLONE_ROOT; and set root $WT_CLONE_ROOT
+          if test (count $argv) -ne 1
+            echo "usage: wt-clone repo | owner/repo | github-url" >&2
+            return 1
+          end
+          # Normalise URLs and owner/repo to owner/repo, defaulting the owner
+          set -l slug (string replace -r '^(https?://|ssh://)?(git@)?github\.com[:/]' "" -- $argv[1] \
+            | string replace -r '\.git$' "" | string trim -c /)
+          string match -q '*/*' -- $slug; or set slug cultureamp/$slug
+          set -l dir $root/$slug
+          if test -e $dir/.git
+            echo "already cloned: $dir" >&2
+            cd $dir
+            return
+          end
+          # --single-branch avoids a local branch for every remote branch; the
+          # refspec below then fetches the rest as origin/* remote-tracking refs
+          gh repo clone $slug $dir/.git -- --bare --single-branch
+          or return
+          cd $dir
+          and git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+          and git fetch origin
+          and git remote set-head origin --auto
+          or return
+          set -l default (git symbolic-ref --short HEAD)
+          git branch --set-upstream-to=origin/$default $default
+          and wt switch $default
+        '';
+      };
       # The initrd login shell is systemd-tty-ask-password-agent, which needs a
       # tty, so a plain pipe won't do. -tt forces one, and the sleep lets the
       # prompt turn echo off before the passphrase arrives. op read's trailing
@@ -127,6 +163,11 @@ in
 
       # Git subcommand abbreviations
       ${gitAbbrs}
+
+      # worktrunk shell integration, so `wt switch` can cd the parent shell
+      if status is-interactive; and command -q wt
+          wt config shell init fish | source
+      end
 
       # t -> tark, only on machines that have the tark binary installed
       if test -x $HOME/.local/bin/tark
