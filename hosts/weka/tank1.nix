@@ -8,12 +8,27 @@
 # decrypts during activation, before zfs-import-tank1. First import on weka
 # needed -f (pm1's hostid), done by hand.
 #
-# Native mountpoints (/srv/media, /srv/hs), unlike rpool's legacy ones.
-# tank1/data (innie's old disk) and tank1/images are canmount=off: kept, but
-# not mounted.
+# Mounts live here, as with rpool: the datasets that are mounted have
+# mountpoint=legacy, and everything else on the pool is mountpoint=none, so
+# ZFS never mounts anything by itself. Not in disko.nix, because disko would
+# create (wipe) the pool on a reinstall. Services that need the media use
+# RequiresMountsFor, so they stay down if tank1 is missing instead of writing
+# into an empty directory on rpool.
 # @see: home-server/MIGRATION.md step 6 in dumpbox
+let
+  # nofail: if tank1 doesn't import, boot carries on (network, SSH, HA)
+  # instead of stopping in emergency mode, which needs the keyboard.
+  tank1Mount = dataset: {
+    device = "tank1/${dataset}";
+    fsType = "zfs";
+    options = [ "nofail" ];
+  };
+in
 {
   sops.secrets.tank1_key = { };
 
   boot.zfs.extraPools = [ "tank1" ];
+
+  fileSystems."/srv/media" = tank1Mount "media";
+  fileSystems."/srv/hs" = tank1Mount "hs";
 }
