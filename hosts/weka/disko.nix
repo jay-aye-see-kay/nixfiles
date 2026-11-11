@@ -131,6 +131,18 @@
           mountpoint = "/srv/minecraft";
           options.mountpoint = "legacy";
         };
+        # Jellyfin and Plex state: watch history, metadata, artwork. The
+        # media itself is on tank1 (tank1.nix).
+        "crypt/data/jellyfin" = {
+          type = "zfs_fs";
+          mountpoint = "/var/lib/jellyfin";
+          options.mountpoint = "legacy";
+        };
+        "crypt/data/plex" = {
+          type = "zfs_fs";
+          mountpoint = "/var/lib/plex";
+          options.mountpoint = "legacy";
+        };
         # Parent for data that isn't snapshotted or backed up: it churns, and
         # losing it is accepted (Prometheus history, Loki logs). Same
         # create-by-hand step as crypt/data/<app>, but under crypt/nosnap.

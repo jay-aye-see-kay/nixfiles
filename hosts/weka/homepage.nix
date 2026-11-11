@@ -48,6 +48,7 @@ let
       title = "Home Assistant";
       description = "Home automation";
     };
+    jellyfin = { group = "Apps"; description = "Films and TV"; };
     mealie = { group = "Apps"; description = "Recipes and meal plans"; };
     paperless = {
       group = "Apps";

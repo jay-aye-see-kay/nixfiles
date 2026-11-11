@@ -27,6 +27,8 @@ in
     ./home-assistant.nix
     ./tank1.nix
     ./ups.nix
+    ./jellyfin.nix
+    ./plex.nix
   ];
 
   boot = {
