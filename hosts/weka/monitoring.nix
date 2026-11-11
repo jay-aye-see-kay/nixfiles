@@ -52,9 +52,13 @@ let
           (.scan_stats // {} | select(.function == "SCRUB" and .state == "FINISHED") |
             "zfs_pool_last_scrub_timestamp_seconds{pool=\"\($p)\"} \(.end_time)")'
 
-        # Newest snapshot per app dataset (0 if it has none)
+        # Newest snapshot per app dataset, tank1/media and each syncoid copy
+        # (0 if it has none). tank1 is allowed to be missing.
         echo "# zfs_newest_snapshot_timestamp_seconds Creation time of the dataset's newest snapshot."
-        zfs list -Hp -o name -r -d 1 rpool/crypt/data | tail -n +2 | while read -r ds; do
+        { zfs list -Hp -o name -r -d 1 rpool/crypt/data | tail -n +2
+          zfs list -Hp -o name tank1/media 2>/dev/null || true
+          zfs list -Hp -o name -r -d 1 tank1/backup/weka 2>/dev/null | tail -n +2 || true
+        } | while read -r ds; do
           newest=$(zfs list -Hp -t snapshot -o creation -s creation -d 1 "$ds" | tail -n 1)
           echo "zfs_newest_snapshot_timestamp_seconds{dataset=\"$ds\"} ''${newest:-0}"
         done
@@ -115,11 +119,18 @@ let
         annotations.summary = "{{ $labels.mountpoint }} is {{ $value | humanizePercentage }} full";
       }
       {
-        # sanoid snapshots hourly, so this means it has stopped
+        # sanoid snapshots rpool hourly, so this means it has stopped
         alert = "ZfsSnapshotsStale";
-        expr = "time() - zfs_newest_snapshot_timestamp_seconds > 6 * 3600";
+        expr = ''time() - zfs_newest_snapshot_timestamp_seconds{dataset=~"rpool/.*"} > 6 * 3600'';
         annotations.summary = "{{ $labels.dataset }} has no snapshot in the last 6 hours";
         annotations.description = "systemctl status sanoid";
+      }
+      {
+        # tank1/media is snapshotted daily, and the syncoid copies arrive daily
+        alert = "ZfsTank1SnapshotsStale";
+        expr = ''time() - zfs_newest_snapshot_timestamp_seconds{dataset=~"tank1/.*"} > 2 * 86400'';
+        annotations.summary = "{{ $labels.dataset }} has no snapshot in the last 2 days";
+        annotations.description = "systemctl status sanoid syncoid-rpool-crypt-data";
       }
       {
         alert = "ResticBackupStale";

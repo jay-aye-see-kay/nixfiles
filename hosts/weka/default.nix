@@ -25,6 +25,7 @@ in
     ./homepage.nix
     ./vacuum.nix
     ./home-assistant.nix
+    ./tank1.nix
   ];
 
   boot = {
