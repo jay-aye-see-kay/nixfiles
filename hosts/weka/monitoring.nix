@@ -176,6 +176,38 @@ let
         annotations.description = "smartctl -a /dev/{{ $labels.device }}";
       }
       {
+        # The 970 EVO starts throttling around 70°C. It hit 75°C on 2026-11-08.
+        alert = "NvmeHot";
+        expr = ''smartctl_device_temperature{device=~"nvme.*",temperature_type="current"} > 65'';
+        for = "10m";
+        annotations.summary = "{{ $labels.device }} is at {{ $value }}°C";
+      }
+      {
+        # tank1's WD Reds are rated to 65°C, but above 45°C wears them faster.
+        # Lifetime peaks before weka were 56-57°C.
+        alert = "DiskHot";
+        expr = ''smartctl_device_temperature{device!~"nvme.*",temperature_type="current"} > 45'';
+        for = "15m";
+        annotations.summary = "{{ $labels.device }} is at {{ $value }}°C";
+      }
+      {
+        # Tctl from k10temp, matched by driver name since the chip label is a PCI path
+        alert = "CpuHot";
+        expr = ''
+          node_hwmon_temp_celsius * on(chip) group_left(chip_name)
+            node_hwmon_chip_names{chip_name="k10temp"} > 80
+        '';
+        for = "10m";
+        annotations.summary = "CPU is at {{ $value | printf \"%.0f\" }}°C";
+      }
+      {
+        # fan1 and fan2 are the only connected headers; they idle at ~800-950 RPM
+        alert = "FanStopped";
+        expr = ''node_hwmon_fan_rpm{chip=~"platform_nct6775_.*",sensor=~"fan[12]"} < 200'';
+        for = "5m";
+        annotations.summary = "{{ $labels.sensor }} is at {{ $value }} RPM";
+      }
+      {
         # A metric that should exist has gone missing, e.g. a script broke
         alert = "TextfileMetricsMissing";
         expr = ''
@@ -191,6 +223,11 @@ in
 {
   sops.secrets.alertmanager_slack_webhook = { };
   sops.secrets.healthchecks_watchdog_url = lib.mkIf healthchecks { };
+
+  # Driver for the board's Nuvoton NCT6793D Super I/O chip: fan RPM, fan PWM
+  # and motherboard temperatures. Not auto-loaded, and hardware.nix is
+  # generated, so it lives here with the exporter that reads it.
+  boot.kernelModules = [ "nct6775" ];
 
   services.prometheus = {
     enable = true;
@@ -214,7 +251,14 @@ in
       enable = true;
       listenAddress = "127.0.0.1";
       enabledCollectors = [ "systemd" ];
-      extraFlags = [ "--collector.textfile.directory=${textfileDir}" ];
+      extraFlags = [
+        "--collector.textfile.directory=${textfileDir}"
+        # Drop the NCT6793D inputs with nothing wired to them: SYSTIN and
+        # AUXTIN1-3 read 110-118°C, TSI2-7 are garbage, PCH/DIMM read 0, and
+        # TSI0 duplicates the CPU. Keeps temp2 (CPUTIN), temp3 (AUXTIN0, drives
+        # fan1's curve) and temp7 (CPU via SB-TSI, drives fan2's curve).
+        "--collector.hwmon.sensor-exclude=platform_nct6775_.*;temp(1|[4-689]|1[0-9]|20)"
+      ];
     };
 
     # SMART for every drive smartctl finds (the NVMe now, tank1's HDDs later).
