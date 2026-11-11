@@ -1,7 +1,10 @@
 # Home Assistant as the official container (podman), with Mosquitto as a native
 # service. Tailnet: https://home-assistant.tarpan-krait.ts.net (a Tailscale
 # Service). LAN: http://192.168.10.101:8123, the address the old HAOS VM had,
-# so MQTT devices, the mobile apps and the Reolink webhook don't change.
+# so MQTT devices, the mobile apps and the Reolink webhook don't change. It's
+# weka's only LAN address, from a fixed DHCP lease in UniFi (by MAC), so the
+# initrd unlock is at .101 too. HA uses the host network and Mosquitto listens
+# on every address, so nothing here binds to it.
 #
 # Config lives in /var/lib/hass (dataset rpool/crypt/data/hass), edited in the
 # UI. sanoid and restic cover it like every other dataset. HA answers Tailscale
@@ -16,7 +19,6 @@
 let
   port = 8123;
   tag = "2026.10.4";
-  serviceAddress = "192.168.10.101";
   # The Zigbee stick (ZBT-1). ZHA stores this by-id path, so it's passed into
   # the container at the same path.
   zbt1 = "/dev/serial/by-id/usb-Nabu_Casa_Home_Assistant_Connect_ZBT-1_20d1413b0339ef11ab18ead154516304-if00-port0";
@@ -71,14 +73,6 @@ in
   # Read by mosquitto through LoadCredential, so root-owned is fine
   sops.secrets.mqtt_password_mqtt = { };
   sops.secrets.mqtt_password_homeassistant = { };
-
-  # A second, static address next to weka's own DHCP one. useDHCP has to be
-  # explicit: an interface with static addresses is otherwise dropped from
-  # dhcpcd, which takes away weka's own address, its default route and Tailscale.
-  networking.interfaces.lan0 = {
-    useDHCP = true;
-    ipv4.addresses = [{ address = serviceAddress; prefixLength = 24; }];
-  };
 
   networking.firewall.interfaces.lan0 = {
     # HA, MQTT, HomeKit Bridge

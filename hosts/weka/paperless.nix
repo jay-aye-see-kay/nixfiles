@@ -7,7 +7,7 @@
 # `scanner`, it's chrooted to consume, and port 21 is open on the LAN only
 # (FTP sends the password in plain text, which is accepted for a LAN-only
 # account that can do nothing but drop files for Paperless). The scanner's FTP
-# profile: host 192.168.10.169, port 21, passive mode, user scanner, folder /.
+# profile: host 192.168.10.101, port 21, passive mode, user scanner, folder /.
 # @see: https://docs.paperless-ngx.com/configuration/
 { config, lib, ... }:
 let
