@@ -1,6 +1,6 @@
 # collect all my "core" cli tools, describe then
 # install them on all hosts from here
-{ pkgs, ... }: with pkgs;
+{ pkgs, pkgs-unstable, ... }: with pkgs;
 let
   linuxOnlyPackages = [
     lsof # list open files
@@ -87,6 +87,7 @@ platformSpecificPackages ++ [
   imagemagick # image conversion/inspection; ffmpeg covers video
   exiftool # read media metadata
   difftastic # syntax-aware diffs, `git difft` (delta is also installed)
+  pkgs-unstable.worktrunk
 
   # document conversion
   # pandoc pipes to/from many text formats, but cannot READ pdf itself:
