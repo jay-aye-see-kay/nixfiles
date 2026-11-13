@@ -208,14 +208,23 @@ let
         annotations.summary = "{{ $labels.sensor }} is at {{ $value }} RPM";
       }
       {
+        # The root pool needed its passphrase instead of unlocking from Tang.
+        # Only for a day after the boot, since the metric holds until the next.
+        alert = "RootUnlockedManually";
+        expr = "boot_unlocked_by_clevis == 0 and time() - node_boot_time_seconds < 86400";
+        annotations.summary = "weka's root pool didn't unlock itself at boot";
+        annotations.description = "journalctl -b -u zfs-import-rpool; is tang.jackrose.co.nz/weka/adv up?";
+      }
+      {
         # A metric that should exist has gone missing, e.g. a script broke
         alert = "TextfileMetricsMissing";
         expr = ''
           absent(zfs_pool_online) or absent(restic_last_success_timestamp_seconds)
+            or absent(boot_unlocked_by_clevis)
             or time() - node_textfile_mtime_seconds{file=~".*zfs.prom"} > 1800
         '';
         for = "1h";
-        annotations.summary = "ZFS or restic metrics are missing or stale";
+        annotations.summary = "ZFS, restic or unlock metrics are missing or stale";
       }
     ];
   }];
@@ -348,6 +357,23 @@ in
       ExecStart = lib.getExe zfsMetrics;
     };
     startAt = "*:0/5";
+  };
+
+  # How this boot's root pool unlocked: the initrd's clevis wrapper (see
+  # clevisMarked in default.nix) leaves /run/clevis-unlocked on success.
+  systemd.services.unlock-metrics = {
+    description = "Root pool unlock method for node_exporter";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "systemd-tmpfiles-setup.service" ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      unlocked=0
+      [ -e /run/clevis-unlocked ] && unlocked=1
+      {
+        echo "# boot_unlocked_by_clevis 1 if the root pool unlocked from Tang this boot, 0 if by passphrase."
+        echo "boot_unlocked_by_clevis $unlocked"
+      } | ${writeProm "unlock"}
+    '';
   };
 
   # Only after the backup, prune and check have all succeeded

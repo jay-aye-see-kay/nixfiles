@@ -1,5 +1,16 @@
-{ lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
+  # clevis, but leaving /run/clevis-unlocked behind when a decrypt succeeds.
+  # The import prints nothing either way, and /run carries over from the
+  # initrd, so stage 2 can tell an unattended unlock from a passphrase one
+  # (boot_unlocked_by_clevis in monitoring.nix).
+  clevisMarked = pkgs.writeShellScript "clevis" ''
+    if [ "$1" = decrypt ]; then
+      ${config.boot.initrd.clevis.package}/bin/clevis "$@" && : > /run/clevis-unlocked
+    else
+      exec ${config.boot.initrd.clevis.package}/bin/clevis "$@"
+    fi
+  '';
   publicKeys = import ../../publicKeys.nix;
   authorizedKeys = with publicKeys; [
     tuiJack
@@ -99,6 +110,8 @@ in
         cacert = /etc/ssl/certs/ca-certificates.crt
       '';
       systemd.services.zfs-import-rpool.environment.CURL_HOME = "/etc/curl";
+      systemd.extraBin.clevis = lib.mkForce clevisMarked;
+      systemd.storePaths = [ clevisMarked ];
     };
   };
 
@@ -174,9 +187,28 @@ in
   # Allow passwordless sudo for wheel group (for remote deploys)
   security.sudo.wheelNeedsPassword = false;
 
-  # Weekly upgrades from GitHub, but kernel reboots are done by hand (roughly
-  # monthly) because each one needs the root passphrase over SSH.
-  system.autoUpgrade.allowReboot = lib.mkForce false;
+  # Weekly upgrades from GitHub reboot by themselves when the kernel or initrd
+  # changed (03:00-05:00, see modules/nixos/common.nix): the root pool unlocks
+  # from Tang, see boot.initrd.clevis above.
+
+  # TEMPORARY (#4): reboot daily for a few weeks, to prove auto-unlock holds
+  # up. 04:30 is after restic (02:00), syncoid (03:30) and the Sunday upgrade
+  # (03:00 + up to 30 min); it skips the night if any of them is still going.
+  # boot_unlocked_by_clevis (monitoring.nix) records how each boot unlocked.
+  systemd.services.unlock-test-reboot = {
+    description = "Daily reboot to test auto-unlock (temporary)";
+    serviceConfig.Type = "oneshot";
+    script = ''
+      for unit in nixos-upgrade restic-backups-weka syncoid-rpool-crypt-data; do
+        if systemctl is-active --quiet "$unit.service"; then
+          echo "$unit is still running, not rebooting tonight"
+          exit 0
+        fi
+      done
+      systemctl reboot
+    '';
+    startAt = "*-*-* 04:30:00";
+  };
 
   # NEVER CHANGE THIS
   system.stateVersion = "26.05"; # Did you read the comment?
