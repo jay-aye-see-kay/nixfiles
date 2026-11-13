@@ -83,6 +83,11 @@ snap-explain target:
 weka-deploy:
   nix run nixpkgs#nixos-rebuild -- switch --flake .#weka --build-host jack@weka --target-host jack@weka --sudo
 
+# Unlock weka's encrypted ZFS root over initrd SSH, passphrase from 1Password.
+# initrd login shell is systemd-tty-ask-password-agent, which needs a tty/-tt
+weka-unlock:
+  op read "op://Personal/weka zfs/password" | ssh -tt -p 2222 root@192.168.10.101
+
 # Edit weka's sops secrets. The admin age key comes from 1Password via an env
 # var, so it's never written to disk.
 weka-secrets:

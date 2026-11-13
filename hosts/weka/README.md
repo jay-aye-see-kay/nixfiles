@@ -38,8 +38,7 @@ The root pool is encrypted and asks for its passphrase on every boot
 (1Password: "weka zfs"). Kernel updates arrive with the weekly autoUpgrade,
 but rebooting is manual.
 
-- At home: `ssh weka-unlock` (or `ssh -p 2222 root@192.168.10.101` from a
-  machine without this repo's SSH config) and enter the passphrase.
+- At home: `just weka-unlock` (gets passphrase from 1Password)
 - Away: switch the phone from Tailscale to the UniFi WireGuard VPN, unlock
   the same way, switch back.
 
