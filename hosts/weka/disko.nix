@@ -143,6 +143,27 @@
           mountpoint = "/var/lib/plex";
           options.mountpoint = "legacy";
         };
+        # The *arrs (arr.nix). Prowlarr is DynamicUser, the others aren't.
+        "crypt/data/prowlarr" = {
+          type = "zfs_fs";
+          mountpoint = "/var/lib/private/prowlarr";
+          options.mountpoint = "legacy";
+        };
+        "crypt/data/sonarr" = {
+          type = "zfs_fs";
+          mountpoint = "/var/lib/sonarr";
+          options.mountpoint = "legacy";
+        };
+        "crypt/data/radarr" = {
+          type = "zfs_fs";
+          mountpoint = "/var/lib/radarr";
+          options.mountpoint = "legacy";
+        };
+        "crypt/data/lidarr" = {
+          type = "zfs_fs";
+          mountpoint = "/var/lib/lidarr";
+          options.mountpoint = "legacy";
+        };
         # Parent for data that isn't snapshotted or backed up: it churns, and
         # losing it is accepted (Prometheus history, Loki logs). Same
         # create-by-hand step as crypt/data/<app>, but under crypt/nosnap.

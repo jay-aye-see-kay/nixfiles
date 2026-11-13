@@ -18,6 +18,7 @@ let
   # Groups, in display order, and how many cards per row
   groups = [
     { name = "Apps"; columns = 3; }
+    { name = "Downloads"; columns = 4; }
     { name = "Monitoring"; columns = 3; }
     { name = "Other"; columns = 3; }
   ];
@@ -40,9 +41,30 @@ let
     suffix = "h";
   };
 
+  # The *arrs (arr.nix), in the VPN namespace. Homepage's own widget for
+  # each, with the API key from sops (substituted from the environment).
+  arrApps = {
+    prowlarr = "Indexers";
+    sonarr = "TV";
+    radarr = "Films";
+    lidarr = "Music";
+  };
+  arrMeta = lib.mapAttrs
+    (app: description:
+      let svc = config.weka.tailscaleServices.${app}; in {
+        group = "Downloads";
+        inherit description;
+        widgets = [{
+          type = app;
+          url = "http://${svc.host}:${toString svc.port}";
+          key = "{{HOMEPAGE_VAR_${lib.toUpper app}_KEY}}";
+        }];
+      })
+    arrApps;
+
   # Icons by name come from https://github.com/homarr-labs/dashboard-icons,
   # loaded by the browser from a CDN.
-  meta = {
+  meta = arrMeta // {
     home-assistant = {
       group = "Apps";
       title = "Home Assistant";
@@ -137,13 +159,13 @@ let
   };
 
   services = lib.removeAttrs config.weka.tailscaleServices [ "home" ];
-  card = name: svcPort:
+  card = name: svc:
     let m = meta.${name} or { }; in {
       ${m.title or (lib.toUpper (lib.substring 0 1 name) + lib.substring 1 (-1) name)} = {
         href = "https://${name}.${tailnet}";
         icon = m.icon or "${name}.svg";
         # Straight to the app, not through Tailscale
-        siteMonitor = "http://127.0.0.1:${toString svcPort}${m.monitorPath or ""}";
+        siteMonitor = "http://${svc.host}:${toString svc.port}${m.monitorPath or ""}";
       }
       // lib.optionalAttrs (m ? description) { inherit (m) description; }
       // lib.optionalAttrs (m ? widgets) { inherit (m) widgets; };
@@ -202,6 +224,14 @@ in
       }
     ];
   };
+
+  sops.templates."homepage.env" = {
+    content = lib.concatMapStrings
+      (app: "HOMEPAGE_VAR_${lib.toUpper app}_KEY=${config.sops.placeholder."${app}_api_key"}\n")
+      (lib.attrNames arrApps);
+    restartUnits = [ "homepage-dashboard.service" ];
+  };
+  services.homepage-dashboard.environmentFiles = [ config.sops.templates."homepage.env".path ];
 
   # The module leaves HOSTNAME unset, and Homepage then listens on 0.0.0.0.
   # The firewall would block it, but keep it on localhost like everything else.

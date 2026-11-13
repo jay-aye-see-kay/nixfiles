@@ -28,6 +28,15 @@ spans several modules, and the state that lives outside the repo.
 4. Deploy. Then `sudo systemctl start sanoid`, or `ZfsSnapshotsStale` fires
    until sanoid's next hourly run.
 
+   Modules that set their data dir's permissions with tmpfiles (radarr,
+   lidarr) instead of systemd's `StateDirectory` (sonarr, prowlarr) race a
+   fresh dataset: tmpfiles runs at activation, before the dataset's mount
+   unit exists, so the dirs are created on the pool root and then hidden by
+   the mount. The app crashes with permission denied and hits its start
+   limit. Fix, after the mounts are up: `sudo systemd-tmpfiles --create`
+   and `sudo systemctl reset-failed <app>.service && sudo systemctl start
+   <app>.service`. Fine after any reboot, which mounts before tmpfiles.
+
 sanoid, syncoid and restic pick up a new `crypt/data` dataset with no
 extra config, and Homepage lists the new service under "Other" (give it a
 group and icon in `homepage.nix`).

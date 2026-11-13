@@ -40,6 +40,7 @@ in
     ./ups.nix
     ./jellyfin.nix
     ./plex.nix
+    ./arr.nix
   ];
 
   boot = {

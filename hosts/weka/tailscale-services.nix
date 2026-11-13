@@ -1,5 +1,5 @@
 # Tailscale Services on weka: https://<name>.tarpan-krait.ts.net, TLS terminated
-# by Tailscale, proxied to a plain HTTP port on localhost.
+# by Tailscale, proxied to a plain HTTP port (on localhost unless a host is given).
 #
 # Not services.tailscale.serve: its config file (tailscale serve set-config)
 # uses the target's scheme for both sides, so "http://" serves plain HTTP on
@@ -22,10 +22,21 @@ let
 in
 {
   options.weka.tailscaleServices = lib.mkOption {
-    type = lib.types.attrsOf lib.types.port;
+    # A bare port means 127.0.0.1. A host is for apps that aren't on the
+    # host's loopback, like the ones in the VPN namespace (arr.nix).
+    type = lib.types.attrsOf (lib.types.coercedTo lib.types.port (port: { inherit port; })
+      (lib.types.submodule {
+        options = {
+          host = lib.mkOption {
+            type = lib.types.str;
+            default = "127.0.0.1";
+          };
+          port = lib.mkOption { type = lib.types.port; };
+        };
+      }));
     default = { };
-    example = { readeck = 8000; };
-    description = "Service name to the localhost HTTP port it proxies to.";
+    example = { readeck = 8000; sonarr = { host = "192.168.15.1"; port = 8989; }; };
+    description = "Service name to the HTTP address it proxies to.";
   };
 
   config = lib.mkIf (cfg != { }) {
@@ -42,9 +53,9 @@ in
         RestartSec = 5;
       };
       script = lib.concatStrings (lib.mapAttrsToList
-        (name: port: ''
+        (name: svc: ''
           ${tailscale} serve clear svc:${name} || true
-          ${tailscale} serve --bg --service=svc:${name} --https=443 http://127.0.0.1:${toString port}
+          ${tailscale} serve --bg --service=svc:${name} --https=443 http://${svc.host}:${toString svc.port}
         '')
         cfg);
     };

@@ -12,9 +12,11 @@
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    vpn-confinement.url = "github:Maroka-chan/VPN-Confinement";
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, disko, sops-nix, ... }@inputs:
+  outputs = { nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, disko, sops-nix, vpn-confinement, ... }@inputs:
     let
       username = "jack";
 
@@ -116,6 +118,7 @@
           { nixpkgs.config.allowUnfree = true; }
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
+          vpn-confinement.nixosModules.default
           ./hosts/weka
           ./modules/nixos
           {
