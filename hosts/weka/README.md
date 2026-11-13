@@ -34,9 +34,31 @@ group and icon in `homepage.nix`).
 
 ## Reboots and unlocking
 
-The root pool is encrypted and asks for its passphrase on every boot
-(1Password: "weka zfs"). Kernel updates arrive with the weekly autoUpgrade,
-but rebooting is manual.
+The root pool is encrypted (passphrase in 1Password: "weka zfs"). At boot,
+clevis unlocks it by itself from a Tang server: keystone, a Cloudflare Worker
+at `tang.jackrose.co.nz/weka`, deployed from the infra repo (`tang/README.md`)
+and answering only the home IPv4. curl retries for up to 90 seconds, then the
+boot falls back to asking for the passphrase. Kernel updates arrive with the
+weekly autoUpgrade, but rebooting is still manual while auto-unlock is tested
+(issue #4).
+
+The passphrase sealed to the Tang key is `/etc/secrets/initrd/rpool-crypt.jwe`,
+kept out of the store like the initrd SSH key. To remake it after rotating the
+key set (or losing it), on weka, with the new set's thp:
+
+```sh
+nix shell nixpkgs#clevis
+read -rs pass   # the passphrase
+printf '%s' "$pass" \
+  | clevis encrypt tang '{"url":"https://tang.jackrose.co.nz/<set>","thp":"<thp>"}' \
+  | sudo tee /etc/secrets/initrd/rpool-crypt.jwe >/dev/null
+unset pass
+sudo chmod 600 /etc/secrets/initrd/rpool-crypt.jwe
+sudo cat /etc/secrets/initrd/rpool-crypt.jwe | clevis decrypt | sudo zfs load-key -n rpool/crypt
+sudo /run/current-system/bin/switch-to-configuration boot   # re-copy initrd secrets
+```
+
+If it didn't unlock itself:
 
 - At home: `just weka-unlock` (gets passphrase from 1Password)
 - Away: switch the phone from Tailscale to the UniFi WireGuard VPN, unlock

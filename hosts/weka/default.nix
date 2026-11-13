@@ -68,6 +68,37 @@ in
         inherit authorizedKeys;
       };
       systemd.users.root.shell = "/bin/systemd-tty-ask-password-agent";
+
+      # Auto-unlock: clevis gets the passphrase back from a Tang server (keystone,
+      # a Cloudflare Worker deployed from the infra repo, gated to the home IP).
+      # If that fails, the import falls through to the passphrase prompt above.
+      # The .jwe holds the passphrase sealed to the Tang key, so like the SSH
+      # host key it stays out of the store and this repo (string path, copied
+      # in by boot.initrd.secrets). Made by hand, see "Reboots and unlocking".
+      # @see: https://github.com/jay-aye-see-kay/nixfiles/issues/4
+      clevis = {
+        enable = true;
+        useTang = true;
+        devices."rpool/crypt".secretFile = "/etc/secrets/initrd/rpool-crypt.jwe";
+      };
+      # The clevis module adds curl but no CA bundle, so HTTPS would fail
+      systemd.contents."/etc/ssl/certs/ca-certificates.crt".source = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+      # clevis-decrypt-tang makes one curl call and the import runs it once,
+      # so retry here. Long enough for the router and internet to come back
+      # after a power cut, short enough that the passphrase fallback (which
+      # waits for this) isn't a chore. Worst case 10 attempts x 6s + 9 x 3s =
+      # 87s (max-time also cuts clevis's own 10s connect timeout).
+      # IPv4 only, since the Tang key set allows only the home IPv4.
+      systemd.contents."/etc/curl/.curlrc".text = ''
+        retry = 9
+        retry-delay = 3
+        retry-all-errors
+        max-time = 6
+        retry-max-time = 90
+        ipv4
+        cacert = /etc/ssl/certs/ca-certificates.crt
+      '';
+      systemd.services.zfs-import-rpool.environment.CURL_HOME = "/etc/curl";
     };
   };
 
