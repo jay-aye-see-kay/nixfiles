@@ -10,8 +10,8 @@ in
 {
   services.mealie = {
     enable = true;
-    # Unstable, as on honey: the data came from 3.20.1 and stable has 3.16.
-    # Never go back to an older version than the data has seen.
+    # Unstable: the data has already been migrated by 3.20, and stable has
+    # 3.16. Never go back to an older version than the data has seen.
     package = pkgs-unstable.mealie;
     listenAddress = "127.0.0.1";
     inherit port;

@@ -42,7 +42,7 @@ in
 
     # Remote unlock: SSH in the initrd on port 2222, LAN only (or via the
     # UniFi WireGuard VPN from away). Logging in drops straight into the
-    # passphrase prompt. See home-server/REMOTE-UNLOCK.md in dumpbox.
+    # passphrase prompt. See "Reboots and unlocking" in README.md.
     # @see: https://elis.nu/blog/2026/04/nixos-zfs-remote-unlock-over-ssh/
     initrd = {
       systemd.enable = true;
@@ -62,8 +62,8 @@ in
         enable = true;
         port = 2222;
         # Separate from the main host key, so it's fine that it sits
-        # unencrypted in the initrd on the ESP. Created before install and
-        # copied in with nixos-anywhere --extra-files.
+        # unencrypted in the initrd on the ESP. Kept in 1Password and copied
+        # in with nixos-anywhere --extra-files at install (see README.md).
         hostKeys = [ "/etc/secrets/initrd/ssh_host_ed25519_key" ];
         inherit authorizedKeys;
       };
@@ -77,10 +77,10 @@ in
     hostId = "f0181f64";
   };
 
-  # A fixed name for the onboard NIC, so moving to another board doesn't
-  # change it (the kernel's name comes from the PCI path: enp34s0 on the X470,
-  # enp8s0 on pm1's B450M). Everything else refers to lan0. Matched on the
-  # driver rather than Type=ether, which would also catch podman's veths.
+  # A fixed name for the onboard NIC. The kernel's name comes from the PCI
+  # path, so it would change with the board. Everything else refers to lan0.
+  # Matched on the driver rather than Type=ether, which would also catch
+  # podman's veths.
   # nixpkgs copies .link files into the initrd too, so the unlock network
   # gets the same name.
   systemd.network.links."10-lan0" = {

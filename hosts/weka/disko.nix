@@ -80,7 +80,7 @@
         # Parent for per-app datasets. sanoid snapshots it recursively, so a new
         # app here is snapshotted by default. Data that shouldn't be snapshotted
         # (metrics, caches) goes under a separate crypt/nosnap parent instead.
-        # See "ZFS datasets" in home-server/README.md in dumpbox.
+        # See "Adding an app" and "Storage" in README.md.
         "crypt/data" = {
           type = "zfs_fs";
           options.mountpoint = "none";
@@ -118,14 +118,14 @@
           mountpoint = "/var/lib/paperless";
           options.mountpoint = "legacy";
         };
-        # Minecraft worlds from pm1's crafty VM (Crafty 4 servers dir, its
-        # backups and DB). Archive only, nothing runs on them yet.
         # Home Assistant config and state (home-assistant.nix)
         "crypt/data/hass" = {
           type = "zfs_fs";
           mountpoint = "/var/lib/hass";
           options.mountpoint = "legacy";
         };
+        # Minecraft worlds (a Crafty 4 servers dir, its backups and DB).
+        # Archive only, no server runs on them.
         "crypt/data/minecraft" = {
           type = "zfs_fs";
           mountpoint = "/srv/minecraft";

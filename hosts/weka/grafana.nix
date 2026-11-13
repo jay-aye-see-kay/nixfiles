@@ -5,7 +5,6 @@
 # UI (save as a new dashboard), then copy the panel's query and settings back
 # into a panel here. Its database (users, prefs, anything made in the UI) is on
 # rpool/crypt/data/grafana, so it's snapshotted and backed up too.
-# @see: home-server/MONITORING.md in dumpbox
 { config, lib, pkgs, ... }:
 let
   port = 3000;
@@ -189,8 +188,7 @@ in
       };
       security = {
         # Matches the Tailscale login so the header lands on the admin account.
-        # Only used when the database is first created (the existing account
-        # was renamed from "jack" to match).
+        # Only used when the database is first created.
         admin_user = "jay-aye-see-kay@github";
         admin_password = "$__file{${config.sops.secrets.grafana_admin_password.path}}";
         secret_key = "$__file{${config.sops.secrets.grafana_secret_key.path}}";

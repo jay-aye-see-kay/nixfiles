@@ -8,11 +8,11 @@
 #
 # UIs over Tailscale: https://prometheus.tarpan-krait.ts.net (queries, alert
 # state) and https://alertmanager.tarpan-krait.ts.net (silences).
-# @see: home-server/MONITORING.md in dumpbox
+# Outside setup (Slack app, Healthchecks.io check) is in README.md.
 { config, lib, pkgs, ... }:
 let
-  # Off until the Healthchecks.io check exists and its ping URL is in sops.
-  # While off, the Watchdog goes to a receiver that sends nothing.
+  # Needs the Healthchecks.io ping URL in sops. When false, the Watchdog goes
+  # to a receiver that sends nothing.
   healthchecks = true;
   textfileDir = "/var/lib/prometheus-node-exporter-text";
   tailnet = "tarpan-krait.ts.net";
@@ -168,7 +168,7 @@ let
         annotations.description = "smartctl -a /dev/{{ $labels.device }}";
       }
       {
-        # HDDs (tank1, later): sectors being remapped or waiting to be
+        # HDDs (tank1): sectors being remapped or waiting to be
         alert = "DiskSectorsGrowing";
         expr = ''
           increase(smartctl_device_attribute{attribute_name=~"Reallocated_Sector_Ct|Current_Pending_Sector|Offline_Uncorrectable",attribute_value_type="raw"}[1d]) > 0
@@ -177,7 +177,7 @@ let
         annotations.description = "smartctl -a /dev/{{ $labels.device }}";
       }
       {
-        # The 970 EVO starts throttling around 70°C. It hit 75°C on 2026-11-08.
+        # The 970 EVO starts throttling around 70°C, and it can get there.
         alert = "NvmeHot";
         expr = ''smartctl_device_temperature{device=~"nvme.*",temperature_type="current"} > 65'';
         for = "10m";
@@ -185,7 +185,6 @@ let
       }
       {
         # tank1's WD Reds are rated to 65°C, but above 45°C wears them faster.
-        # Lifetime peaks before weka were 56-57°C.
         alert = "DiskHot";
         expr = ''smartctl_device_temperature{device!~"nvme.*",temperature_type="current"} > 45'';
         for = "15m";
@@ -267,9 +266,9 @@ in
       ];
     };
 
-    # SMART for every drive smartctl finds (the NVMe now, tank1's HDDs later).
+    # SMART for every drive smartctl finds (the NVMe and tank1's HDDs).
     # NVMe access comes from a udev rule that only runs when the device is
-    # added, so after first enabling it needed one
+    # added, so if the exporter is ever newly enabled it needs
     # `udevadm trigger --subsystem-match=nvme --action=add` and an exporter
     # restart (or a reboot).
     exporters.smartctl = {

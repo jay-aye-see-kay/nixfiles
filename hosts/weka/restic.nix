@@ -10,7 +10,7 @@
 # The repo password is also in 1Password ("weka restic"), and the B2 key too
 # ("weka-backblaze"). Without them the backups can't be read if weka is lost.
 # Manual use on weka: `sudo restic-weka snapshots` (wrapper with env set).
-# @see: home-server/BACKUPS.md in dumpbox
+# Restoring is in README.md.
 { config, lib, ... }:
 let
   zfs = lib.getExe' config.boot.zfs.package "zfs";
@@ -46,7 +46,7 @@ in
       RandomizedDelaySec = "1h";
       Persistent = true;
     };
-    # Retention from BACKUPS.md: long enough to go back past silent corruption
+    # Long enough to go back past silent corruption (no ECC)
     pruneOpts = [
       "--keep-daily 7"
       "--keep-weekly 8"

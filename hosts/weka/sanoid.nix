@@ -1,10 +1,9 @@
 # Local ZFS snapshots of app data. Everything under rpool/crypt/data gets the
-# same policy (BACKUPS.md), so a new app dataset is snapshotted by default.
+# same policy, so a new app dataset is snapshotted by default.
 # syncoid copies those snapshots off the NVMe to tank1/backup/weka daily, so
 # losing the NVMe doesn't mean a B2 download. Media gets daily snapshots only:
 # it isn't backed up anywhere else, on purpose (replaceable, terabytes).
-# See "ZFS datasets" in home-server/README.md and "ZFS snapshots" in
-# home-server/BACKUPS.md in dumpbox.
+# See "Storage and data protection" in README.md.
 # @see: https://github.com/jimsalterjrs/sanoid
 {
   services.sanoid = {

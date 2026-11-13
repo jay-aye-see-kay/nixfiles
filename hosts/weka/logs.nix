@@ -5,7 +5,6 @@
 #
 # Loki keeps 90 days, on rpool/crypt/nosnap/loki: not snapshotted or backed
 # up, since losing log history is accepted.
-# @see: home-server/MONITORING.md in dumpbox
 # @see: https://grafana.com/docs/loki/latest/configure/
 { config, ... }:
 let

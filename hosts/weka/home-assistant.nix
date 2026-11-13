@@ -1,20 +1,19 @@
 # Home Assistant as the official container (podman), with Mosquitto as a native
 # service. Tailnet: https://home-assistant.tarpan-krait.ts.net (a Tailscale
-# Service). LAN: http://192.168.10.101:8123, the address the old HAOS VM had,
-# so MQTT devices, the mobile apps and the Reolink webhook don't change. It's
-# weka's only LAN address, from a fixed DHCP lease in UniFi (by MAC), so the
-# initrd unlock is at .101 too. HA uses the host network and Mosquitto listens
-# on every address, so nothing here binds to it.
+# Service). LAN: http://192.168.10.101:8123, the address MQTT devices, the
+# mobile apps and the Reolink webhook use. It's weka's only LAN address, from
+# a fixed DHCP lease in UniFi (by MAC), so the initrd unlock is at .101 too.
+# HA uses the host network and Mosquitto listens on every address, so nothing
+# here binds to it.
 #
 # Config lives in /var/lib/hass (dataset rpool/crypt/data/hass), edited in the
 # UI. sanoid and restic cover it like every other dataset. HA answers Tailscale
 # Serve with a 400 unless it has use_x_forwarded_for and trusted_proxies
-# [127.0.0.1, ::1]. Since 2026.10 those live in .storage/http, not YAML.
+# [127.0.0.1, ::1], which live in .storage/http, not YAML (see README.md).
 #
 # Upgrades: bump `tag`. The image only changes when the tag does. If an upgrade
 # migrates the recorder DB, roll back the DB from a ZFS snapshot too.
 # @see: https://wiki.nixos.org/wiki/Home_Assistant#OCI_container
-# @see: home-server/HOME-ASSISTANT.md in dumpbox
 { config, ... }:
 let
   port = 8123;
@@ -40,19 +39,19 @@ in
         "--device=${zbt1}:/dev/ttyUSB0"
         # Run the container inside the service's own cgroup (what Quadlet
         # does), not a separate libpod scope in machine.slice. At shutdown
-        # systemd stopped that scope directly, SIGTERMing every process in the
-        # container at once, and HA died before the recorder closed its DB.
+        # systemd would stop that scope directly, SIGTERMing every process in
+        # the container at once, and HA dies before the recorder closes its DB.
         # This overrides the module's --cgroups=enabled (the last flag wins).
         "--cgroups=split"
-        # podman's default is 10s, then SIGKILL. Some restarts took exactly
-        # that. systemd's TimeoutStopSec is 120s, so this still fits inside it.
+        # podman's default is 10s, then SIGKILL, and HA can need longer.
+        # systemd's TimeoutStopSec is 120s, so this still fits inside it.
         "--stop-timeout=60"
       ];
     };
   };
 
-  # Users have no topic access unless given an ACL. The `mqtt` user keeps the
-  # password the devices (Tasmota, Faikin, Valetudo) already have.
+  # Users have no topic access unless given an ACL. `mqtt` is the login the
+  # devices (Tasmota, Faikin, Valetudo) use, `homeassistant` is HA's own.
   services.mosquitto = {
     enable = true;
     listeners = [{

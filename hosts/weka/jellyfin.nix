@@ -2,8 +2,7 @@
 # https://jellyfin.tarpan-krait.ts.net (a Tailscale Service, see
 # tailscale-services.nix). State is its own dataset,
 # rpool/crypt/data/jellyfin (see disko.nix). The media is on tank1 at
-# /srv/media, the same paths it had on honey, so the library and watch
-# history carried over as-is.
+# /srv/media. The library stores absolute paths, so keep media there.
 # @see: https://wiki.nixos.org/wiki/Jellyfin
 let
   port = 8096;
