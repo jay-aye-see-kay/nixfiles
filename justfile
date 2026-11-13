@@ -80,12 +80,6 @@ snap-check:
 snap-explain target:
   sh {{justfile_directory()}}/scripts/snapshot.sh explain {{target}}
 
-innie-deploy:
-  nix run nixpkgs#nixos-rebuild -- switch --flake .#innie --build-host jack@innie --target-host jack@innie --sudo
-
-honey-deploy:
-  nix run nixpkgs#nixos-rebuild -- switch --flake .#honey --build-host jack@honey --target-host jack@honey --sudo
-
 weka-deploy:
   nix run nixpkgs#nixos-rebuild -- switch --flake .#weka --build-host jack@weka --target-host jack@weka --sudo
 

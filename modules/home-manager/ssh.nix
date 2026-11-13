@@ -29,39 +29,11 @@ let
             "~/.1password/agent.sock";
       };
 
-      pm1 = {
+      # weka's initrd SSH: logging in drops into the root passphrase prompt
+      weka-unlock = {
         User = "root";
-        HostName = "192.168.1.72";
-        Port = 22;
-      };
-      pm1-boot-unlock = {
-        User = "root";
-        HostName = "192.168.1.72";
-        Port = 2233;
-      };
-
-      crafty = {
-        User = "jack";
-        HostName = "192.168.30.100";
-        Port = 22;
-      };
-
-      honey = {
-        User = "root";
-        HostName = "192.168.30.102";
-        Port = 22;
-      };
-
-      innie = {
-        User = "jack";
-        HostName = "192.168.10.105";
-        Port = 22;
-      };
-
-      al = {
-        User = "jack";
-        HostName = "192.168.10.106";
-        Port = 22;
+        HostName = "192.168.10.101";
+        Port = 2222;
       };
     };
   };

@@ -105,43 +105,7 @@
         ];
       };
 
-      # innie (VM on pm1)
-      nixosConfigurations.innie = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {
-          inherit inputs;
-          pkgs-unstable = pkgsUnstable."x86_64-linux";
-        };
-        modules = [
-          { nixpkgs.config.allowUnfree = true; }
-          ./hosts/innie
-          ./modules/nixos
-          {
-            modules.cli-utils.enable = true;
-            modules.common.autoUpgrade = true;
-          }
-        ];
-      };
-
-      # honey (VM, media + services host)
-      nixosConfigurations.honey = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {
-          inherit inputs;
-          pkgs-unstable = pkgsUnstable."x86_64-linux";
-        };
-        modules = [
-          { nixpkgs.config.allowUnfree = true; }
-          ./hosts/honey
-          ./modules/nixos
-          {
-            modules.cli-utils.enable = true;
-            modules.common.autoUpgrade = true;
-          }
-        ];
-      };
-
-      # weka: home server (bare metal, replaces pm1 and its VMs)
+      # weka: home server (bare metal)
       nixosConfigurations.weka = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {

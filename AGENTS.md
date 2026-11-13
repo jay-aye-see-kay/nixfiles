@@ -10,7 +10,7 @@ nixfiles/
 ├── modules/               # Reusable NixOS and home-manager modules
 │   ├── nixos/            # NixOS system modules
 │   └── home-manager/     # Home Manager user modules
-├── hosts/                 # Host-specific configurations (tui, honey, innie, etc.)
+├── hosts/                 # Host-specific configurations (tui, weka, etc.)
 ├── users/                 # User-specific home configurations
 ├── dots/                  # Dotfiles (mostly stuff that goes in ~/.config, not managed directly with nix, uses mkOutOfStoreSymlink)
 ├── scripts/              # Utility shell scripts
@@ -32,7 +32,7 @@ just build                # Build configuration without applying to check for ni
 `scripts/snapshot.sh` evaluates every host's derivation hash. Because a `.drv`
 path is a hash of every input, identical hashes before and after a change prove
 the built result is bit-for-bit identical — no matter how aggressive the
-refactor. Everything is *evaluated*, never built, so all 5 hosts (3 NixOS + 2
+refactor. Everything is *evaluated*, never built, so all 4 hosts (2 NixOS + 2
 home-manager) can be checked from any machine in ~30s.
 
 ```bash

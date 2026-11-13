@@ -87,7 +87,7 @@ in
     isNormalUser = true;
     shell = pkgs.fish;
     extraGroups = [ "wheel" "docker" "networkmanager" "video" "dialout" ];
-    openssh.authorizedKeys.keys = [ publicKeys.deskJack publicKeys.keaJack ];
+    openssh.authorizedKeys.keys = [ publicKeys.keaJack ];
   };
 
   systemd.services.trash-cli-empty =
