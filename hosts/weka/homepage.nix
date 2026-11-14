@@ -65,6 +65,17 @@ let
   # Icons by name come from https://github.com/homarr-labs/dashboard-icons,
   # loaded by the browser from a CDN.
   meta = arrMeta // {
+    # No credentials: the widget only logs in after a 403, and qBittorrent
+    # lets weka's bridge address in without one (arr.nix).
+    qbittorrent = {
+      group = "Downloads";
+      title = "qBittorrent";
+      description = "Torrents";
+      widgets = [{
+        type = "qbittorrent";
+        url = let svc = config.weka.tailscaleServices.qbittorrent; in "http://${svc.host}:${toString svc.port}";
+      }];
+    };
     home-assistant = {
       group = "Apps";
       title = "Home Assistant";

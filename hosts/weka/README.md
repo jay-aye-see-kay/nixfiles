@@ -29,7 +29,7 @@ spans several modules, and the state that lives outside the repo.
    until sanoid's next hourly run.
 
    Modules that set their data dir's permissions with tmpfiles (radarr,
-   lidarr) instead of systemd's `StateDirectory` (sonarr, prowlarr) race a
+   lidarr, qbittorrent) instead of systemd's `StateDirectory` (sonarr, prowlarr) race a
    fresh dataset: tmpfiles runs at activation, before the dataset's mount
    unit exists, so the dirs are created on the pool root and then hidden by
    the mount. The app crashes with permission denied and hits its start

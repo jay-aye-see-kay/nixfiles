@@ -164,6 +164,13 @@
           mountpoint = "/var/lib/lidarr";
           options.mountpoint = "legacy";
         };
+        # Settings, categories and resume data. The downloads themselves are
+        # on tank1 (/srv/media/downloads).
+        "crypt/data/qbittorrent" = {
+          type = "zfs_fs";
+          mountpoint = "/var/lib/qBittorrent";
+          options.mountpoint = "legacy";
+        };
         # Parent for data that isn't snapshotted or backed up: it churns, and
         # losing it is accepted (Prometheus history, Loki logs). Same
         # create-by-hand step as crypt/data/<app>, but under crypt/nosnap.

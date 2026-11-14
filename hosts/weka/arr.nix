@@ -1,6 +1,7 @@
-# Prowlarr, Sonarr, Radarr and Lidarr, confined to a WireGuard network
-# namespace (Mullvad), so nothing they send to indexers or metadata APIs
-# leaves from the home IP. Web UIs are Tailscale Services as usual
+# Prowlarr, Sonarr, Radarr, Lidarr and qBittorrent (with the VueTorrent web
+# UI), confined to a WireGuard network namespace (Mullvad), so nothing they
+# send to indexers, metadata APIs or peers leaves from the home IP. Web UIs
+# are Tailscale Services as usual
 # (https://<app>.tarpan-krait.ts.net), proxied to the namespace's address.
 #
 # The namespace has lo, the tunnel (vpn0), and a veth to a bridge on the
@@ -29,7 +30,7 @@
 # mounted and create the directories on rpool underneath it.
 # @see: https://github.com/Maroka-chan/VPN-Confinement
 # @see: https://wiki.servarr.com/useful-tools#using-environment-variables-for-config
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 let
   ns = config.vpnNamespaces.vpn;
 
@@ -49,11 +50,16 @@ let
     lidarr = "/srv/media/music";
   };
 
+  # qBittorrent saves here, in a subfolder per category (one per *arr). Same
+  # dataset as the library (tank1/media), so imports can be hardlinks.
+  downloads = "/srv/media/downloads";
+  qbittorrentPort = 8080;
+
   # nixpkgs hardens sonarr and radarr but not lidarr or prowlarr. This is
   # sonarr's set, at mkDefault so a module's own value wins wherever it sets
   # one (and lists like SystemCallFilter aren't merged into duplicates).
   # Not MemoryDenyWriteExecute: .NET's JIT needs W+X memory.
-  hardening = lib.mapAttrs (_: lib.mkDefault) {
+  hardeningSettings = {
     CapabilityBoundingSet = "";
     NoNewPrivileges = true;
     ProtectHome = true;
@@ -78,6 +84,32 @@ let
     # Not in any of the modules: without it each app can write anywhere its
     # user can and read anything world-readable on weka.
     ProtectSystem = "strict";
+  };
+  hardening = lib.mapAttrs (_: lib.mkDefault) hardeningSettings;
+
+  # Every unit in the stack: VPN-only network, the hardening above, and
+  # write access to the given paths only. Each path must exist, or the unit
+  # fails to start with 226/NAMESPACE.
+  confine = writable: {
+    vpnConfinement = {
+      enable = true;
+      vpnNamespace = "vpn";
+    };
+    # bindsTo (from VPN-Confinement) stops the app when the namespace goes,
+    # but wouldn't start it again. partOf passes restarts through too, e.g.
+    # when the WireGuard config changes.
+    partOf = [ "vpn.service" ];
+    serviceConfig = hardening // { ReadWritePaths = writable; };
+  };
+
+  # Units that write to /srv/media
+  mediaWriter = {
+    # Group-writable files in the library, so hardlinks and moves work
+    # between apps (fs.protected_hardlinks wants write access to the file)
+    serviceConfig.UMask = lib.mkForce "0002";
+    # /srv/media is nofail (tank1.nix): stay down without it, rather than
+    # report every series and film as missing, or download onto rpool.
+    unitConfig.RequiresMountsFor = [ "/srv/media" ];
   };
 
   perApp = f: lib.mkMerge (lib.mapAttrsToList f apps);
@@ -104,61 +136,103 @@ in
   vpnNamespaces.vpn = {
     enable = true;
     wireguardConfigFile = config.sops.secrets.mullvad_wg_conf.path;
-    portMappings = lib.attrValues apps;
+    portMappings = lib.attrValues apps ++ [ qbittorrentPort ];
   };
 
-  # Shared group for the library, so the apps (and later the download
-  # client) can all write to it. Jellyfin only reads, which the mode allows.
+  # Shared group for the library, so the apps and qBittorrent can all write
+  # to it. Jellyfin only reads, which the mode allows.
   users.groups.media = { };
 
-  services = perApp (app: port: {
-    ${app} = {
-      enable = true;
-      environmentFiles = [ config.sops.templates."${app}.env".path ];
-      settings = {
-        server.port = port;
-        # No login: Tailscale is the access control, as for every other app
-        # here. External means "a proxy in front handles auth".
-        auth.method = "External";
-      };
-    } // lib.optionalAttrs (mediaApps ? ${app}) { group = "media"; };
-  });
-
-  systemd.services = perApp (app: _: {
-    ${app} = lib.mkMerge [
-      {
-        vpnConfinement = {
-          enable = true;
-          vpnNamespace = "vpn";
+  services = lib.mkMerge [
+    (perApp (app: port: {
+      ${app} = {
+        enable = true;
+        environmentFiles = [ config.sops.templates."${app}.env".path ];
+        settings = {
+          server.port = port;
+          # No login: Tailscale is the access control, as for every other app
+          # here. External means "a proxy in front handles auth".
+          auth.method = "External";
         };
-        # bindsTo (from VPN-Confinement) stops the app when the namespace
-        # goes, but wouldn't start it again. partOf passes restarts through
-        # too, e.g. when the WireGuard config changes.
-        partOf = [ "vpn.service" ];
-        serviceConfig = hardening;
-      }
-      # Data dir writable under ProtectSystem. Sonarr and prowlarr get theirs
-      # from StateDirectory; these two create it with tmpfiles instead.
-      (lib.mkIf (lib.elem app [ "radarr" "lidarr" ]) {
-        serviceConfig.ReadWritePaths = [ "/var/lib/${app}" ];
-      })
-      (lib.mkIf (mediaApps ? ${app}) {
-        # The app's own library folder only. It must exist (see the setup
-        # steps at the top), or the unit fails to start with 226/NAMESPACE.
-        # The download client's folder will need adding here too, for
-        # imports and hardlinks.
-        serviceConfig.ReadWritePaths = [ mediaApps.${app} ];
-        # Group-writable files in the library, so hardlinks and moves work
-        # between apps (fs.protected_hardlinks wants write access to the file)
-        serviceConfig.UMask = lib.mkForce "0002";
-        # /srv/media is nofail (tank1.nix): stay down without it, rather than
-        # report every series and film as missing.
-        unitConfig.RequiresMountsFor = [ "/srv/media" ];
-      })
-    ];
-  });
+      } // lib.optionalAttrs (mediaApps ? ${app}) { group = "media"; };
+    }))
+    {
+      # The module installs serverConfig over qBittorrent.conf on every start,
+      # so settings changed in the UI only last until the next restart: put
+      # anything worth keeping here. Categories (categories.json) and torrents
+      # aren't in that file, and persist.
+      # @see: https://github.com/qbittorrent/qBittorrent/wiki/Explanation-of-Options-in-qBittorrent
+      qbittorrent = {
+        enable = true;
+        group = "media";
+        webuiPort = qbittorrentPort;
+        serverConfig = {
+          LegalNotice.Accepted = true;
+          BitTorrent.Session = {
+            DefaultSavePath = downloads;
+            # Automatic torrent management, so a torrent added with a category
+            # (as the *arrs do) saves to <DefaultSavePath>/<category>
+            DisableAutoTMMByDefault = false;
+            # Peers only over the tunnel. The namespace already routes nothing
+            # else out, this is in case that ever changes.
+            Interface = "vpn0";
+            InterfaceName = "vpn0";
+            # Nothing to discover on the namespace's veth
+            LSDEnabled = false;
+          };
+          # No UPnP or NAT-PMP: there's no router in the namespace to ask, and
+          # Mullvad doesn't forward ports. With a provider that does, set
+          # torrentingPort and open it with vpnNamespaces.vpn.vpn.allowedTCPPorts.
+          Network.PortForwardingEnabled = false;
+          Preferences.WebUI = {
+            AlternativeUIEnabled = true;
+            RootFolder = "${pkgs.vuetorrent}/share/vuetorrent";
+            # No login, as for the *arrs: Tailscale is the access control.
+            # Localhost is the *arrs (same namespace), the bridge address is
+            # weka itself (Tailscale Services, Homepage).
+            LocalHostAuth = false;
+            AuthSubnetWhitelistEnabled = true;
+            AuthSubnetWhitelist = "${ns.bridgeAddress}/32";
+          };
+        };
+      };
+    }
+  ];
+
+  systemd.services = lib.mkMerge [
+    (perApp (app: _: {
+      ${app} = lib.mkMerge [
+        # Sonarr and prowlarr get their data dir from StateDirectory, which
+        # is writable anyway. Radarr and lidarr create it with tmpfiles.
+        (confine (lib.optional (lib.elem app [ "radarr" "lidarr" ]) "/var/lib/${app}"))
+        # Its own library folder, and the downloads to import from
+        (lib.mkIf (mediaApps ? ${app}) (mediaWriter // {
+          serviceConfig = mediaWriter.serviceConfig // {
+            ReadWritePaths = [ mediaApps.${app} downloads ];
+          };
+        }))
+      ];
+    }))
+    {
+      qbittorrent = lib.mkMerge [
+        (confine [ config.services.qbittorrent.profileDir downloads ])
+        mediaWriter
+        # Where the module sets its own, weaker, value
+        {
+          serviceConfig = {
+            ProtectSystem = lib.mkForce "strict";
+            SystemCallFilter = lib.mkForce hardeningSettings.SystemCallFilter;
+            # The module turns it off (see the qBittorrent PR it links), but
+            # under ProtectSystem=strict the host's /tmp would be read-only.
+            # Nothing here hands it files through /tmp.
+            PrivateTmp = lib.mkForce true;
+          };
+        }
+      ];
+    }
+  ];
 
   weka.tailscaleServices = lib.mapAttrs
     (_: port: { host = ns.namespaceAddress; inherit port; })
-    apps;
+    (apps // { qbittorrent = qbittorrentPort; });
 }
