@@ -123,4 +123,11 @@ in
       OnUnitInactiveSec = "5min";
     };
   };
+
+  weka.homepage.radicale = {
+    group = "Apps";
+    description = "Reminders inbox for the Mealie shopping list";
+    # Everything else needs a Tailscale login
+    monitorPath = "/.web/";
+  };
 }

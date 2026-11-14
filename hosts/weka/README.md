@@ -27,14 +27,14 @@ spans several modules, and the state that lives outside the repo.
 1. Define the Tailscale Service in the admin console (`tcp:443`, tag
    `tag:weka-svc`) **before** deploying. See `platform/tailscale-services.nix` for
    what happens if it's done the other way round.
-2. If the app keeps state, declare a dataset for it in `base/disko.nix` under
-   `crypt/data` (snapshotted and backed up) or `crypt/nosnap` (neither).
-   disko only runs at install, so also create it on weka:
+2. Add `apps/<app>.nix` and import it in `apps/default.nix`. Bind the app
+   to `127.0.0.1` and set `weka.tailscaleServices.<app> = <port>;`.
+3. If the app keeps state, give it a dataset in the same file:
+   `weka.datasets."data/<app>" = "<its state dir>";` (snapshotted and backed
+   up), or `"nosnap/<app>"` (neither). Check whether the module uses
+   `DynamicUser` (state in `/var/lib/private/<app>`) or not
+   (`/var/lib/<app>`). disko only runs at install, so also create it on weka:
    `sudo zfs create -o mountpoint=legacy rpool/crypt/data/<app>`.
-   Check whether the module uses `DynamicUser` (state in
-   `/var/lib/private/<app>`) or not (`/var/lib/<app>`).
-3. Add `<app>.nix`, bind the app to `127.0.0.1`, and set
-   `weka.tailscaleServices.<app> = <port>;`. Import it in `apps/default.nix`.
 4. Deploy. Then `sudo systemctl start sanoid`, or `ZfsSnapshotsStale` fires
    until sanoid's next hourly run.
 
@@ -49,7 +49,19 @@ spans several modules, and the state that lives outside the repo.
 
 sanoid, syncoid and restic pick up a new `crypt/data` dataset with no
 extra config, and Homepage lists the new service under "Other" (give it a
-group and icon in `platform/homepage.nix`).
+group, icon and widgets with `weka.homepage.<app>` in the app's file).
+
+## Removing an app
+
+1. Delete its file or directory and its line in `apps/default.nix`. Deploy.
+2. On weka, `tailscale serve clear svc:<app>`: removing the service from the
+   config doesn't stop serving it. Then delete the Service in the admin
+   console.
+3. Its dataset stays on the pool, unmounted, with its snapshots. When it's
+   no longer wanted: `sudo zfs destroy -r rpool/crypt/data/<app>`, and the
+   same for its syncoid copy, `tank1/backup/weka/<app>`. restic's older
+   snapshots keep it until they age out of the retention.
+4. Remove its keys from `secrets.yaml` (`just weka-secrets`).
 
 ## Reboots and unlocking
 

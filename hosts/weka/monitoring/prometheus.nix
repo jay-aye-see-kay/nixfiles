@@ -20,7 +20,6 @@ let
   amPort = config.services.prometheus.alertmanager.port;
   nodePort = config.services.prometheus.exporters.node.port;
   smartPort = config.services.prometheus.exporters.smartctl.port;
-  nutPort = config.services.prometheus.exporters.nut.port;
 
   # Write a .prom file atomically, so node_exporter never reads half of one
   writeProm = name: ''
@@ -252,11 +251,6 @@ in
       { job_name = "alertmanager"; static_configs = [{ targets = [ "127.0.0.1:${toString amPort}" ]; }]; }
       { job_name = "node"; static_configs = [{ targets = [ "127.0.0.1:${toString nodePort}" ]; }]; }
       { job_name = "smartctl"; static_configs = [{ targets = [ "127.0.0.1:${toString smartPort}" ]; }]; }
-      {
-        job_name = "nut";
-        metrics_path = "/ups_metrics";
-        static_configs = [{ targets = [ "127.0.0.1:${toString nutPort}" ]; }];
-      }
     ];
     ruleFiles = [ (pkgs.writeText "weka-rules.yml" (builtins.toJSON { groups = rules; })) ];
     alertmanagers = [{ static_configs = [{ targets = [ "127.0.0.1:${toString amPort}" ]; }]; }];
@@ -283,22 +277,6 @@ in
     exporters.smartctl = {
       enable = true;
       listenAddress = "127.0.0.1";
-    };
-
-    # UPS, from upsd (see base/ups.nix). Its default variable list skips runtime.
-    # ups.load is left out: this unit always reports 0.
-    exporters.nut = {
-      enable = true;
-      listenAddress = "127.0.0.1";
-      nutVariables = [
-        "battery.charge"
-        "battery.charge.low"
-        "battery.runtime"
-        "battery.voltage"
-        "input.voltage"
-        "output.voltage"
-        "ups.status"
-      ];
     };
 
     alertmanager = {
@@ -388,4 +366,6 @@ in
   };
 
   services.journald.extraConfig = "SystemMaxUse=4G";
+
+  weka.datasets."nosnap/prometheus" = "/var/lib/prometheus2";
 }

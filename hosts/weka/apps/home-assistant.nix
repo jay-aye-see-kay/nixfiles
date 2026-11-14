@@ -84,4 +84,11 @@ in
 
   # HA's own backups would just be a second copy of what restic already has
   services.restic.backups.weka.exclude = [ "/var/lib/hass/.zfs/snapshot/restic/backups" ];
+
+  weka.datasets."data/hass" = "/var/lib/hass";
+  weka.homepage.home-assistant = {
+    group = "Apps";
+    title = "Home Assistant";
+    description = "Home automation";
+  };
 }

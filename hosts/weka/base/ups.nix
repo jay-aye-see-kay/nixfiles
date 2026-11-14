@@ -1,7 +1,7 @@
 # UPS: Tripp Lite OMNIVSX1500A on USB. `upsc tripplite` shows what it reports.
 # Shuts weka down at 50% charge, about 30 minutes on battery.
 # @see: https://networkupstools.org/docs/man/ups.conf.html
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 let
   passwordFile = "/var/lib/nut/upsmon.password";
 in
@@ -51,4 +51,25 @@ in
       ${pkgs.openssl}/bin/openssl rand -hex 32 > ${passwordFile}
     '';
   };
+
+  # For Prometheus (monitoring/prometheus.nix). Its default variable list
+  # skips runtime. ups.load is left out: this unit always reports 0.
+  services.prometheus.exporters.nut = {
+    enable = true;
+    listenAddress = "127.0.0.1";
+    nutVariables = [
+      "battery.charge"
+      "battery.charge.low"
+      "battery.runtime"
+      "battery.voltage"
+      "input.voltage"
+      "output.voltage"
+      "ups.status"
+    ];
+  };
+  services.prometheus.scrapeConfigs = [{
+    job_name = "nut";
+    metrics_path = "/ups_metrics";
+    static_configs = [{ targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.nut.port}" ]; }];
+  }];
 }

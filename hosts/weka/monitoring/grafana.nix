@@ -222,4 +222,6 @@ in
   };
 
   weka.tailscaleServices.grafana = port;
+
+  weka.datasets."data/grafana" = "/var/lib/grafana";
 }

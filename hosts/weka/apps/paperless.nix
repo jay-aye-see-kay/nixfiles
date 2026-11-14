@@ -1,6 +1,6 @@
 # Paperless-ngx at https://paperless.tarpan-krait.ts.net (a Tailscale Service,
 # see platform/tailscale-services.nix). SQLite. Data, index and media are one ZFS
-# dataset, rpool/crypt/data/paperless (see base/disko.nix).
+# dataset, rpool/crypt/data/paperless.
 #
 # Scanning: the Brother MFC can't scan to SMB, only FTP or email, so vsftpd
 # takes uploads from it straight into the consume folder. The only FTP login is
@@ -84,5 +84,14 @@ in
   networking.firewall.interfaces.lan0 = {
     allowedTCPPorts = [ 21 ];
     allowedTCPPortRanges = [ passive ];
+  };
+
+  # SQLite, search index and media together, so one snapshot covers the
+  # database and the documents it points at.
+  weka.datasets."data/paperless" = "/var/lib/paperless";
+  weka.homepage.paperless = {
+    group = "Apps";
+    description = "Scanned documents";
+    icon = "paperless-ngx.svg";
   };
 }

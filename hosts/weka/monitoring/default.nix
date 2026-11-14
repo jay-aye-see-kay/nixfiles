@@ -4,5 +4,6 @@
     ./prometheus.nix
     ./grafana.nix
     ./logs.nix
+    ./homepage.nix
   ];
 }

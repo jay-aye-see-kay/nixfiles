@@ -1,7 +1,7 @@
 # Mealie, reached only over Tailscale at https://mealie.tarpan-krait.ts.net
 # (a Tailscale Service, see platform/tailscale-services.nix), through nginx. SQLite,
 # and its own secrets (.secret, .session_secret) live in the data dir. Data is
-# its own ZFS dataset, rpool/crypt/data/mealie (see base/disko.nix).
+# its own ZFS dataset, rpool/crypt/data/mealie.
 # @see: https://docs.mealie.io/documentation/getting-started/installation/backend-config/
 { config, pkgs-unstable, ... }:
 let
@@ -60,4 +60,7 @@ in
   };
 
   weka.tailscaleServices.mealie = proxyPort;
+
+  weka.datasets."data/mealie" = "/var/lib/private/mealie";
+  weka.homepage.mealie = { group = "Apps"; description = "Recipes and meal plans"; };
 }

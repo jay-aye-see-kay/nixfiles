@@ -1,6 +1,6 @@
 # Readeck, reached only over Tailscale at https://readeck.tarpan-krait.ts.net
 # (a Tailscale Service, see platform/tailscale-services.nix). Data is its own ZFS dataset,
-# rpool/crypt/data/readeck (see base/disko.nix).
+# rpool/crypt/data/readeck.
 # @see: https://readeck.org/en/docs/configuration
 { config, ... }:
 let
@@ -24,4 +24,12 @@ in
   };
 
   weka.tailscaleServices.readeck = port;
+
+  weka.datasets."data/readeck" = "/var/lib/private/readeck";
+  weka.homepage.readeck = {
+    group = "Apps";
+    description = "Saved articles";
+    # / redirects to the https base_url, which the monitor won't follow
+    monitorPath = "/api/info";
+  };
 }

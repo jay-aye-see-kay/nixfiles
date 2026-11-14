@@ -1,7 +1,7 @@
 # Jellyfin, the main media server, reached only over Tailscale at
 # https://jellyfin.tarpan-krait.ts.net (a Tailscale Service, see
 # platform/tailscale-services.nix). State is its own dataset,
-# rpool/crypt/data/jellyfin (see base/disko.nix). The media is on tank1 at
+# rpool/crypt/data/jellyfin. The media is on tank1 at
 # /srv/media. The library stores absolute paths, so keep media there.
 # @see: https://wiki.nixos.org/wiki/Jellyfin
 let
@@ -19,4 +19,8 @@ in
   systemd.services.jellyfin.unitConfig.RequiresMountsFor = [ "/srv/media" ];
 
   weka.tailscaleServices.jellyfin = port;
+
+  # Watch history, metadata, artwork. The media itself is on tank1.
+  weka.datasets."data/jellyfin" = "/var/lib/jellyfin";
+  weka.homepage.jellyfin = { group = "Apps"; description = "Films and TV"; };
 }

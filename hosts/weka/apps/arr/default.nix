@@ -16,7 +16,7 @@
 # LAN or tailnet client never gets an answer. Keep allowedIngress empty, or
 # the apps (which have no login, see auth below) become reachable from there.
 #
-# State is one dataset per app under rpool/crypt/data (see base/disko.nix). The
+# State is one dataset per app under rpool/crypt/data. The
 # app config that matters (indexers, profiles, download clients) lives in
 # each app's SQLite database and is set up in the UI.
 #
@@ -41,6 +41,13 @@ let
     sonarr = 8989;
     radarr = 7878;
     lidarr = 8686;
+  };
+  # Their Homepage cards
+  descriptions = {
+    prowlarr = "Indexers";
+    sonarr = "TV";
+    radarr = "Films";
+    lidarr = "Music";
   };
   # Apps that write to the library, and the one folder of it each may write.
   # Root folders set in an app's UI have to be inside its folder.
@@ -124,14 +131,23 @@ in
   } // lib.mapAttrs' (app: _: lib.nameValuePair "${app}_api_key" { }) apps;
 
   # API keys from sops instead of generated on first start, so they survive
-  # a reinstall and Homepage can use them (platform/homepage.nix). The *arrs read
-  # <APP>__AUTH__APIKEY over the value in config.xml.
+  # a reinstall and Homepage can use them. The *arrs read <APP>__AUTH__APIKEY
+  # over the value in config.xml.
   sops.templates = lib.mapAttrs'
     (app: _: lib.nameValuePair "${app}.env" {
       content = "${lib.toUpper app}__AUTH__APIKEY=${config.sops.placeholder."${app}_api_key"}";
       restartUnits = [ "${app}.service" ];
     })
-    apps;
+    apps // {
+    # The same keys for Homepage's widgets, which substitute
+    # {{HOMEPAGE_VAR_<APP>_KEY}} from the environment
+    "homepage.env" = {
+      content = lib.concatMapStrings
+        (app: "HOMEPAGE_VAR_${lib.toUpper app}_KEY=${config.sops.placeholder."${app}_api_key"}\n")
+        (lib.attrNames descriptions);
+      restartUnits = [ "homepage-dashboard.service" ];
+    };
+  };
 
   # Name max 7 characters. Generic rather than "mullvad", for when the
   # provider changes. Interface vpn0, bridge vpn-br, address 192.168.15.1.
@@ -146,6 +162,7 @@ in
   users.groups.media = { };
 
   services = lib.mkMerge [
+    { homepage-dashboard.environmentFiles = [ config.sops.templates."homepage.env".path ]; }
     (perApp (app: port: {
       ${app} = {
         enable = true;
@@ -261,4 +278,40 @@ in
   weka.tailscaleServices = lib.mapAttrs
     (_: port: { host = ns.namespaceAddress; inherit port; })
     (apps // { qbittorrent = qbittorrentPort; });
+
+  # One dataset per app. Prowlarr is DynamicUser, the others aren't.
+  weka.datasets = {
+    "data/prowlarr" = "/var/lib/private/prowlarr";
+    "data/sonarr" = "/var/lib/sonarr";
+    "data/radarr" = "/var/lib/radarr";
+    "data/lidarr" = "/var/lib/lidarr";
+    # Settings, categories and resume data. The downloads themselves are
+    # on tank1 (/srv/media/downloads).
+    "data/qbittorrent" = "/var/lib/qBittorrent";
+  };
+
+  # Homepage's own widget for each, with the API key from sops (above)
+  weka.homepage = lib.mapAttrs
+    (app: description: {
+      group = "Downloads";
+      inherit description;
+      widgets = [{
+        type = app;
+        url = "http://${ns.namespaceAddress}:${toString apps.${app}}";
+        key = "{{HOMEPAGE_VAR_${lib.toUpper app}_KEY}}";
+      }];
+    })
+    descriptions // {
+    # No credentials: the widget only logs in after a 403, and qBittorrent
+    # lets weka's bridge address in without one.
+    qbittorrent = {
+      group = "Downloads";
+      title = "qBittorrent";
+      description = "Torrents";
+      widgets = [{
+        type = "qbittorrent";
+        url = "http://${ns.namespaceAddress}:${toString qbittorrentPort}";
+      }];
+    };
+  };
 }
