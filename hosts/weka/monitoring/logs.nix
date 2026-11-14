@@ -1,6 +1,6 @@
 # Logs: Alloy reads the systemd journal and pushes it to Loki, which Grafana
 # queries next to the metrics (Explore → Loki, e.g. {unit="mealie.service"}).
-# journald keeps its own copy too (capped at 4G in monitoring.nix), so
+# journald keeps its own copy too (capped at 4G in monitoring/prometheus.nix), so
 # journalctl still works if this is broken.
 #
 # Loki keeps 90 days, on rpool/crypt/nosnap/loki: not snapshotted or backed

@@ -17,7 +17,7 @@
 let
   port = 5232;
   proxyPort = 5233;
-  # Tailnet logins, which are also the Mealie usernames (mealie.nix)
+  # Tailnet logins, which are also the Mealie usernames (apps/mealie.nix)
   users = [ "jay-aye-see-kay@github" "nora.ns.schneider@gmail.com" ];
   storage = "/var/lib/radicale/collections";
   # Touched by Radicale after every change, to start the sync
@@ -29,7 +29,7 @@ in
     settings = {
       server.hosts = [ "127.0.0.1:${toString port}" ];
       # Trusts whichever user the header names, so anything on weka could
-      # claim to be anyone. Same trade-off as Grafana (grafana.nix).
+      # claim to be anyone. Same trade-off as Grafana (monitoring/grafana.nix).
       auth.type = "http_x_remote_user";
       storage.filesystem_folder = storage;
       # Runs while Radicale holds its write lock, so it can't call Radicale

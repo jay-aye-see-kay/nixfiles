@@ -12,19 +12,29 @@ address, `192.168.10.101`.
 The module comments explain how each part works. This file covers what
 spans several modules, and the state that lives outside the repo.
 
+## Layout
+
+- `default.nix`: host identity (users, SSH, Tailscale, sops) and imports
+- `base/`: the machine itself: disks (`disko.nix`, `tank1.nix`), the UPS,
+  and unlocking the root pool at boot (`unlock.nix`)
+- `platform/`: what every app plugs into: Tailscale Services and Homepage
+- `backup/`: sanoid/syncoid snapshots and restic to B2
+- `monitoring/`: Prometheus and alerts, Grafana, Loki
+- `apps/`: one file, or a directory when it has more than one, per app
+
 ## Adding an app
 
 1. Define the Tailscale Service in the admin console (`tcp:443`, tag
-   `tag:weka-svc`) **before** deploying. See `tailscale-services.nix` for
+   `tag:weka-svc`) **before** deploying. See `platform/tailscale-services.nix` for
    what happens if it's done the other way round.
-2. If the app keeps state, declare a dataset for it in `disko.nix` under
+2. If the app keeps state, declare a dataset for it in `base/disko.nix` under
    `crypt/data` (snapshotted and backed up) or `crypt/nosnap` (neither).
    disko only runs at install, so also create it on weka:
    `sudo zfs create -o mountpoint=legacy rpool/crypt/data/<app>`.
    Check whether the module uses `DynamicUser` (state in
    `/var/lib/private/<app>`) or not (`/var/lib/<app>`).
 3. Add `<app>.nix`, bind the app to `127.0.0.1`, and set
-   `weka.tailscaleServices.<app> = <port>;`. Import it in `default.nix`.
+   `weka.tailscaleServices.<app> = <port>;`. Import it in `apps/default.nix`.
 4. Deploy. Then `sudo systemctl start sanoid`, or `ZfsSnapshotsStale` fires
    until sanoid's next hourly run.
 
@@ -39,7 +49,7 @@ spans several modules, and the state that lives outside the repo.
 
 sanoid, syncoid and restic pick up a new `crypt/data` dataset with no
 extra config, and Homepage lists the new service under "Other" (give it a
-group and icon in `homepage.nix`).
+group and icon in `platform/homepage.nix`).
 
 ## Reboots and unlocking
 
@@ -113,7 +123,7 @@ months to check the backups.
 - **From B2**: `sudo restic-weka snapshots`, then
   `sudo restic-weka restore latest --target /var/tmp/restore --include /var/lib/private/<app>`.
   Stop the app, copy the files back from under `.zfs/snapshot/restic/`, and
-  start it. From another machine, use the repo URL in `restic.nix`, the
+  start it. From another machine, use the repo URL in `backup/restic.nix`, the
   two B2 values as `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY`
   (1Password: "weka-backblaze") and the repo password ("weka restic").
 
@@ -136,7 +146,7 @@ when the pings stop.
 ## Home Assistant
 
 Configured in its UI, with state in `/var/lib/hass`. Things that aren't
-obvious from `home-assistant.nix`:
+obvious from `apps/home-assistant.nix`:
 
 - HA must trust Tailscale Serve as a proxy (`use_x_forwarded_for: true`,
   `trusted_proxies: [127.0.0.1, ::1]`). These live in `.storage/http`,
@@ -151,8 +161,8 @@ obvious from `home-assistant.nix`:
 
 These use `192.168.10.101` directly because they can't run Tailscale:
 
-- Brother scanner: FTP into Paperless's consume folder (`paperless.nix`).
-- PS5: Plex on 32400 (`plex.nix`).
+- Brother scanner: FTP into Paperless's consume folder (`apps/paperless.nix`).
+- PS5: Plex on 32400 (`apps/plex.nix`).
 - MQTT devices, HomeKit and Home Assistant's mobile apps on the LAN.
 
 ## Outside the repo
@@ -187,7 +197,7 @@ From the NixOS installer USB, using nixos-anywhere from another machine:
    ```
    nix run github:nix-community/nixos-anywhere -- \
      --flake .#weka --target-host nixos@<ip> --build-on remote \
-     --generate-hardware-config nixos-generate-config ./hosts/weka/hardware.nix \
+     --generate-hardware-config nixos-generate-config ./hosts/weka/base/hardware.nix \
      --extra-files <that dir> \
      --disk-encryption-keys /tmp/secret.key (op read -n "op://Personal/weka zfs/password" | psub -F)
    ```

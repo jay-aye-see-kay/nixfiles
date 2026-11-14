@@ -1,6 +1,6 @@
 # Paperless-ngx at https://paperless.tarpan-krait.ts.net (a Tailscale Service,
-# see tailscale-services.nix). SQLite. Data, index and media are one ZFS
-# dataset, rpool/crypt/data/paperless (see disko.nix).
+# see platform/tailscale-services.nix). SQLite. Data, index and media are one ZFS
+# dataset, rpool/crypt/data/paperless (see base/disko.nix).
 #
 # Scanning: the Brother MFC can't scan to SMB, only FTP or email, so vsftpd
 # takes uploads from it straight into the consume folder. The only FTP login is

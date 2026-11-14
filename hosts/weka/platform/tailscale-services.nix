@@ -23,7 +23,7 @@ in
 {
   options.weka.tailscaleServices = lib.mkOption {
     # A bare port means 127.0.0.1. A host is for apps that aren't on the
-    # host's loopback, like the ones in the VPN namespace (arr.nix).
+    # host's loopback, like the ones in the VPN namespace (apps/arr).
     type = lib.types.attrsOf (lib.types.coercedTo lib.types.port (port: { inherit port; })
       (lib.types.submodule {
         options = {

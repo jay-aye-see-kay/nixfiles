@@ -105,7 +105,7 @@
           mountpoint = "/var/lib/grafana";
           options.mountpoint = "legacy";
         };
-        # Samba shares (files.nix)
+        # Samba shares (apps/files.nix)
         "crypt/data/files" = {
           type = "zfs_fs";
           mountpoint = "/srv/files";
@@ -118,7 +118,7 @@
           mountpoint = "/var/lib/paperless";
           options.mountpoint = "legacy";
         };
-        # Home Assistant config and state (home-assistant.nix)
+        # Home Assistant config and state (apps/home-assistant.nix)
         "crypt/data/hass" = {
           type = "zfs_fs";
           mountpoint = "/var/lib/hass";
@@ -132,7 +132,7 @@
           options.mountpoint = "legacy";
         };
         # Jellyfin and Plex state: watch history, metadata, artwork. The
-        # media itself is on tank1 (tank1.nix).
+        # media itself is on tank1 (base/tank1.nix).
         "crypt/data/jellyfin" = {
           type = "zfs_fs";
           mountpoint = "/var/lib/jellyfin";
@@ -143,7 +143,7 @@
           mountpoint = "/var/lib/plex";
           options.mountpoint = "legacy";
         };
-        # The *arrs (arr.nix). Prowlarr is DynamicUser, the others aren't.
+        # The *arrs (apps/arr). Prowlarr is DynamicUser, the others aren't.
         "crypt/data/prowlarr" = {
           type = "zfs_fs";
           mountpoint = "/var/lib/private/prowlarr";

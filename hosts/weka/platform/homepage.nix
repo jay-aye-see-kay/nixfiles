@@ -28,7 +28,7 @@ let
   promRow = metrics: { type = "prometheusmetric"; url = promUrl; refreshInterval = 60000; inherit metrics; };
   ago = { type = "relativeDate"; scale = 1000; };
 
-  # Valetudo's REST API, through the nginx proxy in vacuum.nix. No auth.
+  # Valetudo's REST API, through the nginx proxy in apps/vacuum.nix. No auth.
   # @see: https://valetudo.cloud/pages/usage/rest-api.html
   valetudoApi = "http://127.0.0.1:8090/api/v2/robot";
   capitalise = value: { inherit value; to = lib.toUpper (lib.substring 0 1 value) + lib.substring 1 (-1) value; };
@@ -41,7 +41,7 @@ let
     suffix = "h";
   };
 
-  # The *arrs (arr.nix), in the VPN namespace. Homepage's own widget for
+  # The *arrs (apps/arr), in the VPN namespace. Homepage's own widget for
   # each, with the API key from sops (substituted from the environment).
   arrApps = {
     prowlarr = "Indexers";
@@ -66,7 +66,7 @@ let
   # loaded by the browser from a CDN.
   meta = arrMeta // {
     # No credentials: the widget only logs in after a 403, and qBittorrent
-    # lets weka's bridge address in without one (arr.nix).
+    # lets weka's bridge address in without one (apps/arr).
     qbittorrent = {
       group = "Downloads";
       title = "qBittorrent";
@@ -91,7 +91,7 @@ let
     radicale = {
       group = "Apps";
       description = "Reminders inbox for the Mealie shopping list";
-      # Everything else needs a Tailscale login (radicale.nix)
+      # Everything else needs a Tailscale login (apps/radicale)
       monitorPath = "/.web/";
     };
     readeck = {

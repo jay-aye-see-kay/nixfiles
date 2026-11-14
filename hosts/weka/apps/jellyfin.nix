@@ -1,7 +1,7 @@
 # Jellyfin, the main media server, reached only over Tailscale at
 # https://jellyfin.tarpan-krait.ts.net (a Tailscale Service, see
-# tailscale-services.nix). State is its own dataset,
-# rpool/crypt/data/jellyfin (see disko.nix). The media is on tank1 at
+# platform/tailscale-services.nix). State is its own dataset,
+# rpool/crypt/data/jellyfin (see base/disko.nix). The media is on tank1 at
 # /srv/media. The library stores absolute paths, so keep media there.
 # @see: https://wiki.nixos.org/wiki/Jellyfin
 let
@@ -14,7 +14,7 @@ in
     openFirewall = false;
   };
 
-  # /srv/media is nofail (tank1.nix). Without tank1, stay down rather than
+  # /srv/media is nofail (base/tank1.nix). Without tank1, stay down rather than
   # scan an empty directory and drop the library.
   systemd.services.jellyfin.unitConfig.RequiresMountsFor = [ "/srv/media" ];
 

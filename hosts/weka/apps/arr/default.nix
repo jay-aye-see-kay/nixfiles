@@ -16,7 +16,7 @@
 # LAN or tailnet client never gets an answer. Keep allowedIngress empty, or
 # the apps (which have no login, see auth below) become reachable from there.
 #
-# State is one dataset per app under rpool/crypt/data (see disko.nix). The
+# State is one dataset per app under rpool/crypt/data (see base/disko.nix). The
 # app config that matters (indexers, profiles, download clients) lives in
 # each app's SQLite database and is set up in the UI.
 #
@@ -107,7 +107,7 @@ let
     # Group-writable files in the library, so hardlinks and moves work
     # between apps (fs.protected_hardlinks wants write access to the file)
     serviceConfig.UMask = lib.mkForce "0002";
-    # /srv/media is nofail (tank1.nix): stay down without it, rather than
+    # /srv/media is nofail (base/tank1.nix): stay down without it, rather than
     # report every series and film as missing, or download onto rpool.
     unitConfig.RequiresMountsFor = [ "/srv/media" ];
   };
@@ -115,6 +115,8 @@ let
   perApp = f: lib.mkMerge (lib.mapAttrsToList f apps);
 in
 {
+  imports = [ ./recyclarr.nix ];
+
   sops.secrets = {
     # Mullvad's wg-quick config (account page → WireGuard configuration).
     # Root-only, read by the namespace's setup script.
@@ -122,7 +124,7 @@ in
   } // lib.mapAttrs' (app: _: lib.nameValuePair "${app}_api_key" { }) apps;
 
   # API keys from sops instead of generated on first start, so they survive
-  # a reinstall and Homepage can use them (homepage.nix). The *arrs read
+  # a reinstall and Homepage can use them (platform/homepage.nix). The *arrs read
   # <APP>__AUTH__APIKEY over the value in config.xml.
   sops.templates = lib.mapAttrs'
     (app: _: lib.nameValuePair "${app}.env" {

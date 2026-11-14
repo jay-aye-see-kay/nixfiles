@@ -1,7 +1,7 @@
 # Mealie, reached only over Tailscale at https://mealie.tarpan-krait.ts.net
-# (a Tailscale Service, see tailscale-services.nix), through nginx. SQLite,
+# (a Tailscale Service, see platform/tailscale-services.nix), through nginx. SQLite,
 # and its own secrets (.secret, .session_secret) live in the data dir. Data is
-# its own ZFS dataset, rpool/crypt/data/mealie (see disko.nix).
+# its own ZFS dataset, rpool/crypt/data/mealie (see base/disko.nix).
 # @see: https://docs.mealie.io/documentation/getting-started/installation/backend-config/
 { config, pkgs-unstable, ... }:
 let
@@ -10,7 +10,7 @@ let
 in
 {
   # Shared secret for reverse proxy login, also used by the shopping list
-  # sync (radicale.nix) to act as each person
+  # sync (apps/radicale) to act as each person
   sops.secrets.mealie_proxy_secret = { };
   sops.templates."mealie.env" = {
     content = "REVERSE_PROXY_AUTH_SECRET=${config.sops.placeholder.mealie_proxy_secret}";

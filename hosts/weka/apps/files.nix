@@ -1,7 +1,7 @@
 # Shared files over SMB: smb://weka.tarpan-krait.ts.net/shared from anywhere
 # on the tailnet (direct on the home LAN, so the same address works at home
 # and away). Also allowed from the LAN by IP. Data is its own ZFS dataset,
-# rpool/crypt/data/files (see disko.nix), so sanoid and restic pick it up.
+# rpool/crypt/data/files (see base/disko.nix), so sanoid and restic pick it up.
 #
 # No NetBIOS (nmbd), wsdd or Avahi: they only advertise on the local network
 # and don't cross Tailscale. Add the server once in Finder (Go → Connect to

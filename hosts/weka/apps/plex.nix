@@ -1,5 +1,5 @@
 # Plex, kept as a fallback for the PS5 (no Jellyfin app), on the LAN only.
-# State is its own dataset, rpool/crypt/data/plex (see disko.nix). It holds
+# State is its own dataset, rpool/crypt/data/plex (see base/disko.nix). It holds
 # the server's claim, so restoring it keeps the same server in the Plex
 # account. Remote access is off in its settings. The media is on tank1 at
 # /srv/media.

@@ -234,7 +234,7 @@ in
   sops.secrets.healthchecks_watchdog_url = lib.mkIf healthchecks { };
 
   # Driver for the board's Nuvoton NCT6793D Super I/O chip: fan RPM, fan PWM
-  # and motherboard temperatures. Not auto-loaded, and hardware.nix is
+  # and motherboard temperatures. Not auto-loaded, and base/hardware.nix is
   # generated, so it lives here with the exporter that reads it.
   boot.kernelModules = [ "nct6775" ];
 
@@ -285,7 +285,7 @@ in
       listenAddress = "127.0.0.1";
     };
 
-    # UPS, from upsd (see ups.nix). Its default variable list skips runtime.
+    # UPS, from upsd (see base/ups.nix). Its default variable list skips runtime.
     # ups.load is left out: this unit always reports 0.
     exporters.nut = {
       enable = true;
@@ -360,7 +360,7 @@ in
   };
 
   # How this boot's root pool unlocked: the initrd's clevis wrapper (see
-  # clevisMarked in default.nix) leaves /run/clevis-unlocked on success.
+  # clevisMarked in base/unlock.nix) leaves /run/clevis-unlocked on success.
   systemd.services.unlock-metrics = {
     description = "Root pool unlock method for node_exporter";
     wantedBy = [ "multi-user.target" ];

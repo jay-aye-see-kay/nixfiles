@@ -1,6 +1,6 @@
 # Readeck, reached only over Tailscale at https://readeck.tarpan-krait.ts.net
-# (a Tailscale Service, see tailscale-services.nix). Data is its own ZFS dataset,
-# rpool/crypt/data/readeck (see disko.nix).
+# (a Tailscale Service, see platform/tailscale-services.nix). Data is its own ZFS dataset,
+# rpool/crypt/data/readeck (see base/disko.nix).
 # @see: https://readeck.org/en/docs/configuration
 { config, ... }:
 let

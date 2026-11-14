@@ -8,7 +8,7 @@
 #
 # Mounts live here, as with rpool: the datasets that are mounted have
 # mountpoint=legacy, and everything else on the pool is mountpoint=none, so
-# ZFS never mounts anything by itself. Not in disko.nix, because disko would
+# ZFS never mounts anything by itself. Not in base/disko.nix, because disko would
 # create (wipe) the pool on a reinstall. Services that need the media use
 # RequiresMountsFor, so they stay down if tank1 is missing instead of writing
 # into an empty directory on rpool.
