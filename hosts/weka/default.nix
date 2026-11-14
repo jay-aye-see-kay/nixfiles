@@ -31,6 +31,7 @@ in
     ./logs.nix
     ./readeck.nix
     ./mealie.nix
+    ./radicale.nix
     ./files.nix
     ./paperless.nix
     ./homepage.nix

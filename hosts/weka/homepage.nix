@@ -88,6 +88,12 @@ let
       description = "Scanned documents";
       icon = "paperless-ngx.svg";
     };
+    radicale = {
+      group = "Apps";
+      description = "Reminders inbox for the Mealie shopping list";
+      # Everything else needs a Tailscale login (radicale.nix)
+      monitorPath = "/.web/";
+    };
     readeck = {
       group = "Apps";
       description = "Saved articles";
