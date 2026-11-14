@@ -41,8 +41,44 @@ let
     radarr = 7878;
     lidarr = 8686;
   };
-  # Apps that write to /srv/media
-  mediaApps = [ "sonarr" "radarr" "lidarr" ];
+  # Apps that write to the library, and the one folder of it each may write.
+  # Root folders set in an app's UI have to be inside its folder.
+  mediaApps = {
+    sonarr = "/srv/media/tv";
+    radarr = "/srv/media/movies";
+    lidarr = "/srv/media/music";
+  };
+
+  # nixpkgs hardens sonarr and radarr but not lidarr or prowlarr. This is
+  # sonarr's set, at mkDefault so a module's own value wins wherever it sets
+  # one (and lists like SystemCallFilter aren't merged into duplicates).
+  # Not MemoryDenyWriteExecute: .NET's JIT needs W+X memory.
+  hardening = lib.mapAttrs (_: lib.mkDefault) {
+    CapabilityBoundingSet = "";
+    NoNewPrivileges = true;
+    ProtectHome = true;
+    ProtectClock = true;
+    ProtectKernelLogs = true;
+    PrivateTmp = true;
+    PrivateDevices = true;
+    PrivateUsers = true;
+    ProtectKernelTunables = true;
+    ProtectKernelModules = true;
+    ProtectControlGroups = true;
+    RestrictSUIDSGID = true;
+    RemoveIPC = true;
+    ProtectHostname = true;
+    ProtectProc = "invisible";
+    RestrictAddressFamilies = [ "AF_INET" "AF_INET6" "AF_UNIX" ];
+    RestrictNamespaces = true;
+    RestrictRealtime = true;
+    LockPersonality = true;
+    SystemCallArchitectures = "native";
+    SystemCallFilter = [ "@system-service" "~@privileged" "~@debug" "~@mount" "@chown" ];
+    # Not in any of the modules: without it each app can write anywhere its
+    # user can and read anything world-readable on weka.
+    ProtectSystem = "strict";
+  };
 
   perApp = f: lib.mkMerge (lib.mapAttrsToList f apps);
 in
@@ -85,27 +121,41 @@ in
         # here. External means "a proxy in front handles auth".
         auth.method = "External";
       };
-    } // lib.optionalAttrs (lib.elem app mediaApps) { group = "media"; };
+    } // lib.optionalAttrs (mediaApps ? ${app}) { group = "media"; };
   });
 
   systemd.services = perApp (app: _: {
-    ${app} = {
-      vpnConfinement = {
-        enable = true;
-        vpnNamespace = "vpn";
-      };
-      # bindsTo (from VPN-Confinement) stops the app when the namespace
-      # goes, but wouldn't start it again. partOf passes restarts through
-      # too, e.g. when the WireGuard config changes.
-      partOf = [ "vpn.service" ];
-    } // lib.optionalAttrs (lib.elem app mediaApps) {
-      # Group-writable files in the library, so hardlinks and moves work
-      # between apps (fs.protected_hardlinks wants write access to the file)
-      serviceConfig.UMask = lib.mkForce "0002";
-      # /srv/media is nofail (tank1.nix): stay down without it, rather than
-      # report every series and film as missing.
-      unitConfig.RequiresMountsFor = [ "/srv/media" ];
-    };
+    ${app} = lib.mkMerge [
+      {
+        vpnConfinement = {
+          enable = true;
+          vpnNamespace = "vpn";
+        };
+        # bindsTo (from VPN-Confinement) stops the app when the namespace
+        # goes, but wouldn't start it again. partOf passes restarts through
+        # too, e.g. when the WireGuard config changes.
+        partOf = [ "vpn.service" ];
+        serviceConfig = hardening;
+      }
+      # Data dir writable under ProtectSystem. Sonarr and prowlarr get theirs
+      # from StateDirectory; these two create it with tmpfiles instead.
+      (lib.mkIf (lib.elem app [ "radarr" "lidarr" ]) {
+        serviceConfig.ReadWritePaths = [ "/var/lib/${app}" ];
+      })
+      (lib.mkIf (mediaApps ? ${app}) {
+        # The app's own library folder only. It must exist (see the setup
+        # steps at the top), or the unit fails to start with 226/NAMESPACE.
+        # The download client's folder will need adding here too, for
+        # imports and hardlinks.
+        serviceConfig.ReadWritePaths = [ mediaApps.${app} ];
+        # Group-writable files in the library, so hardlinks and moves work
+        # between apps (fs.protected_hardlinks wants write access to the file)
+        serviceConfig.UMask = lib.mkForce "0002";
+        # /srv/media is nofail (tank1.nix): stay down without it, rather than
+        # report every series and film as missing.
+        unitConfig.RequiresMountsFor = [ "/srv/media" ];
+      })
+    ];
   });
 
   weka.tailscaleServices = lib.mapAttrs
