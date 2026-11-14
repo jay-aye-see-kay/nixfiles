@@ -41,6 +41,7 @@ in
     ./jellyfin.nix
     ./plex.nix
     ./arr.nix
+    ./recyclarr.nix
   ];
 
   boot = {
