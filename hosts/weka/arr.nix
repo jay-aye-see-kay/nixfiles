@@ -1,5 +1,5 @@
-# Prowlarr, Sonarr, Radarr, Lidarr and qBittorrent (with the VueTorrent web
-# UI), confined to a WireGuard network namespace (Mullvad), so nothing they
+# Prowlarr, Sonarr, Radarr, Lidarr, qBittorrent (with the VueTorrent web
+# UI) and FlareSolverr, confined to a WireGuard network namespace (Mullvad), so nothing they
 # send to indexers, metadata APIs or peers leaves from the home IP. Web UIs
 # are Tailscale Services as usual
 # (https://<app>.tarpan-krait.ts.net), proxied to the namespace's address.
@@ -157,6 +157,13 @@ in
       } // lib.optionalAttrs (mediaApps ? ${app}) { group = "media"; };
     }))
     {
+      # Fetches pages behind Cloudflare's challenge for Prowlarr, in a headless
+      # Chromium. Prowlarr uses it as an indexer proxy for indexers tagged
+      # "flaresolverr", at 127.0.0.1 (same namespace). No UI, so no Tailscale
+      # Service or port mapping.
+      # @see: https://wiki.servarr.com/prowlarr/settings#flaresolverr
+      flaresolverr.enable = true;
+
       # The module installs serverConfig over qBittorrent.conf on every start,
       # so settings changed in the UI only last until the next restart: put
       # anything worth keeping here. Categories (categories.json) and torrents
@@ -214,6 +221,23 @@ in
       ];
     }))
     {
+      # The module's own hardening wins where it sets a value: it lets
+      # Chromium create the namespaces its sandbox needs
+      flaresolverr = lib.mkMerge [
+        (confine [ ])
+        {
+          # A Chromium per solve: ~200 MB idle, ~500 MB during one. weka has
+          # no swap, so without a cap a leak or a pile of solves would get
+          # the kernel's OOM killer picking from anything on the box. Over
+          # MemoryHigh it's reclaimed and slowed; over MemoryMax only it is
+          # killed, and Restart=always brings it back.
+          serviceConfig = {
+            MemoryHigh = "1G";
+            MemoryMax = "1536M";
+          };
+        }
+      ];
+
       qbittorrent = lib.mkMerge [
         (confine [ config.services.qbittorrent.profileDir downloads ])
         mediaWriter
