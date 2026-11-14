@@ -25,18 +25,10 @@ in
     # @see: https://elis.nu/blog/2026/04/nixos-zfs-remote-unlock-over-ssh/
     initrd = {
       systemd.enable = true;
-      # Onboard Realtek RTL8111, renamed to lan0 (see systemd.network.links)
+      # Onboard Realtek RTL8111, renamed to lan0. Its network is shared with
+      # stage 2, see network.nix.
       availableKernelModules = [ "r8169" ];
-      systemd.network = {
-        enable = true;
-        networks."10-lan" = {
-          matchConfig.Name = "lan0";
-          networkConfig.DHCP = "yes";
-          # The initrd has no persistent machine-id, so the default DUID-based
-          # client ID changes every boot and so does the lease. The MAC doesn't.
-          dhcpV4Config.ClientIdentifier = "mac";
-        };
-      };
+      systemd.network.enable = true;
       network.ssh = {
         enable = true;
         port = 2222;
@@ -82,17 +74,6 @@ in
       systemd.extraBin.clevis = lib.mkForce clevisMarked;
       systemd.storePaths = [ clevisMarked ];
     };
-  };
-
-  # A fixed name for the onboard NIC. The kernel's name comes from the PCI
-  # path, so it would change with the board. Everything else refers to lan0.
-  # Matched on the driver rather than Type=ether, which would also catch
-  # podman's veths.
-  # nixpkgs copies .link files into the initrd too, so the unlock network
-  # gets the same name.
-  systemd.network.links."10-lan0" = {
-    matchConfig.Driver = "r8169";
-    linkConfig.Name = "lan0";
   };
 
   # Weekly upgrades from GitHub reboot by themselves when the kernel or initrd
