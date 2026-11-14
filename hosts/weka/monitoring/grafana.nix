@@ -15,7 +15,7 @@ let
   thresholds = steps: {
     mode = "absolute";
     steps = lib.imap0
-      (i: s: { color = s.color; value = if i == 0 then null else s.value; })
+      (i: s: { inherit (s) color; value = if i == 0 then null else s.value; })
       steps;
   };
   stat = { title, expr, unit ? "none", steps ? [{ color = "green"; }], mappings ? [ ], x, y, w ? 4, h ? 4 }: {
