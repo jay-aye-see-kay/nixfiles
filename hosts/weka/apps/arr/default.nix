@@ -106,7 +106,22 @@ let
     # but wouldn't start it again. partOf passes restarts through too, e.g.
     # when the WireGuard config changes.
     partOf = [ "vpn.service" ];
-    serviceConfig = hardening // { ReadWritePaths = writable; };
+    serviceConfig = hardening // {
+      ReadWritePaths = writable;
+      # The namespace's DNS (Mullvad's, from /etc/netns/vpn/resolv.conf).
+      # VPN-Confinement binds it over /etc/resolv.conf, which systemd follows
+      # to resolved's stub-resolv.conf. resolved replaces that file (write and
+      # rename) when DNS changes, and so does a switch that changes
+      # /etc/resolv.conf, and either one silently drops the bind in every
+      # running app. They fall back to the host's 127.0.0.53, which isn't
+      # reachable from the namespace, so all lookups fail. A private, empty
+      # /run/systemd/resolve with the file bound inside can't be replaced
+      # from the host. It also hides resolved's sockets from the apps.
+      # openresolv (under dhcpcd) avoids this by rewriting in place, which
+      # is the only setup VPN-Confinement's single-file bind holds up with.
+      TemporaryFileSystem = [ "/run/systemd/resolve:ro" ];
+      BindReadOnlyPaths = [ "/etc/netns/vpn/resolv.conf:/run/systemd/resolve/stub-resolv.conf" ];
+    };
   };
 
   # Units that write to /srv/media
