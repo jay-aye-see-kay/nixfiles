@@ -14,5 +14,6 @@
     ./jellyfin.nix
     ./plex.nix
     ./arr
+    ./percy
   ];
 }

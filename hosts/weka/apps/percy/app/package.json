@@ -1,0 +1,22 @@
+{
+  "name": "percy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@earendil-works/pi-coding-agent": "^1.5.2",
+    "@slack/socket-mode": "^3.2.0",
+    "@slack/web-api": "^8.4.0",
+    "typebox": "^1.4.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "~5.9.3"
+  }
+}

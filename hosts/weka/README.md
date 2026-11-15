@@ -169,6 +169,27 @@ obvious from `apps/home-assistant.nix`:
 - MQTT devices (Tasmota, Faikin, Valetudo) point at `192.168.10.101:1883`
   by IP, with the `mqtt` login.
 
+## Percy
+
+A read-only AI agent in Slack's #percy channel (`apps/percy/`), built on the
+pi SDK. Every message in the channel prompts it; each Slack thread is its own
+context window, persisted across restarts in `/var/lib/percy/sessions`. Its
+Node app is built with npm (lockfile pinned) and runs behind a hardened
+systemd unit (read-only filesystem, DynamicUser, journal group access).
+
+- It is read-only: file tools are read/grep/find/ls, and the host is inspected
+  through the `percy` tool namespace (systemd journal today; prometheus,
+  alerts and more later), reached from codemode scripts so output can be
+  filtered before it reaches the model.
+- The model is `opencode-go/glm-5.3-flash` via `OPENCODE_API_KEY` (sops:
+  `slack_bot_token`, `slack_app_token`, `opencode_api_key`).
+- Slack connectivity is Socket Mode: an outbound WebSocket, so there is no
+  Tailscale Service and nothing exposed. The Slack app "percy" (in the
+  workspace, configured outside the repo) needs bot scopes `chat:write`,
+  `channels:history`, `channels:read`, `reactions:write`, app-level
+  `connections:write`, and event subscriptions for `message.channels`.
+  Invite it to #percy.
+
 ## LAN-only clients
 
 These use `192.168.10.101` directly because they can't run Tailscale:
