@@ -70,6 +70,12 @@ in
       "${config.home.homeDirectory}/nixfiles/dots/aerospace";
   };
 
+  xdg.configFile."hunk" = {
+    enable = pkgs.stdenv.isDarwin;
+    source = config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/nixfiles/dots/hunk";
+  };
+
   # Out-of-store so `wt config` edits land back in the repo
   xdg.configFile."worktrunk".source = config.lib.file.mkOutOfStoreSymlink
     "${config.home.homeDirectory}/nixfiles/dots/worktrunk";
@@ -94,6 +100,8 @@ in
       gnupg
 
       ffmpeg
+
+      pkgs-unstable.hunk
 
       (writeShellScriptBin
         "git-guess-default-branch"
