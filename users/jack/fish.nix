@@ -28,6 +28,9 @@ in
       # t -> tark is added conditionally in shellInit (only where the bin exists)
       pc = "pi -c";
       pu = "pi update --all";
+      cl = "clear";
+      c = "claude";
+      cc = "claude -c";
       caf = "caffeinate -i";
       cx = "chmod +x";
       y = "yarn";
