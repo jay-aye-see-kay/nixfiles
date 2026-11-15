@@ -83,6 +83,37 @@ function chunk(text: string): string[] {
 	return parts;
 }
 
+/**
+ * Coalesce rapid stage changes into rare chat.update calls (Slack's
+ * chat.update is tier-2, ~1/sec). The first set in a burst schedules one
+ * update; later sets only change the text that update will carry.
+ */
+export class StagePoster {
+	private pending?: NodeJS.Timeout;
+	private text = "thinking…";
+	constructor(
+		private readonly update: (text: string) => Promise<unknown>,
+		private readonly minIntervalMs = 1200,
+	) {}
+	set(text: string): void {
+		if (text === this.text) return;
+		this.text = text;
+		if (!this.pending) {
+			this.pending = setTimeout(() => {
+				this.pending = undefined;
+				void this.update(`_${this.text}_`);
+			}, this.minIntervalMs);
+		}
+	}
+	/** Drop a pending update so a stale stage can never overwrite the final reply. */
+	finish(): void {
+		if (this.pending) {
+				clearTimeout(this.pending);
+				this.pending = undefined;
+		}
+	}
+}
+
 async function main(): Promise<void> {
 	const botToken = process.env.SLACK_BOT_TOKEN;
 	const appToken = process.env.SLACK_APP_TOKEN;
@@ -121,36 +152,54 @@ async function main(): Promise<void> {
 			const threadTs = event.thread_ts ?? event.ts;
 			if (!threadTs) return;
 
-			// Acknowledge while working, so the thread knows percy saw it.
-			void web.reactions.add({ channel: channelId, timestamp: event.ts!, name: "eyes" }).catch(() => undefined);
 			log(`message from ${event.user} in thread ${threadTs}`);
 
 			enqueue(threadTs, async () => {
+				// A placeholder message carries progress: posted immediately, edited
+				// as stages change, and replaced by the reply at the end.
+				let placeholderTs: string | undefined;
+				try {
+					placeholderTs = (
+						await web.chat.postMessage({ channel: channelId, thread_ts: threadTs, text: "_thinking…_" })
+					).ts;
+				} catch {
+					/* no placeholder: fall back to posting the reply directly */
+				}
+				const stages = new StagePoster((text) =>
+					web.chat.update({ channel: channelId, ts: placeholderTs!, text }).then(() => undefined),
+				);
+				// Final text: edit the placeholder in place, post fresh if it is gone
+				const post = async (text: string) => {
+					stages.finish();
+					if (placeholderTs) {
+						try {
+							await web.chat.update({ channel: channelId, ts: placeholderTs, text });
+							return;
+						} catch {
+							/* fall through to a fresh message */
+						}
+					}
+					await web.chat.postMessage({ channel: channelId, thread_ts: threadTs, text });
+				};
 				try {
 					// Label the speaker so multi-person threads are readable to percy
 					const labeled = await labelMessage(web, event.user!, text);
-					const reply = (await percy.prompt(threadTs, labeled)).trim();
+					const reply = (await percy.prompt(threadTs, labeled, (stage) => stages.set(stage))).trim();
 					if (!reply) {
 						// A failed model call resolves with an empty message, not a throw
-						await web.chat.postMessage({
-							channel: channelId,
-							thread_ts: threadTs,
-							text: ":warning: percy got no reply from the model. Try again, or start a new thread.",
-						});
+						await post(":warning: percy got no reply from the model. Try again, or start a new thread.");
 						return;
 					}
-					for (const part of chunk(reply)) {
+					const parts = chunk(reply);
+					await post(parts[0]!);
+					// Long replies continue as fresh messages: a single message cannot
+					// grow past the chunk limit
+					for (const part of parts.slice(1)) {
 						await web.chat.postMessage({ channel: channelId, thread_ts: threadTs, text: part });
 					}
 				} catch (err) {
 					log("run failed:", err instanceof Error ? err.message : err);
-					await web.chat
-						.postMessage({
-							channel: channelId,
-							thread_ts: threadTs,
-							text: ":warning: percy hit an error, try again or start a new thread.",
-						})
-						.catch(() => undefined);
+					await post(":warning: percy hit an error, try again or start a new thread.").catch(() => undefined);
 				}
 			});
 		})();

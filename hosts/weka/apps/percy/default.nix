@@ -9,10 +9,9 @@
 #
 # Slack connectivity is Socket Mode only: an outbound WebSocket, so nothing
 # on weka is exposed and there is no Tailscale Service. The Slack app needs
-# bot scopes chat:write, channels:history, channels:read, reactions:write,
-# users:read (to label messages with the speaker's name), and
-# connections:write (app-level, for Socket Mode), with event
-# subscriptions for message.channels.
+# bot scopes chat:write, channels:history, channels:read, users:read (to
+# label messages with the speaker's name), and connections:write (app-level,
+# for Socket Mode), with event subscriptions for message.channels.
 #
 # Secrets (sops): slack_bot_token, slack_app_token, opencode_api_key.
 # The model is opencode-go/glm-5.3-flash, reachable via OPENCODE_API_KEY.

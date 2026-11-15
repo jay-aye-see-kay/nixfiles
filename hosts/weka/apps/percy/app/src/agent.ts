@@ -8,6 +8,7 @@ import {
 	SessionManager,
 	SettingsManager,
 	type AgentSession,
+	type AgentSessionEvent,
 } from "@earendil-works/pi-coding-agent";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -50,6 +51,47 @@ by name when replying.
 You are strictly read-only: you cannot edit files or run commands, so never
 claim to have changed anything. For questions about a service's status or
 recent behaviour, read the journal instead of guessing.`;
+
+/**
+ * Map a session event to a one-line progress stage, or undefined if it is not
+ * stage-worthy. Tool calls (including nested calls made from codemode
+ * scripts) describe what percy is inspecting; text deltas mark the writing
+ * phase.
+ */
+export function describeEvent(event: AgentSessionEvent): string | undefined {
+	switch (event.type) {
+		case "tool_execution_start": {
+			const input = (event.args ?? {}) as Record<string, unknown>;
+			switch (event.toolName) {
+				case "read":
+					return `reading ${String(input.path ?? "")}`;
+				case "grep":
+					return `grep ${String(input.pattern ?? "")}`;
+				case "find":
+					return `find ${String(input.query ?? input.pattern ?? "")}`;
+				case "ls":
+					return `ls ${String(input.path ?? "")}`;
+				case "codemode":
+					return "running a script";
+				default: {
+					// Percy's own tools (journal, …): the tool name plus scalar arguments
+					const args = Object.entries(input)
+						.filter(([, v]) => typeof v === "string" || typeof v === "number")
+						.map(([k, v]) => `${k}=${v}`)
+						.join(" ");
+					return args ? `${String(event.toolName)} ${args}` : String(event.toolName);
+				}
+			}
+		}
+		case "message_update":
+			if (event.assistantMessageEvent.type === "text_delta" && event.assistantMessageEvent.delta.trim()) {
+					return "writing the reply";
+			}
+			return undefined;
+		default:
+			return undefined;
+	}
+}
 
 interface ThreadEntry {
 	session: AgentSession;
@@ -148,14 +190,24 @@ export class Percy {
 	 * because the SDK rejects prompt() while a session is already streaming.
 	 * Resolves with the reply text; rejects if the run fails.
 	 */
-	async prompt(threadTs: string, text: string): Promise<string> {
+	async prompt(threadTs: string, text: string, onProgress?: (stage: string) => void): Promise<string> {
 		let entry = this.threads.get(threadTs);
 		if (!entry) {
 			entry = { session: await this.newSession(threadTs), chain: Promise.resolve(), lastUsed: Date.now() };
 			this.threads.set(threadTs, entry);
 		}
 		entry.lastUsed = Date.now();
-		const run = entry.chain.then(() => entry!.session.prompt(text)).then(() => entry!.session.getLastAssistantText() ?? "");
+		const run = entry.chain
+			.then(() => {
+				if (!onProgress) return entry!.session.prompt(text);
+				// Subscribe just before the run so progress maps to this prompt
+				const unsubscribe = entry!.session.subscribe((event) => {
+					const stage = describeEvent(event);
+					if (stage) onProgress(stage);
+				});
+				return entry!.session.prompt(text).finally(unsubscribe);
+			})
+			.then(() => entry!.session.getLastAssistantText() ?? "");
 		entry.chain = run.catch(() => undefined); // a failed run must not poison the chain
 		return run;
 	}
