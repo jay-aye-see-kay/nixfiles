@@ -186,9 +186,12 @@ systemd unit (read-only filesystem, DynamicUser, journal group access).
 - Slack connectivity is Socket Mode: an outbound WebSocket, so there is no
   Tailscale Service and nothing exposed. The Slack app "percy" (in the
   workspace, configured outside the repo) needs bot scopes `chat:write`,
-  `channels:history`, `channels:read`, `reactions:write`, app-level
-  `connections:write`, and event subscriptions for `message.channels`.
-  Invite it to #percy.
+  `channels:history`, `channels:read`, `reactions:write`, `users:read`
+  (labels messages with the speaker's name), app-level `connections:write`,
+  and event subscriptions for `message.channels`.
+  Invite it to #percy. Incoming messages are prefixed with the sender's
+  display name (`[Jack] …`) and mentions resolved to `@Name`, so percy can
+  tell who is who in multi-person threads.
 
 ## LAN-only clients
 

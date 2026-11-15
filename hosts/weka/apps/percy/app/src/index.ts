@@ -4,6 +4,7 @@
 import { loadConfig, Percy } from "./agent.js";
 import { SocketModeClient } from "@slack/socket-mode";
 import { WebClient } from "@slack/web-api";
+import { pathToFileURL } from "node:url";
 
 const SLACK_MESSAGE_CHUNK = 3900; // Slack rejects posts around 4k characters
 const SWEEP_INTERVAL_MS = 5 * 60 * 1000;
@@ -19,6 +20,35 @@ interface MessageEvent {
 	subtype?: string;
 	bot_id?: string;
 	user?: string;
+}
+
+/**
+ * Resolve a Slack user ID to a display name, cached (needs the users:read
+ * scope; falls back to the raw ID so a missing scope degrades gracefully).
+ */
+const userNames = new Map<string, string>();
+async function userName(web: WebClient, userId: string): Promise<string> {
+	let name = userNames.get(userId);
+	if (!name) {
+		try {
+			const info = await web.users.info({ user: userId });
+			const profile = info.user?.profile;
+			name = profile?.display_name || profile?.real_name || info.user?.name || userId;
+		} catch {
+			name = userId;
+		}
+		userNames.set(userId, name);
+	}
+	return name;
+}
+
+/** Label a message so percy can tell speakers apart: [Name] text, @Name mentions. */
+export async function labelMessage(web: WebClient, userId: string, text: string): Promise<string> {
+	const mention = /<@([A-Z0-9]+)>/g;
+	const needs = [userId, ...Array.from(text.matchAll(mention), (m) => m[1]!)];
+	await Promise.all(needs.map((id) => userName(web, id)));
+	const labeled = text.replace(mention, (_all, id: string) => `@${userNames.get(id) ?? id}`);
+	return `[${userNames.get(userId) ?? userId}] ${labeled}`;
 }
 
 /** Find the channel ID for the configured #channel name, unless an ID was given. */
@@ -97,7 +127,9 @@ async function main(): Promise<void> {
 
 			enqueue(threadTs, async () => {
 				try {
-					const reply = (await percy.prompt(threadTs, text)).trim();
+					// Label the speaker so multi-person threads are readable to percy
+					const labeled = await labelMessage(web, event.user!, text);
+					const reply = (await percy.prompt(threadTs, labeled)).trim();
 					if (!reply) {
 						// A failed model call resolves with an empty message, not a throw
 						await web.chat.postMessage({
@@ -136,7 +168,10 @@ async function main(): Promise<void> {
 	await socket.start();
 }
 
-main().catch((err) => {
-	console.error(err);
-	process.exit(1);
-});
+// Run only as the entry point, so tests can import the helpers
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+	main().catch((err) => {
+		console.error(err);
+		process.exit(1);
+	});
+}
