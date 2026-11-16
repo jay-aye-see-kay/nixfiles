@@ -19,6 +19,7 @@ in
     shellAbbrs = {
       _ = "sudo";
       g = "git";
+      hd = "hunk diff"; # maybe this replaces hotel abbr one day soon
       h = "hotel";
       s = lib.mkIf (!isDarwin) "systemctl";
       j = "just";
