@@ -178,22 +178,30 @@ Node app is built with npm (lockfile pinned) and runs behind a hardened
 systemd unit (read-only filesystem, DynamicUser, journal group access).
 
 - It is read-only: file tools are read/grep/find/ls, and the host is inspected
-  through the `percy` tool namespace (systemd journal today; prometheus,
-  alerts and more later), reached from codemode scripts so output can be
-  filtered before it reaches the model.
+  through the `percy` tool namespace (`units`, `status`, `journal` today;
+  prometheus, alerts and more later), reached from codemode scripts so output
+  can be filtered before it reaches the model.
 - The model is `opencode-go/glm-5.3-flash` via `OPENCODE_API_KEY` (sops:
-  `slack_bot_token`, `slack_app_token`, `opencode_api_key`).
+  `slack_bot_token`, `slack_app_token`, `opencode_api_key`), thinking level
+  `medium` (override with `PERCY_THINKING`).
 - Slack connectivity is Socket Mode: an outbound WebSocket, so there is no
   Tailscale Service and nothing exposed. The Slack app "percy" (in the
   workspace, configured outside the repo) needs bot scopes `chat:write`,
   `channels:history`, `channels:read`, `users:read`, app-level
-  `connections:write`, and event subscriptions for `message.channels`.
-  Invite it to #percy. Incoming messages are prefixed with the sender's
-  display name (`[Jack] …`) and mentions resolved to `@Name`, so percy can
-  tell who is who in multi-person threads. While working, percy posts a
-  placeholder message into the thread that it edits as the run progresses
-  ("running a script", "journal unit=…", "writing the reply") and finally
-  replaces with the reply — long replies continue as follow-up messages.
+  `connections:write`, event subscriptions for `message.channels` and
+  `agent_session_stopped`, Interactivity turned on, and the Agents feature
+  enabled. Invite it to #percy.
+- Incoming messages are prefixed with the sender's display name and the local
+  send time (`[Jack · Mon 16 Nov 14:05] …`) and mentions resolved to `@Name`,
+  so percy can tell who is who and what "this afternoon" means.
+- Replies use Slack's agent APIs: the thread is marked as a processing agent
+  session (`agents.sessions.setStatus`: loading indicator plus a stop button,
+  which aborts the run), and the reply streams into one message
+  (`chat.startStream`/`appendStream`/`stopStream`) with a task card per tool
+  call, updated live from running to done/failed. Codemode scripts are one
+  card, listing the tools they called. Long replies roll over into a new
+  streamed message. The final message carries 👍/👎 feedback buttons, logged
+  to `/var/lib/percy/feedback.jsonl`.
 
 ## LAN-only clients
 

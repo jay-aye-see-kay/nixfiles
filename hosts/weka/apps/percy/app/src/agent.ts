@@ -19,7 +19,10 @@ export interface PercyConfig {
 	channel: string;
 	model: { provider: string; id: string };
 	cwd: string;
+	thinkingLevel: ThinkingLevel;
 }
+
+type ThinkingLevel = "off" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max";
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): PercyConfig {
 	return {
@@ -28,70 +31,38 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): PercyConfig {
 		model: { provider: env.PERCY_MODEL_PROVIDER ?? "opencode-go", id: env.PERCY_MODEL ?? "glm-5.3-flash" },
 		// Read-only view of the whole filesystem; tools decide what is reachable.
 		cwd: env.PERCY_CWD ?? "/",
+		// Lookups here are shallow; "high" mostly bought slower turns
+		thinkingLevel: (env.PERCY_THINKING as ThinkingLevel | undefined) ?? "medium",
 	};
 }
 
-const SYSTEM_PROMPT = `You are percy, a read-only assistant living on weka, a NixOS home server.
+const SYSTEM_PROMPT = `You are percy, a read-only assistant living on weka, a NixOS home server
+(timezone Australia/Melbourne). You answer in a Slack thread in #percy.
 
-Every reply you write is posted to Slack's #percy channel, so:
-- Keep replies short and conversational; more detail only when asked.
-- Use plain text with Slack-style formatting (*bold*, _italic_, \`code\`). No headings, no tables unless asked.
+Replies are rendered as Markdown in Slack:
+- Lead with the answer. Keep it short and conversational; more detail only when asked.
+- Use **bold**, _italic_, \`code\`, bullet lists and fenced code blocks. No headings or tables unless asked.
+- Your tool calls already show in the thread as progress steps, so don't narrate them
+  ("let me check…"); if you write between tool calls, keep it to one short line.
 
-You can read the filesystem with the read, grep, find, and ls tools.
-You inspect the host through the percy tool namespace (currently: journal, the
-systemd log reader), which you reach from codemode scripts: tools.journal(...)
-returns { entries, truncated } — filter and aggregate in the script and return
-only the relevant lines. describeNamespace("percy") lists the namespace.
+Looking things up:
+- The percy tools are called from codemode scripts: \`await tools.units(...)\`,
+  \`tools.status(...)\`, \`tools.journal(...)\`. Do as much as you can in one script:
+  find the unit, read its logs, filter and count in JavaScript, and return only the
+  lines that answer the question (aim for under ~100 lines).
+- Containers run as podman-<name>.service (e.g. podman-homeassistant.service). If
+  unsure of a unit name, call tools.units({ pattern: "*name*" }) first rather than guessing.
+- Journal times are local. Each message tells you the current time; turn "this
+  afternoon" or "today" into since/until values from it.
+- Unit files (with the exact ExecStart and options) are readable under /etc/systemd/system.
 
-Several people may talk in one thread. Every message you receive is prefixed
-with the sender's display name in brackets, like [Jack] or [Nora], and mentions
-of others appear as @Name — use those to tell who said what and address people
-by name when replying.
+Several people may talk in one thread. Every message starts with a header like
+[Jack · Mon 16 Nov 14:05]: the sender's display name and the local time it was sent.
+Mentions of others appear as @Name. Use these to tell who said what.
 
-You are strictly read-only: you cannot edit files or run commands, so never
-claim to have changed anything. For questions about a service's status or
-recent behaviour, read the journal instead of guessing.`;
-
-/**
- * Map a session event to a one-line progress stage, or undefined if it is not
- * stage-worthy. Tool calls (including nested calls made from codemode
- * scripts) describe what percy is inspecting; text deltas mark the writing
- * phase.
- */
-export function describeEvent(event: AgentSessionEvent): string | undefined {
-	switch (event.type) {
-		case "tool_execution_start": {
-			const input = (event.args ?? {}) as Record<string, unknown>;
-			switch (event.toolName) {
-				case "read":
-					return `reading ${String(input.path ?? "")}`;
-				case "grep":
-					return `grep ${String(input.pattern ?? "")}`;
-				case "find":
-					return `find ${String(input.query ?? input.pattern ?? "")}`;
-				case "ls":
-					return `ls ${String(input.path ?? "")}`;
-				case "codemode":
-					return "running a script";
-				default: {
-					// Percy's own tools (journal, …): the tool name plus scalar arguments
-					const args = Object.entries(input)
-						.filter(([, v]) => typeof v === "string" || typeof v === "number")
-						.map(([k, v]) => `${k}=${v}`)
-						.join(" ");
-					return args ? `${String(event.toolName)} ${args}` : String(event.toolName);
-				}
-			}
-		}
-		case "message_update":
-			if (event.assistantMessageEvent.type === "text_delta" && event.assistantMessageEvent.delta.trim()) {
-					return "writing the reply";
-			}
-			return undefined;
-		default:
-			return undefined;
-	}
-}
+You are strictly read-only: you cannot edit files, restart services or run commands,
+so never claim to have changed anything. For questions about a service's status or
+recent behaviour, check status and the journal instead of guessing.`;
 
 interface ThreadEntry {
 	session: AgentSession;
@@ -167,6 +138,7 @@ export class Percy {
 			// read-only built-ins, plus codemode to reach the percy namespace.
 			settingsManager: SettingsManager.inMemory({
 				defaultTools: ["read", "grep", "find", "ls", "codemode"],
+				defaultThinkingLevel: this.cfg.thinkingLevel,
 			}),
 		});
 
@@ -188,9 +160,10 @@ export class Percy {
 	/**
 	 * Prompt the thread's session. Prompts to the same thread are serialized,
 	 * because the SDK rejects prompt() while a session is already streaming.
+	 * onEvent sees the run's events (text deltas, tool calls) as they happen.
 	 * Resolves with the reply text; rejects if the run fails.
 	 */
-	async prompt(threadTs: string, text: string, onProgress?: (stage: string) => void): Promise<string> {
+	async prompt(threadTs: string, text: string, onEvent?: (event: AgentSessionEvent) => void): Promise<string> {
 		let entry = this.threads.get(threadTs);
 		if (!entry) {
 			entry = { session: await this.newSession(threadTs), chain: Promise.resolve(), lastUsed: Date.now() };
@@ -199,17 +172,19 @@ export class Percy {
 		entry.lastUsed = Date.now();
 		const run = entry.chain
 			.then(() => {
-				if (!onProgress) return entry!.session.prompt(text);
-				// Subscribe just before the run so progress maps to this prompt
-				const unsubscribe = entry!.session.subscribe((event) => {
-					const stage = describeEvent(event);
-					if (stage) onProgress(stage);
-				});
+				if (!onEvent) return entry!.session.prompt(text);
+				// Subscribe just before the run so events map to this prompt
+				const unsubscribe = entry!.session.subscribe(onEvent);
 				return entry!.session.prompt(text).finally(unsubscribe);
 			})
 			.then(() => entry!.session.getLastAssistantText() ?? "");
 		entry.chain = run.catch(() => undefined); // a failed run must not poison the chain
 		return run;
+	}
+
+	/** Stop the thread's in-flight run, if any (Slack's stop button). */
+	async abort(threadTs: string): Promise<void> {
+		await this.threads.get(threadTs)?.session.abort();
 	}
 
 	/** Dispose sessions idle longer than ttlMs; their context stays on disk. */

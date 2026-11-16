@@ -2,11 +2,13 @@
 // window per thread. Slack Socket Mode only (outbound WebSocket), so nothing
 // on weka is exposed. Runs as a systemd service with its own state dir.
 import { loadConfig, Percy } from "./agent.js";
+import { FEEDBACK_ACTION_ID, presentEvents, SlackReply } from "./slack.js";
 import { SocketModeClient } from "@slack/socket-mode";
 import { WebClient } from "@slack/web-api";
+import { appendFile } from "node:fs/promises";
+import path from "node:path";
 import { pathToFileURL } from "node:url";
 
-const SLACK_MESSAGE_CHUNK = 3900; // Slack rejects posts around 4k characters
 const SWEEP_INTERVAL_MS = 5 * 60 * 1000;
 const SESSION_TTL_MS = 60 * 60 * 1000;
 
@@ -20,6 +22,8 @@ interface MessageEvent {
 	subtype?: string;
 	bot_id?: string;
 	user?: string;
+	team?: string;
+	user_team?: string;
 }
 
 /**
@@ -42,13 +46,33 @@ async function userName(web: WebClient, userId: string): Promise<string> {
 	return name;
 }
 
-/** Label a message so percy can tell speakers apart: [Name] text, @Name mentions. */
-export async function labelMessage(web: WebClient, userId: string, text: string): Promise<string> {
+/** Local send time, e.g. "Mon 16 Nov 14:05", so percy can resolve "today" or "this afternoon". */
+export function sentAt(ts: string | undefined): string {
+	const d = ts ? new Date(Number(ts) * 1000) : new Date();
+	const fmt = new Intl.DateTimeFormat("en-AU", {
+		weekday: "short",
+		day: "numeric",
+		month: "short",
+		hour: "2-digit",
+		minute: "2-digit",
+		hourCycle: "h23",
+	});
+	const p = Object.fromEntries(fmt.formatToParts(d).map((x) => [x.type, x.value]));
+	return `${p.weekday} ${p.day} ${p.month} ${p.hour}:${p.minute}`;
+}
+
+/**
+ * Label a message so percy can tell speakers apart and knows when it was
+ * sent: "[Name · Mon 16 Nov 14:05] text", with mentions as @Name. The time
+ * rides on the message rather than the system prompt, which keeps the prompt
+ * cacheable.
+ */
+export async function labelMessage(web: WebClient, userId: string, text: string, ts?: string): Promise<string> {
 	const mention = /<@([A-Z0-9]+)>/g;
 	const needs = [userId, ...Array.from(text.matchAll(mention), (m) => m[1]!)];
 	await Promise.all(needs.map((id) => userName(web, id)));
 	const labeled = text.replace(mention, (_all, id: string) => `@${userNames.get(id) ?? id}`);
-	return `[${userNames.get(userId) ?? userId}] ${labeled}`;
+	return `[${userNames.get(userId) ?? userId} · ${sentAt(ts)}] ${labeled}`;
 }
 
 /** Find the channel ID for the configured #channel name, unless an ID was given. */
@@ -65,53 +89,6 @@ async function resolveChannel(web: WebClient, channel: string): Promise<string> 
 		}
 	}
 	throw new Error(`Channel #${name} not found (is percy a member? conversations.list needs channels:read)`);
-}
-
-/** Split a reply into Slack-sized chunks, preferring newline boundaries. */
-function chunk(text: string): string[] {
-	if (text.length <= SLACK_MESSAGE_CHUNK) return [text];
-	const parts: string[] = [];
-	let rest = text;
-	while (rest.length > SLACK_MESSAGE_CHUNK) {
-		const window = rest.slice(0, SLACK_MESSAGE_CHUNK);
-		const cut = Math.max(window.lastIndexOf("\n\n"), window.lastIndexOf("\n"), window.lastIndexOf(" "));
-		const at = cut > SLACK_MESSAGE_CHUNK / 2 ? cut : SLACK_MESSAGE_CHUNK;
-		parts.push(rest.slice(0, at));
-		rest = rest.slice(at).replace(/^\n+/, "");
-	}
-	if (rest.trim()) parts.push(rest);
-	return parts;
-}
-
-/**
- * Coalesce rapid stage changes into rare chat.update calls (Slack's
- * chat.update is tier-2, ~1/sec). The first set in a burst schedules one
- * update; later sets only change the text that update will carry.
- */
-export class StagePoster {
-	private pending?: NodeJS.Timeout;
-	private text = "thinking…";
-	constructor(
-		private readonly update: (text: string) => Promise<unknown>,
-		private readonly minIntervalMs = 1200,
-	) {}
-	set(text: string): void {
-		if (text === this.text) return;
-		this.text = text;
-		if (!this.pending) {
-			this.pending = setTimeout(() => {
-				this.pending = undefined;
-				void this.update(`_${this.text}_`);
-			}, this.minIntervalMs);
-		}
-	}
-	/** Drop a pending update so a stale stage can never overwrite the final reply. */
-	finish(): void {
-		if (this.pending) {
-				clearTimeout(this.pending);
-				this.pending = undefined;
-		}
-	}
 }
 
 async function main(): Promise<void> {
@@ -135,13 +112,21 @@ async function main(): Promise<void> {
 		queues.set(threadTs, next.catch(() => undefined));
 	};
 
+	// The reply streaming in each thread, so Slack's stop button can find it
+	const active = new Map<string, SlackReply>();
+	const feedbackFile = path.join(cfg.stateDir, "feedback.jsonl");
+
+	const ackQuietly = async (ack: () => Promise<void>) => {
+		try {
+			await ack();
+		} catch {
+			/* ack can fail on shutdown; Slack redelivers */
+		}
+	};
+
 	socket.on("message", ({ body, ack }) => {
 		void (async () => {
-			try {
-				await ack();
-			} catch {
-				/* ack can fail on shutdown; the message stays queued client-side */
-			}
+			await ackQuietly(ack);
 			const event = body.event as MessageEvent | undefined;
 			if (!event || event.channel !== channelId) return;
 			// Only plain human messages: skip bots (percy's own replies), edits,
@@ -151,57 +136,79 @@ async function main(): Promise<void> {
 			if (!text) return;
 			const threadTs = event.thread_ts ?? event.ts;
 			if (!threadTs) return;
+			const userId = event.user;
+			const teamId = event.user_team ?? event.team ?? (body.team_id as string | undefined) ?? "";
 
-			log(`message from ${event.user} in thread ${threadTs}`);
+			log(`message from ${userId} in thread ${threadTs}`);
 
 			enqueue(threadTs, async () => {
-				// A placeholder message carries progress: posted immediately, edited
-				// as stages change, and replaced by the reply at the end.
-				let placeholderTs: string | undefined;
-				try {
-					placeholderTs = (
-						await web.chat.postMessage({ channel: channelId, thread_ts: threadTs, text: "_thinking…_" })
-					).ts;
-				} catch {
-					/* no placeholder: fall back to posting the reply directly */
-				}
-				const stages = new StagePoster((text) =>
-					web.chat.update({ channel: channelId, ts: placeholderTs!, text }).then(() => undefined),
+				const reply = new SlackReply(
+					web,
+					{ channel: channelId, threadTs, userId, teamId, title: text },
+					() => void percy.abort(threadTs),
 				);
-				// Final text: edit the placeholder in place, post fresh if it is gone
-				const post = async (text: string) => {
-					stages.finish();
-					if (placeholderTs) {
-						try {
-							await web.chat.update({ channel: channelId, ts: placeholderTs, text });
-							return;
-						} catch {
-							/* fall through to a fresh message */
-						}
-					}
-					await web.chat.postMessage({ channel: channelId, thread_ts: threadTs, text });
-				};
+				active.set(threadTs, reply);
+				const started = Date.now();
 				try {
+					await reply.begin();
 					// Label the speaker so multi-person threads are readable to percy
-					const labeled = await labelMessage(web, event.user!, text);
-					const reply = (await percy.prompt(threadTs, labeled, (stage) => stages.set(stage))).trim();
-					if (!reply) {
+					const labeled = await labelMessage(web, userId, text, event.ts);
+					const answer = (await percy.prompt(threadTs, labeled, presentEvents(reply))).trim();
+					if (!reply.stopped && !reply.hasText) {
 						// A failed model call resolves with an empty message, not a throw
-						await post(":warning: percy got no reply from the model. Try again, or start a new thread.");
-						return;
-					}
-					const parts = chunk(reply);
-					await post(parts[0]!);
-					// Long replies continue as fresh messages: a single message cannot
-					// grow past the chunk limit
-					for (const part of parts.slice(1)) {
-						await web.chat.postMessage({ channel: channelId, thread_ts: threadTs, text: part });
+						reply.text(
+							answer || ":warning: percy got no reply from the model. Try again, or start a new thread.",
+						);
 					}
 				} catch (err) {
 					log("run failed:", err instanceof Error ? err.message : err);
-					await post(":warning: percy hit an error, try again or start a new thread.").catch(() => undefined);
+					reply.text("\n\n:warning: percy hit an error, try again or start a new thread.");
+				} finally {
+					await reply.finish().catch((err) => log("reply failed:", err instanceof Error ? err.message : err));
+					active.delete(threadTs);
+					log(`replied in thread ${threadTs} after ${((Date.now() - started) / 1000).toFixed(1)}s`);
 				}
 			});
+		})();
+	});
+
+	// Slack's stop button on a processing agent session
+	socket.on("agent_session_stopped", ({ body, ack }) => {
+		void (async () => {
+			await ackQuietly(ack);
+			const event = body.event as { channel?: string; thread_ts?: string } | undefined;
+			if (!event?.thread_ts || event.channel !== channelId) return;
+			log(`stop requested in thread ${event.thread_ts}`);
+			const reply = active.get(event.thread_ts);
+			if (reply) reply.stopped = true;
+			await percy.abort(event.thread_ts);
+		})();
+	});
+
+	// Feedback buttons on finished replies: kept in feedback.jsonl for review
+	socket.on("interactive", ({ body, ack }) => {
+		void (async () => {
+			await ackQuietly(ack);
+			const payload = body as {
+				type?: string;
+				user?: { id?: string };
+				container?: { channel_id?: string; message_ts?: string; thread_ts?: string };
+				message?: { ts?: string; thread_ts?: string };
+				actions?: { action_id?: string; value?: string }[];
+			};
+			if (payload.type !== "block_actions") return;
+			const action = payload.actions?.find((a) => a.action_id === FEEDBACK_ACTION_ID);
+			if (!action) return;
+			const record = {
+				time: new Date().toISOString(),
+				value: action.value,
+				user: payload.user?.id,
+				channel: payload.container?.channel_id,
+				threadTs: payload.message?.thread_ts ?? payload.container?.thread_ts,
+				messageTs: payload.message?.ts ?? payload.container?.message_ts,
+			};
+			log(`feedback ${record.value} from ${record.user} in thread ${record.threadTs}`);
+			await appendFile(feedbackFile, `${JSON.stringify(record)}\n`).catch(() => undefined);
 		})();
 	});
 

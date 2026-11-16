@@ -2,16 +2,23 @@
 #
 # Every message in #percy prompts it; each Slack thread is its own context
 # window, persisted under /var/lib/percy/sessions (its own ZFS dataset), so
-# threads survive restarts and idle eviction. Replies are posted back into
-# the thread. It is read-only: the pi SDK session exposes read/grep/find/ls
-# plus the codemode-reached `percy` tool namespace (systemd journal today;
-# prometheus, alerts and friends later).
+# threads survive restarts and idle eviction. It is read-only: the pi SDK
+# session exposes read/grep/find/ls plus the codemode-reached `percy` tool
+# namespace (systemd units, unit status and the journal; prometheus, alerts
+# and friends later).
+#
+# Replies use Slack's agent UI: the thread becomes an agent session (loading
+# indicator and stop button while percy works), and the reply is one streamed
+# message with a task card per tool call, ending in feedback buttons
+# (recorded in /var/lib/percy/feedback.jsonl).
 #
 # Slack connectivity is Socket Mode only: an outbound WebSocket, so nothing
 # on weka is exposed and there is no Tailscale Service. The Slack app needs
-# bot scopes chat:write, channels:history, channels:read, users:read (to
-# label messages with the speaker's name), and connections:write (app-level,
-# for Socket Mode), with event subscriptions for message.channels.
+# bot scopes chat:write, channels:history, channels:read and users:read (to
+# label messages with the speaker's name), app-level connections:write (for
+# Socket Mode), event subscriptions for message.channels and
+# agent_session_stopped (the stop button), Interactivity on (feedback
+# buttons), and the Agents feature enabled in the app settings.
 #
 # Secrets (sops): slack_bot_token, slack_app_token, opencode_api_key.
 # The model is opencode-go/glm-5.3-flash, reachable via OPENCODE_API_KEY.
