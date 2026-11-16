@@ -12,8 +12,17 @@ return {
 		dependencies = { "SmiteshP/nvim-navic" },
 		config = function()
 			local navic = require("nvim-navic")
+			-- the theme's lualine palette tints the c section (which fills the bar)
+			-- even with transparent = true, so clear it
+			local theme = vim.deepcopy(require("lualine.themes.github_light"))
+			for _, mode in pairs(theme) do
+				if mode.c then
+					mode.c.bg = "NONE"
+				end
+			end
 			require("lualine").setup({
 				options = {
+					theme = theme,
 					globalstatus = true,
 					disabled_filetypes = {
 						winbar = { "", "neo-tree", "Outline", "fugitive" },
