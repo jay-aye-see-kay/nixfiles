@@ -183,7 +183,7 @@ systemd unit (read-only filesystem, DynamicUser, journal group access).
   can be filtered before it reaches the model.
 - The model is `opencode-go/glm-5.3-flash` via `OPENCODE_API_KEY` (sops:
   `slack_bot_token`, `slack_app_token`, `opencode_api_key`), thinking level
-  `medium` (override with `PERCY_THINKING`).
+  `low` (override with `PERCY_THINKING`; the model only has low/high/max).
 - Slack connectivity is Socket Mode: an outbound WebSocket, so there is no
   Tailscale Service and nothing exposed. The Slack app "percy" (in the
   workspace, configured outside the repo) needs bot scopes `chat:write`,

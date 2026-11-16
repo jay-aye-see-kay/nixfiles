@@ -83,6 +83,7 @@ const STATUS_PROPERTIES = [
 	"MemoryCurrent",
 	"CPUUsageNSec",
 	"Description",
+	"LoadState",
 ];
 
 type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
@@ -286,7 +287,8 @@ export default function percyTools(pi: ExtensionAPI): void {
 				const at = line.indexOf("=");
 				if (at > 0) props[line.slice(0, at)] = line.slice(at + 1);
 			}
-			if (props.ActiveState === "inactive" && !props.Description) return fail(`Unit ${params.unit} not found`);
+			// systemctl show exits 0 for unknown units, with Description set to the name
+			if (props.LoadState === "not-found") return fail(`Unit ${params.unit} not found`);
 			const mem = Number(props.MemoryCurrent);
 			if (Number.isFinite(mem)) props.MemoryCurrent = `${Math.round(mem / 1024 / 1024)} MiB`;
 			const cpu = Number(props.CPUUsageNSec);

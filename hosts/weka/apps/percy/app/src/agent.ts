@@ -31,8 +31,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): PercyConfig {
 		model: { provider: env.PERCY_MODEL_PROVIDER ?? "opencode-go", id: env.PERCY_MODEL ?? "glm-5.3-flash" },
 		// Read-only view of the whole filesystem; tools decide what is reachable.
 		cwd: env.PERCY_CWD ?? "/",
-		// Lookups here are shallow; "high" mostly bought slower turns
-		thinkingLevel: (env.PERCY_THINKING as ThinkingLevel | undefined) ?? "medium",
+		// Lookups here are shallow; "high" mostly bought slower turns. glm-5.3-flash
+		// only supports low/high/max, and pi clamps others upward (medium -> high).
+		thinkingLevel: (env.PERCY_THINKING as ThinkingLevel | undefined) ?? "low",
 	};
 }
 
