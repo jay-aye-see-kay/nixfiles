@@ -104,3 +104,39 @@ local function toggle_notes(ctx)
 end
 
 rex.bind("ctrl+shift+n", toggle_notes)
+
+-- cmd+o opens a project as a new session: fzf over zoxide's directories in a
+-- floating pane, then a session labelled after the directory, then the app's
+-- own rename prompt to accept or change that label.
+-- The picker is a shell script because Lua has no input UI; the floating pane
+-- closes itself when the script exits. Client actions run from the CLI here
+-- (session.select/rename) rely on Remote Control, which rex.nix turns on.
+local OPEN_SESSION_SCRIPT = [[
+set -e
+dir=$(zoxide query --list | fzf --scheme=path --layout=reverse --prompt='open session> ' --preview='ls -A {}') || exit 0
+id=$(rex new "$(basename "$dir")" --cwd "$dir" --json | jq --raw-output '.session_id')
+rex do session.select session_id="$id"
+rex do session.rename
+]]
+
+rex.action({
+	name = "open_session",
+	title = "Open Directory as Session…",
+	description = "Pick a directory with fzf, then start a named session there.",
+	keywords = "new session project directory zoxide",
+	run = function()
+		assert(rex.session.new_layer({
+			bounds = { 0.2, 0.15, 0.6, 0.6 },
+			focus = true,
+			layout = {
+				block = {
+					flavor = "com.superlogical.terminal.shell",
+					label = "open-session",
+					options = { command = { "sh", "-c", OPEN_SESSION_SCRIPT } },
+				},
+			},
+		}))
+	end,
+})
+
+rex.bind("cmd+o", "open_session")
