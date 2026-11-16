@@ -34,6 +34,19 @@ for key, direction in pairs({ h = "left", j = "down", k = "up", l = "right" }) d
 	end)
 end
 
+-- cmd+c and cmd+p go to nvim when it's in the foreground (it maps them to
+-- clipboard copy/paste in dots/nvim/lua/config/core.lua); elsewhere they keep
+-- their usual jobs.
+for key, action in pairs({ ["cmd+c"] = "pane.copy", ["cmd+p"] = "pane.go_to" }) do
+	rex.bind(key, function(ctx)
+		if is_vim(ctx) then
+			return false
+		end
+		rex.client.queue(action)
+		return true
+	end)
+end
+
 -- Scroll scrollback a page (ctrl+u/d plus shift, so the shell keeps ctrl+u/d).
 rex.bind("ctrl+shift+u", "client.scroll.page_up")
 rex.bind("ctrl+shift+d", "client.scroll.page_down")

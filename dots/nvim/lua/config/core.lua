@@ -69,6 +69,15 @@ vim.keymap.set({ "n", "x" }, "gy", '"+y', { desc = "Copy to system clipboard" })
 vim.keymap.set("n", "gp", '"+p', { desc = "Paste from system clipboard" })
 vim.keymap.set("x", "gp", '"+P', { desc = "Paste from system clipboard" })
 
+-- Mac-style cmd+c / cmd+p. Rex passes these through as <D-c>/<D-p> only when
+-- nvim is in the foreground (dots/rex/init.lua)
+if vim.fn.has("mac") == 1 then
+	vim.keymap.set("x", "<D-c>", '"+y', { desc = "Copy to system clipboard" })
+	vim.keymap.set("n", "<D-p>", '"+p', { desc = "Paste from system clipboard" })
+	vim.keymap.set("x", "<D-p>", '"+P', { desc = "Paste from system clipboard" })
+	vim.keymap.set({ "i", "c" }, "<D-p>", "<C-r>+", { desc = "Paste from system clipboard" })
+end
+
 -- Toggle options (some from mini.basics)
 vim.keymap.set(
 	"n",
