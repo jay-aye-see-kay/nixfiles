@@ -50,7 +50,8 @@ return {
 					},
 				},
 				inactive_winbar = {
-					lualine_b = { { "filename", path = 1 } },
+					-- inactive sections have no bg, so the separator renders as a stray triangle
+					lualine_b = { { "filename", path = 1, separator = "" } },
 				},
 				tabline = {
 					lualine_a = {
