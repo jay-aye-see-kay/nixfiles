@@ -178,9 +178,12 @@ Node app is built with npm (lockfile pinned) and runs behind a hardened
 systemd unit (read-only filesystem, DynamicUser, journal group access).
 
 - It is read-only: file tools are read/grep/find/ls, and the host is inspected
-  through the `percy` tool namespace (`units`, `status`, `journal` today;
-  prometheus, alerts and more later), reached from codemode scripts so output
-  can be filtered before it reaches the model.
+  through the `percy` tool namespace (`logs`/`logLabels` on Loki,
+  `query`/`queryRange`/`metrics`/`alerts`/`targets` on Prometheus and
+  Alertmanager, `units`/`status`, and `journal` as a fallback), reached from
+  codemode scripts so output can be filtered before it reaches the model.
+- Its sandbox hides `/home`, `/srv` and all of `/var/lib` except HA's config (minus `.storage`, backups, `secrets.yaml` and the Zigbee DB) and
+  its own state, since what it reads goes to the model provider.
 - The model is `opencode-go/glm-5.3-flash` via `OPENCODE_API_KEY` (sops:
   `slack_bot_token`, `slack_app_token`, `opencode_api_key`), thinking level
   `low` (override with `PERCY_THINKING`; the model only has low/high/max).

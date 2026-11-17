@@ -4,8 +4,15 @@
 # window, persisted under /var/lib/percy/sessions (its own ZFS dataset), so
 # threads survive restarts and idle eviction. It is read-only: the pi SDK
 # session exposes read/grep/find/ls plus the codemode-reached `percy` tool
-# namespace (systemd units, unit status and the journal; prometheus, alerts
-# and friends later).
+# namespace (Loki logs, Prometheus metrics and alerts, systemd units, and the
+# journal as a fallback).
+#
+# What it can read: Home Assistant's YAML config, generated unit files, and
+# the rest of the filesystem minus what the sandbox below hides. Everything
+# percy reads goes to the model provider, so secrets stay out of reach: most
+# of /var/lib is world-readable, including HA's secrets.yaml, integration
+# credentials (.storage) and the *arr API keys. (The repo isn't on weka;
+# putting it in the closure would change weka's hash on every commit.)
 #
 # Replies use Slack's agent UI: the thread becomes an agent session (loading
 # indicator and stop button while percy works), and the reply is one streamed
@@ -25,6 +32,7 @@
 { config, pkgs, ... }:
 let
   app = pkgs.callPackage ./app { };
+  hass = "/var/lib/hass";
 in
 {
   sops.secrets = {
@@ -46,6 +54,14 @@ in
     after = [ "network-online.target" ];
     wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
+    # pi's grep and find tools shell out to rg and fd, and download them from
+    # GitHub at runtime if they're not on PATH
+    path = [ pkgs.ripgrep pkgs.fd ];
+    environment = {
+      PERCY_PROMETHEUS_URL = "http://127.0.0.1:${toString config.services.prometheus.port}";
+      PERCY_ALERTMANAGER_URL = "http://127.0.0.1:${toString config.services.prometheus.alertmanager.port}";
+      PERCY_LOKI_URL = "http://127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}";
+    };
     serviceConfig = {
       DynamicUser = true;
       # Reading the journal needs the journal group
@@ -59,8 +75,29 @@ in
       # is the only writable path
       NoNewPrivileges = true;
       ProtectSystem = "strict";
-      ProtectHome = "read-only";
+      ProtectHome = true;
       PrivateTmp = true;
+      # An allowlist for app state: /var/lib and /srv are empty except for
+      # HA's config and percy's StateDirectory (which systemd mounts on
+      # top). HA's dir is bound whole, not file by file, because HA replaces
+      # files by rename, which a file bind wouldn't follow. Inside it, .storage
+      # (integration credentials), backups, secrets.yaml and the Zigbee DB
+      # (network key) are hidden. HA never rewrites secrets.yaml, so masking
+      # that file stays put.
+      TemporaryFileSystem = [
+        "/var/lib:ro"
+        "/srv:ro"
+        "${hass}/.storage:ro"
+        "${hass}/backups:ro"
+        "${hass}/.cloud:ro"
+      ];
+      BindReadOnlyPaths = [ hass ];
+      InaccessiblePaths = map (f: "-${hass}/${f}") [
+        "secrets.yaml"
+        "zigbee.db"
+        "zigbee.db-wal"
+        "zigbee.db-shm"
+      ];
       # Percy logs to stdout (and can read its own journal entries)
     };
   };

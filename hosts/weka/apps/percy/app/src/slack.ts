@@ -338,6 +338,20 @@ export function describeToolCall(toolName: string, args: unknown): string {
 			return `Listing services${s("pattern") ? ` matching ${s("pattern")}` : ""}${s("state") ? ` (${s("state")})` : ""}`;
 		case "status":
 			return `Checking ${s("unit")}`;
+		case "logs":
+			return `Searching logs: ${s("query")}${s("since") ? ` since ${s("since")}` : ""}`;
+		case "logLabels":
+			return s("label") ? `Listing log ${s("label")} values` : "Listing log labels";
+		case "query":
+			return `Querying metrics: ${s("query")}`;
+		case "queryRange":
+			return `Graphing metrics: ${s("query")}${s("since") ? ` since ${s("since")}` : ""}`;
+		case "metrics":
+			return `Finding metrics${s("match") ? ` matching ${s("match")}` : ""}`;
+		case "alerts":
+			return "Checking alerts";
+		case "targets":
+			return "Checking scrape targets";
 		default: {
 			const scalars = Object.entries(a)
 				.filter(([, v]) => typeof v === "string" || typeof v === "number")

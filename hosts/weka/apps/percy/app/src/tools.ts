@@ -2,9 +2,12 @@
 // Everything lives in the "percy" namespace with codemode exposure: the model
 // reaches these through codemode scripts (tools.<name>(...)), never by calling
 // them directly, so scripts can filter and aggregate before output reaches
-// the model. Future tools (prometheus, alerts, docs) join the same namespace.
+// the model. This file has the systemd tools; monitoring.ts adds Prometheus,
+// Alertmanager and Loki to the same namespace.
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
+import { annotations, fail, localTime, namespace, type ToolResult } from "./common.js";
+import monitoringTools from "./monitoring.js";
 
 // journalctl/systemctl get each value as its own argv entry, so there is no
 // injection risk; these whitelists just keep -u meaning a unit and stop a
@@ -86,16 +89,6 @@ const STATUS_PROPERTIES = [
 	"LoadState",
 ];
 
-type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
-type ToolResult = {
-	content: { type: "text"; text: string }[];
-	structuredContent?: { [key: string]: Json };
-	details: Record<string, never>;
-	isError?: boolean;
-};
-
-const fail = (text: string): ToolResult => ({ isError: true, details: {}, content: [{ type: "text", text }] });
-
 function priorityName(p: unknown): string {
 	return PRIORITIES[Number(p)] ?? `p${String(p)}`;
 }
@@ -117,32 +110,13 @@ export function decodeMessage(raw: unknown): string {
 	return text.length > MAX_MESSAGE_CHARS ? `${text.slice(0, MAX_MESSAGE_CHARS)}… [${text.length} chars]` : text;
 }
 
-/** Local wall-clock time without the zone (the prompt states the zone once). */
-export function localTime(micros: unknown): string {
-	const d = new Date(Number(micros) / 1000);
-	const pad = (n: number) => String(n).padStart(2, "0");
-	return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
-}
-
 export default function percyTools(pi: ExtensionAPI): void {
-	const namespace = {
-		name: "percy",
-		description: "Read-only tools for inspecting the weka host",
-		instructions:
-			"Percy's tools for the host it runs on. Call them from codemode scripts (await tools.<name>(args)), " +
-			"filter and aggregate there, and return only the relevant lines. " +
-			"units({pattern?, state?}) lists systemd services/timers; status({unit}) gives one unit's state, uptime and restarts; " +
-			"journal({unit?, since?, until?, priority?, grep?, lines?}) returns { entries: [{ time, unit, priority, message }], truncated }. " +
-			"Containers run as podman-<name>.service. Times are local. Find the unit with units() before filtering the journal by it.",
-	};
-	const annotations = { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false };
-
 	pi.registerTool({
 		name: "journal",
 		label: "Journal",
-		description: "Read systemd journal (log) entries from this host, oldest first. Filter by unit, time, priority, or message regex.",
-		promptSnippet: "read systemd journal entries for this host (codemode)",
-		promptGuidelines: ["Check the journal with the journal tool instead of guessing about service behaviour."],
+		description:
+			"Read systemd journal entries straight from journald, oldest first. A fallback for the logs tool (Loki): use it when Loki or Alloy is down, or for entries from the last few seconds.",
+		promptSnippet: "read journald directly, a fallback for logs (codemode)",
 		namespace,
 		exposure: "codemode",
 		annotations,
@@ -189,7 +163,7 @@ export default function percyTools(pi: ExtensionAPI): void {
 						return [
 							{
 								ts: Number(e.__REALTIME_TIMESTAMP),
-								time: localTime(e.__REALTIME_TIMESTAMP),
+								time: localTime(Number(e.__REALTIME_TIMESTAMP) / 1000),
 								unit: String(e._SYSTEMD_UNIT ?? e.SYSLOG_IDENTIFIER ?? "-"),
 								priority: priorityName(e.PRIORITY),
 								message: decodeMessage(e.MESSAGE),
@@ -300,4 +274,6 @@ export default function percyTools(pi: ExtensionAPI): void {
 			};
 		},
 	});
+
+	monitoringTools(pi);
 }
