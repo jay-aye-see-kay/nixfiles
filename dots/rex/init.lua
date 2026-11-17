@@ -37,14 +37,24 @@ end
 -- cmd+c and cmd+p go to nvim when it's in the foreground (it maps them to
 -- clipboard copy/paste in dots/nvim/lua/config/core.lua); elsewhere they keep
 -- their usual jobs.
-for key, action in pairs({ ["cmd+c"] = "pane.copy", ["cmd+p"] = "pane.go_to" }) do
-	rex.bind(key, function(ctx)
-		if is_vim(ctx) then
-			return false
-		end
-		rex.client.queue(action)
-		return true
-	end)
+-- These are actions, not function bindings, because a key handler can't
+-- rex.client.queue (it errors and the key does nothing).
+for key, a in pairs({
+	["cmd+c"] = { name = "copy_or_vim", title = "Copy (or cmd+c in Neovim)", action = "pane.copy" },
+	["cmd+p"] = { name = "go_to_or_vim", title = "Go to Anything (or cmd+p in Neovim)", action = "pane.go_to" },
+}) do
+	rex.action({
+		name = a.name,
+		title = a.title,
+		run = function(ctx)
+			if is_vim(ctx) then
+				rex.client.queue("pane.send_key", { key = key })
+			else
+				rex.client.queue(a.action)
+			end
+		end,
+	})
+	rex.bind(key, a.name)
 end
 
 -- Scroll scrollback a page (ctrl+u/d plus shift, so the shell keeps ctrl+u/d).
