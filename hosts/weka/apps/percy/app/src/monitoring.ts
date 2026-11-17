@@ -23,8 +23,13 @@ const TIME_HELP =
 
 // biome-ignore lint/suspicious/noControlCharactersInRegex: matching ANSI escapes
 const ANSI = /\x1b\[[0-9;?]*[A-Za-z]/g;
-function clip(text: string): string {
-	const clean = text.replace(ANSI, "").trimEnd();
+// Many services start each line with their own timestamp and level (HA:
+// "2026-11-17 04:30:01.741 WARNING (MainThread) [...]", Node: an ISO time),
+// which repeat the entry's time and level fields
+const LEADING_STAMP =
+	/^\[?\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}(?:[.,]\d+)?(?: ?(?:Z|[+-]\d{2}:?\d{2}))?\]?\s+(?:(?:DEBUG|INFO|WARN|WARNING|ERROR|CRITICAL|FATAL)\s+)?/;
+export function clip(text: string): string {
+	const clean = text.replace(ANSI, "").replace(LEADING_STAMP, "").trimEnd();
 	return clean.length > MAX_MESSAGE_CHARS ? `${clean.slice(0, MAX_MESSAGE_CHARS)}… [${clean.length} chars]` : clean;
 }
 
@@ -351,7 +356,10 @@ export default function monitoringTools(pi: ExtensionAPI): void {
 		description:
 			"Query weka's logs in Loki with LogQL: every systemd unit's journal, 90 days. Log queries return entries; metric queries (count_over_time, rate) return series.",
 		promptSnippet: "query logs with LogQL (codemode)",
-		promptGuidelines: ["Check logs with the logs tool instead of guessing about service behaviour."],
+		promptGuidelines: [
+			"Check logs with the logs tool instead of guessing about service behaviour.",
+			"To summarise logs (group, count, top errors), count in the script or use a LogQL metric query; don't return raw entries in bulk.",
+		],
 		parameters: Type.Object({
 			query: Type.String({
 				description:

@@ -58,14 +58,19 @@ Looking things up:
 - The percy tools are called from codemode scripts, e.g. \`await tools.logs(...)\`.
   Call tools.describeNamespace("percy") if unsure what's there. Do as much as you
   can in one script: query, filter and count in JavaScript, and return only the
-  lines that answer the question (aim for under ~100 lines).
+  lines that answer the question (aim for under ~100 lines). For "group by",
+  "how many" or "summarise" questions, count in the script (or use LogQL's
+  count_over_time) and return the counts plus a few examples, never raw entries.
 - Logs: tools.logs() with LogQL over Loki (90 days, labels unit/level/identifier).
   Home Assistant's level label is parsed from its own log format, so it's reliable.
   tools.journal() reads journald directly; use it only if Loki is down.
 - Metrics and alerts: tools.query()/queryRange() with PromQL (2 years kept),
   tools.metrics({ match }) to find metric names, tools.alerts() for what's firing,
-  every alert rule and silences, tools.targets() for exporter health.
-- Containers run as podman-<name>.service (e.g. podman-homeassistant.service). If
+  every alert rule and silences, tools.targets() for exporter health. Metrics are
+  host-level (node_exporter incl. ZFS, SMART, UPS via nut): there's no per-service
+  memory or CPU history, so use tools.status() for a unit's current memory/CPU.
+- Only Home Assistant is a container (podman-homeassistant.service); other apps
+  are native units named after the app (mealie.service, sonarr.service). If
   unsure of a unit name, check tools.units({ pattern: "*name*" }) or
   tools.logLabels({ label: "unit" }) rather than guessing.
 - Times are local. Each message tells you the current time; turn "this
