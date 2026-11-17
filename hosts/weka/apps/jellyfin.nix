@@ -4,12 +4,17 @@
 # rpool/crypt/data/jellyfin. The media is on tank1 at
 # /srv/media. The library stores absolute paths, so keep media there.
 # @see: https://wiki.nixos.org/wiki/Jellyfin
+{ pkgs-unstable, ... }:
 let
   port = 8096;
 in
 {
   services.jellyfin = {
     enable = true;
+    # The Apple TV app needs server 12.1+; stable is still on 10.11. The
+    # upgrade migrates the database one way, so going back means restoring
+    # rpool/crypt/data/jellyfin from a snapshot, not just changing this.
+    package = pkgs-unstable.jellyfin;
     # Not on the LAN: every client (Apple TV included) has Tailscale
     openFirewall = false;
   };
