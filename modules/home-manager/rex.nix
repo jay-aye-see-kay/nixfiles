@@ -24,14 +24,33 @@ in
       "Workspace.animationStyle" = "snappy";
       "Workspace.paneDensity" = "compact";
       "Workspace.showsPaneHeaders" = true;
+      "Workspace.appearance" = "light";
+      "Workspace.interfaceStyle" = "blendTheme";
+      # glass lets nvim's transparent background show through
+      "Workspace.usesPaneGlass" = true;
+      "Workspace.terminalPaddingColor" = "background";
+      "Workspace.terminalSelectionForeground" = "theme";
 
       # terminal text
+      "Workspace.terminalFontPointSize" = 13.0;
+      "Workspace.terminalCellHeightPercent" = 0.0;
       "Workspace.terminalAllowsLigatures" = false;
       "Workspace.terminalSmoothScrolling" = true;
 
+      # cursor
+      "Workspace.terminalCursorStyle" = "block";
+      "Workspace.cursorShadersEnabled" = true;
+      "Workspace.cursorShader" = "warp";
+
       # tabs and sidebar
-      "Workspace.tabStyle" = "vertical";
+      "Workspace.tabStyle" = "horizontal";
       "Workspace.sidebarPosition" = "left";
+      "Workspace.sidebarShowsActivity" = false;
+      "Workspace.sidebarSwipe" = "off";
+      "Workspace.sidebarTextPointSize" = 13.0;
+
+      # agents
+      "rex.agents.names-sessions" = false;
 
       # app and server
       # remote control is needed for smart-splits-backend-rex's resize path

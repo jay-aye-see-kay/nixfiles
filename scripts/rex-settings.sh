@@ -54,7 +54,7 @@ IGNORED = [
     "Workspace.darkThemeID", "Workspace.inactivePaneFadeMode",
     "Workspace.tintsPanesWithProgramBackground",
     "Workspace.usesStandardInactiveWindowPaneStyles",
-    "Workspace.terminalFontPointSize", "Workspace.terminalFontSmoothing",
+    "Workspace.terminalFontSmoothing",
     "Workspace.tabsFillAvailableSpace", "Workspace.tabIconCount",
     "Workspace.tabIconTintMode", "Workspace.sidebarWidth",
     "rex.server.block-plugin-reload-enabled",
