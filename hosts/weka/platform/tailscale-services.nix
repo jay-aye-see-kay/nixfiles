@@ -48,11 +48,14 @@ in
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
-        # tailscaled can take a moment to come up at boot
         Restart = "on-failure";
         RestartSec = 5;
       };
-      script = lib.concatStrings (lib.mapAttrsToList
+      # tailscaled is "started" before its backend is Running, and serve fails
+      # with "unexpected state: NoState" until it is
+      script = ''
+        ${tailscale} wait
+      '' + lib.concatStrings (lib.mapAttrsToList
         (name: svc: ''
           ${tailscale} serve clear svc:${name} || true
           ${tailscale} serve --bg --service=svc:${name} --https=443 http://${svc.host}:${toString svc.port}

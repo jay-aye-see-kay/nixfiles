@@ -16,6 +16,10 @@
     tailscaleServe.enable = true;
   };
 
+  # Both units rewrite tailscaled's serve config, and running at the same time
+  # makes one fail with "etag mismatch"
+  systemd.services.rex-tailscale-serve.after = [ "tailscale-services.service" ];
+
   # Keep jack's server (and its sessions) running while logged out and
   # from boot, rather than only during a login session.
   users.users.jack.linger = true;
