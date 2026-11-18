@@ -80,12 +80,10 @@ in
       stylua
       nixpkgs-fmt
 
-      # gotools includes a 'stress' binary that conflicts with the stress package (rm it)
-      (gotools.overrideAttrs (old: {
-        postInstall = (old.postInstall or "") + ''
-          rm -f $out/bin/stress
-        '';
-      }))
+      # gotools ships a 'stress' binary that conflicts with the stress package; let
+      # stress win. lowPrio only touches meta, so gotools still comes from cache
+      # (an overrideAttrs would force a local rebuild on every update)
+      (lib.lowPrio gotools)
 
       # Debuggers
       delve
