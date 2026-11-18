@@ -15,5 +15,6 @@
     ./plex.nix
     ./arr
     ./percy
+    ./rex.nix
   ];
 }

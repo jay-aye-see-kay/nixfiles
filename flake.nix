@@ -14,9 +14,12 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     vpn-confinement.url = "github:Maroka-chan/VPN-Confinement";
+
+    rex.url = "https://pkgs.superlogical.com/rex/nix/snapshot.tar.gz";
+    rex.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, disko, sops-nix, vpn-confinement, ... }@inputs:
+  outputs = { nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, disko, sops-nix, vpn-confinement, rex, ... }@inputs:
     let
       username = "jack";
 
@@ -119,6 +122,7 @@
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
           vpn-confinement.nixosModules.default
+          rex.nixosModules.default
           ./hosts/weka
           ./modules/nixos
           {

@@ -11,6 +11,13 @@ in
   config = lib.mkIf cfg.enable {
     # Lua config: keybindings and actions. Rex has no Lua API for app settings,
     # so those are managed via user defaults below.
+    #
+    # The server reads init.lua, so sessions on weka use weka's copy
+    # (hosts/weka/apps/rex.nix). These bindings don't work there yet:
+    # - ctrl+h/j/k/l moves between Rex panes, but weka's nvim has no
+    #   smart-splits, so focus doesn't come back out of nvim
+    # - ctrl+shift+n notes: there's no ~/obsidian/notes on weka
+    # - cmd+o open session: weka has no zoxide, fzf or jq
     xdg.configFile."rex/init.lua".source = config.lib.file.mkOutOfStoreSymlink
       "${config.home.homeDirectory}/nixfiles/dots/rex/init.lua";
 
