@@ -16,5 +16,6 @@
     ./arr
     ./percy
     ./rex.nix
+    ./fluidcad.nix
   ];
 }
