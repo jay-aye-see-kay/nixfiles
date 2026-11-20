@@ -3,8 +3,8 @@
 # geometry kernel runs here; the browser only renders.
 #
 # Its Agent panel runs Claude Code on the Claude subscription. The image has no
-# Claude Code, so the nixpkgs one is mounted in with the (read-only) store and
-# put on PATH. It must be signed in once, as the container's user:
+# Claude Code, so the nixpkgs one is mounted in (just its closure, read-only)
+# and put on PATH. It must be signed in once, as the container's user:
 #   sudo podman exec -it fluidcad claude auth login
 # The login lands in /var/lib/fluidcad/home/.claude and Claude Code refreshes it.
 #
@@ -17,11 +17,20 @@
 # Claude Code must be >= 2.1.259, so it comes from unstable.
 # @see: https://fluidcad.io/docs/installation#docker
 # @see: https://fluidcad.io/docs/agent
-{ pkgs-unstable, ... }:
+{ pkgs, pkgs-unstable, ... }:
 let
   port = 3100;
   tag = "0.0.52";
   dataDir = "/var/lib/fluidcad";
+  claude = pkgs-unstable.claude-code;
+  # Only Claude Code's closure, not the whole store: copied into one tree that
+  # the container mounts as /nix/store, so its paths resolve unchanged. (One
+  # bind mount per store path would need the list at eval time, i.e. IFD.)
+  # auto-optimise-store hardlinks the copies back to the originals.
+  claudeStore = pkgs.runCommand "fluidcad-claude-store" { } ''
+    mkdir -p $out
+    cp -a $(cat ${pkgs.closureInfo { rootPaths = [ claude ]; }}/store-paths) $out/
+  '';
   # Fixed, so files written in the container map to the fluidcad user here
   uid = 3100;
 in
@@ -44,12 +53,12 @@ in
         "${dataDir}/projects:/app/projects"
         # HOME: ~/.fluidcad (engines, recents, previews) and Claude's login
         "${dataDir}/home:/home/node"
-        "/nix/store:/nix/store:ro"
+        "${claudeStore}:/nix/store:ro"
       ];
       environment = {
         HOME = "/home/node";
         # node is in /usr/local/bin in the image
-        PATH = "${pkgs-unstable.claude-code}/bin:/usr/local/bin:/usr/bin:/bin";
+        PATH = "${claude}/bin:/usr/local/bin:/usr/bin:/bin";
         FLUIDCAD_NO_AUTH = "1";
         # The origin pages are served from (Tailscale terminates TLS), and the
         # only non-loopback Host it answers to. Loopback is always allowed,
