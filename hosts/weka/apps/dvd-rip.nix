@@ -11,6 +11,9 @@
 #                disc to rips/incoming/<label>, then ejects.
 #   dvd-encode   started after each rip (OnSuccess), works through incoming/ one disc at a
 #                time, at low CPU priority so Jellyfin's transcodes still win.
+#                A disc HandBrake fails on goes to rips/failed/ and the queue
+#                carries on. Leftovers after a reboot wait for the next rip, or
+#                `sudo systemctl start dvd-encode`.
 #
 # Discs dvdbackup chokes on (bad sectors, structure protection) want MakeMKV
 # instead: unfree, and needs its beta key in ~/.MakeMKV/settings.conf.
@@ -25,6 +28,7 @@ let
   rips = "/srv/media/rips";
   incoming = "${rips}/incoming";
   encoded = "${rips}/encoded";
+  failed = "${rips}/failed";
 
   # Titles outside this range are skipped. Under: menus, trailers, recaps.
   # Over: the "play all" title that's every episode back to back. Raise the
@@ -32,9 +36,12 @@ let
   minSeconds = 15 * 60;
   maxSeconds = 75 * 60;
 
-  # Australian discs are PAL. Matroska keeps every audio and (bitmap)
-  # subtitle track without converting them.
-  preset = "H.265 MKV 576p25";
+  # Australian discs are PAL, hence 576p25. x264 medium rather than x265: at
+  # SD the size difference is small (~1-1.5 GB/hour vs ~0.6-1), x265 takes
+  # several times the CPU, and every Jellyfin client plays H.264 without a
+  # transcode. The built-in H.265 MKV presets are 10-bit x265 slow, the worst
+  # of both. Matroska keeps the bitmap subtitles as they are.
+  preset = "H.264 MKV 576p25";
 
   # Builds with the GTK GUI by default, which is only closure size on a
   # headless box. `.override { useGtk = false; }` drops it, at the cost of
@@ -46,9 +53,10 @@ let
     unitConfig.RequiresMountsFor = [ "/srv/media" ];
     serviceConfig = {
       Type = "oneshot";
-      DynamicUser = true;
-      # cdrom for /dev/sr*, media to write next to the library
-      SupplementaryGroups = [ "cdrom" "media" ];
+      # A real user rather than DynamicUser: the files outlive the units and
+      # end up in the library, where a recycled dynamic UID would own them.
+      User = "dvd-rip";
+      Group = "media";
       UMask = "0002";
       ProtectSystem = "strict";
       ReadWritePaths = [ rips ];
@@ -60,6 +68,15 @@ let
   };
 in
 {
+  # cdrom for /dev/sr*, media to write next to the library
+  users.users.dvd-rip = {
+    isSystemUser = true;
+    group = "media";
+    extraGroups = [ "cdrom" ];
+  };
+  # To move the encodes into the library and clear out rips/ without sudo
+  users.users.jack.extraGroups = [ "media" ];
+
   # The drive appears as sr0 (sr1 for a second one). "change" is the disc
   # going in, not the drive being plugged in. RUN rather than SYSTEMD_WANTS,
   # which systemd only acts on for "add".
@@ -102,8 +119,10 @@ in
       CPUWeight = 20;
       IOSchedulingClass = "idle";
       PrivateDevices = true;
-      # A season of SD DVDs is a few hours per disc in software x265
-      TimeoutStartSec = "infinity";
+      # Two of the four cores, so the box stays cool and quiet while a queue
+      # of discs works through. x264 still encodes SD faster than real time.
+      CPUQuota = "200%";
+      # Oneshot, so no start timeout by default: a disc takes an hour or two
     };
     script = ''
       set -euo pipefail
@@ -112,6 +131,16 @@ in
       # A disc ripped while this is running doesn't start a second run (the
       # start merges into this one), so look again until incoming/ is done.
       # A disc with no usable titles is skipped and stays put.
+      mkdir -p ${failed}
+
+      # Out of the queue, so one bad disc doesn't block the ones after it
+      fail() {
+        echo "$2, moving $name to ${failed}" >&2
+        local dest="${failed}/$name"
+        [ -e "$dest" ] && dest="$dest-$(date +%Y%m%d-%H%M%S)"
+        mv -T "$1" "$dest"
+      }
+
       declare -A seen
       while :; do
         found=
@@ -134,17 +163,26 @@ in
                 | .Index')
 
           if [ -z "$titles" ]; then
-            echo "No titles between ${toString minSeconds}s and ${toString maxSeconds}s in $name, leaving it in ${incoming}" >&2
+            fail "$src" "No titles between ${toString minSeconds}s and ${toString maxSeconds}s"
             continue
           fi
 
           for t in $titles; do
             dest=$(printf '%s/title_%02d.mkv' "$out" "$t")
             [ -e "$dest" ] && continue
-            HandBrakeCLI -i "$src" -t "$t" -o "$dest.part" \
+            # Audio copied as-is (AC3, DTS and MP2 are all small at DVD
+            # bitrates), keeping 5.1. The preset would make every track
+            # stereo AAC. LPCM can't be copied, so falls back to that.
+            if ! HandBrakeCLI -i "$src" -t "$t" -o "$dest.part" \
               --preset "${preset}" \
-              --all-audio --all-subtitles \
-              --markers
+              --all-audio --aencoder copy \
+              --audio-copy-mask ac3,dts,mp2,aac --audio-fallback aac \
+              --all-subtitles \
+              --markers; then
+              rm -f "$dest.part"
+              fail "$src" "HandBrake failed on title $t"
+              continue 2
+            fi
             mv "$dest.part" "$dest"
           done
 
