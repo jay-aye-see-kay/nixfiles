@@ -13,6 +13,7 @@
     ./home-assistant.nix
     ./jellyfin.nix
     ./plex.nix
+    ./dvd-rip.nix
     ./arr
     ./percy
     ./rex.nix
