@@ -23,6 +23,9 @@ in
 
   boot = {
     loader.systemd-boot.enable = true;
+    # /boot is 1 GB and every kernel+initrd pair lands there; cap it so
+    # generations kept for 30 days by nix.gc can't fill it
+    loader.systemd-boot.configurationLimit = 10;
     loader.efi.canTouchEfiVariables = true;
 
     supportedFilesystems = [ "zfs" ];

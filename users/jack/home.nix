@@ -202,4 +202,15 @@ in
       enableGitIntegration = true;
     };
   };
+
+  # Standalone home-manager on the Macs has no system nix.gc, so old
+  # generations and their store paths pile up. tui's home-manager runs inside
+  # NixOS and has no generations of its own.
+  services.home-manager.autoExpire = lib.mkIf pkgs.stdenv.isDarwin {
+    enable = true;
+    frequency = "weekly";
+    timestamp = "-30 days";
+    store.cleanup = true;
+    store.options = "--delete-older-than 30d";
+  };
 }

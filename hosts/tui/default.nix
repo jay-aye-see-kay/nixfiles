@@ -18,6 +18,8 @@ in
     supportedFilesystems = [ "zfs" ];
     zfs.devNodes = "/dev/";
     zfs.requestEncryptionCredentials = true;
+    # Fixed hostId, so never force-import (the 26.11 default)
+    zfs.forceImportRoot = false;
   };
 
   networking = {
