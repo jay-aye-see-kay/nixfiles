@@ -2,7 +2,8 @@
 # listener, built with npm. tsc compiles src/ to dist/ at build time; the
 # npm deps (pi SDK included) are locked in package-lock.json so the build is
 # reproducible and `just snap` can track it.
-{ lib, buildNpmPackage, nodejs_24, makeWrapper }:
+# makeWrapper comes from buildNpmPackage's own nativeBuildInputs
+{ lib, buildNpmPackage, nodejs_24 }:
 buildNpmPackage {
   pname = "percy";
   version = "0.1.0";

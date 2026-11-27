@@ -8,7 +8,7 @@
 # of weka's own tailnet name, and only touches that mapping.
 # @see: https://www.superlogical.com/rex/docs/linux/login-server
 # @see: https://www.superlogical.com/rex/docs/linux/remote-access#tailscale-serve
-{ ... }:
+_:
 {
   services.rex.loginServer = {
     enable = true;

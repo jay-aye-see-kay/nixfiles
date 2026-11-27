@@ -64,7 +64,7 @@
         modules = [
           ./users/jack/home.nix
           ./modules/home-manager
-          ({ pkgs, ... }: {
+          {
             nix.registry.nixpkgs.flake = inputs.nixpkgs-darwin;
             modules.devtools.enable = true;
             modules.cli-utils.enable = true;
@@ -78,7 +78,7 @@
               homeDirectory = "/Users/jack.rose";
               sessionVariables.PI_CACHE_RETENTION = "long";
             };
-          })
+          }
         ];
       };
 
