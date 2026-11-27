@@ -212,7 +212,7 @@ let
         alert = "RootUnlockedManually";
         expr = "boot_unlocked_by_clevis == 0 and time() - node_boot_time_seconds < 86400";
         annotations.summary = "weka's root pool didn't unlock itself at boot";
-        annotations.description = "journalctl -b -u zfs-import-rpool; is tang.jackrose.co.nz/weka/adv up?";
+        annotations.description = "journalctl -b -u tang-unlock; is tang.jackrose.co.nz/weka/adv up?";
       }
       {
         # A metric that should exist has gone missing, e.g. a script broke
@@ -337,8 +337,8 @@ in
     startAt = "*:0/5";
   };
 
-  # How this boot's root pool unlocked: the initrd's clevis wrapper (see
-  # clevisMarked in base/unlock.nix) leaves /run/clevis-unlocked on success.
+  # How this boot's root pool unlocked: the initrd's tang-unlock (see
+  # base/unlock.nix) leaves /run/clevis-unlocked when it answers the prompt.
   systemd.services.unlock-metrics = {
     description = "Root pool unlock method for node_exporter";
     wantedBy = [ "multi-user.target" ];

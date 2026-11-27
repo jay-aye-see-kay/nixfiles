@@ -68,10 +68,12 @@ group, icon and widgets with `weka.homepage.<app>` in the app's file).
 The root pool is encrypted (passphrase in 1Password: "weka zfs"). At boot,
 clevis unlocks it by itself from a Tang server: keystone, a Cloudflare Worker
 at `tang.jackrose.co.nz/weka`, deployed from the infra repo (`tang/README.md`)
-and answering only the home IPv4. curl retries for up to 90 seconds, then the
-boot falls back to asking for the passphrase. Kernel updates arrive with the
-weekly autoUpgrade, which reboots by itself (03:00-05:00) when the kernel or
-initrd changed.
+and answering only the home IPv4. The passphrase prompt comes up as soon as
+the pool is imported, and `tang-unlock` in the initrd keeps trying Tang every
+10 seconds (until the internet is back after a power cut, say) and answers it.
+SSH unlock works at any point meanwhile, and whichever is first wins. Kernel
+updates arrive with the weekly autoUpgrade, which reboots by itself
+(03:00-05:00) when the kernel or initrd changed.
 
 The passphrase sealed to the Tang key is `/etc/secrets/initrd/rpool-crypt.jwe`,
 kept out of the store like the initrd SSH key. To remake it after rotating the
@@ -89,7 +91,8 @@ sudo cat /etc/secrets/initrd/rpool-crypt.jwe | clevis decrypt | sudo zfs load-ke
 sudo /run/current-system/bin/switch-to-configuration boot   # re-copy initrd secrets
 ```
 
-If it didn't unlock itself:
+If it didn't unlock itself (`journalctl -b -u tang-unlock` afterwards shows
+what Tang said):
 
 - At home: `just weka-unlock` (gets passphrase from 1Password)
 - Away: switch the phone from Tailscale to the UniFi WireGuard VPN, unlock
