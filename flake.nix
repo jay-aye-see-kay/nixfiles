@@ -1,6 +1,9 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    # nixos-* channels only gate on Linux builds; the darwin channel waits for
+    # the darwin binary cache to catch up, so macOS hosts don't build from source
+    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
@@ -19,7 +22,7 @@
     rex.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, disko, sops-nix, vpn-confinement, rex, ... }@inputs:
+  outputs = { nixpkgs, nixpkgs-darwin, nixpkgs-unstable, nixos-hardware, home-manager, disko, sops-nix, vpn-confinement, rex, ... }@inputs:
     let
       username = "jack";
 
@@ -49,7 +52,7 @@
 
       # work laptop (macOS)
       homeConfigurations."jack.rose@jrose-04LCLG" = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
+        pkgs = import nixpkgs-darwin {
           system = "aarch64-darwin";
           config = { allowUnfree = true; };
         };
@@ -60,7 +63,7 @@
           ./users/jack/home.nix
           ./modules/home-manager
           ({ pkgs, ... }: {
-            nix.registry.nixpkgs.flake = inputs.nixpkgs;
+            nix.registry.nixpkgs.flake = inputs.nixpkgs-darwin;
             modules.devtools.enable = true;
             modules.cli-utils.enable = true;
             modules.syncthing.enable = true;
@@ -79,7 +82,7 @@
 
       # kea: personal laptop (macOS)
       homeConfigurations."${username}@kea" = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
+        pkgs = import nixpkgs-darwin {
           system = "aarch64-darwin";
           config = { allowUnfree = true; };
         };
@@ -90,7 +93,7 @@
           ./users/jack/home.nix
           ./modules/home-manager
           ({ pkgs, ... }: {
-            nix.registry.nixpkgs.flake = inputs.nixpkgs;
+            nix.registry.nixpkgs.flake = inputs.nixpkgs-darwin;
             modules.devtools.enable = true;
             modules.cli-utils.enable = true;
             modules.syncthing.enable = true;

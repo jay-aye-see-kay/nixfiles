@@ -79,24 +79,4 @@ in
   # Weekly upgrades from GitHub reboot by themselves when the kernel or initrd
   # changed (03:00-05:00, see modules/nixos/common.nix): the root pool unlocks
   # from Tang, see boot.initrd.clevis above.
-
-  # TEMPORARY (#4): reboot daily for a few weeks, to prove auto-unlock holds
-  # up. 04:30 is after restic (02:00), syncoid (03:30) and the Sunday upgrade
-  # (03:00 + up to 30 min); it skips the night if any of them is still going.
-  # boot_unlocked_by_clevis (monitoring/prometheus.nix) records how each boot
-  # unlocked. Delete this when #4 is closed.
-  systemd.services.unlock-test-reboot = {
-    description = "Daily reboot to test auto-unlock (temporary)";
-    serviceConfig.Type = "oneshot";
-    script = ''
-      for unit in nixos-upgrade restic-backups-weka syncoid-rpool-crypt-data; do
-        if systemctl is-active --quiet "$unit.service"; then
-          echo "$unit is still running, not rebooting tonight"
-          exit 0
-        fi
-      done
-      systemctl reboot
-    '';
-    startAt = "*-*-* 04:30:00";
-  };
 }

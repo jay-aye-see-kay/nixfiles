@@ -70,8 +70,8 @@ clevis unlocks it by itself from a Tang server: keystone, a Cloudflare Worker
 at `tang.jackrose.co.nz/weka`, deployed from the infra repo (`tang/README.md`)
 and answering only the home IPv4. curl retries for up to 90 seconds, then the
 boot falls back to asking for the passphrase. Kernel updates arrive with the
-weekly autoUpgrade, but rebooting is still manual while auto-unlock is tested
-(issue #4).
+weekly autoUpgrade, which reboots by itself (03:00-05:00) when the kernel or
+initrd changed.
 
 The passphrase sealed to the Tang key is `/etc/secrets/initrd/rpool-crypt.jwe`,
 kept out of the store like the initrd SSH key. To remake it after rotating the
