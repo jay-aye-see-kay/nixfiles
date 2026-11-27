@@ -5,6 +5,8 @@
     # the darwin binary cache to catch up, so macOS hosts don't build from source
     nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # unstable's darwin-friendly branch, same reasoning as nixpkgs-darwin
+    nixpkgs-unstable-darwin.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     home-manager.url = "github:nix-community/home-manager/release-26.05";
@@ -22,7 +24,7 @@
     rex.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
-  outputs = { nixpkgs, nixpkgs-darwin, nixpkgs-unstable, nixos-hardware, home-manager, disko, sops-nix, vpn-confinement, rex, ... }@inputs:
+  outputs = { nixpkgs, nixpkgs-darwin, nixpkgs-unstable, nixpkgs-unstable-darwin, nixos-hardware, home-manager, disko, sops-nix, vpn-confinement, rex, ... }@inputs:
     let
       username = "jack";
 
@@ -41,7 +43,7 @@
           system = "x86_64-linux";
           config.allowUnfree = true;
         };
-        "aarch64-darwin" = import nixpkgs-unstable {
+        "aarch64-darwin" = import nixpkgs-unstable-darwin {
           system = "aarch64-darwin";
           config.allowUnfree = true;
         };
